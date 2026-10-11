@@ -48,6 +48,7 @@ import { trackD1PreviewHandlers } from './preview.trackD1';
 import { TRACK_D6_DEFAULT_SETTINGS, previewD6Settings, trackD6PreviewHandlers } from './preview.trackD6'; // Track D6
 import { TRACK_E3_DEFAULT_SETTINGS, decorateTrackE3Sessions, trackE3PreviewHandlers } from './preview.trackE3'; // Track E3
 import { RECOMMEND_DEFAULT_SETTINGS, previewRecommendSettings, recommendPreviewHandlers } from './preview.recommend'; // Track D5
+import { TRACK_E1_DEFAULT_SETTINGS, decorateTrackE1, previewE1Duplicates, previewE1Settings, trackE1PreviewHandlers } from './preview.trackE1'; // Track E1
 
 type Emit = (name: string, payload: unknown) => void;
 
@@ -113,6 +114,7 @@ const DEFAULT_SETTINGS: Settings = {
   ...ASSISTANT_DEFAULT_SETTINGS, // Track D3
   ...RECOMMEND_DEFAULT_SETTINGS, // Track D5
   ...TRACK_E3_DEFAULT_SETTINGS, // Track E3
+  ...TRACK_E1_DEFAULT_SETTINGS, // Track E1
 };
 
 const SAMPLE: [string, string[], PlatformKey[], string, string][] = [
@@ -280,6 +282,7 @@ export function createPreviewBackend() {
   decorateTrackingSessions(lib.sessions); // Track H: a background and a detected session
   decorateRigSession(lib.sessions); // Track C2: a ~58 fps, power-limited session (real-world shape)
   if (!empty) decorateTrackE3Sessions(lib, params); // Track E3: ?perfTrends adds a laptop history for Redline Rivals
+  if (!empty) decorateTrackE1(lib, params); // Track E1: ?summaries, ?lagNote, ?dupes
   const statusHistory: StatusHistoryEntry[] = buildStatusHistory(lib.games, 11);
   let settings: Settings = { ...DEFAULT_SETTINGS, 'onboarding.completed': !params.has('onboarding') };
   if (params.has('reduced')) settings['motion.reduce'] = 'on';
@@ -291,6 +294,7 @@ export function createPreviewBackend() {
   settings = { ...settings, ...previewAiSettings(params) }; // Track C5: ?aiCloud
   settings = { ...settings, ...previewD6Settings(params) }; // Track D6: ?currency=INR
   settings = { ...settings, ...previewRecommendSettings(params) }; // Track D5: ?freebies
+  settings = { ...settings, ...previewE1Settings(params) }; // Track E1: ?voice, ?recapNotify
   const collections: LibrarySnapshot['collections'] = [];
   let emit: Emit = () => {};
   // Track T: `?nowPlaying` starts the preview with a game already running (Immersive's Now playing row).
@@ -309,7 +313,10 @@ export function createPreviewBackend() {
     duplicateSuggestions: (() => {
       const a = lib.games.find((g) => g.title === 'Kingsfall');
       const b = lib.games.find((g) => g.title === 'Kingsfall Remastered');
-      return a && b ? [{ gameIdA: a.id, gameIdB: b.id, explanation: 'Both titles reduce to “kingsfall” but differ in edition or store, so they were kept separate.' }] : [];
+      return [
+        ...(a && b ? [{ gameIdA: a.id, gameIdB: b.id, explanation: 'Both titles reduce to “kingsfall” but differ in edition or store, so they were kept separate.' }] : []),
+        ...previewE1Duplicates(lib.games, params), // Track E1: ?dupes
+      ];
     })(),
     lastScan: new Date().toISOString(),
   });
@@ -585,6 +592,9 @@ export function createPreviewBackend() {
     ...recommendPreviewHandlers({ lib, emit: () => emit, settings: () => settings }),
     // Track E3: power per session, frame-rate goals (?perfTrends: Redline Rivals' history and a 60 fps goal; ?battery; ?perfNote).
     ...trackE3PreviewHandlers({ lib, emit: () => emit, timers }),
+    // Track E1: memory, simulated voice (?voice, ?voiceNoLang, ?voiceMicBlocked), weekly recap (?recapNotify), AI summaries (?summaries),
+    // duplicate cleanup (?dupes) with undo, lag notes (?lagNote), learned suggestions, ?memories.
+    ...trackE1PreviewHandlers({ lib, emit: () => emit, settings: () => settings, timers, call: (m, p) => handlers[m]?.(p), duplicates: () => snapshot().duplicateSuggestions }),
   };
   const slowLibrary = Math.min(10_000, Number(params.get('slowLibrary') ?? 0) || 0);
 

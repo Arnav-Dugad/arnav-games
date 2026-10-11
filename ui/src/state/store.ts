@@ -16,7 +16,7 @@ export type Route =
   | { name: 'performance'; sessionId?: string; /** Track C2: Overview, Sessions, Compare or System (Track E3: Trends). */ tab?: 'overview' | 'sessions' | 'compare' | 'system' | 'trends'; /** Track D1: on Compare, the other session (e.g. the last one before a game update). */ compareWith?: string }
   | { name: 'moments' }
   | { name: 'constellation' }
-  | { name: 'assistant' }
+  | { name: 'assistant'; /** Track E1: open on the weekly recap for the week starting that Monday (yyyy-MM-dd). */ recap?: string }
   | { name: 'storage' }
   /** Track Q: the library health check. */
   | { name: 'health' }

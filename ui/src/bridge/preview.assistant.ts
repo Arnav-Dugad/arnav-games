@@ -50,6 +50,8 @@ const TOOLS: AssistantToolInfo[] = [
   ['set_favorite', 'Favorite', 'action', 'Nothing (runs on this PC after you confirm).'],
   ['start_discover_search', 'Discover search', 'action', 'Nothing (runs on this PC after you confirm).'],
   ['watch_game', 'Add to Watching', 'action', 'Nothing (runs on this PC after you confirm).'],
+  ['remember', 'Remember', 'action', 'Nothing (saved on this PC after you confirm).'], // Track E1
+  ['review_duplicates', 'Duplicate cleanup', 'action', 'Nothing (runs on this PC after you confirm).'], // Track E1
 ].map(([name, label, kind, sends]) => ({ name, label, kind: kind as 'read' | 'action', sends }));
 
 const COMPANY: Record<string, string> = { anthropic: 'Anthropic', openai: 'OpenAI', gemini: 'Google', compatible: 'the endpoint you entered' };
@@ -101,6 +103,9 @@ export function assistantPreviewHandlers(ctx: {
 
   function plan(q: string, c: AssistantChatParams['context']): Step[] {
     const game = findGame(q, c.gameId);
+    // Track E1: "remember that…" proposes a memory; duplicates propose the cleanup review.
+    if (/^(please )?remember( that)?\b/.test(q)) return [{ tool: 'remember', args: { text: q.replace(/^(please )?remember( that)?\s*/, '') } }];
+    if (/duplicate|clean ?up|merge/.test(q)) return [{ tool: 'review_duplicates' }];
     if (/\bfavou?rites?\b/.test(q) && game) return [{ tool: 'set_favorite', args: { gameId: game.id } }];
     if (/\b(open|go to|take me to)\b.*\b(storage|journal|wishlist|discover|settings|library|health)\b/.test(q))
       return [{ tool: 'open_page', args: { page: q.match(/\b(storage|journal|wishlist|discover|settings|library|health)\b/)![1] } }];
@@ -200,6 +205,25 @@ export function assistantPreviewHandlers(ctx: {
         const label = page[0].toUpperCase() + page.slice(1);
         return { summary: `Open ${label}`, shared: false, action: { tool: 'open_page', title: `Open ${label}`, detail: 'Goes to that page in VYSTRAL.', confirm: 'Open', args: { page } }, say: `Ready when you are: confirm below to open ${label}.` };
       }
+      case 'remember': {
+        const raw = String(step.args?.text ?? '').replace(/^i /, 'I ').trim();
+        const text = raw ? raw[0].toUpperCase() + raw.slice(1).replace(/[.!]+$/, '') : '';
+        if (!text) return { summary: 'Nothing to remember', shared: false, say: 'What should I remember?' };
+        return {
+          summary: `Remember: “${text}”`, shared: false,
+          action: { tool: 'remember', title: `Remember: “${text}”`, detail: 'Saved on this PC as an Assistant memory. You can edit or delete it any time in Settings › AI.', confirm: 'Remember', args: { text } },
+          say: 'I can remember that for next time. Confirm below and I’ll keep it on this PC.',
+        };
+      }
+      case 'review_duplicates': {
+        const n = (ctx.call('assistant.duplicates') as unknown[]).length;
+        if (!n) return { summary: 'No duplicates', shared: false, say: 'There are no possible duplicates to clean up right now.' };
+        return {
+          summary: `Review ${n} possible duplicates`, shared: false,
+          action: { tool: 'review_duplicates', title: `Review ${n} possible ${n === 1 ? 'duplicate' : 'duplicates'}`, detail: 'Each merge shows why it looks like the same game. You approve or skip each one, and every merge can be undone.', confirm: 'Review', args: { count: n } },
+          say: `I found **${n} possible ${n === 1 ? 'duplicate' : 'duplicates'}**. Review them below: you decide on each merge, and any of them can be undone.`,
+        };
+      }
       default:
         return { summary: 'Done', shared: false, say: '' };
     }
@@ -212,7 +236,8 @@ export function assistantPreviewHandlers(ctx: {
     const e = engine();
     if (!e.ready || e.engine === 'none') return emit({ requestId: id, type: 'error', message: e.reason ?? 'No AI is set up. Choose local AI or a cloud provider in Settings → AI.', setup: true });
     if (e.engine === 'local') return emit({ requestId: id, type: 'error', message: 'Ollama isn’t available in preview mode. Choose a cloud provider (preview stand-in) in Settings → AI.' });
-    emit({ requestId: id, type: 'start', engine: e.label, cloud: e.cloud, provider: e.engine });
+    const memories = (ctx.call('__e1.memories') as string[] | undefined)?.length ?? 0; // Track E1
+    emit({ requestId: id, type: 'start', engine: e.label, cloud: e.cloud, provider: e.engine, memories });
     await delay(slow ? 1400 : 280);
     if (state.cancelled) return;
     if (fail) return emit({ requestId: id, type: 'error', message: `${e.label.split(' · ')[0]} is having trouble right now. Try again later.` });
@@ -251,17 +276,21 @@ export function assistantPreviewHandlers(ctx: {
         for (const o of shared) emit({ requestId: id, type: 'tool', call: { ...o.call, status: 'declined', summary: 'Not shared' } });
         shared = [];
         await stream(id, state, 'Okay, I didn’t share anything from your PC. Without those results I can’t answer that one precisely, but you can see what I found in the cards above.');
-        return emit({ requestId: id, type: 'done', engine: e.label, cloud: e.cloud, sent: sent(e, []) });
+        return emit({ requestId: id, type: 'done', engine: e.label, cloud: e.cloud, sent: sent(e, [], memories) });
       }
     }
     const text = outcomes.map((o) => o.out.say).filter(Boolean).join('\n\n')
+      // Track E1: memories are context; "what do you remember?" reads them back.
+      || (/what do you (know|remember)/.test(q)
+        ? (() => { const mem = ctx.call('__e1.memories') as string[]; return mem.length ? `Here’s what you asked me to remember:\n${mem.map((m) => `- ${m}`).join('\n')}` : 'You haven’t asked me to remember anything yet. Say “remember that…” and I’ll offer to keep it.'; })()
+        : '')
       || 'I’m the VYSTRAL Assistant (preview stand-in). Ask about your library, play history, performance or storage, or what to play tonight.';
     await stream(id, state, text);
-    emit({ requestId: id, type: 'done', engine: e.label, cloud: e.cloud, sent: sent(e, shared.map((o) => o.call.label)) });
+    emit({ requestId: id, type: 'done', engine: e.label, cloud: e.cloud, sent: sent(e, shared.map((o) => o.call.label), memories) });
   }
 
-  const sent = (e: AiCloudStatus['active'], labels: string[]) => e.cloud
-    ? `Sent to ${COMPANY[e.engine] ?? 'the provider'} (${e.label}): your messages in this chat, the page you were on${labels.length ? `, and what these look-ups found: ${[...new Set(labels)].join(', ')}.` : '. No app data was looked up.'} (Preview: nothing actually left this PC.)`
+  const sent = (e: AiCloudStatus['active'], labels: string[], memories = 0) => e.cloud
+    ? `Sent to ${COMPANY[e.engine] ?? 'the provider'} (${e.label}): your messages in this chat, the page you were on${memories ? `, the ${memories === 1 ? 'one thing' : `${memories} things`} you asked the Assistant to remember` : ''}${labels.length ? `, and what these look-ups found: ${[...new Set(labels)].join(', ')}.` : '. No app data was looked up.'} (Preview: nothing actually left this PC.)`
     : 'Handled by local AI on this PC. Nothing left your computer.';
 
   async function stream(id: string, state: { cancelled: boolean }, text: string) {

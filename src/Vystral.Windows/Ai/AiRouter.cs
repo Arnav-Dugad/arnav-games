@@ -53,6 +53,13 @@ public sealed class AiRouter(SettingsService settings, CloudAiService cloud, Oll
         ("recapCaptions", "Session recap captions",
             "The game’s title and that session’s stats: length, time of day, achievements unlocked, average frame rate and how many times you’ve played it.",
             "No caption.", false),
+        // Track E1: two-line summaries for games without a description, and wording for the lag note on rough sessions.
+        ("gameSummaries", "Game summaries",
+            "For a game with no description: its title, genres, developer, publisher, release year, the IGDB and RAWG facts VYSTRAL matched (genres, themes, modes, perspective, series) and its Steam community tags.",
+            "Games without a description show none, as before.", false),
+        ("lagNotes", "Lag note wording",
+            "After a rough session: that session’s frame-rate figures (average, 1% low, stutters) and VYSTRAL’s own stutter findings, plus the names of background apps often seen in rough sessions. Never the game’s folder or your settings.",
+            "VYSTRAL writes the likely cause itself, from its frame-time analysis.", false),
     ];
 
     public static string FeatureSetting(string id) => $"ai.features.{id}";

@@ -6,6 +6,7 @@ import { exit, pick, spring } from '../../lib/motion';
 import { openAssistant, useAssistant } from '../../state/assistant';
 import { useReducedMotion, useStore } from '../../state/store';
 import './assistant-ui.css';
+import { subscribeExtras, useExtras } from '../../state/assistantExtras'; // Track E1
 
 /**
  * Track D3: the Assistant on every page. A floating launcher (bottom right) and Ctrl+J open a side panel with the same
@@ -14,6 +15,9 @@ import './assistant-ui.css';
  * stays controller-clean.
  */
 const Panel = lazy(() => import('./AssistantSheet'));
+// Track E1: the memory manager and duplicate cleanup load the first time they open (then stay, for their exit animation).
+const MemoryDialog = lazy(() => import('./MemoryManager').then((m) => ({ default: m.MemoryDialog })));
+const DuplicateCleanupDialog = lazy(() => import('./DuplicateCleanup').then((m) => ({ default: m.DuplicateCleanupDialog })));
 
 export function AssistantHost() {
   const open = useAssistant((s) => s.panelOpen);
@@ -23,6 +27,14 @@ export function AssistantHost() {
   // The panel's code loads the first time it opens and then stays (its exit animation needs it mounted).
   const [loaded, setLoaded] = useState(false);
   if (open && !loaded) setLoaded(true);
+  const memoryOpen = useExtras((s) => s.memoryOpen);
+  const cleanupOpen = useExtras((s) => s.cleanupOpen);
+  const [memLoaded, setMemLoaded] = useState(false);
+  const [dupLoaded, setDupLoaded] = useState(false);
+  if (memoryOpen && !memLoaded) setMemLoaded(true);
+  if (cleanupOpen && !dupLoaded) setDupLoaded(true);
+
+  useEffect(() => subscribeExtras(), []); // Track E1: memory changes and the weekly recap toast
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -56,6 +68,8 @@ export function AssistantHost() {
     <>
       {launcherOn && route !== 'assistant' && <Launcher hidden={open} />}
       {loaded && <Suspense fallback={null}><Panel open={open && route !== 'assistant'} /></Suspense>}
+      {memLoaded && <Suspense fallback={null}><MemoryDialog /></Suspense>}
+      {dupLoaded && <Suspense fallback={null}><DuplicateCleanupDialog /></Suspense>}
     </>
   );
 }

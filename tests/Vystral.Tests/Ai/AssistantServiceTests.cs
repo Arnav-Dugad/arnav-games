@@ -308,6 +308,31 @@ public sealed class AssistantServiceTests : IDisposable
         Assert.Equal("abc", AssistantService.SafeId("a<b>c"));
     }
 
+    [Fact]
+    public async Task Track_E1_memories_go_along_as_context_and_are_disclosed_only_with_memory_on()
+    {
+        using var dir = new TempDir();
+        var memory = new Vystral.Windows.Ai.Extras.AssistantMemoryStore(dir.Path);
+        memory.Add("Prefers short games on weekdays", "chat");
+        _svc.Memory = memory;
+        UseClaude();
+        _cloudAnswers.Enqueue(_ => Sse(ClaudeText("Noted.")));
+        await _svc.RunAsync(Ask("hi"), CancellationToken.None);
+        Assert.Contains("<memory>", _cloudBodies[0]);
+        Assert.Contains("Prefers short games on weekdays", _cloudBodies[0]);
+        Assert.Contains("\"name\":\"remember\"", _cloudBodies[0]);
+        Assert.Equal(1, Events("start").Single()["memories"]!.GetValue<int>());
+        Assert.Contains("the one thing you asked the Assistant to remember", Events("done").Single()["sent"]!.GetValue<string>());
+
+        lock (_events) _events.Clear();
+        _settings.Set("assistant.memory", JsonValue.Create(false));
+        _cloudAnswers.Enqueue(_ => Sse(ClaudeText("Hi.")));
+        await _svc.RunAsync(Ask("hi"), CancellationToken.None);
+        Assert.DoesNotContain("Prefers short games", _cloudBodies[1]);
+        Assert.DoesNotContain("\"name\":\"remember\"", _cloudBodies[1]);
+        Assert.DoesNotContain("remember", Events("done").Single()["sent"]!.GetValue<string>());
+    }
+
     private sealed class NullSink : Vystral.Windows.Bridge.IEventSink
     {
         public void Emit(string eventName, object? payload) { }

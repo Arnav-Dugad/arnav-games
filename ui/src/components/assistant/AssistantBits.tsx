@@ -7,6 +7,7 @@ import { pick, spring } from '../../lib/motion';
 import { useReducedMotion } from '../../state/store';
 import { ServiceLogo } from '../ui/ServiceLogo';
 import { TOOL_ICONS } from './toolIcons';
+import { AssistantOrb } from './AssistantOrb'; // Track E1
 
 /** The orb, or the answering provider's own mark inside it. */
 export function AssistantAvatar({ provider, size = 'xs' }: { provider?: string | null; size?: 'xs' | 'sm' | 'md' }) {
@@ -23,11 +24,8 @@ export function Thinking({ label }: { label?: string | null }) {
   const reduce = useReducedMotion();
   return (
     <div className="asx-thinking" role="status" aria-live="polite">
-      <span className="asx-thinking__orb" aria-hidden>
-        <span />
-        <span />
-        <span />
-      </span>
+      {/* Track E1: the orb reacts to streaming speed and pulses on each look-up. */}
+      <AssistantOrb size="xs" label={false} className="asx-thinking__orb" />
       <AnimatePresence mode="wait" initial={false}>
         <motion.span
           key={label ?? 'thinking'}

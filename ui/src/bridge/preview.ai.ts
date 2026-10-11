@@ -68,6 +68,9 @@ const FEATURES: Omit<AiFeature, 'enabled'>[] = [
   { id: 'tonight', label: 'What to play tonight (Assistant)', sends: 'Your mood, the time you have and anything you type, plus up to 8 candidate games VYSTRAL picked: title, genres, your hours, average session length, time to beat, install and subscription status.', withoutAi: 'VYSTRAL’s own top three picks with their reasons.' },
   { id: 'smartCollections', label: 'Smart collections from a sentence', sends: 'Your sentence and the list of genre names in your library.', withoutAi: 'VYSTRAL’s own query parser builds the filter from your sentence.' },
   { id: 'duplicates', label: 'Duplicate explanations', sends: 'The two entries’ titles, stores, release years, developers and the matching facts VYSTRAL found.', withoutAi: 'The matching facts are listed without a sentence.' },
+  // Track E1
+  { id: 'gameSummaries', label: 'Game summaries', sends: 'For a game with no description: its title, genres, developer, publisher, release year, the IGDB and RAWG facts VYSTRAL matched (genres, themes, modes, perspective, series) and its Steam community tags.', withoutAi: 'Games without a description show none, as before.' },
+  { id: 'lagNotes', label: 'Lag note wording', sends: 'After a rough session: that session’s frame-rate figures (average, 1% low, stutters) and VYSTRAL’s own stutter findings, plus the names of background apps often seen in rough sessions. Never the game’s folder or your settings.', withoutAi: 'VYSTRAL writes the likely cause itself, from its frame-time analysis.' },
   { id: 'recapCaptions', label: 'Session recap captions', sends: 'The game’s title and that session’s stats: length, time of day, achievements unlocked, average frame rate and how many times you’ve played it.', withoutAi: 'No caption.' },
 ];
 

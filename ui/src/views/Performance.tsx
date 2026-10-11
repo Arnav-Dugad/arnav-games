@@ -24,6 +24,7 @@ import { ComparePanel } from './perf/ComparePanel';
 import { DriverNotesCard, SessionInsightStrip, ThermalAlertBanner } from './perf/TrendCards';
 import { TrendsPanel } from './perf/TrendsPanel';
 import { usePerfInsights } from './perf/usePerfInsights';
+import { LagNote } from './perf/LagNote'; // Track E1
 import './performance.css';
 import './perf/redesign.css';
 
@@ -378,6 +379,8 @@ function SessionItem({ e, game, selected, onSelect }: { e: PerfEntry; game: Game
           {fps != null ? <span>{Math.round(fps)} fps</span> : <span>GPU {gpu == null ? '—' : `${Math.round(gpu)}%`}</span>}
           <span>CPU {e.summary.cpuAvg == null ? '—' : `${Math.round(e.summary.cpuAvg)}%`}</span>
         </span>
+        {/* Track E1: the likely cause on a rough session. */}
+        {health.level === 'rough' && <LagNote sessionId={e.id} summary={e.summary} durationSeconds={e.session.durationSeconds} compact />}
       </span>
     </button>
   );

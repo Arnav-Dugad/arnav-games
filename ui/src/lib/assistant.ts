@@ -32,6 +32,8 @@ export interface ChatMessage {
   engine?: string;
   cloud?: boolean;
   provider?: string;
+  /** Track E1: how many memories went along as context. */
+  memories?: number;
   note?: string | null;
   sent?: string | null;
   notices?: string[];
@@ -79,7 +81,7 @@ export function titleFrom(text: string): string {
 export function applyEvent(m: ChatMessage, e: AssistantEvent): ChatMessage {
   switch (e.type) {
     case 'start':
-      return { ...m, engine: e.engine, cloud: e.cloud, provider: e.provider, note: e.note ?? m.note ?? null, status: 'streaming' };
+      return { ...m, engine: e.engine, cloud: e.cloud, provider: e.provider, note: e.note ?? m.note ?? null, status: 'streaming', memories: e.memories ?? m.memories };
     case 'delta':
       return { ...m, content: m.content + e.text };
     case 'tool': {

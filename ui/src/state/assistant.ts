@@ -7,6 +7,8 @@ import {
 import { createCollection, toggleFavorite } from './actions';
 import { setGameStatus } from './statusActions';
 import { settingsSettled, useStore, type Route } from './store';
+import { orbFeed, orbIdle } from '../components/assistant/orbSignal'; // Track E1
+import { recordAsked, useExtras } from './assistantExtras'; // Track E1
 
 /**
  * Track D3: the one Assistant's state, shared by the side panel and the full Assistant page (the same conversation
@@ -86,6 +88,7 @@ function onEvent(e: AssistantEvent) {
   if (!e || e.requestId !== s.activeRequest) return;
   const m = activeMessage();
   if (!m) return;
+  orbFeed(e); // Track E1: the thinking orb follows the stream
   if (e.type === 'delta') {
     pendingText += e.text;
     flushRaf ||= requestAnimationFrame(flush);
@@ -178,10 +181,12 @@ export const useAssistant = create<AssistantState>((set, get) => ({
     pendingText = '';
     try {
       await call('assistant.chat', { requestId, messages: toWire(history), context: withSession(routeContext(app().route), extra?.sessionId), shareApproved: conv.shareApproved }, 30_000);
+      void recordAsked(content); // Track E1: learn suggestions from what's asked on this page
     } catch (err) {
       if (get().activeRequest === requestId) {
         patchMessage(reply.id, (m) => ({ ...m, status: 'error', error: errorMessage(err) }));
         set({ activeRequest: null });
+        orbIdle();
       }
     }
   },
@@ -200,6 +205,7 @@ export const useAssistant = create<AssistantState>((set, get) => ({
       const m = activeMessage();
       if (m) patchMessage(m.id, (x) => ({ ...x, status: 'stopped' }));
       set({ activeRequest: null });
+      orbIdle();
     }, 1500);
   },
 
@@ -340,6 +346,15 @@ async function perform(a: ChatAction): Promise<void> {
     case 'watch_game':
       await call('discover.watch', { key: str('key'), on: true });
       s.toast({ tone: 'success', title: `Watching ${str('title')}`, body: 'You’ll hear about price drops and its release.' });
+      return;
+    // Track E1: a memory is saved only now, on the user's click; duplicate cleanup opens its review sheet.
+    case 'remember': {
+      await useExtras.getState().addMemory(str('text').slice(0, 200), 'chat');
+      s.toast({ tone: 'success', title: 'Remembered', body: 'On this PC only. You can edit or delete it any time.', action: { label: 'Manage', run: () => useExtras.getState().openMemory() } });
+      return;
+    }
+    case 'review_duplicates':
+      useExtras.getState().openCleanup();
       return;
     default:
       throw new Error('Unknown action.');

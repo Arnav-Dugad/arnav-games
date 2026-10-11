@@ -155,7 +155,8 @@ public sealed class AssistantToolsTests
         foreach (var t in AssistantTools.All)
             foreach (var word in forbidden)
                 Assert.False(t.Name.Contains(word, StringComparison.OrdinalIgnoreCase) && t.Kind == ToolKind.Action, $"{t.Name} looks like a forbidden action");
-        string[] actions = ["open_page", "open_game", "create_collection", "create_smart_collection", "set_status", "set_favorite", "start_discover_search", "watch_game"];
+        string[] actions = ["open_page", "open_game", "create_collection", "create_smart_collection", "set_status", "set_favorite", "start_discover_search", "watch_game",
+            "remember", "review_duplicates"]; // Track E1
         Assert.Equal(actions.Order(), AssistantTools.All.Where(t => t.Kind == ToolKind.Action).Select(t => t.Name).Order());
         Assert.All(AssistantTools.All.Where(t => t.Kind == ToolKind.Action), t => Assert.Contains("confirm", t.Description, StringComparison.OrdinalIgnoreCase));
         Assert.Equal("get_settings", AssistantTools.All.Single(t => t.Name.Contains("setting")).Name);

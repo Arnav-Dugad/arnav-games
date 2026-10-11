@@ -22,7 +22,7 @@ public static partial class ActivationUri
 
     /// <summary>Route names a notification may open (a subset of the UI's routes).</summary>
     public static readonly IReadOnlySet<string> RouteNames = new HashSet<string>(StringComparer.Ordinal)
-        { "home", "library", "game", "journal", "performance", "settings", "storage", "health", "wishlist" }; // Track W: wishlist
+        { "home", "library", "game", "journal", "performance", "settings", "storage", "health", "wishlist", "assistant" }; // Track W: wishlist; Track E1: assistant
 
     /// <summary>The one optional parameter each route accepts, and whether it is required.</summary>
     private static readonly Dictionary<string, (string Key, bool Required)> RouteParam = new(StringComparer.Ordinal)
@@ -31,6 +31,7 @@ public static partial class ActivationUri
         ["performance"] = ("sessionId", false),
         ["settings"] = ("section", false),
         ["journal"] = ("tab", false),
+        ["assistant"] = ("recap", false), // Track E1: the weekly recap for the week starting that Monday
     };
 
     /// <summary>Builds the URI for a route JSON (as produced by <see cref="NotificationPolicy.Route"/>). Null if the route isn't allowed.</summary>
@@ -160,6 +161,7 @@ public static partial class ActivationUri
         "id" or "sessionId" => Hex32().IsMatch(value),
         "section" => Section().IsMatch(value),
         "tab" => value is "sessions" or "achievements",
+        "recap" => RecapWeek().IsMatch(value),
         _ => false,
     };
 
@@ -169,4 +171,7 @@ public static partial class ActivationUri
 
     [GeneratedRegex(@"^[a-z]{1,24}\z")]
     private static partial Regex Section();
+
+    [GeneratedRegex(@"^20[0-9]{2}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])\z")]
+    private static partial Regex RecapWeek();
 }

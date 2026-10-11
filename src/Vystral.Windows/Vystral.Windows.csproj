@@ -11,6 +11,8 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Velopack" Version="1.2.161" />
+    <!-- Track E1: the Windows desktop speech recognizer (on-device dictation for push-to-talk). MIT, part of .NET. -->
+    <PackageReference Include="System.Speech" Version="10.0.0" />
   </ItemGroup>
   <ItemGroup>
     <InternalsVisibleTo Include="Vystral.Tests" />

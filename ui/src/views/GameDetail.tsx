@@ -63,6 +63,9 @@ import { ModTimeline } from '../components/game/ModTimeline';
 
 // Track AA: tab panels that aren't on the first screen load when their tab opens (not at startup).
 const AchievementsPanel = lazy(() => import('../components/game/AchievementsPanel').then((m) => ({ default: m.AchievementsPanel })));
+// Track E1: the lag note and the AI summary load only where they're needed.
+const LagNote = lazy(() => import('./perf/LagNote').then((m) => ({ default: m.LagNote })));
+const AiGameSummary = lazy(() => import('../components/ai/AiGameSummary').then((m) => ({ default: m.AiGameSummary })));
 const ControlsPanel = lazy(() => import('../components/game/ControlsPanel').then((m) => ({ default: m.ControlsPanel })));
 import './detail.css';
 
@@ -458,7 +461,10 @@ function Overview({ game, onOpenAchievements }: { game: Game; onOpenAchievements
     <GameInsights game={game} onOpenAchievements={onOpenAchievements} />
     <div className="overview">
       <div className="overview__main">
-        {game.description ? <p className="overview__desc selectable">{game.description}</p> : <p className="overview__desc" style={{ color: 'var(--text-3)' }}>No description available. VYSTRAL only shows information it can source reliably.</p>}
+        {game.description ? <p className="overview__desc selectable">{game.description}</p> : (
+          // Track E1: an opt-in, labelled AI summary from known facts in place of the missing description.
+          <Suspense fallback={<p className="overview__desc" style={{ color: 'var(--text-3)' }}>No description available. VYSTRAL only shows information it can source reliably.</p>}><AiGameSummary game={game}><p className="overview__desc" style={{ color: 'var(--text-3)' }}>No description available. VYSTRAL only shows information it can source reliably.</p></AiGameSummary></Suspense>
+        )}
         <CommunityTags params={{ gameId: game.id }} cacheKey={game.id} />
         {/* Track I: compatibility badges, IGDB/RAWG facts and deals, each with its source. */}
         {/* Track M: playtime vs IGDB time to beat, and an informative kernel anti-cheat note (each renders nothing without data). */}
@@ -533,6 +539,8 @@ function Sessions({ game }: { game: Game }) {
               {perf?.gpuTempMaxC != null && <Badge>{Math.round(perf.gpuTempMaxC)}°C peak</Badge>}
               {perf && <BarChart3 size={16} aria-label="Open performance details" />}
             </div>
+            {/* Track E1: the likely cause on a rough session. */}
+            <Suspense fallback={null}><LagNote sessionId={s.id} summary={perf} durationSeconds={s.durationSeconds} compact /></Suspense>
           </button>
         );
       })}

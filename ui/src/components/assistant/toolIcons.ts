@@ -1,5 +1,5 @@
 import {
-  Activity, BarChart3, Bell, Cloud, CloudLightning, Compass, Cpu, Eye, FolderPlus, Gamepad2, HardDrive, Heart, Library, ListChecks, Newspaper, Search, Settings2,
+  Activity, BarChart3, Bell, Brain, Cloud, CopyCheck, CloudLightning, Compass, Cpu, Eye, FolderPlus, Gamepad2, HardDrive, Heart, Library, ListChecks, Newspaper, Search, Settings2,
   ShieldCheck, Sparkles, Star, Tag, Trophy, Wand2, type LucideIcon,
 } from 'lucide-react';
 
@@ -33,4 +33,6 @@ export const TOOL_ICONS: Record<string, LucideIcon> = {
   set_favorite: Heart,
   start_discover_search: Search,
   watch_game: Eye,
+  remember: Brain, // Track E1
+  review_duplicates: CopyCheck, // Track E1
 };

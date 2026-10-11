@@ -130,6 +130,7 @@ public sealed partial class AppBackend : IDisposable
         RegisterRecommendHandlers();      // AppBackend.Recommend.cs: "Not interested", cloud readiness, Discover cloud badges (Track D5)
         RegisterTrackE4Handlers();        // AppBackend.TrackE4.cs: Xbox Store IDs for exact matching, Store art for Xbox games (Track E4)
         RegisterTrackE3Handlers();        // AppBackend.TrackE3.cs: power source per session, frame-rate goals, thermal and driver notes (Track E3)
+        RegisterTrackE1Handlers();        // AppBackend.TrackE1.cs: Assistant memory, voice, recap notifications, summaries, duplicate cleanup, lag notes (Track E1)
         Log.Info("app", "Backend started", new { Version, SafeMode, PreviousRunCrashed });
     }
 
@@ -242,6 +243,8 @@ public sealed partial class AppBackend : IDisposable
         ShutdownTracking(); // Track H: hand a running session to the background tracker first
         ShutdownCloud();    // Track O: save a running cloud session up to now
         Sessions.StopTracking();
+        _recapTimer?.Dispose(); // Track E1
+        _voice?.Dispose();      // Track E1: releases the microphone if a hold is in progress
         Updates.ApplyOnExitIfReady();
         RecordCleanExit();
         try { File.Delete(Paths.CrashMarker); } catch (Exception ex) when (ex is IOException or UnauthorizedAccessException) { }
