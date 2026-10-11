@@ -73,3 +73,31 @@ export function paletteFor(game: Game): Promise<Palette> {
 export function peekPalette(game: Game): Palette | undefined {
   return cache.get(`${game.id}|${game.art.hero ?? game.art.cover ?? game.art.header ?? ''}`);
 }
+
+/**
+ * Track E2b: a game's palette including the cover's own colours (`vivid`), for "Use a game's colours". Palettes
+ * stored before 1.0 lack them: the cover is analysed again (in the worker) and the fresh result replaces the
+ * stored one. Games without artwork use their title colour.
+ */
+export async function coverPaletteFor(game: Game): Promise<Palette> {
+  const p = await paletteFor(game);
+  // The same artwork the game's own palette (and its Living Canvas) comes from.
+  const art = game.art.hero ?? game.art.cover ?? game.art.header;
+  if (p.vivid || !art) return p.vivid ? p : { ...p, vivid: p.accent, vivid2: p.accent2 };
+  const fresh = await new Promise<Palette | null>((resolve) => {
+    const id = ++seq;
+    const timer = window.setTimeout(() => {
+      waiting.delete(id);
+      resolve(null);
+    }, 4000);
+    waiting.set(id, (r) => {
+      window.clearTimeout(timer);
+      resolve(r);
+    });
+    getWorker().postMessage({ id, url: art });
+  });
+  if (!fresh?.vivid) return { ...p, vivid: p.accent, vivid2: p.accent2 };
+  cache.set(`${game.id}|${art}`, fresh);
+  void call('game.savePalette', { gameId: game.id, palette: { ...fresh, source: art } }).catch(() => {});
+  return fresh;
+}

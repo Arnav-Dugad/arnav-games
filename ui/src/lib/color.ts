@@ -92,6 +92,12 @@ export interface Palette {
   temperature: 'warm' | 'cool' | 'neutral';
   /** Average lightness of the artwork (0..1). */
   lightness: number;
+  /**
+   * Track E2b: the artwork's own dominant colours (not blended toward the brand), for "Use a game's colours".
+   * Missing on palettes stored before 1.0; `lib/palette.ts` re-analyses the cover when it needs them.
+   */
+  vivid?: string;
+  vivid2?: string;
 }
 
 const BRAND_VIOLET: LCh = [0.7, 0.17, 292];
@@ -161,6 +167,9 @@ export function extractPalette(data: Uint8ClampedArray, width: number, height: n
 
   let accent: LCh = scored[0]?.lch ?? BRAND_VIOLET;
   let accent2: LCh = scored.find((c) => Math.abs(((c.lch[2] - accent[2] + 540) % 360) - 180) > 25)?.lch ?? BRAND_BLUE;
+  // The cover's own colours, only gamut-mapped and chroma-capped (lib/accentSet.ts does the contrast work).
+  const vivid = gamutMap([accent[0], Math.min(0.2, accent[1]), accent[2]]);
+  const vivid2 = gamutMap([accent2[0], Math.min(0.2, accent2[1]), accent2[2]]);
 
   // Restraint: cap chroma, blend toward the brand so every game still feels like VYSTRAL.
   accent = mixLch(BRAND_VIOLET, [Math.max(0.62, Math.min(0.82, accent[0])), Math.min(0.18, accent[1]), accent[2]], 0.6);
@@ -184,6 +193,8 @@ export function extractPalette(data: Uint8ClampedArray, width: number, height: n
     ambient,
     temperature: warmShare > coolShare * 1.3 ? 'warm' : coolShare > warmShare * 1.3 ? 'cool' : 'neutral',
     lightness,
+    vivid: cssOklch(vivid),
+    vivid2: cssOklch(vivid2),
   };
 }
 

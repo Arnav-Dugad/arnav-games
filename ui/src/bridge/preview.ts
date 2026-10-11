@@ -84,6 +84,10 @@ const DEFAULT_SETTINGS: Settings = {
   'dataSaver.onMetered': true,
   'trailers.autoplay': true,
   'canvas.followTrailer': true,
+  // Track E2b
+  'appearance.accentGame': '',
+  'canvas.parallax': true,
+  'canvas.audioReact': false,
   'steam.webApi.backgroundAchievements': true,
   ...INSIGHT_DEFAULT_SETTINGS,
   ...DATA_INSIGHT_DEFAULT_SETTINGS,
