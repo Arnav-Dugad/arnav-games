@@ -297,7 +297,7 @@ function Appearance({ s }: { s: Settings }) {
         <Row label="Intensity" control={<div style={{ width: 200 }}><Slider label="Living Canvas intensity" value={s['appearance.canvasIntensity']} min={0} max={1} step={0.05} onChange={(v) => void set('appearance.canvasIntensity', v)} /></div>} />
         <BoolRow s={s} k="canvas.followTrailer" label="Follow trailer colours" badge="settings.appearance.follow-trailer" hint="While a game’s trailer plays, the background slowly takes on its colours, then returns to the artwork. Off with reduced motion or low quality." />
         {/* Track E2b */}
-        <BoolRow s={s} k="canvas.parallax" label="Depth with the pointer" hint="The background’s layers lean gently as you move the mouse, the far light least and the particles most. Off with reduced motion or Data saver." />
+        <BoolRow s={s} k="canvas.parallax" label="Depth with the pointer" badge="settings.appearance.canvas-depth" hint="The background’s layers lean gently as you move the mouse, the far light least and the particles most. Off with reduced motion or Data saver." />
         <BoolRow s={s} k="canvas.audioReact" label="Breathe with ambient sound" hint="When Ambient sound is on (Controller & sound), the light swells softly with it. Nothing is listened to: Arnav Games follows the notes it plays itself." />
         <Row
           label="Visual quality"

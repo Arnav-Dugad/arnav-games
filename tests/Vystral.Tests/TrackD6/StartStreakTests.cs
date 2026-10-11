@@ -40,7 +40,19 @@ public sealed class StartStreakTests
         var quick = StartStreak.MarkCleanExit([S(0, StartStreak.Pending)], uiReady: true);
         Assert.Equal(StartStreak.Ok, quick[0].Outcome);
         var notReady = StartStreak.MarkCleanExit([S(0, StartStreak.Pending)], uiReady: false);
-        Assert.Equal(StartStreak.Pending, notReady[0].Outcome);
+        Assert.Equal(StartStreak.Early, notReady[0].Outcome);
+    }
+
+    [Fact]
+    public void A_clean_close_before_ready_is_neither_a_failure_nor_reopened_as_one()
+    {
+        var closed = StartStreak.MarkCleanExit([S(1, StartStreak.Ok), S(0, StartStreak.Pending)], uiReady: false);
+        var next = StartStreak.BeginStart(closed, "1.0.0", Now, previousClosedUncleanly: false);
+        Assert.Equal(StartStreak.Early, next[1].Outcome);
+        var s = StartStreak.Summarize(next, [], Now, Utc);
+        Assert.Equal(0, s.FailedStarts);
+        Assert.Null(s.LastIncident);
+        Assert.True(s.SinceHistoryBegan);
     }
 
     [Fact]

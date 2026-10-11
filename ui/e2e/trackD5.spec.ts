@@ -375,7 +375,8 @@ test.describe('cover flight between cards and pages', () => {
     const card = page.locator('section.dshelf[data-shelf^="because:"] .dcard').first();
     await expect(card).toBeVisible({ timeout: 15_000 });
     const key = (await card.getAttribute('data-discover-key'))!;
-    const forward = watchFlight(page, `.dhero__cover[data-discover-key="${key}"]`, 800);
+    // A busy machine may take most of a second just to mount the page: watch long enough to see the fade.
+    const forward = watchFlight(page, `.dhero__cover[data-discover-key="${key}"]`, 2000);
     await card.click();
     const f = await forward;
     expect(f.moved).toBe(false); // no travel

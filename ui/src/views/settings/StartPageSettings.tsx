@@ -3,6 +3,7 @@ import { Toggle } from '../../components/ui/primitives';
 import { effectiveStartPage, START_PAGES, startPagePatch, type StartPage } from '../../lib/startPage';
 import { useStore } from '../../state/store';
 import { APP_NAME } from '../../lib/brand';
+import { NewBadge } from '../../whatsnew/NewBadge';
 
 /** Writes a start-page choice (both settings, so the older "Start in Immersive Mode" switch agrees). */
 async function choose(page: StartPage) {
@@ -35,7 +36,7 @@ export function StartPageSettings({ s }: { s: Settings }) {
       <div className="sgroup__rows surface">
         <div className="srow" data-row="start-page">
           <div className="srow__text">
-            <label className="srow__label" htmlFor="startup.page">Open on start</label>
+            <label className="srow__label" htmlFor="startup.page">Open on start<NewBadge k="settings.appearance.start-page" variant="pill" seenWhenVisible /></label>
             <div className="srow__hint" id="startup.page-hint">{hintFor(page, s)}</div>
           </div>
           <div className="srow__control">

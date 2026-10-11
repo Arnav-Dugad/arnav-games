@@ -4,6 +4,38 @@ All notable changes to Arnav Games. Versions follow [SemVer](https://semver.org)
 
 > VYSTRAL was renamed Arnav Games in 1.0.0. The entries below for 0.9.0 and earlier keep the name they shipped with.
 
+## [1.0.0] — 2026-10-11
+
+**VYSTRAL is now Arnav Games.** Your library, settings, history and keys carry over, and updates keep arriving the same way.
+
+### A new name and mark
+- **Arnav Games**, with the Ascent mark, a new wordmark, app icon, splash and README. The window, Start menu, taskbar, notifications and installer use the new name.
+- The GitHub project moved to `Arnav-Dugad/arnav-games`; old links and the old download link redirect.
+
+### Assistant
+- **Memory.** Tell it your tastes once; it remembers on this PC and shows everything it remembers, with Forget.
+- **Push-to-talk voice input** with Windows' on-device speech recognition — nothing is recorded or uploaded.
+- **A Sunday recap as a Windows notification** (optional), **AI summaries** on game pages, **smart duplicate cleanup** that explains each pair, **"Why did this session lag?"** notes, suggestions learned from what you ask on each page, and a new thinking orb.
+
+### Performance
+- **Trends tab:** temperature trends with an alert before they become a problem, **frame-rate goals per game**, **driver update notes** that compare before and after, and **battery against plugged in** for laptops.
+
+### Library, wishlist and Xbox
+- **Collection covers** — collages in each collection's colour, or pin one game's art.
+- **The 100% ceremony** when you finish every achievement, with a card to save or copy.
+- **Similar in your library** weighs tags by how rare they are in your library and names the tags that matched.
+- **Years waiting** on wishlist cards, a *Longest waiting* sort, and a cover peel on calendar days.
+- **Xbox Store IDs (optional):** each installed Xbox game is looked up in the Microsoft Store for exact matches with Steam, IGDB, GeForce NOW and Game Pass, and sharper art.
+
+### Look and feel
+- **Open on start:** choose the page Arnav Games opens on — Home, Library, Discover, Wishlist, Journal, Performance, the last page or Immersive Mode.
+- **Your game's colours:** take the whole accent from a favourite game's cover, contrast-checked for dark and light themes.
+- **Living sidebar** and **numbers that roll** to their new value.
+- **Living Canvas:** smoother colour changes, three depth layers that lean with the pointer, genre moods, time-of-day warmth, and an optional reaction to the ambient sound — and lighter on your GPU when the window isn't focused.
+
+### Fixed
+- Closing Arnav Games straight after opening it no longer shows as a failed start in About › Stability.
+
 ## [0.9.0] — 2026-10-11
 
 Your library, settings and history carry over.

@@ -34,7 +34,7 @@
 | **Every store, one library** | Reads Steam, Xbox/Game Pass, Epic, GOG, EA app, Ubisoft Connect and Battle.net installs directly from what those apps keep on your PC — no passwords, no sign-in. Add any other game or program yourself. |
 | **Launches the right way** | Each game starts through its store’s official mechanism (or directly for DRM-free GOG/manual games). Arnav Games confirms the game actually started before it says so, and never relaunches anything on its own. |
 | **Smart duplicates** | Own a game on two stores? It appears once, with a chooser for which store to play from. Different editions and remasters are never merged automatically — you decide. |
-| **Living Canvas** | A calm animated background that takes on each game’s colours and mood (light trails for racing, stars for space, fog for horror…). It pauses whenever you’re playing. |
+| **Living Canvas** | A calm animated background with depth that takes on each game’s colours and mood (light trails for racing, stars for space, fog for horror…) and the time of day. It pauses whenever you’re playing. Take the whole app’s accent from a favourite game’s cover, and choose which page opens first. |
 | **Live Home** | Steam games’ tiles come alive with their short, silent store loops while on screen (two at a time, never on Data saver); an *Owned, never played* gallery with gentle picks for tonight; optional ambient sound that follows each game’s mood. |
 | **Command bar** (`Ctrl+K`) | “installed racing games under 20 GB”, “launch forza”, “not played in 3 months”, “everything on my second SSD” — understood instantly, on your PC, without AI. |
 | **Discover** | A storefront of picks, "Because you played" rows and Steam shelves; search any game, owned or not, across Steam, Wikidata and (with your keys) IGDB and RAWG, with pages for games you don't own: trailer, prices, time to beat and where to get it. |
@@ -55,7 +55,7 @@
 | **Moments** | Your Steam screenshots and Xbox Game Bar captures in one gallery. Nothing is uploaded. |
 | **Constellation** | An optional 3D map of your library, with an accessible list view. |
 | **Local AI (optional)** | Natural-language search and an assistant powered by [Ollama](https://ollama.com) on your own PC. Never required, never in the cloud. |
-| **Assistant (optional)** | One Assistant on every page (Ctrl+J) with Claude, ChatGPT, Gemini, an OpenAI-compatible service or local AI: it looks across your library, play history, wishlist and more, and only changes things after you confirm. Keys stay in Windows Credential Manager. |
+| **Assistant (optional)** | One Assistant on every page (Ctrl+J) with Claude, ChatGPT, Gemini, an OpenAI-compatible service or local AI: it looks across your library, play history, wishlist and more, remembers what you tell it (on this PC), takes push-to-talk voice on-device, and only changes things after you confirm. Keys stay in Windows Credential Manager. |
 
 ## Promises
 

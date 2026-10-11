@@ -58,6 +58,9 @@ export const NEW_FEATURES: NewFeature[] = [
   // 0.8.0
   { key: 'settings.ai.cloud', since: '0.8.0' },
   { key: 'journal.records', since: '0.8.0', seenOn: { name: 'journal', tab: 'records' } },
+  // 1.0.0
+  { key: 'settings.appearance.start-page', since: '1.0.0' },
+  { key: 'settings.appearance.canvas-depth', since: '1.0.0' },
 ];
 
 const BY_KEY = new Map(NEW_FEATURES.map((f) => [f.key, f]));

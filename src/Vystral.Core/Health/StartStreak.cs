@@ -5,7 +5,8 @@ namespace Vystral.Core.Health;
 /// <summary>
 /// One start of Arnav Games. <see cref="Outcome"/>: "pending" (started, not yet steady), "ok" (the interface was ready and
 /// Arnav Games stayed up), "failed" (it never got there: found still pending at the next start), "unexpected" (it was
-/// steady, but didn't close cleanly — a crash, a forced end or a power cut).
+/// steady, but didn't close cleanly — a crash, a forced end or a power cut), "early" (closed normally before the
+/// interface was ready: the user changed their mind, not a crash, so it is neither counted against the streak nor as proof).
 /// </summary>
 public sealed record StartRecord(string At, string Version, string Outcome);
 
@@ -31,7 +32,7 @@ public static class StartStreak
     public const int RecentDays = 30;
     public const int MaxIncidents = 8;
 
-    public const string Pending = "pending", Ok = "ok", Failed = "failed", Unexpected = "unexpected";
+    public const string Pending = "pending", Ok = "ok", Failed = "failed", Unexpected = "unexpected", Early = "early";
 
     /// <summary>At start: any start still pending never became steady, so it failed; then this start is added as pending.</summary>
     public static List<StartRecord> BeginStart(IEnumerable<StartRecord> history, string version, DateTimeOffset now, bool previousClosedUncleanly)
@@ -54,11 +55,15 @@ public static class StartStreak
         return list;
     }
 
-    /// <summary>A clean exit after the interface was ready is a good start even if it was shorter than the steady delay.</summary>
+    /// <summary>
+    /// A clean exit after the interface was ready is a good start even if it was shorter than the steady delay. A clean
+    /// exit before it is "early": closing the window a moment after opening it isn't a failed start. (The rollback
+    /// ledger stays stricter: there it still counts as unconfirmed for a version that has never started.)
+    /// </summary>
     public static List<StartRecord> MarkCleanExit(IEnumerable<StartRecord> history, bool uiReady)
     {
         var list = Clean(history).ToList();
-        if (uiReady && list.Count > 0 && list[^1].Outcome == Pending) list[^1] = list[^1] with { Outcome = Ok };
+        if (list.Count > 0 && list[^1].Outcome == Pending) list[^1] = list[^1] with { Outcome = uiReady ? Ok : Early };
         return list;
     }
 
@@ -101,7 +106,7 @@ public static class StartStreak
     }
 
     private static IEnumerable<StartRecord> Clean(IEnumerable<StartRecord>? history) =>
-        (history ?? []).Where(r => r is not null && Parse(r.At) is not null && r.Outcome is Pending or Ok or Failed or Unexpected)
+        (history ?? []).Where(r => r is not null && Parse(r.At) is not null && r.Outcome is Pending or Ok or Failed or Unexpected or Early)
             .Select(r => r with { Version = Ver(r.Version) });
 
     private static List<StartRecord> Trim(List<StartRecord> list) => list.Count <= MaxRecords ? list : list.Skip(list.Count - MaxRecords).ToList();

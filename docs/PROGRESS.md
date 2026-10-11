@@ -1,6 +1,6 @@
 # Progress
 
-Status as of **v0.9.0 (2026-10-11)**. ✅ complete · 🟡 partial · ⛔ blocked · ⬜ not started.
+Status as of **v1.0.0 (2026-10-11)**. ✅ complete · 🟡 partial · ⛔ blocked · ⬜ not started.
 
 ## Phase 1 — Foundation ✅
 - ✅ Repository, solution, CI and release workflows
@@ -70,6 +70,18 @@ Status as of **v0.9.0 (2026-10-11)**. ✅ complete · 🟡 partial · ⛔ blocke
 - ✅ Velopack per-user installer, portable zip, delta updates, in-app update viewer
 - ✅ GitHub Releases with a stable "latest" download link
 - See "Verification record" below for the release check.
+
+## Verification record (v1.0.0)
+
+| Check | Result |
+|---|---|
+| .NET tests | **2705 passed, 0 failed** |
+| UI unit tests | **1099 passed, 0 failed** |
+| Playwright e2e + axe + visual regression | **402 tests: 394 passed, 5 flaky (passed on retry), 2 skipped, 1 failed under full-suite load** — the reduced-motion cover crossfade watched only 800 ms; widened to 2 s, its spec then passed 14/14 |
+| Real app (dev build, owner's library) | "Arnav Games" in the window title, title bar and About; Forza Horizon 4's Similar in your library shows racers; startup in 840 ms; no page errors |
+| Repository | Renamed to `Arnav-Dugad/arnav-games`; the old API address (`repos/Arnav-Dugad/vystral/releases/latest`) and the old download link both redirect and return 200 |
+| Fixed during the check | A clean close straight after opening (3 s, before the interface was ready) was shown as a failed start in About › Stability; it is now a neutral "closed early" |
+| Not verified | Voice input with a real microphone; the Sunday recap notification on a Sunday; thermal alerts over weeks of real sessions; battery insights on battery |
 
 ## Verification record (v0.9.0)
 
