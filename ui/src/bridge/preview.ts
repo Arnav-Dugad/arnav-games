@@ -45,6 +45,7 @@ import type { NewsFeed, ReplayData } from './types';
 import { decorateRigSession, previewCaptionInset, trackC2PreviewHandlers } from './preview.trackC2';
 import { trackD1PreviewHandlers } from './preview.trackD1';
 import { TRACK_D6_DEFAULT_SETTINGS, previewD6Settings, trackD6PreviewHandlers } from './preview.trackD6'; // Track D6
+import { previewE2bSettings } from './preview.trackE2b'; // Track E2b
 import { RECOMMEND_DEFAULT_SETTINGS, previewRecommendSettings, recommendPreviewHandlers } from './preview.recommend'; // Track D5
 
 type Emit = (name: string, payload: unknown) => void;
@@ -289,6 +290,7 @@ export function createPreviewBackend() {
   settings = { ...settings, ...previewDiscoverSettings(params) }; // Track C3: ?discoverStore
   settings = { ...settings, ...previewAiSettings(params) }; // Track C5: ?aiCloud
   settings = { ...settings, ...previewD6Settings(params) }; // Track D6: ?currency=INR
+  settings = { ...settings, ...previewE2bSettings(params) }; // Track E2b: ?theme=light, ?canvasQuality=high, ?canvasOff, ?audioReact
   settings = { ...settings, ...previewRecommendSettings(params) }; // Track D5: ?freebies
   const collections: LibrarySnapshot['collections'] = [];
   let emit: Emit = () => {};

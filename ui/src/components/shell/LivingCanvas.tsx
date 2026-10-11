@@ -1,8 +1,13 @@
-import { useEffect, useRef } from 'react';
-import { cssOklch, fallbackPalette, labToLch, lchToLab, mixLch, parseOklch, type LCh, type RGB } from '../../lib/color';
+import { useEffect, useMemo, useRef } from 'react';
+import { cssOklch, fallbackPalette, labToLch, lchToLab, mixLch, parseOklch, type LCh } from '../../lib/color';
 import { MOOD_INDEX, moodFor, moodSpeed, type Mood } from '../../lib/mood';
 import { paletteFor } from '../../lib/palette';
 import { clampAccent, FOLLOW, followRgb, initialFollow, labDistance, stepFollow, useHeroTrailer, type FollowState } from '../../lib/trailer/tint';
+import {
+  approach, approachPalette, AUDIO_TAU, canvasProfile, daylight, frameInterval, labPaletteToRgb, moodFlavor, PALETTE_TAU, paletteGap, POINTER_TAU, toLabPalette, type Daylight, type LabPalette,
+} from '../../lib/canvasLife';
+import { ambientLoudness } from '../../lib/sound';
+import { useCoverGame } from '../../state/accentTheme';
 import { useGameRunning, useReducedMotion, useStore } from '../../state/store';
 
 /**
@@ -13,6 +18,12 @@ import { useGameRunning, useReducedMotion, useStore } from '../../state/store';
  *
  * While a hero trailer is visibly playing, a third palette layer (uL, weighted by uLive) eases
  * toward the trailer's colours (lib/trailer/tint.ts) and back to the artwork when it stops.
+ *
+ * Track E2b: palettes glide in OKLab (no muddy midpoints) and the picture has depth: far light pools, the flowing
+ * base and the mood's particles move at different rates with the pointer (parallax). Particles are refined per
+ * genre within each mood, the light warms in the evening and dims late at night, and it can breathe gently with
+ * VYSTRAL's own ambient sound (opt-in). What it may do is decided in lib/canvasLife.ts (quality, reduced motion,
+ * Performance Mode, Data saver, focus); it slows to 15 fps while another window is in front.
  */
 
 const VERT = `#version 300 es
@@ -20,75 +31,107 @@ in vec2 p; void main(){ gl_Position = vec4(p,0.,1.); }`;
 
 const FRAG = `#version 300 es
 precision mediump float;
-uniform float uT, uMix, uMoodA, uMoodB, uIntensity, uSpeed;
-uniform vec2 uRes;
-uniform vec3 uA[4], uB[4], uL[4];
-uniform float uLive;
+uniform float uT, uMix, uMoodA, uMoodB, uFlavA, uFlavB, uIntensity, uSpeed, uLayers, uWarm, uDim, uPulse, uLive;
+uniform vec2 uRes, uPtr;
+uniform vec3 uA[4], uL[4];
 out vec4 o;
 
 float h(vec2 p){ return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
+// Per-trail constants for velocity (were two hashes per trail per pixel).
+const float TRAIL_PHASE[5] = float[5](.5974, .3227, .7581, .5091, .0561);
+const float TRAIL_WIDTH[5] = float[5](.2335, .4381, .5012, .1685, .5578);
 float n(vec2 p){ vec2 i=floor(p), f=fract(p); f*=f*(3.-2.*f);
   return mix(mix(h(i),h(i+vec2(1,0)),f.x), mix(h(i+vec2(0,1)),h(i+1.),f.x), f.y); }
-float fbm(vec2 p){ float v=0., a=.5; for(int i=0;i<3;i++){ v+=a*n(p); p*=2.03; a*=.5; } return v; }
 
-vec3 mood(float m, vec2 uv, float t){
-  vec3 c = vec3(0.);
-  if (m < .5) return c;                                   // drift: base only
-  if (m < 1.5) {                                          // velocity: sweeping light trails
-    for (int i=0;i<5;i++){ float fi=float(i);
-      float y = fract(.17*fi + .11) ;
-      float x = fract(uv.x*.6 - t*(.12+.05*fi) + h(vec2(fi,3.)));
-      float line = smoothstep(.006,.0, abs(uv.y - y - (uv.x-.5)*.18)) * smoothstep(0.,.6,x) * smoothstep(1.,.75,x);
-      c += line * .55;
+// A particle field with no state: at most one soft dot per grid cell, kept when the cell's dice say so.
+float motes(vec2 g, float density, float size, out float r){
+  vec2 id = floor(g), f = fract(g) - .5;
+  r = h(id);
+  vec2 c = (vec2(h(id + 3.1), h(id + 5.7)) - .5) * .6;
+  return smoothstep(size, 0., length(f - c)) * step(1. - density, r);
+}
+
+// Mood overlays (the near layer). fl: per-genre flavour 0..1 (lib/canvasLife.ts moodFlavor).
+vec3 mood(float m, float fl, vec2 uv, float t, float asp){
+  vec2 ua = vec2(uv.x * asp, uv.y);
+  float r;
+  if (m < .5) {                                           // drift: a few large, very soft discs floating up
+    float s = motes(ua * 3.2 + vec2(0., -t * .05), .35, .42, r);
+    return vec3(.8, .85, 1.) * s * .12 * (.6 + .4 * sin(t * .4 + r * 20.));
+  }
+  if (m < 1.5) {                                          // velocity: light trails (sports: level flares)
+    vec3 c = vec3(0.);
+    for (int i = 0; i < 5; i++) { float fi = float(i);
+      float y = fract(.17 * fi + .11);
+      float x = fract(uv.x * .6 - t * (.12 + .05 * fi) + TRAIL_PHASE[i]);
+      float w = mix(.006, .004, fl) * (.8 + .5 * TRAIL_WIDTH[i]);
+      c += smoothstep(w, 0., abs(uv.y - y - (uv.x - .5) * mix(.18, .02, fl))) * smoothstep(0., .6, x) * smoothstep(1., .75, x) * .5;
     } return c;
   }
-  if (m < 2.5) {                                          // cosmos: parallax stars
-    for (int l=0;l<3;l++){ float fl=float(l);
-      vec2 g = uv*vec2(uRes.x/uRes.y,1.)*(40.+fl*35.) + vec2(t*(.4+fl*.3),0.);
-      vec2 id=floor(g), f=fract(g)-.5; float r=h(id+fl*13.);
-      float s = smoothstep(.06,.0,length(f-(vec2(h(id+1.),h(id+2.))-.5)*.6)) * step(.93,r);
-      c += s * (.35+.65*sin(t*3.+r*40.)*.5+.3) * (1.-fl*.25);
+  if (m < 2.5) {                                          // cosmos: twinkling stars in depth (cyberpunk: cyan)
+    vec3 c = vec3(0.), tint = mix(vec3(1.), vec3(.62, .95, 1.), fl);
+    for (int l = 0; l < 3; l++) { float fd = float(l); if (fd >= uLayers) break;
+      float s = motes(ua * (40. + fd * 35.) + vec2(t * (.4 + fd * .3), 0.), .07, .06, r);
+      c += tint * s * (.5 + .35 * sin(t * (2. + r * 3.) + r * 40.)) * (1. - fd * .25);
     } return c;
   }
-  if (m < 3.5) {                                          // ember: warm rising motes
-    vec2 g = uv*vec2(uRes.x/uRes.y,1.)*18. + vec2(0., -t*1.2);
-    vec2 id=floor(g), f=fract(g)-.5; float r=h(id);
-    float s = smoothstep(.12,.0,length(f-(vec2(h(id+3.),h(id+5.))-.5)*.7)) * step(.86,r);
-    return vec3(1.,.62,.32) * s * (.5+.5*sin(t*2.+r*30.)) * smoothstep(.0,.6,1.-uv.y);
+  if (m < 3.5) {                                          // ember: rising, swaying motes (dark fantasy: grey ash)
+    vec2 g = ua * 18.;
+    g.y -= t * mix(1.2, .55, fl);
+    g.x += sin(g.y * .7 + t * .8) * .35;
+    float s = motes(g, mix(.14, .1, fl), .12, r);
+    return mix(vec3(1., .62, .32), vec3(.64, .62, .62), fl) * s * (.5 + .5 * sin(t * 2. + r * 30.)) * smoothstep(0., .6, 1. - uv.y);
   }
-  if (m < 4.5) {                                          // dread: low drifting fog
-    float f = fbm(uv*vec2(3.,5.) + vec2(t*.05, 0.));
-    return vec3(.6,.62,.7) * smoothstep(.45,.9,f) * smoothstep(.75,.0,uv.y) * .5;
+  if (m < 4.5) {                                          // dread: low fog (survival: thicker), slow dust
+    vec2 p = uv * vec2(3., 5.) + vec2(t * .05, 0.);
+    float f = .5 * n(p) + .25 * n(p * 2.03);
+    if (uLayers > 2.5) f += .125 * n(p * 4.1);
+    float fog = smoothstep(mix(.45, .36, fl), .9, f * mix(1.1667, 1., step(2.5, uLayers))) * smoothstep(.75, 0., uv.y) * .5;
+    float dust = motes(ua * 26. + vec2(t * .15, -t * .08), .05, .08, r) * .3;
+    return vec3(.6, .62, .7) * (fog + dust);
   }
-  float w = sin(uv.y*28. + sin(uv.x*6.+t*.6)*1.4 - t*.5);   // tide: calm bands
-  return vec3(.7,.85,1.) * smoothstep(.96,1.,w) * .25;
+  float w = sin(uv.y * 28. + sin(uv.x * 6. + t * .6) * 1.4 - t * .5);   // tide: calm bands, caustic shimmer
+  float k = sin(ua.x * 22. + t * .7 + sin(uv.y * 17. - t * .5)) * sin(uv.y * 19. - t * .6 + sin(ua.x * 13. + t * .3));
+  return mix(vec3(.7, .85, 1.), vec3(1., .86, .78), fl) * (smoothstep(.96, 1., w) * .25 + smoothstep(.8, 1., k) * .07);
 }
 
 void main(){
-  vec2 uv = gl_FragCoord.xy / uRes;
+  vec2 uv0 = gl_FragCoord.xy / uRes;
+  float asp = uRes.x / uRes.y;
   float t = uT * uSpeed;
-  vec2 q = uv + .35*vec2(n(uv*2.+t*.03), n(uv*2.-t*.03+5.2));
-  float a = n(q*1.7+t*.03), b = n(q*2.3-t*.021);
-  vec3 c0=mix(mix(uA[0],uB[0],uMix),uL[0],uLive), c1=mix(mix(uA[1],uB[1],uMix),uL[1],uLive);
-  vec3 c2=mix(mix(uA[2],uB[2],uMix),uL[2],uLive), c3=mix(mix(uA[3],uB[3],uMix),uL[3],uLive);
-  vec3 col = mix(mix(c0,c1,a), mix(c2,c3,b), smoothstep(.2,.8,q.y));
-  float glow = smoothstep(1.25,.15,length(uv-vec2(.62,.78)));
-  col *= .5 + .75*glow*uIntensity;
-  vec3 m = mix(mood(uMoodA,uv,t), mood(uMoodB,uv,t), uMix);
-  col += m * mix(c3, vec3(1.), .5) * uIntensity;
-  float darken = mix(step(3.5,uMoodA)*step(uMoodA,4.5), step(3.5,uMoodB)*step(uMoodB,4.5), uMix);
-  col *= 1. - .35*darken;
-  col *= smoothstep(1.35,.35,length((uv-.5)*vec2(1.2,1.)));   // vignette
-  col += (h(gl_FragCoord.xy + uT) - .5) / 255.;                 // dither: no banding on dark gradients
-  o = vec4(col, 1.);
+  // Depth: the far light pools move least with the pointer, the base a little more, the mood particles most.
+  vec2 ptr = uPtr * vec2(1., -1.);
+  vec2 uvFar = uv0 - ptr * .012, uv = uv0 - ptr * .024, uvNear = uv0 - ptr * .05;
+  vec2 q = uv + .35 * vec2(n(uv * 2. + t * .03), n(uv * 2. - t * .03 + 5.2));
+  float a = n(q * 1.7 + t * .03), b = n(q * 2.3 - t * .021);
+  vec3 c0 = mix(uA[0], uL[0], uLive), c1 = mix(uA[1], uL[1], uLive), c2 = mix(uA[2], uL[2], uLive), c3 = mix(uA[3], uL[3], uLive);
+  vec3 col = mix(mix(c0, c1, a), mix(c2, c3, b), smoothstep(.2, .8, q.y));
+  vec2 d1 = (uvFar - vec2(.26 + .1 * sin(t * .031), .7 + .08 * cos(t * .027))) * vec2(asp, 1.);
+  vec2 d2 = (uvFar - vec2(.8 + .08 * cos(t * .023), .28 + .1 * sin(t * .037))) * vec2(asp, 1.);
+  col += (c3 * exp(-dot(d1, d1) * 3.2) * .22 + c2 * exp(-dot(d2, d2) * 4.) * .18) * uIntensity;
+  float glow = smoothstep(1.25, .15, length(uv - vec2(.62, .78)));
+  col *= .5 + .75 * glow * uIntensity * (1. + .18 * uPulse);
+  // Only one mood is drawn once a crossfade has finished.
+  vec3 m = uMix > .999 ? mood(uMoodB, uFlavB, uvNear, t, asp)
+         : uMix < .001 ? mood(uMoodA, uFlavA, uvNear, t, asp)
+         : mix(mood(uMoodA, uFlavA, uvNear, t, asp), mood(uMoodB, uFlavB, uvNear, t, asp), uMix);
+  col += m * mix(c3, vec3(1.), .5) * uIntensity * (1. + .5 * uPulse);
+  float darken = mix(step(3.5, uMoodA) * step(uMoodA, 4.5), step(3.5, uMoodB) * step(uMoodB, 4.5), uMix);
+  col *= 1. - .35 * darken;
+  col *= (1. + uWarm * vec3(.07, .015, -.07)) * uDim;                    // time of day
+  col *= smoothstep(1.35, .35, length((uv0 - .5) * vec2(1.2, 1.)));     // vignette, fixed to the window
+  col += (h(gl_FragCoord.xy + uT) - .5) / 255.;                          // dither: no banding on dark gradients
+  o = vec4(max(col, 0.), 1.);
 }`;
 
 interface CanvasState {
-  a: RGB[];
-  b: RGB[];
+  /** Palette on screen and the one it glides toward, in OKLab. */
+  cur: LabPalette;
+  target: LabPalette;
   moodA: Mood;
   moodB: Mood;
-  mix: number;
+  flavA: number;
+  flavB: number;
   mixStart: number;
   /** Artwork accent of the focused game (restored when trailer-following ends). */
   accentCss: string | null;
@@ -99,25 +142,52 @@ const ACCENT_EVERY_MS = 2600;
 const ACCENT_MIN_SHIFT = 0.03;
 /** Share of the trailer's accent blended into the game's artwork accent at full follow. */
 const ACCENT_FOLLOW = 0.5;
+/** Mood crossfade length (ms). */
+const MOOD_MS = 1600;
+
+/** Smootherstep: no visible start or end to a crossfade. */
+const easeMix = (x: number) => x * x * x * (x * (6 * x - 15) + 10);
+
+function initialState(): CanvasState {
+  const p = toLabPalette(fallbackPalette().ambient);
+  return { cur: p, target: p, moodA: 'drift', moodB: 'drift', flavA: 0, flavB: 0, mixStart: 0, accentCss: null };
+}
 
 export function LivingCanvas() {
   const ref = useRef<HTMLCanvasElement>(null);
+  const wrap = useRef<HTMLDivElement>(null);
   const settings = useStore((s) => s.settings);
   const focusId = useStore((s) => s.focusGameId);
   const game = useStore((s) => (focusId ? s.gamesById.get(focusId) : undefined));
   const running = useGameRunning();
   const reduce = useReducedMotion();
   const safeMode = useStore((s) => s.info?.safeMode ?? false);
-  const state = useRef<CanvasState>({ a: fallbackPalette().ambient, b: fallbackPalette().ambient, moodA: 'drift', moodB: 'drift', mix: 1, mixStart: 0, accentCss: null });
+  const coverGame = useCoverGame(); // Track E2b: "Use a game's colours" (or its live preview) holds the accent
+  const state = useRef<CanvasState>(initialState());
   const requestFrame = useRef<() => void>(() => {});
 
-  const enabled = !!settings?.['appearance.livingCanvas'] && settings['appearance.quality'] !== 'low' && !safeMode;
+  const profile = useMemo(
+    () =>
+      canvasProfile({
+        livingCanvas: !!settings?.['appearance.livingCanvas'],
+        quality: settings?.['appearance.quality'],
+        cores: typeof navigator !== 'undefined' ? navigator.hardwareConcurrency : undefined,
+        safeMode,
+        reduced: reduce,
+        gameRunning: running,
+        dataSaver: !!settings?.['dataSaver.enabled'],
+        parallax: settings?.['canvas.parallax'] !== false,
+        audioReact: !!settings?.['canvas.audioReact'],
+      }),
+    [settings, safeMode, reduce, running],
+  );
+  const { enabled, quality, animate, layers, scale, parallax } = profile;
   const intensity = settings?.['appearance.canvasIntensity'] ?? 0.7;
-  const quality = settings?.['appearance.quality'] ?? 'auto';
-  const fixedAccent = settings?.['appearance.accent'] && settings['appearance.accent'] !== 'auto' ? settings['appearance.accent'] : null;
+  const setAccent = settings?.['appearance.accent'];
+  const fixedAccent = coverGame ? 'cover' : setAccent && setAccent !== 'auto' && setAccent !== 'cover' ? setAccent : null;
   const followTrailer = settings?.['canvas.followTrailer'] !== false;
-  const live = useRef({ fixedAccent, focusId, follow: followTrailer, intensity });
-  live.current = { fixedAccent, focusId, follow: followTrailer, intensity };
+  const live = useRef({ fixedAccent, focusId, follow: followTrailer, intensity, profile });
+  live.current = { fixedAccent, focusId, follow: followTrailer, intensity, profile };
   // Intensity is a uniform: a slider drag only redraws, it never rebuilds the GL program.
   useEffect(() => requestFrame.current(), [intensity]);
 
@@ -135,12 +205,14 @@ export function LivingCanvas() {
         s.accentCss = palette.accent;
       } else s.accentCss = null;
       const now = performance.now();
-      // Start from wherever the current blend is, so rapid changes never jump.
-      const t = Math.min(1, (now - s.mixStart) / 1200);
-      s.a = s.a.map((c, i) => c.map((v, j) => v + (s.b[i][j] - v) * t) as RGB);
-      s.moodA = t > 0.5 ? s.moodB : s.moodA;
-      s.b = palette.ambient;
+      // The palette glides from wherever it is now; the mood crossfade restarts from the nearer of its two ends.
+      s.target = toLabPalette(palette.ambient);
+      if (Math.min(1, (now - s.mixStart) / MOOD_MS) > 0.5) {
+        s.moodA = s.moodB;
+        s.flavA = s.flavB;
+      }
       s.moodB = moodFor(game);
+      s.flavB = moodFlavor(s.moodB, game);
       s.mixStart = now;
       requestFrame.current();
     }, 160);
@@ -151,7 +223,7 @@ export function LivingCanvas() {
   }, [game, fixedAccent]);
 
   useEffect(() => {
-    if (!fixedAccent || fixedAccent === 'system') return; // 'system': applied by SystemBackdrop
+    if (!fixedAccent || fixedAccent === 'system' || fixedAccent === 'cover') return; // applied by SystemBackdrop / AccentTheme
     const map: Record<string, [string, string]> = {
       violet: ['oklch(0.7 0.17 292)', 'oklch(0.68 0.15 255)'],
       blue: ['oklch(0.7 0.15 255)', 'oklch(0.72 0.12 220)'],
@@ -179,9 +251,12 @@ export function LivingCanvas() {
     gl.enableVertexAttribArray(loc);
     gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
     const u = (n: string) => gl.getUniformLocation(program, n);
-    const uT = u('uT'), uRes = u('uRes'), uMix = u('uMix'), uMA = u('uMoodA'), uMB = u('uMoodB'), uI = u('uIntensity'), uS = u('uSpeed'), uA = u('uA'), uB = u('uB'), uL = u('uL'), uLive = u('uLive');
+    const U = {
+      t: u('uT'), res: u('uRes'), mix: u('uMix'), moodA: u('uMoodA'), moodB: u('uMoodB'), flavA: u('uFlavA'), flavB: u('uFlavB'),
+      intensity: u('uIntensity'), speed: u('uSpeed'), layers: u('uLayers'), warm: u('uWarm'), dim: u('uDim'), pulse: u('uPulse'),
+      ptr: u('uPtr'), a: u('uA'), l: u('uL'), live: u('uLive'),
+    };
 
-    const scale = quality === 'high' ? 0.55 : 0.4;
     let disposed = false;
     const resize = () => {
       const w = Math.max(64, Math.floor(innerWidth * scale));
@@ -196,8 +271,29 @@ export function LivingCanvas() {
 
     let raf = 0;
     let last = 0;
+    let prev = 0;
     const start = performance.now();
-    const animate = !reduce && !running;
+    const setState = (v: string) => {
+      if (wrap.current) wrap.current.dataset.state = v;
+    };
+
+    // Time of day: re-read once a minute (it changes over hours, never in steps).
+    const hourNow = () => new Date().getHours() + new Date().getMinutes() / 60;
+    let day: Daylight = daylight(hourNow());
+    const dayTimer = window.setInterval(() => (day = daylight(hourNow())), 60_000);
+
+    // Pointer parallax: the raw position is only recorded here; the loop eases toward it.
+    const ptrTarget = { x: 0, y: 0 };
+    const ptr = { x: 0, y: 0 };
+    let pulse = 0;
+    const onPointer = (e: PointerEvent) => {
+      ptrTarget.x = (e.clientX / Math.max(1, innerWidth)) * 2 - 1;
+      ptrTarget.y = (e.clientY / Math.max(1, innerHeight)) * 2 - 1;
+    };
+    const onLeave = () => {
+      ptrTarget.x = 0;
+      ptrTarget.y = 0;
+    };
 
     // Trailer following: only while animating (never under reduced motion or while a game runs).
     let follow: FollowState = initialFollow();
@@ -225,20 +321,46 @@ export function LivingCanvas() {
       document.documentElement.style.setProperty('--game', cssOklch(next));
     };
 
-    const draw = (now: number) => {
-      if (disposed) return;
+    // Cost counters, published on the element about once a second (local only; read by tests and docs/PERFORMANCE.md).
+    let frames = 0;
+    let jsMs = 0;
+    let statsAt = 0;
+    const publish = (now: number, force = false) => {
+      const el = wrap.current;
+      if (!el || (!force && now - statsAt < 1000)) return;
+      statsAt = now;
+      el.dataset.frames = String(frames);
+      el.dataset.jsMs = (frames ? jsMs / frames : 0).toFixed(3);
+    };
+
+    /** Draws one frame; returns whether something is still settling (palette or mood). */
+    const draw = (now: number): boolean => {
+      const t0 = performance.now();
       const s = state.current;
-      const mix = Math.min(1, (now - s.mixStart) / 1200);
-      const eased = mix < 0.5 ? 4 * mix ** 3 : 1 - (-2 * mix + 2) ** 3 / 2;
-      gl.uniform1f(uT, reduce ? 12 : (now - start) / 1000);
-      gl.uniform2f(uRes, canvas.width, canvas.height);
-      gl.uniform1f(uMix, eased);
-      gl.uniform1f(uMA, MOOD_INDEX[s.moodA]);
-      gl.uniform1f(uMB, MOOD_INDEX[s.moodB]);
-      gl.uniform1f(uI, live.current.intensity);
-      gl.uniform1f(uS, moodSpeed(eased > 0.5 ? s.moodB : s.moodA));
-      gl.uniform3fv(uA, s.a.flat());
-      gl.uniform3fv(uB, s.b.flat());
+      const p = live.current.profile;
+      const dt = prev ? Math.min(250, now - prev) : animate ? 0 : 16;
+      prev = now;
+      if (paletteGap(s.cur, s.target) > 0.0004) s.cur = approachPalette(s.cur, s.target, dt, PALETTE_TAU);
+      const mixT = Math.min(1, (now - s.mixStart) / MOOD_MS);
+      const eased = easeMix(mixT);
+      ptr.x = approach(ptr.x, p.parallax ? ptrTarget.x : 0, dt, POINTER_TAU);
+      ptr.y = approach(ptr.y, p.parallax ? ptrTarget.y : 0, dt, POINTER_TAU);
+      pulse = approach(pulse, p.audio ? ambientLoudness() : 0, dt, AUDIO_TAU);
+      gl.uniform1f(U.t, animate ? (now - start) / 1000 : 12);
+      gl.uniform2f(U.res, canvas.width, canvas.height);
+      gl.uniform1f(U.mix, eased);
+      gl.uniform1f(U.moodA, MOOD_INDEX[s.moodA]);
+      gl.uniform1f(U.moodB, MOOD_INDEX[s.moodB]);
+      gl.uniform1f(U.flavA, s.flavA);
+      gl.uniform1f(U.flavB, s.flavB);
+      gl.uniform1f(U.intensity, live.current.intensity);
+      gl.uniform1f(U.speed, moodSpeed(eased > 0.5 ? s.moodB : s.moodA));
+      gl.uniform1f(U.layers, layers);
+      gl.uniform1f(U.warm, day.warm);
+      gl.uniform1f(U.dim, day.dim);
+      gl.uniform1f(U.pulse, pulse);
+      gl.uniform2f(U.ptr, ptr.x, ptr.y);
+      gl.uniform3fv(U.a, labPaletteToRgb(s.cur).flat());
       if (animate) {
         const tint = useHeroTrailer.getState().tint;
         const target = live.current.follow && tint && tint.gameId === live.current.focusId ? tint : null;
@@ -246,55 +368,86 @@ export function LivingCanvas() {
         lastStep = now;
         followAccent(now);
       }
-      gl.uniform3fv(uL, followRgb(follow).flat());
-      gl.uniform1f(uLive, follow.weight);
+      gl.uniform3fv(U.l, followRgb(follow).flat());
+      gl.uniform1f(U.live, follow.weight);
       gl.drawArrays(gl.TRIANGLES, 0, 3);
+      frames++;
+      jsMs += performance.now() - t0;
+      publish(now, !animate);
+      return paletteGap(s.cur, s.target) > 0.0004 || mixT < 1;
     };
 
     const loop = (now: number) => {
       raf = 0;
+      if (disposed) return;
       if (document.hidden) {
+        // Paused: nothing is scheduled until the window is visible again.
         lastStep = 0;
+        prev = 0;
+        setState('paused');
         return;
       }
-      if (now - last >= 33) {
+      if (now - last >= frameInterval(live.current.profile, document.hasFocus())) {
         last = now;
         draw(now);
       }
-      if (animate) raf = requestAnimationFrame(loop);
+      raf = requestAnimationFrame(loop);
     };
     const kick = () => {
+      setState('running');
       if (!raf) raf = requestAnimationFrame(loop);
     };
-    // Still frames (reduced motion / game running) still redraw when the palette changes.
+    // Still frames (reduced motion / a game running) redraw only while a palette or mood change settles.
+    let settling = 0;
+    const settle = () => {
+      settling = 0;
+      if (disposed || document.hidden) return;
+      if (draw(performance.now())) settling = requestAnimationFrame(settle);
+    };
     requestFrame.current = () => {
       if (animate) return kick();
-      const s = state.current;
-      const settle = () => {
-        if (disposed) return;
-        draw(performance.now());
-        if (performance.now() - s.mixStart < 1300) requestAnimationFrame(settle);
-      };
-      requestAnimationFrame(settle);
+      setState('still');
+      if (!settling) settling = requestAnimationFrame(settle);
     };
-    const onVis = () => !document.hidden && kick();
+    const onVis = () => {
+      if (!document.hidden) requestFrame.current();
+    };
     document.addEventListener('visibilitychange', onVis);
     addEventListener('resize', resize);
-    kick();
+    if (parallax) {
+      addEventListener('pointermove', onPointer, { passive: true });
+      document.documentElement.addEventListener('pointerleave', onLeave);
+    }
+    requestFrame.current();
     return () => {
       disposed = true;
       cancelAnimationFrame(raf);
+      cancelAnimationFrame(settling);
+      window.clearInterval(dayTimer);
       document.removeEventListener('visibilitychange', onVis);
       removeEventListener('resize', resize);
+      removeEventListener('pointermove', onPointer);
+      document.documentElement.removeEventListener('pointerleave', onLeave);
       requestFrame.current = () => {};
       if (appliedAccent && state.current.accentCss && !live.current.fixedAccent) document.documentElement.style.setProperty('--game', state.current.accentCss);
       gl.deleteProgram(program);
       gl.deleteBuffer(buf);
     };
-  }, [enabled, reduce, running, quality]);
+  }, [enabled, animate, quality, layers, scale, parallax]);
 
   return (
-    <div className="living-canvas" aria-hidden data-enabled={enabled}>
+    <div
+      ref={wrap}
+      className="living-canvas"
+      aria-hidden
+      data-enabled={enabled}
+      data-quality={quality ?? 'off'}
+      data-layers={enabled ? layers : undefined}
+      data-fps={enabled ? profile.fps : undefined}
+      data-parallax={parallax ? 'on' : 'off'}
+      data-audio={profile.audio ? 'on' : 'off'}
+      data-state={enabled ? undefined : 'off'}
+    >
       {enabled && <canvas ref={ref} className="living-canvas__gl" />}
       <div className="living-canvas__scrim" />
     </div>
