@@ -20,6 +20,7 @@ export const SOURCE_LABEL: Record<IdSource, string> = {
   rawg: 'RAWG',
   steam: 'Steam store search',
   gog: 'GOG catalogue',
+  msstore: 'the Microsoft Store',
 };
 
 const METHOD_LABEL: Record<IdMethod, string> = {
@@ -31,10 +32,13 @@ const METHOD_LABEL: Record<IdMethod, string> = {
   editionTitle: 'another edition’s title',
   crossCheck: 'confirmed listing',
   earlierMatch: 'an earlier exact-title match',
+  packageLookup: 'package lookup',
 };
 
 /** "Wikidata (same title and year) and Steam store search (same title and year)". Strongest first, one mention per source. */
 export function matchedVia(id: Pick<ResolvedId, 'status' | 'evidence'>): string {
+  // Track E4: an Xbox game's Store product, named by the Microsoft Store for the package installed on this PC.
+  if (id.status === 'native' && id.evidence.some((e) => e.method === 'packageLookup')) return 'From the Microsoft Store (package lookup)';
   if (id.status === 'native') return 'From the store itself';
   if (id.status === 'pinned') return 'You chose this';
   const seen = new Set<IdSource>();

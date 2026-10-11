@@ -1,13 +1,17 @@
 // Track D4: every data source for every game. Mirror of the DTOs in
 // src/Vystral.Windows/DataSources/Identity/IdentityResolverService.cs, FreebiesService.cs and AppBackend.TrackD4.cs.
 
-export type IdKind = 'steam' | 'igdb' | 'rawg' | 'gog' | 'wikidata';
+/** 'msstore' (Track E4): an Xbox game's Microsoft Store product ID, found by the Store's own package lookup. */
+export type IdKind = 'steam' | 'igdb' | 'rawg' | 'gog' | 'wikidata' | 'msstore';
 
-/** Where a piece of evidence came from. */
-export type IdSource = 'store' | 'pin' | 'wikidata' | 'igdb' | 'rawg' | 'steam' | 'gog';
+/** Where a piece of evidence came from. 'msstore' (Track E4): the Microsoft Store's package lookup. */
+export type IdSource = 'store' | 'pin' | 'wikidata' | 'igdb' | 'rawg' | 'steam' | 'gog' | 'msstore';
 
-/** How it was found: the store's own ID, your choice, a store-ID link, or a title (with the year, or another edition). */
-export type IdMethod = 'native' | 'chosen' | 'storeId' | 'exactTitleYear' | 'exactTitle' | 'editionTitle' | 'crossCheck' | 'earlierMatch';
+/**
+ * How it was found: the store's own ID, your choice, a store-ID link, or a title (with the year, or another edition).
+ * 'packageLookup' (Track E4): the Microsoft Store named the product an installed package belongs to — a store fact, certain.
+ */
+export type IdMethod = 'native' | 'chosen' | 'storeId' | 'exactTitleYear' | 'exactTitle' | 'editionTitle' | 'crossCheck' | 'earlierMatch' | 'packageLookup';
 
 export type IdLevel = 'certain' | 'high' | 'good' | 'medium' | 'low';
 

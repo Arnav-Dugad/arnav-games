@@ -1,6 +1,10 @@
 import { describe, expect, it } from 'vitest';
 import type { Game, ResolvedId, ResolvedIdentity } from '../bridge/types';
 import { confidencePercent, identitySummary, matchedVia, steamDataLabel, steamLinkOf } from './identity';
+import { previewProductId } from '../bridge/preview.xboxStore';
+
+/** The same shape IdKinds.IsValid accepts for "msstore", and plainly fictional. */
+const isValidPreviewProduct = (id: string) => /^9NPREVIEW[0-9A-Z]{3}$/.test(id);
 
 const steamId = (over: Partial<ResolvedId> = {}): ResolvedId => ({
   kind: 'steam', label: 'Steam', value: '1145360', confidence: 0.9775, level: 'high', status: 'matched', used: true, name: 'Hades', link: true,
@@ -23,6 +27,19 @@ describe('identity words', () => {
       .toBe('Matched via Wikidata (a store ID link)');
     expect(matchedVia(steamId({ status: 'native' }))).toBe('From the store itself');
     expect(matchedVia(steamId({ status: 'pinned' }))).toBe('You chose this');
+  });
+
+  it('says a Microsoft Store ID came from the Store’s package lookup, and it is certain (Track E4)', () => {
+    const ms = steamId({ kind: 'msstore', label: 'Microsoft Store', value: '9PNQKHFLD2WQ', status: 'native', confidence: 1, level: 'certain',
+      evidence: [{ source: 'msstore', method: 'packageLookup', confidence: 1 }] });
+    expect(matchedVia(ms)).toBe('From the Microsoft Store (package lookup)');
+    expect(confidencePercent(ms)).toBe('100%');
+    // A Steam app found through Wikidata by that Store ID says so.
+    expect(matchedVia(steamId({ evidence: [{ source: 'wikidata', method: 'storeId', confidence: 0.95 }, { source: 'igdb', method: 'storeId', confidence: 0.9 }] })))
+      .toBe('Matched via Wikidata (a store ID link) and IGDB (a store ID link)');
+    expect(isValidPreviewProduct(previewProductId('Circuit Apex'))).toBe(true);
+    expect(previewProductId('Circuit Apex')).toBe(previewProductId('Circuit Apex'));
+    expect(previewProductId('Circuit Apex')).not.toBe(previewProductId('Summit Sixteen'));
   });
 
   it('never claims 100% for a match', () => {

@@ -1230,3 +1230,10 @@ export interface BridgeEvents {
 }
 
 export type * from './types.recommend';
+
+// ---------- Track E4: Xbox Store IDs for exact matching (ID kind "msstore" in ./types.identity) ----------
+
+export interface Settings {
+  /** Ask the Microsoft Store which product each installed Xbox package is (grey: opt-in, cached for months). Off by default. */
+  'dataSources.xboxStore': boolean;
+}

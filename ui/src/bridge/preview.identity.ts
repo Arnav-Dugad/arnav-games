@@ -14,6 +14,7 @@ import type {
   Freebie, Freebies, Game, IdCandidate, IdEvidence, ProtonSummary, ProviderStatus, ResolvedId, ResolvedIdentity, Settings, SteamSearchHit, TrailerInfo,
 } from './types';
 import { BridgeError } from './bridge';
+import { previewStoreId, previewStoreSteamEvidence } from './preview.xboxStore'; // Track E4
 import liveTileLoop from './preview-assets/live-tile.webm?url';
 
 type Emit = (name: string, payload: unknown) => void;
@@ -112,6 +113,9 @@ export function identityPreviewHandlers(ctx: Ctx): Record<string, (p: any) => un
     if (plan?.igdb && s['dataSources.identityMatch']) others.push({ kind: 'igdb', label: 'IGDB', value: plan.igdb, confidence: 0.85, level: 'good', status: 'matched', used: true, evidence: [{ source: 'igdb', method: 'exactTitleYear', confidence: 0.85 }], name: g.title, link: false });
     if (plan?.rawg && s['dataSources.identityMatch']) others.push({ kind: 'rawg', label: 'RAWG', value: plan.rawg, confidence: 0.85, level: 'good', status: 'matched', used: true, evidence: [{ source: 'wikidata', method: 'exactTitleYear', confidence: 0.85 }], name: g.title, link: true });
     if (plan?.qid && s['dataSources.identityMatch']) others.push({ kind: 'wikidata', label: 'Wikidata', value: plan.qid, confidence: 0.85, level: 'good', status: 'matched', used: true, evidence: [{ source: 'wikidata', method: 'exactTitleYear', confidence: 0.85 }], name: g.title, link: true });
+    // Track E4: with Xbox Store details on, an Xbox game's Store product (found by package lookup) is listed too, even with matching off.
+    const store = previewStoreId(g, s);
+    if (store) others.push(store);
     const asked: ResolvedIdentity['asked'] = reason === 'off' ? [] : ['wikidata', 'steam'];
 
     if (pins.has(g.id)) {
@@ -121,12 +125,15 @@ export function identityPreviewHandlers(ctx: Ctx): Record<string, (p: any) => un
       const steam: ResolvedId = { kind: 'steam', label: 'Steam', value: v, confidence: 1, level: 'certain', status: 'pinned', used: true, evidence: [{ source: 'pin', method: 'chosen', confidence: 1 }], name, link: true };
       return { ...base, status: 'pinned', steam, ids: [steam, ...others], steamCandidates: candidates, asked, reason };
     }
-    if (!s['dataSources.identityMatch']) return { ...base, status: 'notChecked', steam: null, ids: [], steamCandidates: [], asked: [], reason };
+    if (!s['dataSources.identityMatch']) return { ...base, status: 'notChecked', steam: null, ids: store ? [store] : [], steamCandidates: [], asked: [], reason };
     if (!plan || plan.status === 'none' || !plan.steam.length) return { ...base, status: 'none', steam: null, ids: others, steamCandidates: candidates, asked, reason };
     const best = plan.steam[0];
-    const conf = plan.status === 'conflict' ? combine(best.evidence) : combine(best.evidence);
+    // Track E4: a Store ID brings the Steam app through Wikidata's Microsoft Store product ID instead of the title.
+    const storeEvidence = previewStoreSteamEvidence(g, s);
+    const evidence = storeEvidence.length ? [...storeEvidence, ...best.evidence.filter((e) => e.source !== 'wikidata')] : best.evidence;
+    const conf = combine(evidence);
     const status: ResolvedId['status'] = plan.status === 'matched' ? 'matched' : plan.status === 'conflict' ? 'conflict' : 'suggested';
-    const steam: ResolvedId = { kind: 'steam', label: 'Steam', value: best.value, confidence: Math.round(conf * 1000) / 1000, level: level(conf), status, used: status === 'matched', evidence: best.evidence, name: best.name, link: true };
+    const steam: ResolvedId = { kind: 'steam', label: 'Steam', value: best.value, confidence: Math.round(conf * 1000) / 1000, level: level(conf), status, used: status === 'matched', evidence, name: best.name, link: true };
     return { ...base, status: plan.status, steam, ids: [steam, ...others], steamCandidates: candidates, asked, reason };
   };
 
