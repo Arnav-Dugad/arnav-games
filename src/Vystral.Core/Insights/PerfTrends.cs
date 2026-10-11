@@ -224,8 +224,9 @@ public static class PerfTrendRules
         return notes.OrderByDescending(n => n.At).ToList();
     }
 
+    /// <summary>Sessions a driver note may use: a known driver and frame rate, long enough, and not on battery (a laptop on battery runs slower anyway).</summary>
     private static bool Measured(TrendSession s) =>
-        !string.IsNullOrWhiteSpace(s.Driver) && s.FpsAvg is > 0 && s.DurationSeconds >= DriverMinSeconds;
+        !string.IsNullOrWhiteSpace(s.Driver) && s.FpsAvg is > 0 && s.DurationSeconds >= DriverMinSeconds && s.PowerClass is not ("battery" or "mixed");
 
     /// <summary>"Your GPU ran 6 °C hotter in Forza Horizon 4 than the month before" — notification text, or null for no alert.</summary>
     public static (string Title, string Body)? ThermalText(ThermalTrend t, string gameTitle)

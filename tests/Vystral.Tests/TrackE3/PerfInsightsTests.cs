@@ -269,6 +269,7 @@ public sealed class PerfTrendRuleTests
             S(5, null, fps: 74, low: 47, driver: "617.42"),   // first on the new driver
             S(3, null, fps: 80, low: 49, driver: "617.42"),   // second: no new note
             S(4, null, fps: 30, low: 10, driver: "617.42", seconds: 60), // too short to count
+            S(6, null, fps: 41, low: 22, driver: "617.42", power: "battery"), // on battery: never compared with plugged-in runs
         };
         var note = Assert.Single(PerfTrendRules.DriverNotes(sessions));
         Assert.Equal(("617.42", "572.16", 72.0, 50.0, 3), (note.Driver, note.PreviousDriver, note.BeforeAvg, note.BeforeLow, note.BeforeSessions));

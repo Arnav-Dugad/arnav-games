@@ -1230,3 +1230,17 @@ export interface BridgeEvents {
 }
 
 export type * from './types.recommend';
+
+// ---------- Track E3: performance insights — power source per session, frame-rate goals, thermal and driver notes (types in ./types.trackE3) ----------
+
+export interface Settings {
+  /** Windows notifications for performance notes: a GPU running hotter than it used to, frame rate after a driver change. */
+  'notifications.perfInsights': boolean;
+}
+
+export interface BridgeEvents {
+  /** A thermal trend or driver note, announced once when the session that caused it ends. */
+  'perf.insight': import('./types.trackE3').PerfInsightEvent;
+}
+
+export type * from './types.trackE3';
