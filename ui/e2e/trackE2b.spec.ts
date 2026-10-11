@@ -9,6 +9,8 @@ import { contrastRatio, gamutMap, lchToRgb, parseOklch, type RGB } from '../src/
 
 async function open(page: Page, query = '') {
   await page.addInitScript(() => sessionStorage.setItem('vystral.introPlayed', '1'));
+  // The canvas switches itself off on 4 cores or fewer (CI runners have 4): measure it as on a typical PC.
+  await page.addInitScript(() => Object.defineProperty(navigator, 'hardwareConcurrency', { get: () => 8 }));
   const errors: string[] = [];
   page.on('pageerror', (e) => errors.push(e.message));
   await page.goto(`/${query}`);
@@ -62,9 +64,9 @@ test.describe('living sidebar', () => {
 
   test('reduced motion: plain state changes, no pops, nudges or springs', async ({ page }) => {
     await open(page, '?reduced');
-    const home = await iconStyle(page, 'Home');
-    expect(home.animation).toBe('none');
-    expect(home.fillOpacity).toBeGreaterThan(0.2); // the state itself still shows
+    // The preview applies ?reduced a moment after the shell shows: wait for it.
+    await expect.poll(async () => (await iconStyle(page, 'Home')).animation).toBe('none');
+    expect((await iconStyle(page, 'Home')).fillOpacity).toBeGreaterThan(0.2); // the state itself still shows
     await expect(nav(page).locator('.nav-item__count').first()).toHaveCSS('animation-name', 'none');
     await nav(page).getByRole('button', { name: 'Journal', exact: true }).hover();
     await page.waitForTimeout(300);
@@ -73,7 +75,7 @@ test.describe('living sidebar', () => {
 
   test('High contrast: no washes or glows, a solid edge on the active item', async ({ page }) => {
     await open(page, '?theme=contrast&reduced');
-    expect((await iconStyle(page, 'Home')).fill).toBe('none');
+    await expect.poll(async () => (await iconStyle(page, 'Home')).fill).toBe('none'); // once the theme is applied
     await expect(nav(page).locator('.nav-item__bar')).toHaveCSS('box-shadow', 'none');
     await expect(nav(page).locator('.nav-item__pill')).toHaveCSS('box-shadow', /inset/);
     await noSeriousViolations(page, 'nav.sidebar');
