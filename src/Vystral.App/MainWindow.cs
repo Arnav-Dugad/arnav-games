@@ -764,7 +764,8 @@ public sealed partial class MainWindow : Window, IHostShell, IEventSink
     public void OpenUri(Uri uri)
     {
         // Track X: Windows' Installed apps page is the one Settings link allowed (the uninstall advisor's fallback).
-        var installedApps = uri.Scheme == "ms-settings" && uri.OriginalString == Vystral.Windows.AppBackend.WindowsInstalledApps;
+        var installedApps = uri.Scheme == "ms-settings" && (uri.OriginalString == Vystral.Windows.AppBackend.WindowsInstalledApps
+            || Vystral.Windows.AppBackend.VoiceSettingsLinks.Contains(uri.OriginalString)); // Track E1: microphone and speech settings
         if (!installedApps && uri.Scheme is not ("https" or "steam" or "com.epicgames.launcher" or "goggalaxy" or "ms-windows-store" or "uplay" or "battlenet" or "origin2"))
             throw new BridgeException("forbidden", "That link type isn't allowed.");
         Process.Start(new ProcessStartInfo(uri.AbsoluteUri) { UseShellExecute = true });

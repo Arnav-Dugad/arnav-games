@@ -98,6 +98,21 @@ public static class AssistantActions
                 return (new(id, spec.Name, $"Watch {title}", "Adds it to your Watching list for price and release alerts. You can remove it any time.", "Add to Watching",
                     new JsonObject { ["key"] = AiText.Str(args["key"]), ["title"] = title }), null);
             }
+            case "remember":
+            {
+                // Track E1: only a proposal; the memory is saved when the user confirms the card.
+                if (Extras.AssistantMemoryStore.Validate(AiText.Str(args["text"]), out var text) is { } why) return (null, why + " Tell the user; don't retry.");
+                return (new(id, spec.Name, $"Remember: “{text}”", "Saved on this PC as an Assistant memory. You can edit or delete it any time in Settings › AI.", "Remember",
+                    new JsonObject { ["text"] = text }), null);
+            }
+            case "review_duplicates":
+            {
+                var n = snapshot.DuplicateSuggestions.Count(d => Game(d.GameIdA) is not null && Game(d.GameIdB) is not null);
+                if (n == 0) return (null, "There are no possible duplicates to review right now. Tell the user.");
+                return (new(id, spec.Name, $"Review {n} possible {(n == 1 ? "duplicate" : "duplicates")}",
+                    "Each merge shows why it looks like the same game. You approve or skip each one, and every merge can be undone.", "Review",
+                    new JsonObject { ["count"] = n }), null);
+            }
             default:
                 return (null, "Unknown action.");
         }

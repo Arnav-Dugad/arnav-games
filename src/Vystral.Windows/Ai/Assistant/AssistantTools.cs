@@ -246,6 +246,18 @@ public static partial class AssistantTools
             "Propose adding a store game to the user's Watching list (price and release alerts). Needs a key from search_store. The user confirms it.",
             [new("key", "string", "The game's key from search_store.", Required: true, Format: "discoverKey", MaxLength: 120), new("title", "string", "The game's title.", Required: true, MaxLength: 120)],
             "Nothing (runs on this PC after you confirm)."),
+        // Track E1: memory the user confirms, and bulk duplicate cleanup the user reviews merge by merge.
+        new("remember", "Remember", ToolKind.Action,
+            "Propose remembering one lasting preference about the user, in their words, e.g. \"Prefers short games on weekdays\". " +
+            "Use it when the user says \"remember that…\", or once when they clearly state a lasting preference. The user confirms it. " +
+            "Never for passwords, keys, health, money or anything about other people.",
+            [new("text", "string", "The preference, one short sentence in the third person.", Required: true, MaxLength: 200)],
+            "Nothing (saved on this PC after you confirm)."),
+        new("review_duplicates", "Duplicate cleanup", ToolKind.Action,
+            "Propose reviewing the library's possible duplicates: the user sees each suggested merge with its reasons and approves or skips each one. " +
+            "Use it when the user asks to clean up or merge duplicates. The user confirms it.",
+            [],
+            "Nothing (runs on this PC after you confirm)."),
     ];
 
     private static readonly Dictionary<string, ToolSpec> ByName = All.ToDictionary(t => t.Name, StringComparer.Ordinal);

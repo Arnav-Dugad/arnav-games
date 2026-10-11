@@ -137,7 +137,7 @@ public sealed partial class AppBackend
                 replay.Session.Perf.FpsAvg, replay.Achievements.Select(x => x.Name).ToList(), Math.Max(1, number), total / 3600.0);
             return await _aiFeatures.CaptionAsync(facts, p.Refresh ?? false, p.Ask ?? false, ct);
         });
-        Dispatcher.Register("aix.clearCache", _ => { _aiFeatures.ClearCaches(); return Task.FromResult<object?>(true); });
+        Dispatcher.Register("aix.clearCache", _ => { _aiFeatures.ClearCaches(); _extras?.ClearCaches(); return Task.FromResult<object?>(true); }); // Track E1: + summaries, lag notes
     }
 
     private AiCloudStatusDto AiStatus() => new(

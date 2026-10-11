@@ -128,6 +128,7 @@ public sealed partial class AppBackend : IDisposable
         RegisterTrackD1Handlers();        // AppBackend.TrackD1.cs: Library bulk actions with undo, observed game versions (Track D1)
         RegisterTrackD6Handlers();        // AppBackend.TrackD6.cs: currency, Data sources health, cache viewer, crash-free streak (Track D6)
         RegisterRecommendHandlers();      // AppBackend.Recommend.cs: "Not interested", cloud readiness, Discover cloud badges (Track D5)
+        RegisterTrackE1Handlers();        // AppBackend.TrackE1.cs: Assistant memory, voice, recap notifications, summaries, duplicate cleanup, lag notes (Track E1)
         Log.Info("app", "Backend started", new { Version, SafeMode, PreviousRunCrashed });
     }
 
@@ -240,6 +241,8 @@ public sealed partial class AppBackend : IDisposable
         ShutdownTracking(); // Track H: hand a running session to the background tracker first
         ShutdownCloud();    // Track O: save a running cloud session up to now
         Sessions.StopTracking();
+        _recapTimer?.Dispose(); // Track E1
+        _voice?.Dispose();      // Track E1: releases the microphone if a hold is in progress
         Updates.ApplyOnExitIfReady();
         RecordCleanExit();
         try { File.Delete(Paths.CrashMarker); } catch (Exception ex) when (ex is IOException or UnauthorizedAccessException) { }

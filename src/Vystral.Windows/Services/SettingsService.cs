@@ -214,6 +214,17 @@ public sealed class SettingsService
         new BoolDef("assistant.keepHistory", true),
         // Track D5: also show "Free this week" (Track D4's GamerPower and Epic sources, opt-in there) as a row on Home.
         new BoolDef("freebies.homeRow", false),
+        // Track E1: Assistant memory (only what you confirm), push-to-talk voice input (on-device, off by default), the weekly
+        // recap as a Windows notification (opt-in; day and hour), AI game summaries and lag-note wording (opt-in AI feature
+        // switches), and suggested prompts learned from what you ask (on this PC).
+        new BoolDef("assistant.memory", true),
+        new BoolDef("assistant.voice", false),
+        new BoolDef("notifications.weeklyRecap", false),
+        new EnumDef("assistant.recapDay", "sunday", "sunday", "monday"),
+        new NumberDef("assistant.recapHour", 18, 0, 23),
+        new BoolDef("ai.features.gameSummaries", false),
+        new BoolDef("ai.features.lagNotes", false),
+        new BoolDef("assistant.learnPrompts", true),
     ];
 
     private const string CloudModelPattern = @"^([A-Za-z0-9][A-Za-z0-9._:/\-]{0,119})?\z";
