@@ -38,7 +38,7 @@ async function noSeriousViolations(page: Page, include?: string) {
 async function openSettingsAi(page: Page) {
   await nav(page, 'Settings');
   await page.getByRole('button', { name: /^AI\b/ }).first().click();
-  await expect(page.getByRole('heading', { name: 'Assistant memory, voice and recaps' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Memory, voice and recaps' })).toBeVisible();
 }
 
 test.describe('Track E1: Assistant memory', () => {

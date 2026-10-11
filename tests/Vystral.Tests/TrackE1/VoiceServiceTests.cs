@@ -150,6 +150,20 @@ public sealed class VoiceServiceTests
     }
 
     [Fact]
+    public void Pressing_again_while_the_last_hold_is_still_finishing_uses_a_fresh_recognizer()
+    {
+        _svc.Start("v1");
+        var first = _backend.Last!;
+        _svc.Cancel("v1"); // the fake doesn't report the end yet: the recognizer is still finishing
+        _svc.Start("v2");
+        Assert.NotSame(first, _backend.Last);
+        Assert.True(_backend.Last!.Started);
+        _backend.Last.Stop(); // ends cleanly...
+        _svc.Start("v3");
+        Assert.Equal(2, Of("end").Count);
+    }
+
+    [Fact]
     public void No_microphone_is_a_plain_error_not_a_crash()
     {
         _backend.NoMicrophone = true;

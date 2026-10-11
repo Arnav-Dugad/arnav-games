@@ -57,6 +57,7 @@ public sealed partial class VoiceService(IVoiceBackend backend, Func<string, boo
 
     private readonly Lock _lock = new();
     private IVoiceEngine? _engine;
+    private bool _engineBusy;
     private string? _session;
     private string _committed = "";
     private long _lastLevelTicks;
@@ -123,7 +124,8 @@ public sealed partial class VoiceService(IVoiceBackend backend, Func<string, boo
             _idleTimer = null;
             try
             {
-                if (_engine is null || _engine.Language != status.Language)
+                // A recognizer still finishing the last hold (released and pressed again quickly) is replaced, never shared.
+                if (_engine is null || _engine.Language != status.Language || _engineBusy)
                 {
                     _engine?.Dispose();
                     _engine = backend.Create(CultureInfo.GetCultureInfo(status.Language!));
@@ -132,6 +134,7 @@ public sealed partial class VoiceService(IVoiceBackend backend, Func<string, boo
                 _session = sessionId;
                 _committed = "";
                 _engine.Start();
+                _engineBusy = true;
             }
             catch (Exception ex) when (ex is InvalidOperationException or System.Runtime.InteropServices.COMException or UnauthorizedAccessException or ArgumentException)
             {
@@ -225,6 +228,7 @@ public sealed partial class VoiceService(IVoiceBackend backend, Func<string, boo
         {
             lock (_lock)
             {
+                if (_engine == e) _engineBusy = false;
                 if (_engine != e || _session is null) return;
                 EndLocked(cancel: false, error: error);
             }

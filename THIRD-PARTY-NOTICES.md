@@ -8,6 +8,7 @@ VYSTRAL is built on these open-source components. A full machine-readable list o
 | Windows App SDK / WinUI 3 | MIT | Window, controls, app lifecycle (bundled) |
 | Microsoft.Web.WebView2 SDK | BSD-style (Microsoft) | Hosting the interface; the WebView2 Runtime is part of Windows |
 | Velopack | MIT | Installer and auto-update |
+| System.Speech (.NET) | MIT | Push-to-talk voice input with Windows' on-device speech recognizer (Track E1) |
 | Microsoft.Data.Sqlite / SQLitePCLRaw / SQLite | MIT / Apache-2.0 / Public domain | Local database |
 | Dapper | Apache-2.0 | Data access |
 | React, React DOM | MIT | Interface |

@@ -53,7 +53,7 @@ export function AssistantExtrasSettings() {
 
   return (
     <section className="sgroup" aria-labelledby="asx-e1-title" id="assistant-extras">
-      <h2 className="sgroup__title" id="asx-e1-title">Assistant memory, voice and recaps</h2>
+      <h2 className="sgroup__title" id="asx-e1-title">Memory, voice and recaps</h2>
       <div className="sgroup__rows surface">
         {toggle('assistant.memory', 'Assistant memory',
           <>Remembers preferences you confirm (“Remember: I like short games on weekdays?”) or add yourself, on this PC. With a cloud AI they go along with your messages, and each answer’s <em>What was sent</em> says so.</>,
