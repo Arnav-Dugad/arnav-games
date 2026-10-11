@@ -13,7 +13,7 @@ export interface SessionsState {
   reload: () => Promise<void>;
 }
 
-/** All VYSTRAL-tracked sessions, newest first. Reloads when a tracked session ends. */
+/** All Arnav Games–tracked sessions, newest first. Reloads when a tracked session ends. */
 export function useTrackedSessions(): SessionsState {
   const [state, setState] = useState<Omit<SessionsState, 'reload'>>({ status: 'loading', sessions: [], error: null, loadedAt: 0 });
   const seq = useRef(0);

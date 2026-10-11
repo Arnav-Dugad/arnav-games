@@ -44,7 +44,7 @@ test.describe('wishlist', () => {
     await page.getByRole('combobox', { name: 'Search' }).fill('wishlist');
     await page.getByRole('option', { name: /Wishlist/ }).first().click();
     await expect(page.getByRole('heading', { name: 'Wishlist', level: 1 })).toBeVisible();
-    await expect(page.getByRole('heading', { name: 'Bring your Steam wishlist into VYSTRAL' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Bring your Steam wishlist into Arnav Games' })).toBeVisible();
     await page.getByRole('button', { name: 'Show my wishlist' }).click();
     await expect(page.getByRole('region', { name: 'Release calendar' })).toBeVisible(); // Track D2: the calendar is the page
     await expect(sidebar.getByRole('button', { name: 'Wishlist' })).toBeVisible();
@@ -67,7 +67,7 @@ test.describe('wishlist', () => {
     const starward = list.getByRole('listitem').filter({ hasText: 'Starward Couriers' });
     await expect(starward.getByText('−75%')).toBeVisible();
     await expect(starward.getByText('Lowest price ever')).toBeVisible();
-    await expect(starward.getByRole('img', { name: /Steam price seen by VYSTRAL since/ })).toBeVisible();
+    await expect(starward.getByRole('img', { name: /Steam price seen by Arnav Games since/ })).toBeVisible();
     const clockwork = list.getByRole('listitem').filter({ hasText: 'Clockwork Pilgrim' });
     await expect(clockwork.getByText(/Lowest ever/)).toBeVisible();
     await expect(clockwork.getByText(/% higher now/)).toBeVisible();

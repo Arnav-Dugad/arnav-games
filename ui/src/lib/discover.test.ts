@@ -106,7 +106,7 @@ describe('source states', () => {
     expect(sourceLine(s('done', null, 3))).toBe('IGDB: 3 matches');
     expect(sourceLine(s('done', null, 0))).toBe('IGDB: nothing found');
     expect(sourceLine(s('skipped', 'noKey'))).toBe('IGDB: not connected');
-    expect(sourceLine(s('failed', 'rateLimited'))).toBe('IGDB: asked VYSTRAL to slow down');
+    expect(sourceLine(s('failed', 'rateLimited'))).toBe('IGDB: asked Arnav Games to slow down');
   });
   const search = (id: string, page: number, states: ('pending' | 'done' | 'skipped')[]): DiscoverSearch => ({
     searchId: id, channel: 'page', query: 'q', page, results: [], done: !states.includes('pending'), hasMore: false, reason: null,

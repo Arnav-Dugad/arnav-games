@@ -1,7 +1,7 @@
 namespace Vystral.Windows.Bridge;
 
 /// <summary>
-/// Track C2: the space the system caption buttons (minimize, maximize, close) take in VYSTRAL's own title bar,
+/// Track C2: the space the system caption buttons (minimize, maximize, close) take in Arnav Games' own title bar,
 /// in device-independent pixels. <c>AppWindowTitleBar.RightInset</c>/<c>LeftInset</c> are physical pixels and can
 /// read 0 before the window has been shown (a window restored maximized at startup never resized afterwards, so the
 /// interface kept drawing its icons under the buttons). A zero inset while the buttons are visible therefore falls

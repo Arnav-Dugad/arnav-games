@@ -19,7 +19,7 @@ public sealed record RecapLongestDto(string Title, int Seconds, string Day);
 /// <item>The moment is the chosen day at the chosen hour, local time. Sunday covers the week that ends that day (Monday to
 /// Sunday); Monday covers the week before.</item>
 /// <item>It's due from that moment until <see cref="Window"/> later, so a PC that was off or asleep at 18:00 still gets it
-/// when VYSTRAL opens that evening or the next day, but never days late.</item>
+/// when Arnav Games opens that evening or the next day, but never days late.</item>
 /// <item>Once per week: the covered week's Monday is remembered after it's shown (or skipped because nothing was played).</item>
 /// </list>
 /// </summary>

@@ -369,7 +369,7 @@ export function LibraryView({ collectionId, quick: initialQuick }: { collectionI
                 : quick === 'cloud' && !text
                   ? cloudOn ? 'None of these games is on GeForce NOW or Xbox Cloud Gaming in your region, or the lists haven’t downloaded yet. Settings → Cloud play shows their status.' : 'Cloud play is off. Turn it on in Settings → Cloud play.'
                   : quick === 'subs' && !text
-                    ? subsOn ? 'VYSTRAL didn’t find these games in your plans’ public lists, or the lists are still downloading. Settings → Library & stores shows their status.' : 'Turn on “Show what my plans include” in Settings → Library & stores.'
+                    ? subsOn ? 'Arnav Games didn’t find these games in your plans’ public lists, or the lists are still downloading. Settings → Library & stores shows their status.' : 'Turn on “Show what my plans include” in Settings → Library & stores.'
                     : 'Try fewer words, a different quick filter, or clear the filter.'
           }
           actions={text || quick !== 'all' || store || tagIds.length ? (
@@ -561,7 +561,7 @@ function VirtualList({ games, sel }: { games: Game[]; sel?: SelectApi }) {
           const g = games[item.index];
           const lp = lastPlayed(g);
           const imported = importedMinutes(g);
-          // Store playtime already includes VYSTRAL-tracked time; show whichever is larger.
+          // Store playtime already includes Arnav Games–tracked time; show whichever is larger.
           const storeMinutes = imported != null && imported * 60 > g.trackedSeconds ? imported : null;
           const inst = g.installations.find((i) => i.state === 'installed');
           return (
@@ -618,7 +618,7 @@ function VirtualList({ games, sel }: { games: Game[]; sel?: SelectApi }) {
           );
         })}
       </div>
-      <p className="vlist__foot">* Playtime reported by the store. Other values were tracked by VYSTRAL.</p>
+      <p className="vlist__foot">* Playtime reported by the store. Other values were tracked by Arnav Games.</p>
     </div>
   );
 }
@@ -666,7 +666,7 @@ function DuplicatesDialog({ open, onClose }: { open: boolean; onClose: () => voi
   return (
     <Dialog open={open} onClose={onClose} title="Possible duplicates" wide actions={<Button onClick={onClose}>Done</Button>}>
       <p style={{ marginBottom: 16 }}>
-        These look related but differ in edition or store, so VYSTRAL kept them apart. Merging only combines how they appear here — nothing on disk changes.
+        These look related but differ in edition or store, so Arnav Games kept them apart. Merging only combines how they appear here — nothing on disk changes.
       </p>
       <div style={{ display: 'grid', gap: 12 }}>
         {suggestions.length === 0 && <p>No suggestions left.</p>}

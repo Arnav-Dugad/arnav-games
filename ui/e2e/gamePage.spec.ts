@@ -53,8 +53,8 @@ test.describe('library game page: at a glance', () => {
 
     const price = grid.getByRole('region', { name: /Price in your region/ });
     await expect(price).toContainText('Lowest ever');
-    await expect(price).toContainText('history: prices VYSTRAL saw on this PC');
-    await expect(price.getByRole('img', { name: /Steam price seen by VYSTRAL/ })).toBeVisible();
+    await expect(price).toContainText('history: prices Arnav Games saw on this PC');
+    await expect(price.getByRole('img', { name: /Steam price seen by Arnav Games/ })).toBeVisible();
 
     const ratings = grid.getByRole('region', { name: 'Ratings' });
     await expect(ratings).toContainText('IGDB');

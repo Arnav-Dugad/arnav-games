@@ -31,8 +31,8 @@ public sealed partial class BattleNetAdapter(IRegistryReader registry, AdapterEn
 
     public IReadOnlyList<string> Limitations =>
     [
-        "Shows Battle.net games installed on this PC that VYSTRAL recognizes. Newly released games may not be recognized until VYSTRAL is updated.",
-        "Playtime isn't available locally for Battle.net games; VYSTRAL tracks sessions you start from here.",
+        "Shows Battle.net games installed on this PC that Arnav Games recognizes. Newly released games may not be recognized until Arnav Games is updated.",
+        "Playtime isn't available locally for Battle.net games; Arnav Games tracks sessions you start from here.",
         "Games start through the Battle.net app, which opens first and may ask you to sign in.",
         "Classic games such as Diablo II and Warcraft III (original) aren't detected.",
     ];

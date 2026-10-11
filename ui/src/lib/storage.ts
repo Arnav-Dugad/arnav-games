@@ -35,7 +35,7 @@ export interface DriveUsage {
   other: number;
 }
 
-/** Splits a drive into space used by games VYSTRAL knows about, everything else, and free space. */
+/** Splits a drive into space used by games Arnav Games knows about, everything else, and free space. */
 export function driveUsage(drive: DriveInfo, onDrive: readonly DriveGame[]): DriveUsage {
   const total = Math.max(0, drive.totalBytes);
   const free = Math.min(total, Math.max(0, drive.freeBytes));
@@ -51,7 +51,7 @@ export interface Suggestion extends DriveGame {
 
 /**
  * "Big and unplayed": installed copies of at least 10 GB, last played more than 180 days ago or
- * never (by VYSTRAL's own sessions or the store's records), largest first.
+ * never (by Arnav Games' own sessions or the store's records), largest first.
  */
 export function bigAndUnplayed(games: readonly Game[], now = Date.now()): { items: Suggestion[]; reclaimable: number } {
   const items: Suggestion[] = [];

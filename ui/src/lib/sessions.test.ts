@@ -10,7 +10,7 @@ describe('session sources', () => {
     expect(isObserved(undefined)).toBe(false);
   });
 
-  it('labels only sessions VYSTRAL did not launch', () => {
+  it('labels only sessions Arnav Games did not launch', () => {
     expect(sessionOrigin('tracked')).toBeNull();
     expect(sessionOrigin('background')?.label).toBe('Background');
     expect(sessionOrigin('detected')?.label).toBe('Detected');

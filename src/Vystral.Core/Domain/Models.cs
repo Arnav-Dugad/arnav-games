@@ -115,7 +115,7 @@ public sealed record PlaySession
     public required DateTimeOffset Start { get; init; }
     public DateTimeOffset? End { get; init; }
     public int DurationSeconds { get; init; }
-    /// <summary>Observed by VYSTRAL ("tracked", "detected", "background"; see <see cref="SessionSources"/>) or "imported" (read from a platform). Never conflated.</summary>
+    /// <summary>Observed by Arnav Games ("tracked", "detected", "background"; see <see cref="SessionSources"/>) or "imported" (read from a platform). Never conflated.</summary>
     public required string Source { get; init; }
     public string? PerfSummaryJson { get; init; }
 }

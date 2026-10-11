@@ -7,7 +7,7 @@ namespace Vystral.Tests.Cloud;
 
 /// <summary>
 /// Parsing of the cloud catalogues. Files under Fixtures/Cloud are small subsets of the live public answers captured on
-/// 2026-10-06 (trimmed to a handful of entries and the fields VYSTRAL reads); they are test inputs, not shipped data.
+/// 2026-10-06 (trimmed to a handful of entries and the fields Arnav Games reads); they are test inputs, not shipped data.
 /// </summary>
 public sealed class CloudParsingTests
 {

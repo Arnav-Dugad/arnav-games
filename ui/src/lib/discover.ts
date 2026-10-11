@@ -6,6 +6,7 @@ import type {
   DiscoverResult, DiscoverSearch, DiscoverShelf, DiscoverSourceId, DiscoverSourceState, PlatformKey, StorePrice, WishlistItem,
 } from '../bridge/types';
 import { centsText, getMoneyContext } from './money';
+import { APP_NAME } from './brand';
 
 // ---------------- query ----------------
 
@@ -214,7 +215,7 @@ export function sourceLine(s: DiscoverSourceState): string {
     off: 'turned off',
     noKey: 'not connected',
     offline: 'Offline mode is on',
-    rateLimited: 'asked VYSTRAL to slow down',
+    rateLimited: 'asked Arnav Games to slow down',
     invalidKey: 'didn’t accept your key',
     unavailable: 'couldn’t be reached',
   };
@@ -245,7 +246,7 @@ export function noteText(code: string): string | null {
   switch (what) {
     case 'noKey': return source === 'igdb' ? 'Connect IGDB in Settings → Library & stores → Data sources to see time to beat and more details.' : `${name} isn’t connected.`;
     case 'off': return source === 'steam' ? 'Steam store details are off (Settings → Library & stores → “Fetch game details”).' : `${name} is turned off.`;
-    case 'rateLimited': return `${name} asked VYSTRAL to slow down, so some details are missing. Try again in a few minutes.`;
+    case 'rateLimited': return `${name} asked ${APP_NAME} to slow down, so some details are missing. Try again in a few minutes.`;
     case 'invalidKey': return `${name} didn’t accept your key. Check it in Settings → Data sources.`;
     case 'unavailable': return `${name} couldn’t be reached, so some details are missing.`;
     default: return null;

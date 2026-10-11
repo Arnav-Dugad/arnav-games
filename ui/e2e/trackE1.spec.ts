@@ -285,7 +285,7 @@ test.describe('Track E1: lag notes', () => {
     const detail = page.locator('.pf-hero');
     await expect(detail.getByText('Why it lagged:')).toBeVisible();
     await expect(detail.getByText(/Likely the processor: it averaged 91% busy/)).toBeVisible();
-    await expect(detail.getByText(/From VYSTRAL’s frame-time analysis\. Nothing was changed\./)).toBeVisible();
+    await expect(detail.getByText(/From Arnav Games’ frame-time analysis\. Nothing was changed\./)).toBeVisible();
     await expect(page.locator('.pf-item .lag-note').first()).toBeVisible();
     await noSeriousViolations(page, '.pf-layout');
     await detail.getByRole('button', { name: 'Open game' }).click();

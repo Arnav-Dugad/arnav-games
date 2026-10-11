@@ -68,6 +68,7 @@ const LagNote = lazy(() => import('./perf/LagNote').then((m) => ({ default: m.La
 const AiGameSummary = lazy(() => import('../components/ai/AiGameSummary').then((m) => ({ default: m.AiGameSummary })));
 const ControlsPanel = lazy(() => import('../components/game/ControlsPanel').then((m) => ({ default: m.ControlsPanel })));
 import './detail.css';
+import { APP_NAME } from '../lib/brand';
 
 type Tab = 'overview' | 'achievements' | 'news' | 'sessions' | 'versions' | 'artwork' | 'controls' | 'files';
 const TABS: Tab[] = ['overview', 'achievements', 'news', 'sessions', 'versions', 'artwork', 'controls', 'files'];
@@ -212,7 +213,7 @@ function DetailHero({ game, onOpenAchievements }: { game: Game; onOpenAchievemen
       : game.hidden
       ? { label: 'Show in library', icon: <Eye size={16} />, onSelect: () => void setHidden(game, false) }
       : { label: 'Hide from library', icon: <EyeOff size={16} />, onSelect: () => void setHidden(game, true) },
-    ...(manual ? [{ label: 'Remove from VYSTRAL…', icon: <Trash2 size={16} />, danger: true, onSelect: () => setRemoveOpen(true) } as MenuEntry] : []),
+    ...(manual ? [{ label: 'Remove from Arnav Games…', icon: <Trash2 size={16} />, danger: true, onSelect: () => setRemoveOpen(true) } as MenuEntry] : []),
   ];
 
   return (
@@ -328,10 +329,10 @@ function DetailHero({ game, onOpenAchievements }: { game: Game; onOpenAchievemen
         <Dialog
           open={removeOpen}
           onClose={() => setRemoveOpen(false)}
-          title={`Remove ${game.title} from VYSTRAL?`}
-          actions={<><Button variant="ghost" onClick={() => setRemoveOpen(false)}>Cancel</Button><HoldToConfirm onConfirm={() => { setRemoveOpen(false); void removeManualGame(game); }}>Remove from VYSTRAL</HoldToConfirm></>}
+          title={`Remove ${game.title} from ${APP_NAME}?`}
+          actions={<><Button variant="ghost" onClick={() => setRemoveOpen(false)}>Cancel</Button><HoldToConfirm onConfirm={() => { setRemoveOpen(false); void removeManualGame(game); }}>Remove from Arnav Games</HoldToConfirm></>}
         >
-          VYSTRAL forgets this entry and its tracked sessions. The program and its files on your PC are not touched.
+          Arnav Games forgets this entry and its tracked sessions. The program and its files on your PC are not touched.
         </Dialog>
       </section>
     </>
@@ -377,8 +378,8 @@ function StatsRow({ game }: { game: Game }) {
   const imported = importedStore?.minutes ?? null;
   const importedFrom = importedStore?.platform;
   const stats = [
-    { label: 'Last played', value: lp.at ? formatRelative(lp.at) : 'Never', hint: lp.source === 'imported' ? 'from the store' : lp.source === 'estimated' ? 'estimated from save data' : lp.source === 'tracked' ? 'tracked by VYSTRAL' : undefined },
-    { label: 'Tracked by VYSTRAL', value: game.trackedSeconds ? formatDuration(game.trackedSeconds) : '—', hint: game.sessionCount ? plural(game.sessionCount, 'session') : 'No sessions yet' },
+    { label: 'Last played', value: lp.at ? formatRelative(lp.at) : 'Never', hint: lp.source === 'imported' ? 'from the store' : lp.source === 'estimated' ? 'estimated from save data' : lp.source === 'tracked' ? 'tracked by Arnav Games' : undefined },
+    { label: 'Tracked by Arnav Games', value: game.trackedSeconds ? formatDuration(game.trackedSeconds) : '—', hint: game.sessionCount ? plural(game.sessionCount, 'session') : 'No sessions yet' },
     { label: importedFrom ? `${PLATFORM_NAMES[importedFrom]} playtime` : 'Store playtime', value: imported != null ? formatDuration(imported * 60) : '—', hint: imported != null ? 'reported by the store' : 'not available from this store' },
     { label: 'Size on disk', value: size.value, hint: size.hint },
   ];
@@ -463,7 +464,7 @@ function Overview({ game, onOpenAchievements }: { game: Game; onOpenAchievements
       <div className="overview__main">
         {game.description ? <p className="overview__desc selectable">{game.description}</p> : (
           // Track E1: an opt-in, labelled AI summary from known facts in place of the missing description.
-          <Suspense fallback={<p className="overview__desc" style={{ color: 'var(--text-3)' }}>No description available. VYSTRAL only shows information it can source reliably.</p>}><AiGameSummary game={game}><p className="overview__desc" style={{ color: 'var(--text-3)' }}>No description available. VYSTRAL only shows information it can source reliably.</p></AiGameSummary></Suspense>
+          <Suspense fallback={<p className="overview__desc" style={{ color: 'var(--text-3)' }}>No description available. Arnav Games only shows information it can source reliably.</p>}><AiGameSummary game={game}><p className="overview__desc" style={{ color: 'var(--text-3)' }}>No description available. Arnav Games only shows information it can source reliably.</p></AiGameSummary></Suspense>
         )}
         <CommunityTags params={{ gameId: game.id }} cacheKey={game.id} />
         {/* Track I: compatibility badges, IGDB/RAWG facts and deals, each with its source. */}
@@ -488,7 +489,7 @@ function Overview({ game, onOpenAchievements }: { game: Game; onOpenAchievements
             </div>
           ))}
           <div>
-            <dt className="caps">Added to VYSTRAL</dt>
+            <dt className="caps">Added to Arnav Games</dt>
             <dd>{formatDate(game.added)}</dd>
           </div>
         </dl>
@@ -513,7 +514,7 @@ function Sessions({ game }: { game: Game }) {
 
   if (!sessions) return <div className="skeleton" style={{ height: 160 }} />;
   if (!sessions.length)
-    return <EmptyState icon={<Clock3 size={30} />} title="No tracked sessions yet" body="When you start this game from VYSTRAL (or anywhere else, with Settings › Launching & sessions › Games started outside VYSTRAL on), each session’s length — and, if enabled, its CPU/GPU load — is recorded here, on this PC only." />;
+    return <EmptyState icon={<Clock3 size={30} />} title="No tracked sessions yet" body="When you start this game from Arnav Games (or anywhere else, with Settings › Launching & sessions › Games started outside Arnav Games on), each session’s length — and, if enabled, its CPU/GPU load — is recorded here, on this PC only." />;
 
   return (
     <div className="sessions">
@@ -673,7 +674,7 @@ function ArtworkTab({ game }: { game: Game }) {
           <ArtSlotActions game={game} kind={s.kind} userArt={userArt} />
         </div>
       ))}
-      <p className="provenance" style={{ gridColumn: '1 / -1' }}>Images you choose are copied into VYSTRAL’s private cache and always take priority. Store artwork is never replaced in the store itself.</p>
+      <p className="provenance" style={{ gridColumn: '1 / -1' }}>Images you choose are copied into Arnav Games’ private cache and always take priority. Store artwork is never replaced in the store itself.</p>
     </div>
   );
 }

@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 namespace Vystral.Windows.Services.Startup;
 
 /// <summary>
-/// One start of VYSTRAL as four milestones, in milliseconds since the process started, each at or after the one
+/// One start of Arnav Games as four milestones, in milliseconds since the process started, each at or after the one
 /// before: the backend was ready for the window, the WebView2 control was ready, the first frame of Home was painted,
 /// and the interface reported ready. <see cref="CachedFirstPaint"/> says Home was painted from the saved snapshot.
 /// </summary>
@@ -15,7 +15,7 @@ public sealed record StartupRun(string At, double BackendMs, double WebViewMs, d
 public sealed record StartupHistoryDto(IReadOnlyList<StartupRun> Runs, int FilesRead);
 
 /// <summary>
-/// Track C2: recent startup timings, read back from VYSTRAL's own local logs (the once-per-start "Startup timings"
+/// Track C2: recent startup timings, read back from Arnav Games' own local logs (the once-per-start "Startup timings"
 /// line that <see cref="StartupTimeline.LogOnce"/> writes). Nothing is stored anywhere else and nothing leaves the PC.
 /// Reading is bounded: only the app's own daily log files, newest first, at most a few megabytes and lines per file,
 /// and only lines that mention the startup message are parsed.

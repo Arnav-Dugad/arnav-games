@@ -35,7 +35,7 @@ public sealed partial class SteamStoreInsightsClient(ProviderTransport transport
         var r = await transport.SendAsync(() => new HttpRequestMessage(HttpMethod.Get,
             new Uri($"https://store.steampowered.com/appreviews/{appId}?json=1&language=all&purchase_type=all&num_per_page=0{range}")), ct);
         if (r.Status is HttpStatusCode.Forbidden or HttpStatusCode.TooManyRequests)
-            throw new DataSourceException(DataSourceOutcome.RateLimited, "Steam asked VYSTRAL to slow down. Try again in a few minutes.");
+            throw new DataSourceException(DataSourceOutcome.RateLimited, "Steam asked Arnav Games to slow down. Try again in a few minutes.");
         if (r.Status != HttpStatusCode.OK) throw new DataSourceException(DataSourceOutcome.Malformed, $"Steam answered with an unexpected status ({(int)r.Status}).");
         return ParseReviewSummary(r.Body);
     }
@@ -47,7 +47,7 @@ public sealed partial class SteamStoreInsightsClient(ProviderTransport transport
         var r = await transport.SendAsync(() => new HttpRequestMessage(HttpMethod.Get,
             new Uri($"https://store.steampowered.com/api/appdetails?appids={appId}&filters=price_overview,metacritic,release_date&cc={cc}&l=english")), ct);
         if (r.Status is HttpStatusCode.Forbidden or HttpStatusCode.TooManyRequests)
-            throw new DataSourceException(DataSourceOutcome.RateLimited, "Steam asked VYSTRAL to slow down. Try again in a few minutes.");
+            throw new DataSourceException(DataSourceOutcome.RateLimited, "Steam asked Arnav Games to slow down. Try again in a few minutes.");
         if (r.Status != HttpStatusCode.OK) throw new DataSourceException(DataSourceOutcome.Malformed, $"Steam answered with an unexpected status ({(int)r.Status}).");
         return ParseStoreFacts(r.Body, appId);
     }

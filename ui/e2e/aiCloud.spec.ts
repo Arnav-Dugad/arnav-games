@@ -41,7 +41,7 @@ test.describe('cloud AI providers', () => {
     await openAiSettings(page);
     const choice = page.getByRole('radiogroup', { name: 'Which AI powers AI features' });
     await expect(choice.getByRole('radio', { name: /Local AI/ })).toHaveAttribute('aria-checked', 'true');
-    await expect(page.getByText('AI features are using VYSTRAL’s own answers.')).toBeVisible();
+    await expect(page.getByText('AI features are using Arnav Games’ own answers.')).toBeVisible();
 
     const card = page.getByRole('article', { name: 'ChatGPT' });
     await expect(card.getByText('Not set up')).toBeVisible();
@@ -141,7 +141,7 @@ test.describe('AI features', () => {
     expect(errors).toEqual([]);
   });
 
-  test('smart collection without AI uses VYSTRAL’s own filter words', async ({ page }) => {
+  test('smart collection without AI uses Arnav Games’ own filter words', async ({ page }) => {
     await open(page);
     await page.getByRole('navigation', { name: 'Main' }).getByRole('button', { name: 'New collection' }).click();
     await page.getByRole('button', { name: 'Smart collection…' }).click();
@@ -149,7 +149,7 @@ test.describe('AI features', () => {
     await dialog.getByLabel('Describe the collection').fill('installed racing games');
     await dialog.getByRole('button', { name: 'Build' }).click();
     await expect(dialog.locator('.ai-smart__chips')).toContainText('Installed');
-    await expect(dialog.getByText('Calculated by VYSTRAL on this PC')).toBeVisible();
+    await expect(dialog.getByText('Calculated by Arnav Games on this PC')).toBeVisible();
     await expect(dialog.getByText(/\d+ games? right now/)).toBeVisible();
   });
 
@@ -160,7 +160,7 @@ test.describe('AI features', () => {
     const dialog = page.getByRole('dialog', { name: 'Possible duplicates' });
     await dialog.getByRole('button', { name: 'Why?' }).click();
     await expect(dialog.locator('.ai-dup__facts li').first()).toBeVisible();
-    await expect(dialog.getByText('Calculated by VYSTRAL on this PC')).toBeVisible();
+    await expect(dialog.getByText('Calculated by Arnav Games on this PC')).toBeVisible();
     await noSeriousViolations(page, '.dialog');
 
     await page.goto('/?aiCloud&reduced');

@@ -1,9 +1,9 @@
 /**
- * Track D5: `recommend.v2` — VYSTRAL's one local recommendation engine. Home's "Picked for you", Discover's
+ * Track D5: `recommend.v2` — Arnav Games' one local recommendation engine. Home's "Picked for you", Discover's
  * "Recommended for you" and the re-ranked "Because you played" rows, Immersive's rows, the never-played "tonight"
  * picks and the assistant all score games here.
  *
- * Pure and synchronous: every input is passed in (your library, the tags and time-to-beat VYSTRAL already cached,
+ * Pure and synchronous: every input is passed in (your library, the tags and time-to-beat Arnav Games already cached,
  * recent sessions, cloud and subscription lists, friends playing now, free space, what you said "Not interested" to)
  * and nothing is fetched, stored or sent anywhere. Same input, same answer — apart from a small rotation that changes
  * once a day so a shelf doesn't feel frozen.
@@ -54,7 +54,7 @@ export interface DismissedItem {
   at: string;
 }
 
-/** Time to beat, in seconds (IGDB estimates VYSTRAL cached). */
+/** Time to beat, in seconds (IGDB estimates Arnav Games cached). */
 export interface TtbLite {
   main: number | null;
   extras?: number | null;

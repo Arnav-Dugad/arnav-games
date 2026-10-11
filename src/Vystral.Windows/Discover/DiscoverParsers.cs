@@ -95,7 +95,7 @@ public static partial class DiscoverParsers
 
     // ---------- IGDB ----------
 
-    /// <summary>IGDB external_game_source ids → VYSTRAL store keys.</summary>
+    /// <summary>IGDB external_game_source ids → Arnav Games store keys.</summary>
     private static string? IgdbStore(long? source) => source switch
     {
         1 => "steam",

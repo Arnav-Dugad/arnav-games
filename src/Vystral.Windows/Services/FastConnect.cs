@@ -14,7 +14,7 @@ public static class FastConnect
 {
     public static readonly TimeSpan AttemptDelay = TimeSpan.FromMilliseconds(250);
 
-    /// <summary>A handler with the fast connector and sensible defaults for VYSTRAL's web requests.</summary>
+    /// <summary>A handler with the fast connector and sensible defaults for Arnav Games' web requests.</summary>
     public static SocketsHttpHandler CreateHandler(bool allowRedirects = true) => new()
     {
         ConnectCallback = ConnectAsync,

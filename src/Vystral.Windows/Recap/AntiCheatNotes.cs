@@ -9,21 +9,21 @@ public sealed record AntiCheatNoteDto(IReadOnlyList<string> Kernel, IReadOnlyLis
     string? Updated);
 
 /// <summary>
-/// Pure note logic (unit-tested). Only statements VYSTRAL can stand behind: which product AreWeAntiCheatYet
-/// lists, that it is a product widely documented to load a kernel driver, and what VYSTRAL's own read-only
-/// tools do. Nothing here claims how an anti-cheat will treat VYSTRAL; that is the anti-cheat's decision.
+/// Pure note logic (unit-tested). Only statements Arnav Games can stand behind: which product AreWeAntiCheatYet
+/// lists, that it is a product widely documented to load a kernel driver, and what Arnav Games' own read-only
+/// tools do. Nothing here claims how an anti-cheat will treat Arnav Games; that is the anti-cheat's decision.
 /// </summary>
 public static class AntiCheatNotes
 {
     public const string Source = "Anti-cheat per AreWeAntiCheatYet (community-maintained).";
 
-    public const string NeverInteracts = "VYSTRAL never interacts with it: it doesn't inject code into games, draw overlays inside them or read their memory.";
+    public const string NeverInteracts = "Arnav Games never interacts with it: it doesn't inject code into games, draw overlays inside them or read their memory.";
 
-    public const string Detection = "To see that the game is running, VYSTRAL only asks Windows which programs are running (read-only).";
+    public const string Detection = "To see that the game is running, Arnav Games only asks Windows which programs are running (read-only).";
 
     public const string FpsCapture = "Frame-rate capture is on: it uses Intel PresentMon, which reads the frame timing events Windows itself publishes (ETW) and doesn't hook into the game.";
 
-    public const string Decides = "Each anti-cheat decides for itself what other software it allows; VYSTRAL can't speak for it.";
+    public const string Decides = "Each anti-cheat decides for itself what other software it allows; Arnav Games can't speak for it.";
 
     /// <summary>A note when the game is listed with at least one kernel-level product; otherwise null.</summary>
     public static AntiCheatNoteDto? For(AntiCheatRow? row, bool fpsCaptureOn)
@@ -33,7 +33,7 @@ public static class AntiCheatNotes
         var kernel = names.Where(AntiCheatClient.KernelLevel.Contains).ToList();
         if (kernel.Count == 0) return null;
         var other = names.Except(kernel, StringComparer.OrdinalIgnoreCase).ToList();
-        var headline = $"Uses kernel anti-cheat ({Join(kernel)}). VYSTRAL never interacts with it.";
+        var headline = $"Uses kernel anti-cheat ({Join(kernel)}). {Brand.Name} never interacts with it.";
         var notes = new List<string> { NeverInteracts, Detection };
         if (fpsCaptureOn) notes.Add(FpsCapture);
         notes.Add(Decides);

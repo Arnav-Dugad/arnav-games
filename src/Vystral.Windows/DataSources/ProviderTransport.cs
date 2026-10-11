@@ -10,11 +10,11 @@ public enum DataSourceOutcome
     InvalidKey,
     /// <summary>No key is stored for a provider that needs one.</summary>
     NotConfigured,
-    /// <summary>The provider asked VYSTRAL to slow down (429), or a local pause is still running.</summary>
+    /// <summary>The provider asked Arnav Games to slow down (429), or a local pause is still running.</summary>
     RateLimited,
     /// <summary>Network trouble or a provider server error.</summary>
     Unavailable,
-    /// <summary>The provider answered with something VYSTRAL couldn't read.</summary>
+    /// <summary>The provider answered with something Arnav Games couldn't read.</summary>
     Malformed,
     /// <summary>Offline mode is on (nothing is sent).</summary>
     Offline,
@@ -65,14 +65,14 @@ public sealed class ProviderTransport(HttpClient http, string provider, string d
         {
             var now = DateTime.UtcNow;
             if (_blockedUntil > now)
-                throw new DataSourceException(DataSourceOutcome.RateLimited, $"{DisplayName} asked VYSTRAL to slow down. Try again in a little while.");
+                throw new DataSourceException(DataSourceOutcome.RateLimited, $"{DisplayName} asked {Brand.Name} to slow down. Try again in a little while.");
             if (_next > now) await Delay(_next - now, ct);
             _next = DateTime.UtcNow + MinSpacing;
 
             using var request = build();
             var path = request.RequestUri?.AbsolutePath ?? "";
             if (request.RequestUri is not { Scheme: "https" })
-                throw new DataSourceException(DataSourceOutcome.Malformed, "VYSTRAL only talks to data sources over HTTPS.");
+                throw new DataSourceException(DataSourceOutcome.Malformed, "Arnav Games only talks to data sources over HTTPS.");
             // One limit for sending and reading the body (HttpClient.Timeout stops at the headers here).
             using var timeout = Services.RequestTimeouts.Link(ct, RequestTimeout);
             HttpResponseMessage response;
@@ -85,7 +85,7 @@ public sealed class ProviderTransport(HttpClient http, string provider, string d
             {
                 ProviderHealthHub.Failed(_health, ex);
                 Log.Warn("datasource", "Request failed", new { provider = Provider, path, error = ex.GetType().Name });
-                throw new DataSourceException(DataSourceOutcome.Unavailable, $"VYSTRAL couldn’t reach {DisplayName}. Check your connection and try again.");
+                throw new DataSourceException(DataSourceOutcome.Unavailable, $"{Brand.Name} couldn’t reach {DisplayName}. Check your connection and try again.");
             }
             using (response)
             {
@@ -95,13 +95,13 @@ public sealed class ProviderTransport(HttpClient http, string provider, string d
                                ?? (response.Headers.RetryAfter?.Date is { } at ? at - DateTimeOffset.UtcNow : (TimeSpan?)null)
                                ?? TimeSpan.FromMinutes(1);
                     _blockedUntil = DateTime.UtcNow + Clamp(wait);
-                    ProviderHealthHub.PausedUntil(_health, new DateTimeOffset(_blockedUntil, TimeSpan.Zero), $"{DisplayName} asked VYSTRAL to slow down (HTTP 429)");
+                    ProviderHealthHub.PausedUntil(_health, new DateTimeOffset(_blockedUntil, TimeSpan.Zero), $"{DisplayName} asked {Brand.Name} to slow down (HTTP 429)");
                     Log.Warn("datasource", "Rate limited", new { provider = Provider, path, seconds = (int)Clamp(wait).TotalSeconds });
-                    throw new DataSourceException(DataSourceOutcome.RateLimited, $"{DisplayName} asked VYSTRAL to slow down. Try again in a little while.");
+                    throw new DataSourceException(DataSourceOutcome.RateLimited, $"{DisplayName} asked {Brand.Name} to slow down. Try again in a little while.");
                 }
                 if (response.Content.Headers.ContentLength > maxBytes)
                 {
-                    ProviderHealthHub.Failed(_health, $"{DisplayName} sent an answer larger than VYSTRAL accepts");
+                    ProviderHealthHub.Failed(_health, $"{DisplayName} sent an answer larger than {Brand.Name} accepts");
                     throw new DataSourceException(DataSourceOutcome.Malformed, $"{DisplayName} sent an unexpectedly large answer.");
                 }
                 string? body;
@@ -114,7 +114,7 @@ public sealed class ProviderTransport(HttpClient http, string provider, string d
                 }
                 if (body is null)
                 {
-                    ProviderHealthHub.Failed(_health, $"{DisplayName} sent an answer larger than VYSTRAL accepts");
+                    ProviderHealthHub.Failed(_health, $"{DisplayName} sent an answer larger than {Brand.Name} accepts");
                     throw new DataSourceException(DataSourceOutcome.Malformed, $"{DisplayName} sent an unexpectedly large answer.");
                 }
                 ProviderHealthHub.Status(_health, response.StatusCode, DisplayName);

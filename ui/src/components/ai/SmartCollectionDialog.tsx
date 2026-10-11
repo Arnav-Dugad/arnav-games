@@ -35,7 +35,7 @@ interface Built { filter: SmartFilter | null; name: string; aiLabel: string | nu
 
 /**
  * Track C5: "Smart collection from a sentence". The sentence becomes a validated filter (by the chosen AI, or by
- * VYSTRAL's own query parser without AI), shown as plain chips with a live preview, then saved as a collection
+ * Arnav Games' own query parser without AI), shown as plain chips with a live preview, then saved as a collection
  * whose rule keeps it up to date as your library changes.
  */
 export function SmartCollectionDialog({ open, onClose, initial }: { open: boolean; onClose: () => void; initial?: string }) {
@@ -134,7 +134,7 @@ export function SmartCollectionDialog({ open, onClose, initial }: { open: boolea
     >
       <div className="ai-smart">
         <p className="ai-smart__lead">
-          Describe the games you want. {useAi ? <><span className="ai-ask__engine">{status!.active.label}</span> turns it into a filter that VYSTRAL checks;</> : 'VYSTRAL reads it with its own filter words;'} you see exactly what it means before saving.
+          Describe the games you want. {useAi ? <><span className="ai-ask__engine">{status!.active.label}</span> turns it into a filter that Arnav Games checks;</> : 'Arnav Games reads it with its own filter words;'} you see exactly what it means before saving.
         </p>
         <form className="ai-ask__form" onSubmit={(e) => { e.preventDefault(); void build(); }}>
           <label htmlFor={inputId} className="visually-hidden">Describe the collection</label>
@@ -173,7 +173,7 @@ export function SmartCollectionDialog({ open, onClose, initial }: { open: boolea
             ) : (
               <AiNote>
                 {built.note ? <>{built.note} </> : null}
-                VYSTRAL couldn’t find any filter words in that. Try genres, stores, “installed”, “never played”, “under 20 hours” or “not finished”.
+                Arnav Games couldn’t find any filter words in that. Try genres, stores, “installed”, “never played”, “under 20 hours” or “not finished”.
                 <button type="button" className="ai-inline-x" aria-label="Clear" onClick={() => setBuilt(null)}><X size={12} /></button>
               </AiNote>
             )}

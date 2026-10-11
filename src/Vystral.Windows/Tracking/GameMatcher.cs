@@ -6,7 +6,7 @@ namespace Vystral.Windows.Tracking;
 /// <summary>
 /// One installed game the detector watches for. <see cref="Root"/>, <see cref="Hints"/> and
 /// <see cref="Excluded"/> have exactly the meaning they have for a launch (<see cref="ProcessScanner.FindUnder"/>),
-/// so a game is recognised the same way whether VYSTRAL started it or not.
+/// so a game is recognised the same way whether Arnav Games started it or not.
 /// </summary>
 public sealed record DetectionTarget(
     string InstallationId,

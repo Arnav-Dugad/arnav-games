@@ -16,7 +16,7 @@ public sealed record SelfCheckEchoParams(string Nonce, string Probe);
 public sealed partial class AppBackend
 {
     /// <summary>Text with quotes, markup, non-Latin letters, an emoji and a line separator: what JSON round trips break on.</summary>
-    internal const string SelfCheckProbe = "VYSTRAL ✓ “quotes” <b>&amp;</b> Ünïcødé 日本語 🎮 \u2028 end";
+    internal const string SelfCheckProbe = "Arnav Games ✓ “quotes” <b>&amp;</b> Ünïcødé 日本語 🎮 \u2028 end";
     private const string AutoCompactSetting = "data.autoCompact";
 
     private FirstPaintStore? _firstPaint;
@@ -90,7 +90,7 @@ public sealed partial class AppBackend
             {
                 throw new BridgeException("busy", result.Reason switch
                 {
-                    CompactionBlock.GameRunning => "Close your game first: VYSTRAL never compacts while you play.",
+                    CompactionBlock.GameRunning => "Close your game first: Arnav Games never compacts while you play.",
                     CompactionBlock.TrackerActive => "The background tracker is using the database right now. Try again in a minute.",
                     CompactionBlock.LowDisk => "There isn't enough free space. Compacting needs free space of at least twice the database's size.",
                     CompactionBlock.Running => "Compaction is already running.",

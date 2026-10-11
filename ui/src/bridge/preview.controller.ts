@@ -1,7 +1,7 @@
 /**
  * Preview backend, controller track: vibration is a no-op that records what the UI asked for,
  * and tests can inject controller events (there is no Windows.Gaming.Input in a browser).
- * Only used outside the VYSTRAL app.
+ * Only used outside the Arnav Games app.
  */
 import { BridgeError } from './bridge';
 

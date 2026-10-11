@@ -3,8 +3,8 @@ using System.Globalization;
 namespace Vystral.Core.Health;
 
 /// <summary>
-/// One start of VYSTRAL. <see cref="Outcome"/>: "pending" (started, not yet steady), "ok" (the interface was ready and
-/// VYSTRAL stayed up), "failed" (it never got there: found still pending at the next start), "unexpected" (it was
+/// One start of Arnav Games. <see cref="Outcome"/>: "pending" (started, not yet steady), "ok" (the interface was ready and
+/// Arnav Games stayed up), "failed" (it never got there: found still pending at the next start), "unexpected" (it was
 /// steady, but didn't close cleanly — a crash, a forced end or a power cut).
 /// </summary>
 public sealed record StartRecord(string At, string Version, string Outcome);
@@ -68,8 +68,8 @@ public static class StartStreak
         var incidents = new List<StreakIncident>();
         foreach (var (r, at) in starts)
         {
-            if (r.Outcome == Failed) incidents.Add(new StreakIncident(r.At, "failedStart", r.Version, $"VYSTRAL {r.Version} didn’t finish starting"));
-            else if (r.Outcome == Unexpected) incidents.Add(new StreakIncident(r.At, "unexpectedClose", r.Version, $"VYSTRAL {r.Version} closed unexpectedly"));
+            if (r.Outcome == Failed) incidents.Add(new StreakIncident(r.At, "failedStart", r.Version, $"{Brand.Name} {r.Version} didn’t finish starting"));
+            else if (r.Outcome == Unexpected) incidents.Add(new StreakIncident(r.At, "unexpectedClose", r.Version, $"{Brand.Name} {r.Version} closed unexpectedly"));
         }
         foreach (var i in otherIncidents ?? [])
             if (i is not null && Parse(i.At) is { } t && t <= now) incidents.Add(i with { Text = Clip(i.Text) });

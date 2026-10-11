@@ -69,7 +69,7 @@ export interface Game {
    */
   notOwned?: boolean;
   userHidden?: boolean;
-  /** Track D1: when the user marked it as played somewhere VYSTRAL can't see (takes it out of "never played"). */
+  /** Track D1: when the user marked it as played somewhere Arnav Games can't see (takes it out of "never played"). */
   playedMarkedAt?: string | null;
 }
 
@@ -464,7 +464,7 @@ export interface InstallProgress {
   bytesTotal: number;
   /** Bytes per second, measured from Steam's manifest; null when unknown. */
   rate: number | null;
-  /** False once VYSTRAL stopped watching (finished, removed or no change for 10 minutes). */
+  /** False once Arnav Games stopped watching (finished, removed or no change for 10 minutes). */
   watching: boolean;
 }
 
@@ -593,7 +593,7 @@ export interface Settings {
   'appearance.accentGame': string;
   /** Track E2b: the Living Canvas leans gently with the pointer (depth layers at different speeds). */
   'canvas.parallax': boolean;
-  /** Track E2b: the Living Canvas brightens softly with VYSTRAL's own ambient sound (off by default). */
+  /** Track E2b: the Living Canvas brightens softly with Arnav Games' own ambient sound (off by default). */
   'canvas.audioReact': boolean;
 }
 
@@ -803,22 +803,22 @@ export interface BridgeEvents {
 }
 
 export type * from './types.dataSources';
-// ---------- Track H: games started outside VYSTRAL, background tracker (mirror of AppBackend.Tracking.cs) ----------
+// ---------- Track H: games started outside Arnav Games, background tracker (mirror of AppBackend.Tracking.cs) ----------
 
 /**
- * How a session was recorded. 'tracked' = started from VYSTRAL; 'detected' = started outside VYSTRAL and noticed
- * while it was open; 'background' = noticed by the background tracker while VYSTRAL was closed. All three are
- * observed by VYSTRAL and count the same everywhere; 'imported' is store playtime and never mixed in.
+ * How a session was recorded. 'tracked' = started from Arnav Games; 'detected' = started outside Arnav Games and noticed
+ * while it was open; 'background' = noticed by the background tracker while Arnav Games was closed. All three are
+ * observed by Arnav Games and count the same everywhere; 'imported' is store playtime and never mixed in.
  */
-export type SessionSource = 'tracked' | 'detected' | 'background' | 'imported' | 'cloud-gfn' | 'cloud-xbox'; // Track O: cloud streams started from VYSTRAL
+export type SessionSource = 'tracked' | 'detected' | 'background' | 'imported' | 'cloud-gfn' | 'cloud-xbox'; // Track O: cloud streams started from Arnav Games
 
 export interface Settings {
-  /** Notice games started outside VYSTRAL, and keep tracking them while it is closed. Off by default. */
+  /** Notice games started outside Arnav Games, and keep tracking them while it is closed. Off by default. */
   'tracking.background': boolean;
 }
 
 export interface LaunchState {
-  /** How VYSTRAL came to track this game (absent from older backends = 'tracked'). */
+  /** How Arnav Games came to track this game (absent from older backends = 'tracked'). */
   source?: Exclude<SessionSource, 'imported'> | null;
 }
 
@@ -833,16 +833,16 @@ export interface TrackingStatus {
   /** The per-user sign-in entry: 'disabledByWindows' = turned off in Task Manager › Startup apps. */
   autostart: 'on' | 'off' | 'disabledByWindows' | 'stale' | 'unavailable';
   helperRunning: boolean;
-  /** VYSTRAL itself is noticing games right now (it owns tracking and the setting is on). */
+  /** Arnav Games itself is noticing games right now (it owns tracking and the setting is on). */
   detecting: boolean;
   owner: boolean;
   watchedGames: number;
   pollSeconds: number;
   savingPollSeconds: number;
   minSessionSeconds: number;
-  /** The newest finished session VYSTRAL noticed without launching it. */
+  /** The newest finished session Arnav Games noticed without launching it. */
   lastSeen: { gameId: string; title: string; source: SessionSource; start: string; end: string | null; durationSeconds: number } | null;
-  /** Games the user asked VYSTRAL not to notice. */
+  /** Games the user asked Arnav Games not to notice. */
   ignored: { gameId: string; title: string }[];
 }
 
@@ -964,7 +964,7 @@ export interface Settings {
   'cloud.gfnPlan': import('./types.cloud').GfnPlanId;
   /** Day of the month the hours meter resets (1–31; clamped to short months). */
   'cloud.resetDay': number;
-  /** Browser fallback: a separate Edge window (VYSTRAL never reads it) or the default browser. */
+  /** Browser fallback: a separate Edge window (Arnav Games never reads it) or the default browser. */
   'cloud.browser': 'edge' | 'default';
 }
 
@@ -1142,7 +1142,7 @@ export interface Settings {
   'ai.cloud.gemini.optIn': boolean;
   'ai.cloud.compatible.optIn': boolean;
   'ai.cloud.anthropic.model': 'claude-sonnet-5-5' | 'claude-opus-5-5' | 'claude-haiku-4-5-20251001';
-  /** '' = VYSTRAL's default (or the first listed model). */
+  /** '' = Arnav Games' default (or the first listed model). */
   'ai.cloud.openai.model': string;
   'ai.cloud.gemini.model': string;
   'ai.cloud.compatible.model': string;
@@ -1273,7 +1273,7 @@ export interface Settings {
   'assistant.recapHour': number;
   /** Two-line AI summaries for games without a description (opt-in). */
   'ai.features.gameSummaries': boolean;
-  /** Let the AI word the lag note on rough sessions (opt-in; VYSTRAL writes it otherwise). */
+  /** Let the AI word the lag note on rough sessions (opt-in; Arnav Games writes it otherwise). */
   'ai.features.lagNotes': boolean;
   /** Learn suggested prompts from what you ask, per page (on this PC). */
   'assistant.learnPrompts': boolean;
@@ -1293,7 +1293,7 @@ export type * from './types.trackE1';
 // ---------- Track E2a: start page, collection covers, the 100% ceremony (types in ./types.trackE2a) ----------
 
 export interface Settings {
-  /** Which page VYSTRAL opens on. 'last' (the default) restores the last page; 'immersive' starts in Immersive Mode (kept in step with startup.immersive). */
+  /** Which page Arnav Games opens on. 'last' (the default) restores the last page; 'immersive' starts in Immersive Mode (kept in step with startup.immersive). */
   'startup.page': 'last' | 'home' | 'library' | 'discover' | 'wishlist' | 'journal' | 'performance' | 'immersive';
   /** Pinned collection covers: 'collectionId:gameId' pairs joined by '|' (a collection not listed gets the automatic collage). */
   'library.collectionCovers': string;

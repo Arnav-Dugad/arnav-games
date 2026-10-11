@@ -22,7 +22,7 @@ const GROUP_OPTIONS: { value: GroupBy; label: string }[] = [
   { value: 'collection', label: 'Collection' },
 ];
 
-/** Combined playtime: VYSTRAL's tracked time, or the store's imported figure when larger. */
+/** Combined playtime: Arnav Games' tracked time, or the store's imported figure when larger. */
 function playSecondsOf(game: Game): number {
   return Math.max(game.trackedSeconds, (importedMinutes(game) ?? 0) * 60);
 }
@@ -146,7 +146,7 @@ export function ConstellationView() {
           art="constellation"
           icon={<Telescope size={36} aria-hidden />}
           title="No stars yet"
-          body="Once VYSTRAL finds games on this PC, they appear here as a map of your library."
+          body="Once Arnav Games finds games on this PC, they appear here as a map of your library."
           actions={
             <Button variant="primary" onClick={() => useStore.getState().navigate({ name: 'library' })}>
               Go to library

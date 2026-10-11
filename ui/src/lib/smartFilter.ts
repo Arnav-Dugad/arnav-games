@@ -167,7 +167,7 @@ export function describeSmartFilter(f: SmartFilter): string[] {
 }
 
 /**
- * Without AI: VYSTRAL's own query parser (the Library filter's) builds the rule. Words it doesn't understand are
+ * Without AI: Arnav Games' own query parser (the Library filter's) builds the rule. Words it doesn't understand are
  * reported, so nothing silently disappears.
  */
 export function smartFilterFromQuery(parsed: ParsedQuery, sentence: string): { filter: SmartFilter | null; leftover: string } {

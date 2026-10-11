@@ -24,7 +24,7 @@ public readonly record struct DetectorSignal(
 }
 
 /// <summary>
-/// The rules for games VYSTRAL didn't launch, as a pure state machine fed with snapshots (so it is
+/// The rules for games Arnav Games didn't launch, as a pure state machine fed with snapshots (so it is
 /// tested without real processes):
 /// <list type="bullet">
 /// <item>A game counts as started once its own executable (not a crash handler or installer) is seen in
@@ -101,7 +101,7 @@ public sealed class GameDetector
         return Ended(active with { LastSeen = Max(active.LastSeen, now) });
     }
 
-    /// <summary>Ignores a game until it exits (e.g. the user stopped tracking a game VYSTRAL launched).</summary>
+    /// <summary>Ignores a game until it exits (e.g. the user stopped tracking a game Arnav Games launched).</summary>
     public void Suppress(string installationId)
     {
         _suppressed.Add(installationId);

@@ -9,6 +9,7 @@ import type {
   Game, GfnPlanId, Session, Settings,
 } from './types';
 import { BridgeError } from './bridge';
+import { APP_NAME } from '../lib/brand';
 
 type Emit = (name: string, payload: unknown) => void;
 
@@ -196,7 +197,7 @@ export function cloudPreviewHandlers(ctx: { lib: { games: Game[]; sessions: Sess
     },
     'cloud.refresh': () => {
       if (!s()['cloud.enabled']) throw new BridgeError('disabled', 'Cloud play is off. Turn it on in Settings → Cloud play.');
-      if (s()['privacy.localOnly']) throw new BridgeError('offline', 'Offline mode is on, so VYSTRAL doesn’t download cloud catalogues. Turn it off in Settings → Privacy.');
+      if (s()['privacy.localOnly']) throw new BridgeError('offline', 'Offline mode is on, so Arnav Games doesn’t download cloud catalogues. Turn it off in Settings → Privacy.');
       refreshedAt = new Date().toISOString();
       emitStatus();
       return status();
@@ -225,8 +226,8 @@ export function cloudPreviewHandlers(ctx: { lib: { games: Game[]; sessions: Sess
       const where = surfaceLabel(surface);
       return {
         service: p.service, surface, surfaceLabel: where,
-        message: surface === 'gfnApp' ? `Starting ${g.title} in the GeForce NOW app.` : surface === 'edge' ? `Opening ${g.title} in ${where}. VYSTRAL never reads it.`
-          : `Opening ${g.title} in your browser. VYSTRAL can’t see browser tabs, so press “I’m done” when you finish.`,
+        message: surface === 'gfnApp' ? `Starting ${g.title} in the GeForce NOW app.` : surface === 'edge' ? `Opening ${g.title} in ${where}. ${APP_NAME} never reads it.`
+          : `Opening ${g.title} in your browser. ${APP_NAME} can’t see browser tabs, so press “I’m done” when you finish.`,
       };
     },
     'cloud.session': () => active,

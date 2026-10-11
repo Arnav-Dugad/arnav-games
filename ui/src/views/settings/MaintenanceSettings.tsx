@@ -55,7 +55,7 @@ export function SelfCheckSettings() {
     <section className="sgroup" aria-labelledby="selfcheck-title" data-testid="selfcheck">
       <h2 className="sgroup__title" id="selfcheck-title">After-update check</h2>
       <p className="sgroup__desc">
-        The first time a new version starts, VYSTRAL checks that it works on this PC: the database, the interface, artwork and settings. A real problem counts as a failed start, so a version that keeps failing goes back to the last one that worked. Being slow never does.
+        The first time a new version starts, Arnav Games checks that it works on this PC: the database, the interface, artwork and settings. A real problem counts as a failed start, so a version that keeps failing goes back to the last one that worked. Being slow never does.
       </p>
       <div className="sgroup__rows surface upk">
         <div className="upk__head">
@@ -141,7 +141,7 @@ export function CompactionSettings() {
     <section className="sgroup" aria-labelledby="compaction-title" data-testid="compaction">
       <h2 className="sgroup__title" id="compaction-title">Database upkeep</h2>
       <p className="sgroup__desc">
-        About once a month, when your PC has been idle for a while and is plugged in, VYSTRAL compacts its database so it stays small and quick. Never while you play, and only with enough free space for a full copy.
+        About once a month, when your PC has been idle for a while and is plugged in, Arnav Games compacts its database so it stays small and quick. Never while you play, and only with enough free space for a full copy.
       </p>
       <div className="sgroup__rows surface">
         <div className="srow">
@@ -162,7 +162,7 @@ export function CompactionSettings() {
               icon={<Sparkles size={14} />}
               loading={running || !!status?.running}
               disabled={!status || gameRunning}
-              title={gameRunning ? 'Close your game first: VYSTRAL never compacts while you play.' : undefined}
+              title={gameRunning ? 'Close your game first: Arnav Games never compacts while you play.' : undefined}
               onClick={() => void compact()}
             >
               Compact now

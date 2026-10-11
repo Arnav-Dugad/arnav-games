@@ -15,7 +15,7 @@ const CHANGE_ICON: Record<ControllerDiffChange, typeof Plus> = { added: Plus, re
 /**
  * Track X: your Steam Input layout next to the one it started from (or Steam's Gamepad template). Side by side, or one
  * diagram you flip between; added, removed and changed controls are marked on both, and listed below with before → after.
- * Read-only: VYSTRAL never edits a layout.
+ * Read-only: Arnav Games never edits a layout.
  */
 export function ControlsCompare({ cmp, set, onDone }: { cmp: ControllerCompare; set: ControllerSet; onDone: () => void }) {
   const reduce = useReducedMotion();
@@ -130,7 +130,7 @@ export function ControlsCompare({ cmp, set, onDone }: { cmp: ControllerCompare; 
         </p>
       )}
       {cmp.note && <p className="ccmp__note">{cmp.note}</p>}
-      <p className="controls__foot">Both are read from Steam’s files on this PC. VYSTRAL never changes a layout — to go back to the default, pick it in Steam’s controller settings.</p>
+      <p className="controls__foot">Both are read from Steam’s files on this PC. Arnav Games never changes a layout — to go back to the default, pick it in Steam’s controller settings.</p>
     </div>
   );
 }

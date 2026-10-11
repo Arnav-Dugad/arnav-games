@@ -31,11 +31,11 @@ export interface WishlistItem {
   lowestCurrency: string | null;
   lowestSource: 'itad' | 'cheapshark' | null;
   lowestAt: string | null;
-  /** Steam prices VYSTRAL has seen, oldest first (one point per day, flat runs compacted). */
+  /** Steam prices Arnav Games has seen, oldest first (one point per day, flat runs compacted). */
   history: WishlistPoint[];
   /** Header image through the art host, or null. */
   header: string | null;
-  /** The VYSTRAL game when it's already in the library. */
+  /** The Arnav Games game when it's already in the library. */
   gameId: string | null;
   pricedAt: string | null;
   /** Track D2: portrait cover (Steam's 600×900 library capsule, hero capsule or SteamGridDB) through the art host, or null. */

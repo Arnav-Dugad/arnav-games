@@ -41,7 +41,7 @@ public class ShellRegistrationTests
         var reg = new FakeClassesRegistry();
         Make(reg).EnsureRegistered();
 
-        Assert.Equal("URL:VYSTRAL", reg.GetString("vystral", null));
+        Assert.Equal("URL:Arnav Games", reg.GetString("vystral", null));
         Assert.Equal("", reg.GetString("vystral", "URL Protocol"));
         Assert.Equal($"\"{Exe}\",0", reg.GetString(@"vystral\DefaultIcon", null));
         Assert.Equal($"\"{Exe}\" --uri \"%1\"", reg.GetString(@"vystral\shell\open\command", null));

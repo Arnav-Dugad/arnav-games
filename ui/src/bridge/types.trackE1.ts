@@ -110,7 +110,7 @@ export interface LagNote {
   rough: boolean;
   text: string | null;
   cause: LagCause | null;
-  /** 'analysis': VYSTRAL's own words; 'ai': the same facts worded by the chosen AI. */
+  /** 'analysis': Arnav Games' own words; 'ai': the same facts worded by the chosen AI. */
   source: 'analysis' | 'ai';
   aiLabel: string | null;
   basis: string;

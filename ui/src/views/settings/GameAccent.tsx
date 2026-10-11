@@ -115,7 +115,7 @@ function GameAccentPicker({ open, onClose, initial, themeKind: kind, contrastThe
       }
     >
       <p id="gacc-desc" className="gacc-desc">
-        Pick a game to preview its colours across VYSTRAL. Nothing changes until you choose “Use these colours”.
+        Pick a game to preview its colours across Arnav Games. Nothing changes until you choose “Use these colours”.
         {contrastTheme && ' High contrast keeps its own colours, so the preview shows once you switch theme.'}
       </p>
       <div className="gacc">
@@ -125,7 +125,7 @@ function GameAccentPicker({ open, onClose, initial, themeKind: kind, contrastThe
             <input className="input" type="search" placeholder="Search your games" aria-label="Search your games" value={query} onChange={(e) => setQuery(e.target.value)} data-autofocus />
           </label>
           {shown.length === 0 ? (
-            <p className="gacc-empty">{games.length ? `No games match “${query.trim()}”.` : 'Your library is empty. Games appear here once VYSTRAL finds them.'}</p>
+            <p className="gacc-empty">{games.length ? `No games match “${query.trim()}”.` : 'Your library is empty. Games appear here once Arnav Games finds them.'}</p>
           ) : (
             <ul className="gacc-grid" aria-label="Games">
               {shown.map((g) => (

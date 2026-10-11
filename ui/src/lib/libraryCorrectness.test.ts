@@ -64,7 +64,7 @@ describe('estimated last played (save data)', () => {
     expect(lastPlayed(g)).toEqual({ at: '2026-10-09T21:15:00Z', source: 'estimated' });
   });
 
-  it("doesn't replace a session VYSTRAL tracked the day before it", () => {
+  it("doesn't replace a session Arnav Games tracked the day before it", () => {
     const g = game('Forza', { lastTrackedPlay: '2026-10-09T19:00:00Z' }, [estimate('2026-10-09T21:15:00Z')]);
     expect(lastPlayed(g)).toEqual({ at: '2026-10-09T19:00:00Z', source: 'tracked' });
     const later = game('Forza', { lastTrackedPlay: '2026-10-01T19:00:00Z' }, [estimate('2026-10-09T21:15:00Z')]);

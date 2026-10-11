@@ -52,7 +52,7 @@ function whenOf(p: Placed, today: Date): string {
 /**
  * Track D2: the wishlist as a release calendar. A month grid with each day's covers, a year strip to move across
  * months, this month's agenda with the next release, and lanes for games Steam gives only a month, quarter, season,
- * year or no date. Every game opens its VYSTRAL page (yours when you own it).
+ * year or no date. Every game opens its Arnav Games page (yours when you own it).
  */
 export function WishlistCalendar({ items, filtered }: { items: WishlistItem[]; filtered: boolean }) {
   const reduce = useReducedMotion();
@@ -360,7 +360,7 @@ function YearStrip({ year, month, counts, today, onMonth, onYear }: {
   );
 }
 
-/** A cover (portrait), else the wide header cropped, else VYSTRAL's own poster with the title. Never a blank icon. */
+/** A cover (portrait), else the wide header cropped, else Arnav Games' own poster with the title. Never a blank icon. */
 export function Poster({ item, wide = false }: { item: WishlistItem; wide?: boolean }) {
   const [failed, setFailed] = useState<string | null>(null);
   const preferred = wide ? item.header ?? item.cover : item.cover ?? item.header;
@@ -475,7 +475,7 @@ function Lanes({ lanes, today }: { lanes: Lane[]; today: Date }) {
     <section className="wlanes" aria-labelledby="wlanes-title">
       <div className="wlanes__head">
         <h2 id="wlanes-title" className="wlanes__title">Coming, no exact day yet</h2>
-        <p className="wlanes__lede">Steam gives only a month, a quarter, a season or a year for these, or no date at all. VYSTRAL shows exactly what’s known.</p>
+        <p className="wlanes__lede">Steam gives only a month, a quarter, a season or a year for these, or no date at all. Arnav Games shows exactly what’s known.</p>
       </div>
       {lanes.map((lane) => {
         const all = open.has(lane.id);

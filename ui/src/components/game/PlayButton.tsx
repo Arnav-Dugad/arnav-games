@@ -97,7 +97,7 @@ export function PlayButton({ game, autoFocus = false, joined = false }: { game: 
       case 'running':
         void call<boolean>('game.focus')
           .then((ok) => {
-            if (ok === false) toast({ tone: 'info', title: `Couldn’t switch to ${game.title}`, body: 'Windows didn’t let VYSTRAL bring it forward. Use Alt+Tab to switch to it.' });
+            if (ok === false) toast({ tone: 'info', title: `Couldn’t switch to ${game.title}`, body: 'Windows didn’t let Arnav Games bring it forward. Use Alt+Tab to switch to it.' });
           })
           .catch((err) => toast({ tone: 'info', title: `Couldn’t switch to ${game.title}`, body: errorMessage(err) }));
         return;

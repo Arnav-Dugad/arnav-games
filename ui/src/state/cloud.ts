@@ -67,7 +67,7 @@ function ensureStarted() {
     const active = payload && !('ended' in payload) ? payload : null;
     useCloudStore.setState((st) => ({ active, version: st.version + 1 }));
     if (payload && 'ended' in payload && payload.saved) {
-      useStore.getState().toast({ tone: 'success', title: 'Cloud session saved', body: 'It’s in your Journal, with time estimated from what VYSTRAL saw.' });
+      useStore.getState().toast({ tone: 'success', title: 'Cloud session saved', body: 'It’s in your Journal, with time estimated from what Arnav Games saw.' });
     }
     void useCloudStore.getState().loadStatus();
   });

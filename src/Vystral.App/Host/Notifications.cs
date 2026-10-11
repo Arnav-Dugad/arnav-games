@@ -8,7 +8,7 @@ using Windows.UI.Notifications;
 namespace Vystral.App.Host;
 
 /// <summary>
-/// Windows notifications. Selecting one activates VYSTRAL and opens a page; the route is always
+/// Windows notifications. Selecting one activates Arnav Games and opens a page; the route is always
 /// rebuilt from an allow-list (<see cref="ActivationUri"/>), never passed through.
 /// <para>
 /// Three channels, best first:
@@ -16,8 +16,8 @@ namespace Vystral.App.Host;
 /// <item><b>Windows App SDK</b> (<c>AppNotificationManager.Register</c>): clicks arrive as
 /// <c>NotificationInvoked</c>. Fails today in self-contained 2.5.1 builds (microsoft/WindowsAppSDK#6774),
 /// but is tried first so a fixed SDK is used automatically.</item>
-/// <item><b>Protocol activation</b>: toast XML with <c>activationType="protocol"</c> sent as VYSTRAL's
-/// AppUserModelID; Windows opens <c>vystral://open?route=…</c>, which starts VYSTRAL (or is redirected
+/// <item><b>Protocol activation</b>: toast XML with <c>activationType="protocol"</c> sent as Arnav Games'
+/// AppUserModelID; Windows opens <c>vystral://open?route=…</c>, which starts Arnav Games (or is redirected
 /// to the running instance) with <c>--uri</c>. Needs only per-user registry entries.</item>
 /// <item><b>Show only</b>: notifications appear but selecting one can't open a page.</item>
 /// </list>
@@ -32,7 +32,7 @@ public sealed class AppNotifications
 
     public bool Available => _channel != Channel.None;
 
-    /// <summary>False when notifications can be shown but clicking one can't be routed back to VYSTRAL.</summary>
+    /// <summary>False when notifications can be shown but clicking one can't be routed back to Arnav Games.</summary>
     public bool Clickable => _channel is Channel.AppSdk or Channel.Protocol;
 
     /// <summary>Raised with a validated route JSON when the user clicks a notification (Windows App SDK channel).</summary>
@@ -82,7 +82,7 @@ public sealed class AppNotifications
         }
 
         _channel = sdkSupported ? Channel.ShowOnly : Channel.None;
-        if (_channel == Channel.ShowOnly) Log.Warn("notify", "Notifications are shown but can't open VYSTRAL pages on this PC");
+        if (_channel == Channel.ShowOnly) Log.Warn("notify", "Notifications are shown but can't open Arnav Games pages on this PC");
         else Log.Warn("notify", "Windows notifications unavailable");
     }
 

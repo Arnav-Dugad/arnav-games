@@ -1,7 +1,7 @@
 /**
  * Track C2: recent startup timings in Settings › About — the last starts as stacked phases (backend → WebView →
  * first paint → ready), the usual (median) start, and a calm warning when the newest start was much slower.
- * Read from VYSTRAL's own local log only; nothing leaves the PC.
+ * Read from Arnav Games' own local log only; nothing leaves the PC.
  */
 import { useEffect, useMemo, useRef, useState, type KeyboardEvent } from 'react';
 import { motion } from 'motion/react';
@@ -14,6 +14,7 @@ import { useElementWidth } from '../perf/hooks';
 import { niceTicks } from '../perf/series';
 import { PHASES, formatStartup, phasesOf, regressionText, summarize, totalOf } from '../../lib/startupTimings';
 import './startup-timings.css';
+import { APP_NAME } from '../../lib/brand';
 
 const LIMIT = 20;
 const H = 200;
@@ -54,7 +55,7 @@ export function StartupTimings() {
         <div className="st__titles">
           <h2 id="st-title" className="st__title">Startup timings</h2>
           <p className="srow__hint">
-            {state.runs.length ? `Your last ${state.runs.length === 1 ? 'start' : `${state.runs.length} starts`}, from VYSTRAL’s own log on this PC.` : 'How long VYSTRAL takes to start, from its own log on this PC.'}
+            {state.runs.length ? `Your last ${state.runs.length === 1 ? 'start' : `${state.runs.length} starts`}, from ${APP_NAME}’ own log on this PC.` : 'How long Arnav Games takes to start, from its own log on this PC.'}
           </p>
         </div>
         {state.runs.length > 0 && (
@@ -75,7 +76,7 @@ export function StartupTimings() {
 
       {state.status === 'ready' && !state.runs.length && (
         <div className="st__empty" role="status">
-          <p>No startup timings yet. VYSTRAL notes how long each start takes in its local log (kept for a week); they appear here from the next start.</p>
+          <p>No startup timings yet. Arnav Games notes how long each start takes in its local log (kept for a week); they appear here from the next start.</p>
         </div>
       )}
 

@@ -57,7 +57,7 @@ export function ControlsPanel({ game, variant = 'desktop' }: { game: Game; varia
     case 'noSteam':
       return <ControlsMessage icon={<Info size={22} />} title="Steam isn’t installed" body="Steam Input layouts are read from Steam’s folder on this PC, and Steam wasn’t found." />;
     case 'unreadable':
-      return <ControlsMessage icon={<AlertTriangle size={22} />} title="This layout couldn’t be read" body={layout.note ?? 'Steam has a layout for this game, but it isn’t in a format VYSTRAL understands.'} />;
+      return <ControlsMessage icon={<AlertTriangle size={22} />} title="This layout couldn’t be read" body={layout.note ?? 'Steam has a layout for this game, but it isn’t in a format Arnav Games understands.'} />;
     default:
       return <LayoutView layout={layout} variant={variant} gameId={game.id} />;
   }
@@ -192,7 +192,7 @@ function LayoutView({ layout, variant, gameId }: { layout: ControllerLayout; var
         </tbody>
       </table>
       </>}
-      {!comparing && <p className="controls__foot">Read from Steam’s files on this PC. VYSTRAL never changes your layout — edit it in Steam’s controller settings.</p>}
+      {!comparing && <p className="controls__foot">Read from Steam’s files on this PC. Arnav Games never changes your layout — edit it in Steam’s controller settings.</p>}
     </div>
   );
 }

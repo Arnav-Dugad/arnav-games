@@ -112,7 +112,7 @@ public sealed class BackgroundTrackerHost : IDisposable
         if (!Mutex.TryOpenExisting(_names.App, out var app)) return _stop!.WaitOne(0);
         using (app)
         {
-            Log.Info("tracker", "VYSTRAL is open; the background tracker is paused");
+            Log.Info("tracker", "Arnav Games is open; the background tracker is paused");
             Trim();
             try
             {
@@ -135,7 +135,7 @@ public sealed class BackgroundTrackerHost : IDisposable
         {
             case SchemaState.Missing: return WaitOrStop(NoDatabaseRetry);
             case SchemaState.Newer:
-                Log.Warn("tracker", "The database was created by a newer VYSTRAL; this tracker exits until VYSTRAL starts it again");
+                Log.Warn("tracker", "The database was created by a newer Arnav Games; this tracker exits until Arnav Games starts it again");
                 return true;
         }
         app.Settings.Reload();
@@ -145,7 +145,7 @@ public sealed class BackgroundTrackerHost : IDisposable
             return true;
         }
 
-        Log.Info("tracker", "Tracking games while VYSTRAL is closed");
+        Log.Info("tracker", "Tracking games while Arnav Games is closed");
         app.Tracker.InvalidateTargets();
         app.Tracker.TakeOver(DateTimeOffset.UtcNow);
         using var cts = new CancellationTokenSource();
@@ -166,7 +166,7 @@ public sealed class BackgroundTrackerHost : IDisposable
         cts.Cancel();
         try { loop.Wait(TimeSpan.FromSeconds(5)); } catch (AggregateException) { }
         var parked = app.Tracker.ParkAsync(TimeSpan.FromSeconds(5)).GetAwaiter().GetResult();
-        Log.Info("tracker", exit ? "Stopping" : "VYSTRAL opened; handing tracking over", new { parked });
+        Log.Info("tracker", exit ? "Stopping" : "Arnav Games opened; handing tracking over", new { parked });
         return exit;
     }
 
@@ -175,7 +175,7 @@ public sealed class BackgroundTrackerHost : IDisposable
     private enum SchemaState { Ready, Missing, Newer }
 
     /// <summary>
-    /// The tracker never creates a library: without a database (VYSTRAL never opened) it waits. An older
+    /// The tracker never creates a library: without a database (Arnav Games never opened) it waits. An older
     /// schema is migrated under the cross-process migration lock, exactly as the app does it.
     /// </summary>
     private SchemaState EnsureSchema(Database db)
@@ -251,7 +251,7 @@ public sealed class BackgroundTrackerHost : IDisposable
 
     /// <summary>
     /// "Session saved" for background sessions: the same <see cref="NotificationPolicy"/> (and settings) as
-    /// the app, shown as a protocol-activated toast, so selecting it opens the journal in VYSTRAL.
+    /// the app, shown as a protocol-activated toast, so selecting it opens the journal in Arnav Games.
     /// </summary>
     private sealed class ToastSink(BackgroundTrackerHost host, SettingsService settings, NotificationPolicy policy) : IEventSink
     {

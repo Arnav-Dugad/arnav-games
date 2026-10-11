@@ -3,8 +3,8 @@
  * a tiny keyword "model" stands in so every state can be seen and tested. All data is the preview's fictional library.
  * URL switches:
  *   ?aiCloud     Claude is connected (key "…k9Qz"), opted in and chosen, so every AI feature answers (fake)
- *   ?aiFail      the chosen provider fails every request (features fall back to VYSTRAL's own answers)
- *   ?aiInvent    the fake model invents numbers (VYSTRAL discards its wording and shows its own summary)
+ *   ?aiFail      the chosen provider fails every request (features fall back to Arnav Games' own answers)
+ *   ?aiInvent    the fake model invents numbers (Arnav Games discards its wording and shows its own summary)
  *   ?aiSlow      the fake model takes ~1.6 s per answer (loading states)
  */
 import type {
@@ -14,6 +14,7 @@ import type {
 } from './types';
 import { BridgeError } from './bridge';
 import { parseSmartFilter } from '../lib/smartFilter';
+import { APP_NAME } from '../lib/brand';
 
 type Emit = (name: string, payload: unknown) => void;
 
@@ -62,15 +63,15 @@ const FAKE_MODELS: Record<CloudAiProviderId, string[]> = {
 };
 
 const FEATURES: Omit<AiFeature, 'enabled'>[] = [
-  { id: 'assistant', label: 'Assistant', sends: 'Your messages, the name of the page you’re on (and the game, if you’re on its page), and — only when the Assistant looks something up — what that look-up found: for example game titles, genres, statuses, hours played, sizes, play totals, prices or frame-rate statistics. Before look-up results go to a cloud AI you see exactly what and choose whether to share. Never folder paths, notes, keys or account details.', withoutAi: 'Without an AI, the Assistant can’t chat; every page still shows VYSTRAL’s own data.' },
-  { id: 'journal', label: 'Play history questions (Assistant)', sends: 'Your question, today’s date, the names of games and genres in your library (to understand the question), then the totals VYSTRAL calculated for the chart (game titles or dates with hours and session counts).', withoutAi: 'The Assistant can’t look up your play history; the Journal page still shows it.' },
+  { id: 'assistant', label: 'Assistant', sends: 'Your messages, the name of the page you’re on (and the game, if you’re on its page), and — only when the Assistant looks something up — what that look-up found: for example game titles, genres, statuses, hours played, sizes, play totals, prices or frame-rate statistics. Before look-up results go to a cloud AI you see exactly what and choose whether to share. Never folder paths, notes, keys or account details.', withoutAi: 'Without an AI, the Assistant can’t chat; every page still shows Arnav Games’ own data.' },
+  { id: 'journal', label: 'Play history questions (Assistant)', sends: 'Your question, today’s date, the names of games and genres in your library (to understand the question), then the totals Arnav Games calculated for the chart (game titles or dates with hours and session counts).', withoutAi: 'The Assistant can’t look up your play history; the Journal page still shows it.' },
   { id: 'patchNotes', label: 'Patch note summaries', sends: 'The game’s title and the text of the public news post you asked to summarize.', withoutAi: 'The post’s first key lines are shown instead.' },
-  { id: 'tonight', label: 'What to play tonight (Assistant)', sends: 'Your mood, the time you have and anything you type, plus up to 8 candidate games VYSTRAL picked: title, genres, your hours, average session length, time to beat, install and subscription status.', withoutAi: 'VYSTRAL’s own top three picks with their reasons.' },
-  { id: 'smartCollections', label: 'Smart collections from a sentence', sends: 'Your sentence and the list of genre names in your library.', withoutAi: 'VYSTRAL’s own query parser builds the filter from your sentence.' },
-  { id: 'duplicates', label: 'Duplicate explanations', sends: 'The two entries’ titles, stores, release years, developers and the matching facts VYSTRAL found.', withoutAi: 'The matching facts are listed without a sentence.' },
+  { id: 'tonight', label: 'What to play tonight (Assistant)', sends: 'Your mood, the time you have and anything you type, plus up to 8 candidate games Arnav Games picked: title, genres, your hours, average session length, time to beat, install and subscription status.', withoutAi: 'Arnav Games’ own top three picks with their reasons.' },
+  { id: 'smartCollections', label: 'Smart collections from a sentence', sends: 'Your sentence and the list of genre names in your library.', withoutAi: 'Arnav Games’ own query parser builds the filter from your sentence.' },
+  { id: 'duplicates', label: 'Duplicate explanations', sends: 'The two entries’ titles, stores, release years, developers and the matching facts Arnav Games found.', withoutAi: 'The matching facts are listed without a sentence.' },
   // Track E1
-  { id: 'gameSummaries', label: 'Game summaries', sends: 'For a game with no description: its title, genres, developer, publisher, release year, the IGDB and RAWG facts VYSTRAL matched (genres, themes, modes, perspective, series) and its Steam community tags.', withoutAi: 'Games without a description show none, as before.' },
-  { id: 'lagNotes', label: 'Lag note wording', sends: 'After a rough session: that session’s frame-rate figures (average, 1% low, stutters) and VYSTRAL’s own stutter findings, plus the names of background apps often seen in rough sessions. Never the game’s folder or your settings.', withoutAi: 'VYSTRAL writes the likely cause itself, from its frame-time analysis.' },
+  { id: 'gameSummaries', label: 'Game summaries', sends: 'For a game with no description: its title, genres, developer, publisher, release year, the IGDB and RAWG facts Arnav Games matched (genres, themes, modes, perspective, series) and its Steam community tags.', withoutAi: 'Games without a description show none, as before.' },
+  { id: 'lagNotes', label: 'Lag note wording', sends: 'After a rough session: that session’s frame-rate figures (average, 1% low, stutters) and Arnav Games’ own stutter findings, plus the names of background apps often seen in rough sessions. Never the game’s folder or your settings.', withoutAi: 'Arnav Games writes the likely cause itself, from its frame-time analysis.' },
   { id: 'recapCaptions', label: 'Session recap captions', sends: 'The game’s title and that session’s stats: length, time of day, achievements unlocked, average frame rate and how many times you’ve played it.', withoutAi: 'No caption.' },
 ];
 
@@ -151,7 +152,7 @@ export function aiCloudPreviewHandlers(ctx: {
     if (!opts.ignoreSwitch && !s()[`ai.features.${feature}` as keyof Settings]) return { text: null, label: null, note: null, sent: null };
     const e = active();
     await delay(slow ? 1600 : 350);
-    if (e.engine === 'local') return { text: null, label: null, note: 'Ollama isn’t available in preview mode, so VYSTRAL’s own answer is shown.', sent: null };
+    if (e.engine === 'local') return { text: null, label: null, note: 'Ollama isn’t available in preview mode, so Arnav Games’ own answer is shown.', sent: null };
     if (!e.ready || !e.cloud) return { text: null, label: null, note: e.reason, sent: null };
     if (fail) return { text: null, label: null, note: `${NAMES[e.engine as CloudAiProviderId][0]} is having trouble right now. Try again later.`, sent: null };
     const text = make();
@@ -321,7 +322,7 @@ export function aiCloudPreviewHandlers(ctx: {
       const key = String(p.key ?? '').trim();
       const record = (outcome: CloudAiTest['outcome'], message: string) => (tests[p.provider] = { outcome, message, at: new Date().toISOString() });
       let result: CloudAiTest;
-      if (s()['privacy.localOnly']) result = record('offline', `Offline mode is on, so VYSTRAL doesn’t contact ${NAMES[p.provider][0]}. Turn it off in Settings → Privacy.`);
+      if (s()['privacy.localOnly']) result = record('offline', `Offline mode is on, so ${APP_NAME} doesn’t contact ${NAMES[p.provider][0]}. Turn it off in Settings → Privacy.`);
       else if (!/^[A-Za-z0-9_\-.]{16,250}$/.test(key)) result = record('invalidKey', 'That doesn’t look like an API key. Copy it again, without spaces.');
       else if (p.provider !== 'anthropic' && key.startsWith('sk-ant-')) result = record('invalidKey', 'That looks like a Claude key. Add it under Claude instead.');
       else if (p.provider === 'compatible' && !/^https:\/\/[A-Za-z0-9.-]+(:\d{1,5})?(\/[A-Za-z0-9._~\-/]*)?$/.test(String(p.baseUrl ?? '').trim()))
@@ -339,7 +340,7 @@ export function aiCloudPreviewHandlers(ctx: {
     'aiCloud.test': async (p: { provider: CloudAiProviderId }): Promise<CloudAiAction> => {
       await delay(slow ? 1600 : 450);
       const name = NAMES[p.provider][0];
-      tests[p.provider] = s()['privacy.localOnly'] ? { outcome: 'offline', message: `Offline mode is on, so VYSTRAL doesn’t contact ${name}.`, at: new Date().toISOString() }
+      tests[p.provider] = s()['privacy.localOnly'] ? { outcome: 'offline', message: `Offline mode is on, so ${APP_NAME} doesn’t contact ${name}.`, at: new Date().toISOString() }
         : !configured(p.provider) ? { outcome: 'notConfigured', message: 'No key is saved for this provider yet.', at: new Date().toISOString() }
         : fail ? { outcome: 'unavailable', message: `${name} is having trouble right now. Try again later.`, at: new Date().toISOString() }
         : { outcome: 'ok', message: `${LABEL[model(p.provider)] ?? model(p.provider)} answered in 0.4 s (preview stand-in).`, at: new Date().toISOString() };
@@ -383,7 +384,7 @@ export function aiCloudPreviewHandlers(ctx: {
         : own);
       return {
         question: q, result: r, answer: phrased.text ?? own, plannedBy: first.label, phrasedBy: phrased.label,
-        note: phrased.text ? null : phrased.note ?? 'The AI’s wording didn’t match the numbers, so VYSTRAL’s own summary is shown.',
+        note: phrased.text ? null : phrased.note ?? 'The AI’s wording didn’t match the numbers, so Arnav Games’ own summary is shown.',
         needsAi: false, unsupported: null, engine: e, sent: phrased.sent ?? first.sent,
       };
     },
@@ -443,7 +444,7 @@ export function aiCloudPreviewHandlers(ctx: {
         const name = sentence.replace(/\b(i|my|that|which|games?)\b/gi, ' ').replace(/\s+/g, ' ').trim().replace(/^./, (c) => c.toUpperCase()).slice(0, 40) || 'Smart collection';
         return { sentence, name, filter, dropped: [], needsAi: false, aiLabel: out.label, note: null, engine: e, sent: out.sent };
       }
-      return { sentence, name: null, filter: null, dropped: [], needsAi: false, aiLabel: null, note: out.note ?? 'The AI couldn’t turn that into a filter VYSTRAL could check, so VYSTRAL’s own reading of your sentence is shown.', engine: e, sent: null };
+      return { sentence, name: null, filter: null, dropped: [], needsAi: false, aiLabel: null, note: out.note ?? 'The AI couldn’t turn that into a filter Arnav Games could check, so Arnav Games’ own reading of your sentence is shown.', engine: e, sent: null };
     },
     'aix.explainDuplicate': async (p: { gameIdA: string; gameIdB: string }): Promise<DuplicateExplanation> => {
       const a = ctx.lib.games.find((g) => g.id === p.gameIdA), b = ctx.lib.games.find((g) => g.id === p.gameIdB);

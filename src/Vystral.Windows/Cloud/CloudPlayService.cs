@@ -39,7 +39,7 @@ public sealed record CloudLaunchResultDto(string Service, string Surface, string
 /// <summary>
 /// Track O: cloud play (Xbox Cloud Gaming, GeForce NOW). Opt-in and off by default. Catalogues come from the vendors'
 /// own public pages' data (grey: cached, refreshed at most daily per market, backed off on errors, no cookies, a plain
-/// VYSTRAL User-Agent, size-capped, every field validated) and are matched to the library by store ID, falling back to a
+/// Arnav Games User-Agent, size-capped, every field validated) and are matched to the library by store ID, falling back to a
 /// careful title match that is labelled as likely. Launching only ever opens the official app or site. Sessions are
 /// noticed read-only and saved with a cloud source; the hours meter is an estimate from those sessions.
 /// </summary>
@@ -84,7 +84,7 @@ public sealed class CloudPlayService : IDisposable
     /// <summary>Track E4: Store product → installed package family name, from the Store's own package lookup.</summary>
     public Func<IReadOnlyDictionary<string, string>>? InstalledProductPfns { get; set; }
     public Func<bool> GameActive { get; set; } = () => false;
-    /// <summary>Called after a launch when "Minimize VYSTRAL when a game starts" is on.</summary>
+    /// <summary>Called after a launch when "Minimize Arnav Games when a game starts" is on.</summary>
     public Action? Minimize { get; set; }
     public Func<DateTimeOffset> Clock { get; set; } = () => DateTimeOffset.Now;
     public TimeZoneInfo TimeZone { get; set; } = TimeZoneInfo.Local;
@@ -112,14 +112,14 @@ public sealed class CloudPlayService : IDisposable
 
     /// <summary>
     /// A cookie-less client for cloud catalogues: no cookie container (nothing is stored or sent back), no redirects,
-    /// and the same plain "VYSTRAL/&lt;version&gt;" User-Agent as VYSTRAL's other requests.
+    /// and the same plain "ArnavGames/&lt;version&gt;" User-Agent as Arnav Games' other requests.
     /// </summary>
     public static HttpClient CreateHttpClient(string version)
     {
         var handler = FastConnect.CreateHandler(allowRedirects: false);
         handler.UseCookies = false;
         var http = new HttpClient(handler) { Timeout = TimeSpan.FromSeconds(30) };
-        http.DefaultRequestHeaders.UserAgent.Add(new System.Net.Http.Headers.ProductInfoHeaderValue("VYSTRAL", version));
+        http.DefaultRequestHeaders.UserAgent.Add(new System.Net.Http.Headers.ProductInfoHeaderValue(Brand.UserAgentProduct, version));
         return http;
     }
 
@@ -198,7 +198,7 @@ public sealed class CloudPlayService : IDisposable
     public async Task<CloudStatusDto> RefreshAsync(bool manual, CancellationToken ct)
     {
         if (!Enabled) throw new DataSourceException(DataSourceOutcome.Disabled, "Cloud play is off. Turn it on in Settings → Cloud play.");
-        if (LocalOnly) throw new DataSourceException(DataSourceOutcome.Offline, "Offline mode is on, so VYSTRAL doesn’t download cloud catalogues. Turn it off in Settings → Privacy.");
+        if (LocalOnly) throw new DataSourceException(DataSourceOutcome.Offline, "Offline mode is on, so Arnav Games doesn’t download cloud catalogues. Turn it off in Settings → Privacy.");
         if (!manual && (DataSaverActive() || GameActive())) return Status();
         if (!await _refreshGate.WaitAsync(0, ct)) return Status();
         _refreshing = true;
@@ -455,8 +455,8 @@ public sealed class CloudPlayService : IDisposable
         {
             CloudSurfaces.XboxApp => $"Opening {title} in the Xbox app. Press Stream there to play.",
             CloudSurfaces.GfnApp => $"Starting {title} in the GeForce NOW app.",
-            CloudSurfaces.Edge => $"Opening {title} in {where}. VYSTRAL never reads it.",
-            _ => $"Opening {title} in your browser. VYSTRAL can’t see browser tabs, so press “I’m done” when you finish.",
+            CloudSurfaces.Edge => $"Opening {title} in {where}. {Brand.Name} never reads it.",
+            _ => $"Opening {title} in your browser. {Brand.Name} can’t see browser tabs, so press “I’m done” when you finish.",
         };
         return new CloudLaunchResultDto(service, started.Plan.Surface, where, message);
     }
@@ -691,6 +691,6 @@ public sealed class CloudPlayService : IDisposable
         (_processes as IDisposable)?.Dispose();
     }
 
-    /// <summary>On shutdown: a running cloud session is saved up to now (its stream may go on, but VYSTRAL stops seeing it).</summary>
+    /// <summary>On shutdown: a running cloud session is saved up to now (its stream may go on, but Arnav Games stops seeing it).</summary>
     public void Shutdown() => EndActive(Clock(), "shutdown");
 }

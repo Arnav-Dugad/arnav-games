@@ -1,7 +1,7 @@
 import type { Transition } from 'motion/react';
 
 /**
- * VYSTRAL motion tokens. Spatial movement uses springs (interruptible, velocity-preserving);
+ * Arnav Games motion tokens. Spatial movement uses springs (interruptible, velocity-preserving);
  * opacity/colour use critically damped springs that never bounce. Exits are faster than
  * entrances. See docs/DESIGN-SYSTEM.md → Motion.
  */

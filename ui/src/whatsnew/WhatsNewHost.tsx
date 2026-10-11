@@ -8,6 +8,7 @@ import { OPEN_WHATS_NEW, useWhatsNew } from './state';
 import { selectTour } from './tours';
 import { compareVersions } from './version';
 import { WhatsNewSheet } from './WhatsNewSheet';
+import { APP_NAME } from '../lib/brand';
 
 /** Waits until the startup animation has gone (it never takes longer than ~4.5 s). */
 function whenIntroDone(cb: () => void): () => void {
@@ -44,8 +45,8 @@ export function WhatsNewHost() {
       useStore.getState().toast({
         tone: 'warning',
         sticky: true,
-        title: `You’re back on VYSTRAL ${n.to}`,
-        body: `VYSTRAL ${n.from} didn’t start correctly, so you’re back on ${n.to}. It will try again with the next update.`,
+        title: `You’re back on ${APP_NAME} ${n.to}`,
+        body: `${APP_NAME} ${n.from} didn’t start correctly, so you’re back on ${n.to}. It will try again with the next update.`,
       });
       void call('update.dismissRollbackNotice').catch(() => {});
     });

@@ -24,7 +24,7 @@ export interface ImmDiscover {
   status: DiscoverStatus | null;
 }
 
-/** The last search, kept while VYSTRAL runs so coming back to Immersive shows it again. */
+/** The last search, kept while Arnav Games runs so coming back to Immersive shows it again. */
 let lastQuery: string | null = null;
 
 export function useImmDiscover(visible: readonly Game[], opened: boolean): ImmDiscover {

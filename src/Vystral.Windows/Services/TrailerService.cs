@@ -169,7 +169,7 @@ public sealed partial class TrailerService : IDisposable
     /// <summary>
     /// Track D4: when Steam has no trailer for a game (or the game has no Steam app), the best other source: an MP4
     /// from RAWG (through this same proxy), else a YouTube video from IGDB or GOG — the latter only with "Allow YouTube
-    /// trailers" on, and never fetched by VYSTRAL itself (the page embeds youtube-nocookie.com in a sandboxed frame).
+    /// trailers" on, and never fetched by Arnav Games itself (the page embeds youtube-nocookie.com in a sandboxed frame).
     /// </summary>
     private async Task<TrailerDto> AlternativeAsync(string gameId, TrailerDto steamAnswer, CancellationToken ct)
     {

@@ -1,6 +1,6 @@
 /**
  * Track C2: pure helpers for the startup timing chart in Settings › About. A start is four stacked phases, from the
- * process starting to VYSTRAL being ready; the summary compares the newest start with the usual (median) one.
+ * process starting to Arnav Games being ready; the summary compares the newest start with the usual (median) one.
  */
 import type { StartupRun } from '../bridge/types.trackC2';
 
@@ -15,7 +15,7 @@ export interface PhaseDef {
 
 /** In the order they happen; the chart stacks them bottom-up and colours them with a one-hue ramp in this order. */
 export const PHASES: readonly PhaseDef[] = [
-  { key: 'backend', label: 'Backend', detail: 'VYSTRAL starts and opens your library' },
+  { key: 'backend', label: 'Backend', detail: 'Arnav Games starts and opens your library' },
   { key: 'webview', label: 'WebView', detail: 'The interface engine (WebView2) starts' },
   { key: 'firstPaint', label: 'First paint', detail: 'Home appears on screen' },
   { key: 'ready', label: 'Ready', detail: 'Live data arrives and everything responds' },
@@ -114,7 +114,7 @@ export function formatStartup(ms: number | null | undefined, digits = 2): string
 /** Where the extra time went, in plain words. */
 export function regressionText(r: NonNullable<StartupSummary['regression']>, latestMs: number): string {
   const where: Record<PhaseKey, string> = {
-    backend: 'before VYSTRAL had opened your library — a busy disk or an antivirus scan at sign-in often does this',
+    backend: 'before Arnav Games had opened your library — a busy disk or an antivirus scan at sign-in often does this',
     webview: 'while the interface engine started — often right after a Windows or WebView2 update',
     firstPaint: 'before Home appeared — usually a cold start after an update, when there’s no saved Home to show',
     ready: 'while live data loaded — a big library scan or a slow drive can do this',

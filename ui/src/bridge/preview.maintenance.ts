@@ -18,7 +18,7 @@ type Emit = (name: string, payload: unknown) => void;
 
 export const MAINTENANCE_DEFAULT_SETTINGS: Pick<Settings, 'data.autoCompact'> = { 'data.autoCompact': true };
 
-const PROBE = 'VYSTRAL ✓ “quotes” <b>&amp;</b> Ünïcødé 日本語 🎮 \u2028 end';
+const PROBE = 'Arnav Games ✓ “quotes” <b>&amp;</b> Ünïcødé 日本語 🎮 \u2028 end';
 const MB = 1024 * 1024;
 
 export function maintenancePreviewHandlers(ctx: { emit: () => Emit; settings: () => Settings; timers: number[] }) {
@@ -33,11 +33,11 @@ export function maintenancePreviewHandlers(ctx: { emit: () => Emit; settings: ()
     { id: 'database', label: 'Library database opens and is up to date', outcome: 'passed', detail: 'Schema version 7.' },
     { id: 'integrity', label: 'Database integrity check', outcome: 'passed', detail: 'No problems found.' },
     bridgeEcho === 'ok'
-      ? { id: 'bridge', label: 'Interface and VYSTRAL talk to each other', outcome: 'passed', detail: 'A message went to the interface and came back unchanged.' }
+      ? { id: 'bridge', label: 'Interface and Arnav Games talk to each other', outcome: 'passed', detail: 'A message went to the interface and came back unchanged.' }
       : bridgeEcho === 'wrong'
-        ? { id: 'bridge', label: 'Interface and VYSTRAL talk to each other', outcome: 'failed', detail: 'A message came back changed.' }
-        : { id: 'bridge', label: 'Interface and VYSTRAL talk to each other', outcome: 'skipped', detail: 'The interface didn’t answer in time (it may have been busy).' },
-    { id: 'uiReady', label: 'Interface finished starting', outcome: 'passed', detail: 'Ready 0.8 s after VYSTRAL started.' },
+        ? { id: 'bridge', label: 'Interface and Arnav Games talk to each other', outcome: 'failed', detail: 'A message came back changed.' }
+        : { id: 'bridge', label: 'Interface and Arnav Games talk to each other', outcome: 'skipped', detail: 'The interface didn’t answer in time (it may have been busy).' },
+    { id: 'uiReady', label: 'Interface finished starting', outcome: 'passed', detail: 'Ready 0.8 s after Arnav Games started.' },
     failArt
       ? { id: 'artCache', label: 'Artwork cache readable', outcome: 'failed', detail: 'The artwork folder can’t be used (UnauthorizedAccessException). Covers fall back to generated ones.' }
       : { id: 'artCache', label: 'Artwork cache readable', outcome: 'passed', detail: 'Covers can be read and saved.' },

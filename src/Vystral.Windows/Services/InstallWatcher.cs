@@ -21,7 +21,7 @@ public sealed record InstallProgressDto(
 /// <summary>
 /// Watches Steam's app manifests to report installs, updates and uninstalls that Steam is doing.
 /// It only reads files: each tick stats manifest timestamps and parses a manifest only when it
-/// changed. While VYSTRAL is watching something it ticks every second; otherwise it does a light
+/// changed. While Arnav Games is watching something it ticks every second; otherwise it does a light
 /// sweep every few seconds. It pauses entirely while a game is running.
 /// </summary>
 public sealed class InstallWatcher
@@ -74,10 +74,10 @@ public sealed class InstallWatcher
         public InstallProgressDto? Emitted { get; set; }
     }
 
-    /// <summary>Starts watching for an install VYSTRAL just asked Steam to begin.</summary>
+    /// <summary>Starts watching for an install Arnav Games just asked Steam to begin.</summary>
     public void WatchInstall(string appId, string gameId) => Request(appId, gameId, "install");
 
-    /// <summary>Starts watching for an uninstall VYSTRAL just asked Steam to begin.</summary>
+    /// <summary>Starts watching for an uninstall Arnav Games just asked Steam to begin.</summary>
     public void WatchUninstall(string appId, string gameId) => Request(appId, gameId, "uninstall");
 
     private void Request(string appId, string gameId, string kind)

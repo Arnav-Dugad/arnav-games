@@ -94,7 +94,7 @@ export interface Advice {
 const DAY = 86_400_000;
 
 /**
- * A gentle recommendation from what VYSTRAL knows: recent play, playtime, cloud saves, the size to download again and
+ * A gentle recommendation from what Arnav Games knows: recent play, playtime, cloud saves, the size to download again and
  * any subscription that lists it. Never a verdict — the reasons are always shown.
  */
 export function advise(game: Game, advice: UninstallAdvice, now = Date.now()): Advice {

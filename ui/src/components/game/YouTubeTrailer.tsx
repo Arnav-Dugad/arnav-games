@@ -11,7 +11,7 @@ import { youTubeEmbedSrc, youTubeMessage, YOUTUBE_ORIGIN } from '../../lib/trail
 /**
  * Track D4: a YouTube trailer (from IGDB or GOG) in the detail hero — only with "Allow YouTube trailers" on, which the
  * host also enforces for every frame. The frame is youtube-nocookie.com, sandboxed without top navigation, popups or
- * forms, muted, without YouTube's own controls (VYSTRAL's play/stop and sound buttons drive it through YouTube's
+ * forms, muted, without YouTube's own controls (Arnav Games' play/stop and sound buttons drive it through YouTube's
  * documented iframe messages), and removed when it ends. It autoplays muted only under the same rules as Steam
  * trailers (idle, visible, not reduced motion, autoplay on); otherwise it waits for a click. The browser preview never
  * loads YouTube: it shows a local stand-in.

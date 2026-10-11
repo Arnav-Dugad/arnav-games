@@ -19,7 +19,7 @@ public sealed record AiFeatureDto(string Id, string Label, bool Enabled, string 
 /// <summary>
 /// Track C5: routes AI requests to the provider the user picked (Settings → AI): local Ollama, or one cloud provider
 /// the user explicitly opted into. If the cloud provider fails (offline, rate limit, bad key, a decline, an unusable
-/// answer), local AI is tried when it's turned on; otherwise the feature shows VYSTRAL's own deterministic result.
+/// answer), local AI is tried when it's turned on; otherwise the feature shows Arnav Games' own deterministic result.
 /// </summary>
 public sealed class AiRouter(SettingsService settings, CloudAiService cloud, OllamaService ollama)
 {
@@ -34,32 +34,32 @@ public sealed class AiRouter(SettingsService settings, CloudAiService cloud, Oll
         // Track D3: the one Assistant. Its look-ups ("tools") are listed in Settings → AI; journal and tonight are two of them.
         ("assistant", "Assistant",
             "Your messages, the name of the page you’re on (and the game, if you’re on its page), and — only when the Assistant looks something up — what that look-up found: for example game titles, genres, statuses, hours played, sizes, play totals, prices or frame-rate statistics. Before look-up results go to a cloud AI you see exactly what and choose whether to share. Never folder paths, notes, keys or account details.",
-            "Without an AI, the Assistant can’t chat; every page still shows VYSTRAL’s own data.", true),
+            "Without an AI, the Assistant can’t chat; every page still shows Arnav Games’ own data.", true),
         ("journal", "Play history questions (Assistant)",
-            "Your question, today’s date, the names of games and genres in your library (to understand the question), then the totals VYSTRAL calculated for the chart (game titles or dates with hours and session counts).",
+            "Your question, today’s date, the names of games and genres in your library (to understand the question), then the totals Arnav Games calculated for the chart (game titles or dates with hours and session counts).",
             "The Assistant can’t look up your play history; the Journal page still shows it.", true),
         ("patchNotes", "Patch note summaries",
             "The game’s title and the text of the public news post you asked to summarize.",
             "The post’s first key lines are shown instead.", true),
         ("tonight", "What to play tonight (Assistant)",
-            "Your mood, the time you have and anything you type, plus up to 8 candidate games VYSTRAL picked: title, genres, your hours, average session length, time to beat, install and subscription status.",
-            "VYSTRAL’s own top three picks with their reasons.", true),
+            "Your mood, the time you have and anything you type, plus up to 8 candidate games Arnav Games picked: title, genres, your hours, average session length, time to beat, install and subscription status.",
+            "Arnav Games’ own top three picks with their reasons.", true),
         ("smartCollections", "Smart collections from a sentence",
             "Your sentence and the list of genre names in your library.",
-            "VYSTRAL’s own query parser builds the filter from your sentence.", true),
+            "Arnav Games’ own query parser builds the filter from your sentence.", true),
         ("duplicates", "Duplicate explanations",
-            "The two entries’ titles, stores, release years, developers and the matching facts VYSTRAL found.",
+            "The two entries’ titles, stores, release years, developers and the matching facts Arnav Games found.",
             "The matching facts are listed without a sentence.", true),
         ("recapCaptions", "Session recap captions",
             "The game’s title and that session’s stats: length, time of day, achievements unlocked, average frame rate and how many times you’ve played it.",
             "No caption.", false),
         // Track E1: two-line summaries for games without a description, and wording for the lag note on rough sessions.
         ("gameSummaries", "Game summaries",
-            "For a game with no description: its title, genres, developer, publisher, release year, the IGDB and RAWG facts VYSTRAL matched (genres, themes, modes, perspective, series) and its Steam community tags.",
+            "For a game with no description: its title, genres, developer, publisher, release year, the IGDB and RAWG facts Arnav Games matched (genres, themes, modes, perspective, series) and its Steam community tags.",
             "Games without a description show none, as before.", false),
         ("lagNotes", "Lag note wording",
-            "After a rough session: that session’s frame-rate figures (average, 1% low, stutters) and VYSTRAL’s own stutter findings, plus the names of background apps often seen in rough sessions. Never the game’s folder or your settings.",
-            "VYSTRAL writes the likely cause itself, from its frame-time analysis.", false),
+            "After a rough session: that session’s frame-rate figures (average, 1% low, stutters) and Arnav Games’ own stutter findings, plus the names of background apps often seen in rough sessions. Never the game’s folder or your settings.",
+            "Arnav Games writes the likely cause itself, from its frame-time analysis.", false),
     ];
 
     public static string FeatureSetting(string id) => $"ai.features.{id}";
@@ -75,7 +75,7 @@ public sealed class AiRouter(SettingsService settings, CloudAiService cloud, Oll
 
     public AiEngineDto Active()
     {
-        if (SafeMode) return new AiEngineDto("none", "No AI", false, false, "VYSTRAL is in safe mode.");
+        if (SafeMode) return new AiEngineDto("none", "No AI", false, false, "Arnav Games is in safe mode.");
         if (ChosenCloud is { } p)
         {
             var name = CloudAiProviders.Name(p);

@@ -8,7 +8,7 @@ namespace Vystral.Core.Media;
 /// you hover a capsule. Steam publishes one next to every store trailer, in the same CDN folder as
 /// the trailer's HLS master playlist (<c>…/store_trailers/{appid}/{id}/{hash}/{ts}/microtrailer.mp4</c>,
 /// with a <c>.webm</c> twin). IStoreBrowseService/GetItems lists them as <c>trailers.highlights[].microtrailer</c>;
-/// appdetails (which VYSTRAL already reads for trailers) no longer names them, so the URL is derived
+/// appdetails (which Arnav Games already reads for trailers) no longer names them, so the URL is derived
 /// from the stored HLS master. Everything here is pure and allow-listed, like <see cref="SteamTrailers"/>.
 /// </summary>
 public static class SteamMicroTrailers

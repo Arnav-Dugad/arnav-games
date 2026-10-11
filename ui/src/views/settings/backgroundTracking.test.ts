@@ -10,7 +10,7 @@ const base: TrackingStatus = {
 
 describe('background tracking status line', () => {
   it('says plainly when it is off', () => {
-    expect(trackingStatusLine(base, false, NOW)).toBe('Off. Only games you start from VYSTRAL are recorded.');
+    expect(trackingStatusLine(base, false, NOW)).toBe('Off. Only games you start from Arnav Games are recorded.');
   });
 
   it('names the last game seen and when', () => {
@@ -24,6 +24,6 @@ describe('background tracking status line', () => {
   it('is honest before anything was seen, and in safe mode', () => {
     expect(trackingStatusLine(base, true, NOW)).toBe('Background tracking is on — watching 42 installed games; nothing noticed yet.');
     expect(trackingStatusLine({ ...base, watchedGames: 1 }, true, NOW)).toContain('watching 1 installed game;');
-    expect(trackingStatusLine({ ...base, safeMode: true, available: false }, true, NOW)).toBe('Paused: VYSTRAL is running in safe mode.');
+    expect(trackingStatusLine({ ...base, safeMode: true, available: false }, true, NOW)).toBe('Paused: Arnav Games is running in safe mode.');
   });
 });

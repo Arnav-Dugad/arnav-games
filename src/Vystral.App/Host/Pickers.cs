@@ -3,7 +3,7 @@ using Windows.Storage.Pickers;
 
 namespace Vystral.App.Host;
 
-/// <summary>System file dialogs. These are the only way a file path can enter VYSTRAL from the UI.</summary>
+/// <summary>System file dialogs. These are the only way a file path can enter Arnav Games from the UI.</summary>
 internal static class Pickers
 {
     public static Task<string?> PickFileAsync(MainWindow window, string[] extensions) => window.OnUiAsync(async () =>

@@ -40,7 +40,7 @@ public interface IVoiceBackend
 /// <summary>
 /// Track E1: push-to-talk voice input for the Assistant, on this PC only.
 /// <para>Engine choice (see docs/PRIVACY.md, "Voice input"): the Windows desktop speech recognizer (SAPI, through
-/// <c>System.Speech</c>) with its dictation grammar, running in VYSTRAL's own process. It needs no network and no account:
+/// <c>System.Speech</c>) with its dictation grammar, running in Arnav Games' own process. It needs no network and no account:
 /// audio from the microphone goes to the recognizer on this PC and is never stored or sent anywhere. The WinRT
 /// <c>Windows.Media.SpeechRecognition</c> dictation topic and WebView2's <c>webkitSpeechRecognition</c> both use
 /// Microsoft's online speech service, so neither is used.</para>
@@ -81,7 +81,7 @@ public sealed partial class VoiceService(IVoiceBackend backend, Func<string, boo
                ?? installed[0];
     }
 
-    /// <summary>"Deny" in either the global or the desktop-apps switch blocks the microphone for VYSTRAL.</summary>
+    /// <summary>"Deny" in either the global or the desktop-apps switch blocks the microphone for Arnav Games.</summary>
     public static bool MicrophoneBlocked((string? Global, string? Desktop) consent) =>
         string.Equals(consent.Global, "Deny", StringComparison.OrdinalIgnoreCase) || string.Equals(consent.Desktop, "Deny", StringComparison.OrdinalIgnoreCase);
 

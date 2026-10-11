@@ -167,7 +167,7 @@ function GoalCard({ goal, onClear }: { goal: GuideAchievement; onClear: () => vo
 }
 
 /**
- * Track W: the pinned goal next to the Play button. Read from VYSTRAL's cache only (never asks Steam);
+ * Track W: the pinned goal next to the Play button. Read from Arnav Games' cache only (never asks Steam);
  * "Goal reached" once it's unlocked. Opens the Achievements tab.
  */
 export function CurrentGoalChip({ game, onOpen }: { game: Game; onOpen: () => void }) {

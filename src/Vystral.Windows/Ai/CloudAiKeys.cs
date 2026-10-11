@@ -80,18 +80,18 @@ public sealed partial class CloudAiKeyStore(ISecretStore store)
 {
     public static string Target(CloudAiProvider p) => p switch
     {
-        CloudAiProvider.Anthropic => "VYSTRAL/AI-Anthropic",
-        CloudAiProvider.OpenAi => "VYSTRAL/AI-OpenAI",
-        CloudAiProvider.Gemini => "VYSTRAL/AI-Gemini",
-        _ => "VYSTRAL/AI-Compatible",
+        CloudAiProvider.Anthropic => Brand.Legacy.CredentialPrefix + "AI-Anthropic",
+        CloudAiProvider.OpenAi => Brand.Legacy.CredentialPrefix + "AI-OpenAI",
+        CloudAiProvider.Gemini => Brand.Legacy.CredentialPrefix + "AI-Gemini",
+        _ => Brand.Legacy.CredentialPrefix + "AI-Compatible",
     };
 
     public static string Comment(CloudAiProvider p) => p switch
     {
-        CloudAiProvider.Anthropic => "Your Anthropic API key, used by VYSTRAL's optional cloud AI (Claude).",
-        CloudAiProvider.OpenAi => "Your OpenAI API key, used by VYSTRAL's optional cloud AI (ChatGPT).",
-        CloudAiProvider.Gemini => "Your Google AI Studio API key, used by VYSTRAL's optional cloud AI (Gemini).",
-        _ => "Your API key for the OpenAI-compatible endpoint you added to VYSTRAL's optional cloud AI.",
+        CloudAiProvider.Anthropic => "Your Anthropic API key, used by Arnav Games' optional cloud AI (Claude).",
+        CloudAiProvider.OpenAi => "Your OpenAI API key, used by Arnav Games' optional cloud AI (ChatGPT).",
+        CloudAiProvider.Gemini => "Your Google AI Studio API key, used by Arnav Games' optional cloud AI (Gemini).",
+        _ => "Your API key for the OpenAI-compatible endpoint you added to Arnav Games' optional cloud AI.",
     };
 
     /// <summary>Trims a pasted key; null when it can't be an API key (letters, digits, '-', '_', '.'; 16–250 characters).</summary>

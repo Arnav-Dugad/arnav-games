@@ -101,7 +101,7 @@ export const useExtras = create<ExtrasState>((set, get) => ({
     try {
       await call('assistant.prompts.clear');
       await get().loadLearned();
-      app().toast({ tone: 'success', title: 'Learned suggestions forgotten', body: 'Suggestions are back to VYSTRAL’s own.' });
+      app().toast({ tone: 'success', title: 'Learned suggestions forgotten', body: 'Suggestions are back to Arnav Games’ own.' });
     } catch (err) {
       app().toast({ tone: 'danger', title: 'Couldn’t forget suggestions', body: errorMessage(err) });
     }
@@ -124,7 +124,7 @@ export async function recordAsked(text: string): Promise<void> {
   }
 }
 
-/** App-wide events: memory changes, the weekly recap when VYSTRAL is in front, settings that change voice. */
+/** App-wide events: memory changes, the weekly recap when Arnav Games is in front, settings that change voice. */
 export function subscribeExtras() {
   if (subscribed) return;
   subscribed = true;

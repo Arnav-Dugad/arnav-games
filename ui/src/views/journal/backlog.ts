@@ -1,5 +1,5 @@
 /**
- * Pure computations for the Journal's Backlog card, built from the status history VYSTRAL
+ * Pure computations for the Journal's Backlog card, built from the status history Arnav Games
  * records when you change a game's status. Nothing is inferred: a game only counts as
  * "in the backlog" on days after you marked it so. Local-time calendar maths (DST-safe).
  */
@@ -118,7 +118,7 @@ export interface TimeToBeat {
   games: number;
   /** Average calendar days between those two marks. */
   avgDays: number | null;
-  /** How many of those games have VYSTRAL-tracked play between the marks. */
+  /** How many of those games have Arnav Games–tracked play between the marks. */
   trackedGames: number;
   /** Average tracked play time between the marks, over `trackedGames`. */
   avgTrackedSeconds: number | null;
@@ -127,7 +127,7 @@ export interface TimeToBeat {
 /**
  * Average time to beat, from your own marks: for each game, from the first time it was marked
  * Playing to the first time after that it was marked Beaten or Completed 100%. Play time is the
- * sum of VYSTRAL-tracked sessions that started in that window; store playtime isn't included.
+ * sum of Arnav Games–tracked sessions that started in that window; store playtime isn't included.
  */
 export function timeToBeat(events: readonly StatusEvent[], sessions: readonly Pick<JSession, 'gameId' | 'startMs' | 'seconds'>[]): TimeToBeat {
   const spans: { gameId: string; from: number; to: number }[] = [];

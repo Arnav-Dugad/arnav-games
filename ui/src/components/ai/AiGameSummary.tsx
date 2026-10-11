@@ -11,7 +11,7 @@ const cache = new Map<string, GameSummary>();
 
 /**
  * Track E1: a two-line "what is this game" for a game without a description, written by the chosen AI only from facts
- * VYSTRAL already has (genres, IGDB/RAWG facts, Steam community tags). Always labelled "AI summary from …", never shown
+ * Arnav Games already has (genres, IGDB/RAWG facts, Steam community tags). Always labelled "AI summary from …", never shown
  * as the game's description; cached and regenerable. With the Game summaries switch off (the default) it waits for a
  * click; without an AI or enough facts it shows `children` (the usual "No description available").
  */
@@ -54,7 +54,7 @@ export function AiGameSummary({ game, children }: { game: Game; children: ReactN
     );
   }
   if (data?.text) {
-    const sources = data.sources.length ? data.sources.join(', ') : 'facts VYSTRAL has';
+    const sources = data.sources.length ? data.sources.join(', ') : 'facts Arnav Games has';
     return (
       <div className="ai-summary" data-stale={data.stale || undefined}>
         <p className="ai-summary__label">

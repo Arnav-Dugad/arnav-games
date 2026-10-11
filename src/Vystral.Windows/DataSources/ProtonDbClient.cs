@@ -11,7 +11,7 @@ public sealed record ProtonSummary(string AppId, string Tier, string? BestReport
 /// Track D4: ProtonDB summaries (<c>www.protondb.com/api/v1/reports/summaries/{appid}.json</c>), the keyless JSON
 /// protondb.com's own game pages read. Undocumented ("grey"): off by default (<c>dataSources.protondb</c>), asked
 /// only when a game page opens, cached for a week, and a failure just hides the badge. The reports are community
-/// data published under the ODbL; VYSTRAL shows the summary per user with attribution and never redistributes it.
+/// data published under the ODbL; Arnav Games shows the summary per user with attribution and never redistributes it.
 /// </summary>
 public sealed class ProtonDbClient(ProviderTransport transport)
 {

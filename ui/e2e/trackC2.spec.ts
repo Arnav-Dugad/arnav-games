@@ -39,7 +39,7 @@ test.describe('title bar caption space', () => {
       expect(await page.evaluate(() => getComputedStyle(document.documentElement).getPropertyValue('--caption-inset-right').trim())).toBe(`${inset}px`);
       const box = await space.boundingBox();
       expect(box!.width).toBeCloseTo(Math.max(12, inset + 8), 0);
-      // The Immersive button (the last of VYSTRAL's own) ends before the caption buttons start.
+      // The Immersive button (the last of Arnav Games' own) ends before the caption buttons start.
       const viewport = page.viewportSize()!;
       const last = await page.getByRole('button', { name: 'Immersive Mode (F11)' }).boundingBox();
       expect(last!.x + last!.width).toBeLessThanOrEqual(viewport.width - inset - 8 + 0.5);

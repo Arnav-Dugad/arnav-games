@@ -134,7 +134,7 @@ export const HourHeatmap = memo(function HourHeatmap({ sessions, rangeText, week
         ) : (
           <div className="how-prime__text">
             <span className="caps">Your prime time</span>
-            <span className="how-prime__sub">A few more sessions in this range and VYSTRAL can tell when you usually play.</span>
+            <span className="how-prime__sub">A few more sessions in this range and Arnav Games can tell when you usually play.</span>
           </div>
         )}
       </div>

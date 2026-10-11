@@ -233,7 +233,7 @@ public sealed class CloudPlayServiceTests : IDisposable
         Assert.Null(session.InstallationId);
         Assert.Equal(45 * 60, session.DurationSeconds);
         Assert.Contains("library.changed", _events.Names);
-        // Cloud time counts as time VYSTRAL saw you play, and in the meter.
+        // Cloud time counts as time Arnav Games saw you play, and in the meter.
         Assert.Equal(45 * 60, _t.Repo.LoadSnapshot((_, _) => null).Games.Single(g => g.Id == hl2).TrackedSeconds);
         _settings.Set("cloud.gfnPlan", JsonValue.Create("performance"));
         var meter = _svc.MeterDto();
@@ -303,7 +303,7 @@ public sealed class CloudPlayServiceTests : IDisposable
     public void The_cloud_client_sends_a_plain_user_agent_and_keeps_no_cookies()
     {
         using var http = CloudPlayService.CreateHttpClient("0.6.0");
-        Assert.Equal("VYSTRAL/0.6.0", http.DefaultRequestHeaders.UserAgent.ToString());
+        Assert.Equal("ArnavGames/0.6.0", http.DefaultRequestHeaders.UserAgent.ToString());
         var handlerField = typeof(HttpMessageInvoker).GetField("_handler", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
         var handler = Assert.IsType<SocketsHttpHandler>(handlerField!.GetValue(http));
         Assert.False(handler.UseCookies);

@@ -263,7 +263,7 @@ export function DiscoverPage({
               <div className="imm-dpage__error" role="alert">
                 <p className="imm-page__note">
                   {load.code === 'offline' ? <CloudOff size="1.1em" aria-hidden /> : <AlertTriangle size="1.1em" aria-hidden />}
-                  {load.code === 'offline' ? 'Offline mode is on, so VYSTRAL can’t look this game up. Pages you opened before still show what they knew.' : `This game couldn’t be looked up. ${load.message}`}
+                  {load.code === 'offline' ? 'Offline mode is on, so Arnav Games can’t look this game up. Pages you opened before still show what they knew.' : `This game couldn’t be looked up. ${load.message}`}
                 </p>
                 {item.price && <p className="imm-page__note"><Tag size="1.1em" aria-hidden /> {item.price}{item.cut ? ` · −${item.cut}%` : ''}{item.source === 'wishlist' ? ' on Steam, from your wishlist' : ''}</p>}
                 <div className="imm-panel__actions">
@@ -344,10 +344,10 @@ export function DiscoverPage({
                   </div>
                 )}
 
-                {d.reason === 'offline' && <p className="imm-page__note"><CloudOff size="1em" aria-hidden /> Offline mode is on: showing what VYSTRAL found earlier.</p>}
+                {d.reason === 'offline' && <p className="imm-page__note"><CloudOff size="1em" aria-hidden /> Offline mode is on: showing what Arnav Games found earlier.</p>}
                 <p className="imm-dpage__credits">
                   {d.credits.map((c) => c.note).join(' · ')}
-                  {d.credits.length ? ' · ' : ''}VYSTRAL never buys, installs or launches anything from here.
+                  {d.credits.length ? ' · ' : ''}Arnav Games never buys, installs or launches anything from here.
                 </p>
               </div>
             )}

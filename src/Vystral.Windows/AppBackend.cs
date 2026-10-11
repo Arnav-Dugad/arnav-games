@@ -73,8 +73,8 @@ public sealed partial class AppBackend : IDisposable
         Settings = new SettingsService(Repository);
 
         _http = new HttpClient(FastConnect.CreateHandler()) { Timeout = TimeSpan.FromSeconds(20) };
-        _http.DefaultRequestHeaders.UserAgent.Add(new ProductInfoHeaderValue("VYSTRAL", Version));
-        _http.DefaultRequestHeaders.UserAgent.Add(new ProductInfoHeaderValue("(+https://github.com/Arnav-Dugad/vystral)"));
+        _http.DefaultRequestHeaders.UserAgent.Add(new ProductInfoHeaderValue(Brand.UserAgentProduct, Version));
+        _http.DefaultRequestHeaders.UserAgent.Add(new ProductInfoHeaderValue(Brand.UserAgentComment));
 
         var registry = new WindowsRegistryReader();
         _steam = new SteamAdapter(registry);
@@ -107,7 +107,7 @@ public sealed partial class AppBackend : IDisposable
         RegisterLiveTileHandlers();       // AppBackend.LiveTiles.cs: Home live tiles (Steam micro-trailers, cached proxy)
         RegisterDataSourceHandlers();     // AppBackend.DataSources.cs: art picker, enrichment, prices, identity, compatibility, value
         RegisterArtPackHandlers();        // AppBackend.ArtPacks.cs: one SteamGridDB style across the library, undoable
-        RegisterTrackingHandlers();       // AppBackend.Tracking.cs: games started outside VYSTRAL, background tracker
+        RegisterTrackingHandlers();       // AppBackend.Tracking.cs: games started outside Arnav Games, background tracker
         RegisterRecapHandlers();          // AppBackend.Recap.cs: away card, time to beat, anti-cheat notes, value forecast, session replay
         RegisterImmersiveHandlers();      // AppBackend.Immersive.cs: Immersive system bar (battery, network, controller batteries)
         RegisterTrackPHandlers();         // AppBackend.TrackP.cs: friends playing now (opt-in), update-space forecast
@@ -159,7 +159,7 @@ public sealed partial class AppBackend : IDisposable
             }
             fresh = new Database(Paths.Database);
             fresh.Migrate();
-            return $"Your library database couldn't be upgraded, so VYSTRAL started fresh. The old file was kept at {keep}.";
+            return $"Your library database couldn't be upgraded, so {Brand.Name} started fresh. The old file was kept at {keep}.";
         }
         catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
         {
@@ -173,11 +173,11 @@ public sealed partial class AppBackend : IDisposable
             Directory.CreateDirectory(Paths.Backups);
             fresh = new Database(temporary);
             fresh.Migrate();
-            return "Your library database couldn't be upgraded, and another VYSTRAL process is using it, so this session started with an empty library. Your games and history are safe: close VYSTRAL (and turn off background tracking if it's on), then open it again.";
+            return "Your library database couldn't be upgraded, and another Arnav Games process is using it, so this session started with an empty library. Your games and history are safe: close Arnav Games (and turn off background tracking if it's on), then open it again.";
         }
     }
 
-    /// <summary>A game is starting or running (one rule everywhere: <see cref="SessionService.IsActivePhase"/>), or a cloud stream started from VYSTRAL is running.</summary>
+    /// <summary>A game is starting or running (one rule everywhere: <see cref="SessionService.IsActivePhase"/>), or a cloud stream started from Arnav Games is running.</summary>
     public bool IsGameActive => Sessions.IsBusy || CloudSessionActive; // Track O: a cloud stream counts too
 
     /// <summary>Data saver is on (manually, or because the connection is metered): no optional downloads in the background.</summary>
@@ -201,7 +201,7 @@ public sealed partial class AppBackend : IDisposable
             {
                 try
                 {
-                    // First check shortly after start, then every 6 hours for people who leave VYSTRAL open.
+                    // First check shortly after start, then every 6 hours for people who leave Arnav Games open.
                     await Task.Delay(TimeSpan.FromSeconds(20), _life.Token);
                     while (!_life.IsCancellationRequested)
                     {

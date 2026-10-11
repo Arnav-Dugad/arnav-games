@@ -63,7 +63,7 @@ public sealed partial class OllamaService
         catch (Exception ex) when (ex is HttpRequestException or TaskCanceledException or JsonException)
         {
             return new AiStatusDto(enabled, false, null, [], selected, false, Recommended,
-                "Ollama isn't running on this PC. Install it from ollama.com and start it to use local AI. Everything else in VYSTRAL works without it.");
+                "Ollama isn't running on this PC. Install it from ollama.com and start it to use local AI. Everything else in Arnav Games works without it.");
         }
     }
 
@@ -113,7 +113,7 @@ public sealed partial class OllamaService
         {
             // Anything else (an unexpected answer shape, a broken stream) still ends the download in the UI.
             Log.Warn("ai", "Model download failed", ex: ex);
-            _events.Emit("ai.pull", new { model, status = "error", error = "Download failed: Ollama sent an answer VYSTRAL couldn't read." });
+            _events.Emit("ai.pull", new { model, status = "error", error = "Download failed: Ollama sent an answer Arnav Games couldn't read." });
         }
     }
 
@@ -338,11 +338,11 @@ public sealed partial class OllamaService
     }
 
     private const string SystemPrompt =
-        "You are VYSTRAL's local game-library assistant running on the user's PC. Rules: " +
+        "You are Arnav Games' local game-library assistant running on the user's PC. Rules: " +
         "1) Only state facts that appear in LIBRARY DATA; if something is unknown, say it is unknown. " +
         "2) Never invent achievements, playtime, ownership, performance numbers or features. " +
         "3) Clearly label opinions and recommendations as suggestions. " +
-        "4) You cannot perform actions; describe what the user can do in VYSTRAL instead. " +
+        "4) You cannot perform actions; describe what the user can do in Arnav Games instead. " +
         "5) Be concise and friendly. Use short paragraphs or bullet lists.";
 
     private const string QuerySchema = """

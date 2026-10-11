@@ -66,7 +66,16 @@ public enum AutostartState
 /// </summary>
 public sealed class TrackerAutostart(IRunKeyStore store, string? launcherPath)
 {
-    public const string ValueName = "VYSTRAL Background Tracker";
+    /// <summary>The Run value's name (Task Manager › Startup apps can show it).</summary>
+    public const string ValueName = Brand.Name + " Background Tracker";
+
+    /// <summary>
+    /// The value's name before the app was renamed (VYSTRAL, up to 0.9). <see cref="Enable"/> moves it to
+    /// <see cref="ValueName"/>, so there is never more than one entry. Task Manager keeps its on/off switch
+    /// per value name, so an old entry the user turned off there is kept (and repaired) under its old
+    /// name rather than being renamed into an entry that would start again.
+    /// </summary>
+    public const string LegacyValueName = "VYSTRAL Background Tracker";
 
     /// <summary>The exact value written, or null when this build can't register.</summary>
     public string? Command => launcherPath is null ? null : $"\"{launcherPath}\" {TrackerCommandLine.Switch}";
@@ -76,33 +85,59 @@ public sealed class TrackerAutostart(IRunKeyStore store, string? launcherPath)
     public AutostartState State()
     {
         if (!Available) return AutostartState.Unavailable;
-        var value = store.Get(ValueName);
+        var name = ValueName;
+        var value = store.Get(name);
+        if (value is null && store.Get(LegacyValueName) is { } legacy)
+        {
+            name = LegacyValueName;
+            value = legacy;
+        }
         if (value is null) return AutostartState.Off;
-        if (!string.Equals(value, Command, StringComparison.OrdinalIgnoreCase)) return AutostartState.Stale;
-        return store.IsDisabledInStartupApps(ValueName) == true ? AutostartState.DisabledByWindows : AutostartState.On;
+        if (name == ValueName && !string.Equals(value, Command, StringComparison.OrdinalIgnoreCase)) return AutostartState.Stale;
+        if (store.IsDisabledInStartupApps(name) == true) return AutostartState.DisabledByWindows;
+        // An entry under the old name is repaired (renamed) by Enable, like a moved install.
+        return name == LegacyValueName ? AutostartState.Stale : AutostartState.On;
     }
 
     /// <summary>Writes the entry if it is missing or different. False when this build can't register.</summary>
     public bool Enable()
     {
         if (!Available) return false;
-        if (!string.Equals(store.Get(ValueName), Command, StringComparison.Ordinal)) store.Set(ValueName, Command!);
+        var name = ValueName;
+        if (store.Get(LegacyValueName) is not null)
+        {
+            if (store.IsDisabledInStartupApps(LegacyValueName) == true)
+            {
+                // Turned off in Task Manager under the old name: keep that choice and never leave two entries.
+                name = LegacyValueName;
+                if (store.Get(ValueName) is not null) store.Delete(ValueName);
+            }
+            else
+            {
+                store.Delete(LegacyValueName);
+            }
+        }
+        if (!string.Equals(store.Get(name), Command, StringComparison.Ordinal)) store.Set(name, Command!);
         return true;
     }
 
     /// <summary>
-    /// Removes the entry (only VYSTRAL's own value name is ever touched). A development or portable copy
+    /// Removes the entry (only the app's own value names are ever touched). A development or portable copy
     /// never touches it, so running one can't switch off the installed app's tracker.
     /// </summary>
     public void Disable()
     {
-        if (Available && store.Get(ValueName) is not null) store.Delete(ValueName);
+        if (!Available) return;
+        RemoveAll();
     }
 
     /// <summary>Uninstall: removes the entry whatever this copy is.</summary>
-    public void Remove()
+    public void Remove() => RemoveAll();
+
+    private void RemoveAll()
     {
         if (store.Get(ValueName) is not null) store.Delete(ValueName);
+        if (store.Get(LegacyValueName) is not null) store.Delete(LegacyValueName);
     }
 
     private static bool IsSafePath(string path) =>

@@ -10,6 +10,7 @@ import type {
   TimeToBeatMap,
 } from './types';
 import { BridgeError } from './bridge';
+import { APP_NAME } from '../lib/brand';
 
 type Emit = (name: string, payload: unknown) => void;
 
@@ -77,12 +78,12 @@ export function recapPreviewHandlers(ctx: {
     const k = kernelFor(g);
     if (!k || !s['launch.antiCheatNotes'] || !s['dataSources.antiCheat']) return null;
     const notes = [
-      'VYSTRAL never interacts with it: it doesn’t inject code into games, draw overlays inside them or read their memory.',
-      'To see that the game is running, VYSTRAL only asks Windows which programs are running (read-only).',
+      'Arnav Games never interacts with it: it doesn’t inject code into games, draw overlays inside them or read their memory.',
+      'To see that the game is running, Arnav Games only asks Windows which programs are running (read-only).',
       ...(s['fps.captureEnabled'] ? ['Frame-rate capture is on: it uses Intel PresentMon, which reads the frame timing events Windows itself publishes (ETW) and doesn’t hook into the game.'] : []),
-      'Each anti-cheat decides for itself what other software it allows; VYSTRAL can’t speak for it.',
+      'Each anti-cheat decides for itself what other software it allows; Arnav Games can’t speak for it.',
     ];
-    return { kernel: [k], other: [], headline: `Uses kernel anti-cheat (${k}). VYSTRAL never interacts with it.`, notes, source: 'Anti-cheat per AreWeAntiCheatYet (community-maintained).', updated: '2025-11-02T00:00:00.000Z' };
+    return { kernel: [k], other: [], headline: `Uses kernel anti-cheat (${k}). ${APP_NAME} never interacts with it.`, notes, source: 'Anti-cheat per AreWeAntiCheatYet (community-maintained).', updated: '2025-11-02T00:00:00.000Z' };
   };
 
   const handlers = {
@@ -201,7 +202,7 @@ export function recapPreviewHandlers(ctx: {
     },
     'replay.imageSave': (p: { token: string }) => {
       const r = take(p.token, 'save');
-      return { path: `C:\\Users\\you\\Pictures\\VYSTRAL replay - ${find(ctx.lib.sessions.find((x) => x.id === r.sessionId)!.gameId)?.title ?? 'Session'}.png` };
+      return { path: `C:\\Users\\you\\Pictures\\${APP_NAME} replay - ${find(ctx.lib.sessions.find((x) => x.id === r.sessionId)!.gameId)?.title ?? 'Session'}.png` };
     },
     'replay.imageCopy': (p: { token: string }) => {
       take(p.token, 'copy');

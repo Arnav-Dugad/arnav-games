@@ -76,7 +76,7 @@ export function DiskForecastCard() {
               <Button size="sm" icon={<FolderOpen size={14} />} onClick={() => void openFolder(leadGame)}>Open {leadGame.title}’s folder</Button>
             )}
           </div>
-          <p className="diskwarn__safe">Sizes come from Steam’s own files on this PC. VYSTRAL never deletes anything; uninstalling happens in the store.</p>
+          <p className="diskwarn__safe">Sizes come from Steam’s own files on this PC. Arnav Games never deletes anything; uninstalling happens in the store.</p>
         </motion.section>
       )}
     </AnimatePresence>

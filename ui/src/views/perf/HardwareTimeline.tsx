@@ -62,7 +62,7 @@ export function HardwareTimeline({ gameId, hideWhenEmpty }: { gameId: string | n
       />
       {empty ? (
         <p className="pf-muted">
-          With performance metrics on, VYSTRAL notes the graphics driver and your main display’s resolution, refresh rate and HDR at the start of each session
+          With performance metrics on, Arnav Games notes the graphics driver and your main display’s resolution, refresh rate and HDR at the start of each session
           (read-only). When one changes, it’s marked here and linked to the frame-rate comparison.
         </p>
       ) : (

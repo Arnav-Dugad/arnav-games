@@ -70,7 +70,7 @@ export function AiProvidersSettings() {
       <h2 className="sgroup__title" id="ai-set-title">AI providers <Badge>Optional</Badge><NewBadge k="settings.ai.cloud" variant="pill" seenWhenVisible /></h2>
       <p className="sgroup__desc">
         Use Claude, ChatGPT, Gemini or any OpenAI-compatible service with <strong>your own API key</strong> instead of local AI. Cloud AI is off until you turn a
-        provider on, and then it sends that company only what a feature needs. Each feature below says exactly what. Everything in VYSTRAL works without AI.
+        provider on, and then it sends that company only what a feature needs. Each feature below says exactly what. Everything in Arnav Games works without AI.
       </p>
 
       {status.localOnly && (
@@ -78,7 +78,7 @@ export function AiProvidersSettings() {
           <CloudOff size={18} aria-hidden />
           <div>
             <strong>Offline mode is on</strong>
-            <span>Cloud AI is paused and nothing is sent. Local AI and VYSTRAL’s own answers still work.</span>
+            <span>Cloud AI is paused and nothing is sent. Local AI and Arnav Games’ own answers still work.</span>
           </div>
         </div>
       )}
@@ -112,7 +112,7 @@ export function AiProvidersSettings() {
       <p className="ai-set__now" role="status" data-ready={status.active.ready || undefined}>
         {status.active.ready ? <CheckCircle2 size={15} aria-hidden /> : <PauseCircle size={15} aria-hidden />}
         <span>
-          {status.active.ready ? <>AI features use <strong>{status.active.label}</strong>{status.active.cloud ? ' (cloud).' : ' (on this PC).'}</> : <>AI features are using VYSTRAL’s own answers.</>}
+          {status.active.ready ? <>AI features use <strong>{status.active.label}</strong>{status.active.cloud ? ' (cloud).' : ' (on this PC).'}</> : <>AI features are using Arnav Games’ own answers.</>}
           {status.active.reason && <> {status.active.reason}</>}
         </span>
       </p>
@@ -128,8 +128,8 @@ export function AiProvidersSettings() {
       </div>
 
       <p className="dsrc__footnote">
-        <Lock size={13} aria-hidden /> Keys are stored only in Windows Credential Manager (as “VYSTRAL/AI-&lt;provider&gt;”), never in VYSTRAL’s database,
-        settings, logs or this page. VYSTRAL sends at most 30 requests every 10 minutes and 400 a day to a provider, gives each request 60 seconds, never
+        <Lock size={13} aria-hidden /> Keys are stored only in Windows Credential Manager (as “VYSTRAL/AI-&lt;provider&gt;”), never in Arnav Games’ database,
+        settings, logs or this page. Arnav Games sends at most 30 requests every 10 minutes and 400 a day to a provider, gives each request 60 seconds, never
         follows redirects with your key, and never sends file paths, notes, other keys or anything a feature doesn’t list. Your provider may charge for use.
       </p>
     </section>
@@ -238,7 +238,7 @@ function ProviderCard({ p, status }: { p: CloudAiProviderStatus; status: AiCloud
       </header>
 
       {p.pausedUntil && Date.parse(p.pausedUntil) > Date.now() && (
-        <p className="dsrc-card__hint" role="status"><PauseCircle size={13} aria-hidden /> {p.name} asked VYSTRAL to pause until {new Date(p.pausedUntil).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}.</p>
+        <p className="dsrc-card__hint" role="status"><PauseCircle size={13} aria-hidden /> {p.name} asked Arnav Games to pause until {new Date(p.pausedUntil).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}.</p>
       )}
 
       {!p.configured && (

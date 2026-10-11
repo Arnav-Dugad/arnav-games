@@ -1,7 +1,7 @@
 import { expect, test, type Page } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 
-/** Track H: games started outside VYSTRAL — settings toggle, status line, background chip, detected chip. */
+/** Track H: games started outside Arnav Games — settings toggle, status line, background chip, detected chip. */
 async function open(page: Page, query = '?reduced') {
   await page.addInitScript(() => sessionStorage.setItem('vystral.introPlayed', '1'));
   const errors: string[] = [];
@@ -14,18 +14,18 @@ async function open(page: Page, query = '?reduced') {
 async function openLaunchingSettings(page: Page) {
   await page.keyboard.press('Control+,');
   await page.getByRole('button', { name: 'Launching & sessions' }).click();
-  await expect(page.getByRole('heading', { name: /Games started outside VYSTRAL/ })).toBeVisible();
+  await expect(page.getByRole('heading', { name: /Games started outside Arnav Games/ })).toBeVisible();
 }
 
-test.describe('games started outside VYSTRAL', () => {
+test.describe('games started outside Arnav Games', () => {
   test('is off by default and turning it on shows what the tracker is doing', async ({ page }) => {
     const errors = await open(page);
     await openLaunchingSettings(page);
-    const toggle = page.getByRole('switch', { name: 'Track games even when VYSTRAL is closed' });
+    const toggle = page.getByRole('switch', { name: 'Track games even when Arnav Games is closed' });
     const status = page.getByTestId('bg-tracking-status');
 
     await expect(toggle).toHaveAttribute('aria-checked', 'false');
-    await expect(status).toHaveText('Off. Only games you start from VYSTRAL are recorded.');
+    await expect(status).toHaveText('Off. Only games you start from Arnav Games are recorded.');
 
     await toggle.click();
     await expect(toggle).toHaveAttribute('aria-checked', 'true');
@@ -45,14 +45,14 @@ test.describe('games started outside VYSTRAL', () => {
     await expect(again).toBeHidden();
 
     await toggle.click();
-    await expect(status).toHaveText('Off. Only games you start from VYSTRAL are recorded.');
+    await expect(status).toHaveText('Off. Only games you start from Arnav Games are recorded.');
     expect(errors).toEqual([]);
   });
 
   test('a development build explains that starting with Windows is unavailable', async ({ page }) => {
     await open(page, '?reduced&devbuild');
     await openLaunchingSettings(page);
-    await page.getByRole('switch', { name: 'Track games even when VYSTRAL is closed' }).click();
+    await page.getByRole('switch', { name: 'Track games even when Arnav Games is closed' }).click();
     await expect(page.getByText(/isn’t available in development builds/)).toBeVisible();
   });
 
@@ -62,7 +62,7 @@ test.describe('games started outside VYSTRAL', () => {
     const chip = page.locator('.jr-session .origin-chip[data-source="background"]').first();
     await expect(chip).toBeVisible();
     await expect(chip).toHaveText(/Background/);
-    await expect(chip).toHaveAttribute('title', /while VYSTRAL was closed/);
+    await expect(chip).toHaveAttribute('title', /while Arnav Games was closed/);
     await expect(page.locator('.jr-session .origin-chip[data-source="detected"]').first()).toBeVisible();
   });
 
@@ -71,7 +71,7 @@ test.describe('games started outside VYSTRAL', () => {
     const chip = page.locator('.now-playing');
     await expect(chip).toBeVisible();
     await expect(chip.locator('.now-playing__label')).toHaveText('Detected');
-    await expect(chip.getByRole('button', { name: /started outside VYSTRAL and tracked automatically/ })).toBeVisible();
+    await expect(chip.getByRole('button', { name: /started outside Arnav Games and tracked automatically/ })).toBeVisible();
     await expect(page.getByRole('dialog', { name: /Launching/ })).toHaveCount(0);
 
     await chip.getByRole('button', { name: /Stop tracking this session/ }).click();
@@ -81,7 +81,7 @@ test.describe('games started outside VYSTRAL', () => {
   test('the launching settings have no serious or critical violations', async ({ page }) => {
     await open(page);
     await openLaunchingSettings(page);
-    await page.getByRole('switch', { name: 'Track games even when VYSTRAL is closed' }).click();
+    await page.getByRole('switch', { name: 'Track games even when Arnav Games is closed' }).click();
     await page.getByText('What runs, what it costs, what’s stored').click();
     const results = await new AxeBuilder({ page }).include('.settings').exclude('.living-canvas').analyze();
     const serious = results.violations.filter((v) => v.impact === 'serious' || v.impact === 'critical');

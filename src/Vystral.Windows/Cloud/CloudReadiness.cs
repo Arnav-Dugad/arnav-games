@@ -106,7 +106,7 @@ public static class CloudReadinessClassifier
             "good" => "Your connection looks good for cloud play.",
             "fair" => "Cloud play should work, with a little more delay than ideal.",
             "poor" => "Cloud play may stutter or look soft on this connection right now.",
-            _ => "Neither service answered, so VYSTRAL couldn’t measure anything. Check your connection, then try again.",
+            _ => "Neither service answered, so Arnav Games couldn’t measure anything. Check your connection, then try again.",
         };
         return new CloudReadinessDto(now.ToString("O"), link.Kind, link.Mbps, link.WifiBand, metered, probes, level, summary, tips.Distinct().Take(5).ToList(), Method, null);
     }
@@ -123,7 +123,7 @@ public sealed class CloudReadinessService(INetworkProbeIo io, Func<DateTimeOffse
     public static readonly TimeSpan AttemptTimeout = TimeSpan.FromSeconds(3);
     public static readonly TimeSpan Gap = TimeSpan.FromMilliseconds(120);
 
-    /// <summary>Fixed, public hosts: nothing from the page decides where VYSTRAL connects.</summary>
+    /// <summary>Fixed, public hosts: nothing from the page decides where Arnav Games connects.</summary>
     public static readonly IReadOnlyList<(string Service, string Host)> Hosts = [("gfn", "play.geforcenow.com"), ("xbox", "www.xbox.com")];
 
     private readonly Func<DateTimeOffset> _now = now ?? (() => DateTimeOffset.Now);

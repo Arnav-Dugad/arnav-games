@@ -61,7 +61,7 @@ export function DataSaverSettings() {
       <section className="sgroup">
         <h2 className="sgroup__title">Data saver</h2>
         <p className="sgroup__desc">
-          Keeps VYSTRAL light on limited connections. While it’s on, trailers don’t play and missing artwork isn’t downloaded
+          Keeps Arnav Games light on limited connections. While it’s on, trailers don’t play and missing artwork isn’t downloaded
           (artwork your stores already keep on this PC is still used). Launching games is never affected.
         </p>
         <div className="sgroup__rows surface">
@@ -88,7 +88,7 @@ export function DataSaverSettings() {
         <h2 className="sgroup__title">Trailers</h2>
         <p className="sgroup__desc">
           Game pages can play the game’s trailer from Steam behind the artwork, muted, after a couple of seconds of you looking at the page.
-          Only games with an exact Steam app are matched. Video is streamed from Steam’s video servers through VYSTRAL and isn’t saved to disk.
+          Only games with an exact Steam app are matched. Video is streamed from Steam’s video servers through Arnav Games and isn’t saved to disk.
         </p>
         <div className="sgroup__rows surface">
           <SwitchRow
@@ -97,7 +97,7 @@ export function DataSaverSettings() {
             hint={
               offline ? 'Offline mode is on, so trailers won’t load.'
               : saverOn ? 'Data saver is on, so trailers won’t play right now.'
-              : 'Never while a game is running, with reduced motion or low visual quality, or while VYSTRAL is minimized. Turn off to start them yourself with the Play trailer button.'
+              : 'Never while a game is running, with reduced motion or low visual quality, or while Arnav Games is minimized. Turn off to start them yourself with the Play trailer button.'
             }
           />
         </div>

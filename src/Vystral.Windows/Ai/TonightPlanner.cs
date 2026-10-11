@@ -7,7 +7,7 @@ using Vystral.Windows.Subscriptions;
 
 namespace Vystral.Windows.Ai;
 
-/// <summary>A game VYSTRAL considers for tonight. <c>Kind</c>: "library" (owned) or "subscription" (included in a plan, not owned).</summary>
+/// <summary>A game Arnav Games considers for tonight. <c>Kind</c>: "library" (owned) or "subscription" (included in a plan, not owned).</summary>
 public sealed record TonightCandidate(string Ref, string Kind, string? GameId, string? ProductId, string Title, IReadOnlyList<string> Genres,
     bool Installed, double PlayedHours, double? AvgSessionMinutes, double? TtbLeftHours, string? Status, string? Plan, bool Leaving,
     string? LastPlayed, double Score, IReadOnlyList<string> Reasons);
@@ -133,7 +133,7 @@ public static class TonightPlanner
         return sb.ToString();
     }
 
-    /// <summary>VYSTRAL's own picks: the top three candidates with their first two reasons.</summary>
+    /// <summary>Arnav Games' own picks: the top three candidates with their first two reasons.</summary>
     public static List<TonightPickDto> PlainPicks(IReadOnlyList<TonightCandidate> cs) =>
         cs.Take(3).Select(c => ToPick(c, string.Join(". ", c.Reasons.Take(2)) + ".")).ToList();
 

@@ -83,7 +83,7 @@ export function recommendPreviewHandlers(ctx: { lib: { games: Game[] }; emit: ()
     },
     'cloud.readiness': async (p?: { run?: boolean }) => {
       if (!p?.run) return readiness;
-      if (ctx.settings()['privacy.localOnly']) throw new BridgeError('offline', 'Offline mode is on, so VYSTRAL doesn’t contact any service. Turn it off in Settings → Privacy to check.');
+      if (ctx.settings()['privacy.localOnly']) throw new BridgeError('offline', 'Offline mode is on, so Arnav Games doesn’t contact any service. Turn it off in Settings → Privacy to check.');
       await new Promise((r) => setTimeout(r, 700));
       readiness = measure();
       return readiness;

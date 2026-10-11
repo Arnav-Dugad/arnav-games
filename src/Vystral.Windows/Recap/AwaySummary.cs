@@ -16,7 +16,7 @@ public sealed record RecapAchievementDto(string GameId, string SessionId, string
     double? GlobalPercent, string? Icon);
 
 /// <summary>
-/// "While you were away": sessions VYSTRAL noticed without launching them (background tracker while it was
+/// "While you were away": sessions Arnav Games noticed without launching them (background tracker while it was
 /// closed, or detected while it was open) that ended after the user last opened Home.
 /// </summary>
 public sealed record AwaySummaryDto(
@@ -36,7 +36,7 @@ public static class AwaySummary
 
     public static readonly string[] Sources = [SessionSources.Background, SessionSources.Detected];
 
-    /// <summary>The sessions that count: noticed (not launched) by VYSTRAL, ended in (since, until], at least a minute long.</summary>
+    /// <summary>The sessions that count: noticed (not launched) by Arnav Games, ended in (since, until], at least a minute long.</summary>
     public static IReadOnlyList<RecapSessionRow> Select(IEnumerable<RecapSessionRow> rows, DateTimeOffset since, DateTimeOffset until) =>
         rows.Where(r => Sources.Contains(r.Source) && r.End > since && r.End <= until && r.DurationSeconds >= MinSeconds)
             .GroupBy(r => r.Id).Select(g => g.First())

@@ -97,7 +97,7 @@ test.describe('the Assistant on every page', () => {
     await noSeriousViolations(page, '.asx-panel');
     await approval.getByRole('button', { name: 'Share', exact: true }).click();
     await expect(panel(page).getByText(/I’d reach for/)).toBeVisible();
-    await expect(panel(page).getByRole('region', { name: /VYSTRAL’s shortlist/ }).locator('.asx-pick')).toHaveCount(3);
+    await expect(panel(page).getByRole('region', { name: /Arnav Games’ shortlist/ }).locator('.asx-pick')).toHaveCount(3);
     await expect(panel(page).getByText('Shared with Anthropic', { exact: false })).toBeVisible();
     await expect(panel(page).locator('.asx-byline')).toContainText('Claude Sonnet 5.5');
     await panel(page).getByRole('button', { name: 'What was sent' }).click();

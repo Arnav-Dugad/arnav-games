@@ -56,6 +56,7 @@ import { RowCollectionCover } from '../components/library/CollectionCover'; // T
 import './immersive.css';
 import './immersive/immersive-t.css';
 import './immersive/immersive-z.css';
+import { BrandMark } from '../components/brand/BrandMark';
 
 /** Rows mounted around the focused one. Others are exact-height placeholders. */
 const WINDOW_BEFORE = 2;
@@ -116,7 +117,7 @@ function returnToGame(game: Game) {
   }
   void call<boolean>('game.focus')
     .then((ok) => {
-      if (ok === false) toast({ tone: 'info', title: `Couldn’t switch to ${game.title}`, body: 'Windows didn’t let VYSTRAL bring it forward. Use Alt+Tab to switch to it.' });
+      if (ok === false) toast({ tone: 'info', title: `Couldn’t switch to ${game.title}`, body: 'Windows didn’t let Arnav Games bring it forward. Use Alt+Tab to switch to it.' });
     })
     .catch((err) => toast({ tone: 'info', title: `Couldn’t switch to ${game.title}`, body: errorMessage(err) }));
 }
@@ -131,7 +132,7 @@ function returnToGame(game: Game) {
  *   letters (or time bands) with a rail and a big letter flash.
  * - One travelling focus ring tinted by the game's palette; spatial sounds follow it.
  * - Hold X / View for a radial quick menu; A opens a tabbed game page; Y searches; Menu opens the
- *   guide (desktop mode, display, voice-over, settings, close VYSTRAL).
+ *   guide (desktop mode, display, voice-over, settings, close Arnav Games).
  * - Voice-over and captions (off by default) read the focused game, rows, menus and notices.
  * - Leaving lands the desktop on the game you were on.
  */
@@ -1053,7 +1054,7 @@ export function ImmersiveView() {
       >
         <HeroStage game={stageGame} tint={ringA} tint2={ringB} />
         <header className="imm__top">
-          <img src="./vystral-mark.svg" alt="" className="imm__mark" />
+          <BrandMark className="imm__mark brand-mark--on-dark" />
           <nav className="imm__tabs" aria-label="Sections">
             <PadGlyph button="LB" />
             {IMM_TABS.map((t) => (

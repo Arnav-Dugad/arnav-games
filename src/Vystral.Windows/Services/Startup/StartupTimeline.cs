@@ -5,7 +5,7 @@ using System.Text.RegularExpressions;
 namespace Vystral.Windows.Services.Startup;
 
 /// <summary>
-/// Track AA: where startup time goes, measured locally and written once to VYSTRAL's own log (no telemetry:
+/// Track AA: where startup time goes, measured locally and written once to Arnav Games' own log (no telemetry:
 /// nothing leaves the PC). Host marks are milliseconds since the process started; the interface reports its
 /// own marks (first paint, cached Home, live Home, ready) relative to its time origin, converted here.
 /// Read in Settings-free form with <c>diagnostics.startup</c> or from the "Startup timings" log line.

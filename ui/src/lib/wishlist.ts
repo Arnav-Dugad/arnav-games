@@ -5,6 +5,7 @@
 import type { WishlistItem, WishlistPoint } from '../bridge/types';
 import { centsText, isCurrencyCode } from './money';
 import { sortByWaiting } from './waiting';
+import { APP_NAME } from './brand';
 
 /** Track E2a: 'waiting' = longest on your list first. */
 export type WishlistSort = 'priority' | 'drop' | 'release' | 'added' | 'waiting';
@@ -189,5 +190,5 @@ export function sparklineSummary(history: WishlistPoint[], currency: string | nu
   const values = history.map((p) => p.cents);
   const lo = Math.min(...values);
   const hi = Math.max(...values);
-  return `Steam price seen by VYSTRAL since ${new Date(`${history[0].day}T00:00:00Z`).toLocaleDateString(undefined, { day: 'numeric', month: 'short' })}: between ${formatMoney(lo, currency)} and ${formatMoney(hi, currency)}, now ${formatMoney(values[values.length - 1], currency)}.`;
+  return `Steam price seen by ${APP_NAME} since ${new Date(`${history[0].day}T00:00:00Z`).toLocaleDateString(undefined, { day: 'numeric', month: 'short' })}: between ${formatMoney(lo, currency)} and ${formatMoney(hi, currency)}, now ${formatMoney(values[values.length - 1], currency)}.`;
 }

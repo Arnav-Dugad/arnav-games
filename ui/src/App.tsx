@@ -102,7 +102,7 @@ export default function App() {
     return (
       <div style={{ display: 'grid', placeItems: 'center', height: '100%', padding: 32, textAlign: 'center' }}>
         <div style={{ maxWidth: 480 }}>
-          <h1 style={{ fontSize: 24, marginBottom: 8 }}>VYSTRAL couldn’t start its interface</h1>
+          <h1 style={{ fontSize: 24, marginBottom: 8 }}>Arnav Games couldn’t start its interface</h1>
           <p style={{ color: 'var(--text-2)' }}>{fatal}</p>
           <Button variant="primary" style={{ marginTop: 16 }} onClick={() => location.reload()}>Try again</Button>
         </div>
@@ -358,7 +358,7 @@ function NewCollectionDialog() {
       <p style={{ marginBottom: 12 }}>Group games however you like. Add games from their right-click menu or details page.</p>
       {/* Track C5: or describe the games and let the collection keep itself up to date. */}
       <p className="ai-smart-offer">
-        <Sparkles size={13} aria-hidden /> Or describe the games and let VYSTRAL keep it up to date:{' '}
+        <Sparkles size={13} aria-hidden /> Or describe the games and let Arnav Games keep it up to date:{' '}
         <button type="button" className="ai-link" onClick={() => { setOpen(false); openSmartCollection(name.trim()); }}>Smart collection…</button>
       </p>
       <input

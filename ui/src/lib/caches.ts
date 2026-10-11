@@ -17,7 +17,7 @@ export const CACHE_COPY: Record<string, CacheCopy> = {
   thumbs: { name: 'Thumbnails and avatars', what: 'Small pictures for news, the wishlist, Discover, art choices, friends’ avatars and subscription posters.', after: 'They download again the next time they’re shown.' },
   trailers: { name: 'Trailer loops', what: 'Short silent clips for live tiles and the screensaver. Full trailers are never stored.', after: 'Loops download again when live tiles play (not on Data saver or while a game runs).' },
   news: { name: 'News and patch notes', what: 'Steam news posts for your games.', after: 'Posts download again the next time you open a game’s news.' },
-  prices: { name: 'Prices and deals', what: 'Steam prices, deals and lowest prices from IsThereAnyDeal and CheapShark.', after: 'Prices are looked up again when needed. The price history VYSTRAL recorded is kept.', rows: true },
+  prices: { name: 'Prices and deals', what: 'Steam prices, deals and lowest prices from IsThereAnyDeal and CheapShark.', after: 'Prices are looked up again when needed. The price history Arnav Games recorded is kept.', rows: true },
   ai: { name: 'AI answers', what: 'Saved patch-note summaries and captions, so they aren’t asked for twice.', after: 'They’re asked for again only when you use those AI features.' },
   discover: { name: 'Discover', what: 'Store shelves, similar games and search answers.', after: 'Shelves and searches load fresh next time. Your Watching list is kept.', rows: true },
   tags: { name: 'Community tags', what: 'Steam’s community tags for your games.', after: 'Tags download again in the background.' },
@@ -27,7 +27,7 @@ export const CACHE_COPY: Record<string, CacheCopy> = {
   gamePages: { name: 'Game page details', what: 'Steam review summaries and IGDB series.', after: 'They load again when you open a game. Store facts and price history are kept.' },
   lookups: { name: 'Save and mod lookups', what: 'Where games keep saves (PCGamingWiki) and Workshop item names.', after: 'They’re looked up again when you open a game’s Files tab.' },
   fx: { name: 'Exchange rates', what: 'Today’s rates for showing prices in your currency.', after: 'Rates download again right away (unless Offline mode is on); until then prices stay in their own currency.' },
-  firstPaint: { name: 'Start-up snapshot', what: 'A small copy of Home so VYSTRAL paints instantly when it starts.', after: 'The next start paints from live data (a little slower once), then a new snapshot is saved.' },
+  firstPaint: { name: 'Start-up snapshot', what: 'A small copy of Home so Arnav Games paints instantly when it starts.', after: 'The next start paints from live data (a little slower once), then a new snapshot is saved.' },
 };
 
 export function cacheCopy(id: string): CacheCopy {

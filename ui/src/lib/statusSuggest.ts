@@ -16,7 +16,7 @@ export interface StatusSuggestion {
 
 export interface SuggestInput {
   game: Pick<Game, 'id' | 'status' | 'statusChangedAt' | 'installations' | 'trackedSeconds' | 'sessionCount'>;
-  /** Start times (ms) of sessions VYSTRAL tracked for this game, any order. */
+  /** Start times (ms) of sessions Arnav Games tracked for this game, any order. */
   sessionStarts: readonly number[];
   now: number;
 }

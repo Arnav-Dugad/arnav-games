@@ -77,7 +77,7 @@ public sealed record StorePrice(long FinalCents, long InitialCents, string Curre
 /// <param name="Key">The page's handle for it: steam-&lt;appid&gt;, igdb-&lt;id&gt;, rawg-&lt;slug&gt; or wd-&lt;QID&gt;.</param>
 /// <param name="Stores">Store keys (PlatformKey) where it is sold, as the sources report.</param>
 /// <param name="Platforms">Plain platform names ("PC", "PlayStation 5"), capped.</param>
-/// <param name="LibraryGameId">The library game it is, when VYSTRAL is sure (Steam app ID, or an exact title and year).</param>
+/// <param name="LibraryGameId">The library game it is, when Arnav Games is sure (Steam app ID, or an exact title and year).</param>
 /// <param name="Cover">The cover's art-host URL when it is already cached; otherwise the page asks with discover.image.</param>
 /// <param name="ReleaseDate">Track C3 (browse shelves): ISO date (yyyy-MM-dd), or yyyy-MM when Steam only names the month.</param>
 /// <param name="ComingSoon">Track C3: not out yet, per the store.</param>

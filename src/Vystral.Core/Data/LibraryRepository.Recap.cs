@@ -100,7 +100,7 @@ public sealed partial class LibraryRepository
     }
 
     /// <summary>
-    /// Visible games marked "backlog", plus games without a status that were never played: no session VYSTRAL
+    /// Visible games marked "backlog", plus games without a status that were never played: no session Arnav Games
     /// observed and no playtime or last-played date from any store (and not marked as played by the user; Track D1).
     /// </summary>
     public IReadOnlyList<BacklogCandidateRow> BacklogCandidates()

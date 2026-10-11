@@ -87,7 +87,7 @@ public sealed class AiFeaturesServiceTests : IDisposable
         Assert.Equal("You played Ashen Crown the most in August 2026, for 2 h.", r.Answer);
         Assert.Contains("ChatGPT", r.PhrasedBy);
         Assert.Contains("OpenAI", r.Sent);
-        // The second request carried VYSTRAL's computed facts; neither carried paths, notes or keys.
+        // The second request carried Arnav Games' computed facts; neither carried paths, notes or keys.
         Assert.Contains("Ashen Crown: 2 h", _bodies[1]);
         Assert.All(_bodies, b => Assert.DoesNotContain(Key, b));
     }

@@ -179,12 +179,12 @@ test.describe('owned, never played', () => {
     const section = page.locator('section.never');
     await expect(section.getByRole('heading', { name: /Owned, never played/ })).toBeVisible();
     await expect(section.getByRole('list', { name: 'Try it tonight' }).getByRole('listitem').first()).toBeVisible();
-    await expect(section.locator('.shelf__caption').first()).toHaveText(/^In VYSTRAL for |^New to VYSTRAL today$/);
+    await expect(section.locator('.shelf__caption').first()).toHaveText(/^In Arnav Games for |^New to Arnav Games today$/);
     await section.getByRole('button', { name: 'See all' }).click();
     await expect(page.getByRole('heading', { name: 'Library', level: 1 })).toBeVisible();
     await expect(page.getByRole('button', { name: 'Never played' })).toHaveAttribute('aria-pressed', 'true');
     await expect(page.getByRole('combobox', { name: 'Sort by' })).toHaveValue('waiting');
-    await expect(page.locator('.vgrid__caption').first()).toHaveText(/VYSTRAL/);
+    await expect(page.locator('.vgrid__caption').first()).toHaveText(/Arnav Games/);
   });
 
   test('marking a pick as not for me moves it off the shelf, with undo', async ({ page }) => {

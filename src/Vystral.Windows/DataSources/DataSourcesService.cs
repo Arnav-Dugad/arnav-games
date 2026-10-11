@@ -163,7 +163,7 @@ public sealed class DataSourcesService
 
     private void RequireOnline()
     {
-        if (LocalOnly) throw new DataSourceException(DataSourceOutcome.Offline, "Offline mode is on, so VYSTRAL doesn’t contact data sources. Turn it off in Settings → Privacy.");
+        if (LocalOnly) throw new DataSourceException(DataSourceOutcome.Offline, "Offline mode is on, so Arnav Games doesn’t contact data sources. Turn it off in Settings → Privacy.");
     }
 
     /// <summary>True when an enrichment source has credentials, enrichment is on, and nothing forbids network use.</summary>
@@ -211,7 +211,7 @@ public sealed class DataSourcesService
             "Nothing about you: the whole public list is downloaded at most once a week.", "Which anti-cheat a game uses, and its Linux/Steam Deck status."),
         // Track X (both off by default).
         new("pcgamingwiki", "PCGamingWiki", "keyless", null, "dataSources.pcgamingwiki",
-            "CC BY-NC-SA 3.0 (PCGamingWiki contributors). Credited wherever it's shown; looked up on this PC only, never shipped with VYSTRAL.",
+            "CC BY-NC-SA 3.0 (PCGamingWiki contributors). Credited wherever it's shown; looked up on this PC only, never shipped with Arnav Games.",
             "Save locations from PCGamingWiki, CC BY-NC-SA 3.0.", "www.pcgamingwiki.com",
             "A game's Steam app ID, then its article name, when you open that game's Files tab.",
             "Where a game keeps its saves on Windows, checked against your PC (read-only), with Open folder."),
@@ -226,7 +226,7 @@ public sealed class DataSourcesService
             "Nothing about you: the public list of PC giveaways, at most every few hours.",
             "Free games and in-game items you can claim right now on Steam, Epic, GOG and more."),
         new("epicfree", "Epic free games", "keyless", null, "dataSources.epicFreeGames",
-            "Epic’s public store data, shown with attribution. Not a documented API: it may change, and VYSTRAL stops quietly if it does.",
+            "Epic’s public store data, shown with attribution. Not a documented API: it may change, and Arnav Games stops quietly if it does.",
             "Free games from the Epic Games Store.", "store-site-backend-static.ak.epicgames.com",
             "Your price country, when the free-games list is refreshed (at most every few hours).",
             "This week’s and next week’s free games on the Epic Games Store, with exact dates."),
@@ -236,13 +236,13 @@ public sealed class DataSourcesService
             "A game’s Steam app ID (its own or the matched one), when you open that game’s page.",
             "How well a game runs on Linux and Steam Deck through Proton, as rated by players."),
         new("gogcatalog", "GOG catalogue", "keyless", null, "dataSources.gogCatalog",
-            "GOG’s public store data, shown with attribution. Not a documented API: it may change, and VYSTRAL stops quietly if it does.",
+            "GOG’s public store data, shown with attribution. Not a documented API: it may change, and Arnav Games stops quietly if it does.",
             "Store IDs and trailers from GOG.com.", "catalog.gog.com, api.gog.com",
             "Titles of games that aren’t from GOG (to find their GOG page), and GOG product IDs when you open a game’s page.",
             "Matching games to their GOG page, and GOG’s trailer list (YouTube) for the trailer fallback."),
         // Track E4 (off by default).
         new("xboxstore", "Xbox Store details", "keyless", null, "dataSources.xboxStore",
-            "Microsoft’s public Store data, shown with attribution. Not a documented API: it may change, and VYSTRAL stops quietly if it does.",
+            "Microsoft’s public Store data, shown with attribution. Not a documented API: it may change, and Arnav Games stops quietly if it does.",
             "Store IDs and art from the Microsoft Store.", "displaycatalog.mp.microsoft.com, store-images.s-microsoft.com",
             "The package names of the Xbox games installed on this PC (one request per game, remembered for months) and your Store region.",
             "Exact Microsoft Store IDs for your Xbox games, so Wikidata, IGDB, GeForce NOW and Game Pass match them by ID instead of by title, and Store covers and backgrounds for Xbox games without good art."),
@@ -867,7 +867,7 @@ public sealed class DataSourcesService
 
     /// <summary>
     /// The earliest honest evidence that a game was in the library, with what it is. Steam's Web API
-    /// has no purchase dates and VYSTRAL never decrypts Steam's licence cache, so this is "in your
+    /// has no purchase dates and Arnav Games never decrypts Steam's licence cache, so this is "in your
     /// library by", never "bought on".
     /// </summary>
     internal static (DateTimeOffset At, string Source) Since(LibraryValueSource s)

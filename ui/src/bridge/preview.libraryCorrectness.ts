@@ -3,7 +3,7 @@
  * - `?refunded`: two not-installed Steam games left the owned list (one with play history and notes kept),
  *   plus a game merged with Epic whose Steam copy left; the "no longer in your Steam library" toast shows once.
  * - `?xbox`: an installed Xbox game with a measured size, version, install date and a last-played date that is
- *   only estimated from save data (no VYSTRAL sessions).
+ *   only estimated from save data (no Arnav Games sessions).
  */
 import type { Game, Installation, OwnershipNotice } from './types';
 

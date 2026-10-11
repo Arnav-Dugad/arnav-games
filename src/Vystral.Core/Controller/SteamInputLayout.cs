@@ -526,7 +526,7 @@ public static class SteamInputLayout
         var x => Humanize(Clip(x, 20)),
     };
 
-    /// <summary>Gamepad outputs in Xbox names, the layout VYSTRAL draws.</summary>
+    /// <summary>Gamepad outputs in Xbox names, the layout Arnav Games draws.</summary>
     public static string GamepadButton(string b) => b.ToUpperInvariant() switch
     {
         "A" => "A", "B" => "B", "X" => "X", "Y" => "Y",

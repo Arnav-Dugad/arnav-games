@@ -18,7 +18,7 @@ const ICONS: Record<string, LucideIcon> = {
 };
 
 /**
- * Track D6: Settings › Data & recovery › Caches. Everything VYSTRAL downloaded and keeps so it works offline and opens
+ * Track D6: Settings › Data & recovery › Caches. Everything Arnav Games downloaded and keeps so it works offline and opens
  * fast, with its size on disk, how many items and how old. Each can be cleared with a hold (it's downloaded again when
  * needed); the page names a cache only by id, and the backend deletes only inside its known cache folders.
  */
@@ -58,7 +58,7 @@ export function CacheViewer() {
     <section className="sgroup cachev" aria-labelledby="cachev-title" data-testid="cache-viewer">
       <h2 className="sgroup__title" id="cachev-title">Caches</h2>
       <p className="sgroup__desc">
-        What VYSTRAL downloaded so it opens fast and works offline. Clearing one only frees space: it’s downloaded again when it’s needed.
+        What Arnav Games downloaded so it opens fast and works offline. Clearing one only frees space: it’s downloaded again when it’s needed.
       </p>
       <div className="sgroup__rows surface">
         <div className="cachev__total">

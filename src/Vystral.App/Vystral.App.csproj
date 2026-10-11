@@ -5,7 +5,11 @@
     <TargetPlatformMinVersion>10.0.19041.0</TargetPlatformMinVersion>
     <SupportedOSPlatformVersion>10.0.19041.0</SupportedOSPlatformVersion>
     <RootNamespace>Vystral.App</RootNamespace>
+    <!-- The exe keeps its pre-1.0 name (Velopack's main exe, shortcuts, the sign-in entry); people see the
+         file description instead: Task Manager, file properties and the Startup apps list. -->
     <AssemblyName>Vystral</AssemblyName>
+    <AssemblyTitle>Arnav Games</AssemblyTitle>
+    <Description>Arnav Games: every game you own on this PC, in one premium launcher.</Description>
     <Platforms>x64</Platforms>
     <Platform>x64</Platform>
     <RuntimeIdentifier>win-x64</RuntimeIdentifier>
@@ -17,7 +21,7 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <PublishTrimmed>false</PublishTrimmed>
     <ApplicationManifest>app.manifest</ApplicationManifest>
-    <ApplicationIcon>Assets\vystral.ico</ApplicationIcon>
+    <ApplicationIcon>Assets\arnav-games.ico</ApplicationIcon>
     <DefineConstants>$(DefineConstants);DISABLE_XAML_GENERATED_MAIN</DefineConstants>
     <!-- The React UI is built separately (ui/) and copied in as wwwroot. -->
     <UiDist>$(MSBuildThisFileDirectory)..\..\ui\dist</UiDist>

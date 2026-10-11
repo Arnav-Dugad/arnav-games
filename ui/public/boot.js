@@ -1,4 +1,4 @@
-// Track AA: runs in <head>, before anything is drawn. VYSTRAL hands over the last Home snapshot before any
+// Track AA: runs in <head>, before anything is drawn. Arnav Games hands over the last Home snapshot before any
 // script runs (globalThis.__vystralFirstPaint); its theme goes on <html> now, so even the very first frame has
 // the right background. Plain ES5, no imports; any problem simply leaves the default (dark) theme.
 (function () {

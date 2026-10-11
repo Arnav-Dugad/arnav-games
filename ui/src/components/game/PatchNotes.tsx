@@ -56,7 +56,7 @@ export function PatchNotes({ game }: { game: Game }) {
     case 'notSteam':
       return <EmptyState icon={<Newspaper size={30} />} title="No news feed for this game" body="Patch notes come from Steam’s news for Steam games. This game isn’t from Steam." />;
     case 'offline':
-      return <EmptyState icon={<CloudOff size={30} />} title="Offline mode is on" body="VYSTRAL isn’t contacting Steam, and no news was saved on this PC for this game yet."
+      return <EmptyState icon={<CloudOff size={30} />} title="Offline mode is on" body="Arnav Games isn’t contacting Steam, and no news was saved on this PC for this game yet."
         actions={<Button onClick={() => navigate({ name: 'settings', section: 'privacy' })}>Privacy settings</Button>} />;
     case 'unavailable':
     case 'rateLimited':
@@ -188,7 +188,7 @@ function NewsItem({ game, post, index, fresh, open, onToggle, onChange }: {
 /** Renders sanitized blocks as React elements; text is always text. */
 function NewsBody({ blocks }: { blocks: NewsBlock[] }) {
   const groups = groupNewsBlocks(blocks);
-  if (groups.length === 0) return <p className="news-body__empty">This post has no text VYSTRAL can show. Open it on Steam.</p>;
+  if (groups.length === 0) return <p className="news-body__empty">This post has no text Arnav Games can show. Open it on Steam.</p>;
   return (
     <div className="news-body">
       {groups.map((g, i) => {

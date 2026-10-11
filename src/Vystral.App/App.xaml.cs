@@ -50,7 +50,7 @@ public partial class App : Application
         });
         window.Activate();
 
-        // Started by clicking a notification while VYSTRAL wasn't running: the route is opened once the interface has loaded.
+        // Started by clicking a notification while Arnav Games wasn't running: the route is opened once the interface has loaded.
         try
         {
             var activation = AppInstance.GetCurrent().GetActivatedEventArgs();
@@ -83,7 +83,7 @@ public partial class App : Application
         if (uri is null) return null;
         var route = ActivationUri.RouteFromUri(uri);
         // The URI may come from any program or web page: log that it was refused, never its content.
-        if (route is null) Log.Warn("notify", "Ignored a vystral: link that isn't a known VYSTRAL page", new { length = uri.Length });
+        if (route is null) Log.Warn("notify", "Ignored a vystral: link that isn't a known Arnav Games page", new { length = uri.Length });
         return route;
     }
 }

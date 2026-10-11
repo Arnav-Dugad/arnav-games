@@ -1,6 +1,6 @@
 /**
  * Track D1: the library, achievement and time-to-beat facts the newer personal records read. Everything is local:
- * the achievement feed is VYSTRAL's own cache (read a page at a time, capped), estimates come from the cached IGDB
+ * the achievement feed is Arnav Games' own cache (read a page at a time, capped), estimates come from the cached IGDB
  * facts, and nothing here asks the network for anything.
  */
 import { useEffect, useMemo, useState } from 'react';

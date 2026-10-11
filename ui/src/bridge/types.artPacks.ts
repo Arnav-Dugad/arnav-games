@@ -42,7 +42,7 @@ export interface ArtPackJob {
   etaSeconds: number | null;
   /** Title of the game being worked on. */
   current: string | null;
-  /** When SteamGridDB asked VYSTRAL to slow down: when the job continues. */
+  /** When SteamGridDB asked Arnav Games to slow down: when the job continues. */
   resumeAt: string | null;
 }
 

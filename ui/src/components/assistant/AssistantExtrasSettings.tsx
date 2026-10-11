@@ -102,7 +102,7 @@ export function AssistantExtrasSettings() {
           </div>)}
 
         {toggle('assistant.learnPrompts', 'Learn suggestions from what I ask',
-          <>Questions you ask more than once become suggestions on that kind of page, mixed with VYSTRAL’s own. Kept on this PC.</>,
+          <>Questions you ask more than once become suggestions on that kind of page, mixed with Arnav Games’ own. Kept on this PC.</>,
           <History size={14} aria-hidden />,
           learnedCount > 0 ? (
             <div className="asx-set__inline">

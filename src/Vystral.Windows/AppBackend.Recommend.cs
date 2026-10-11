@@ -56,7 +56,7 @@ public sealed partial class AppBackend
         {
             if (p.Run != true) return _readiness.Last;
             if (Settings.GetBool("privacy.localOnly"))
-                throw new BridgeException("offline", "Offline mode is on, so VYSTRAL doesn’t contact any service. Turn it off in Settings → Privacy to check.");
+                throw new BridgeException("offline", "Offline mode is on, so Arnav Games doesn’t contact any service. Turn it off in Settings → Privacy to check.");
             var services = new List<string>();
             if (Settings.GetBool("cloud.gfn")) services.Add("gfn");
             if (Settings.GetBool("cloud.xbox")) services.Add("xbox");
@@ -77,6 +77,6 @@ public sealed partial class AppBackend
     {
         try { return change(); }
         catch (ArgumentException ex) { throw new BridgeException("invalid", ex.Message); }
-        catch (IOException) { throw new BridgeException("unavailable", "VYSTRAL couldn’t save your “Not interested” list. Check that the data folder isn’t read-only."); }
+        catch (IOException) { throw new BridgeException("unavailable", "Arnav Games couldn’t save your “Not interested” list. Check that the data folder isn’t read-only."); }
     }
 }

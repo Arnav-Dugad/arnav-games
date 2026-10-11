@@ -12,7 +12,7 @@ public sealed record ProviderAvailability(bool Enabled, bool OptIn, string? Why)
 
 /// <summary>
 /// What a provider is: a stable id ("steam.store", "igdb"), the name people know, a group for the page, the
-/// <c>ServiceLogo</c> mark id (or null for a plain icon) and what VYSTRAL uses it for.
+/// <c>ServiceLogo</c> mark id (or null for a plain icon) and what Arnav Games uses it for.
 /// </summary>
 public sealed record ProviderDescriptor(string Id, string Name, string Group, string? Logo, string Purpose);
 

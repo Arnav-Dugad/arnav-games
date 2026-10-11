@@ -73,7 +73,7 @@ function AchievementsBody({ game, data, onRetry }: { game: Game; data: Achieveme
         <EmptyState
           icon={<KeyRound size={30} />}
           title="Connect Steam to see achievements"
-          body="Add your own free Steam Web API key in Settings. It stays in Windows Credential Manager on this PC, and VYSTRAL only talks to api.steampowered.com."
+          body="Add your own free Steam Web API key in Settings. It stays in Windows Credential Manager on this PC, and Arnav Games only talks to api.steampowered.com."
           actions={<Button variant="primary" onClick={() => toSettings('library')}>Set up in Settings</Button>}
         />
       );
@@ -91,7 +91,7 @@ function AchievementsBody({ game, data, onRetry }: { game: Game; data: Achieveme
         <EmptyState
           icon={<CloudOff size={30} />}
           title="Offline mode is on"
-          body="VYSTRAL isn’t contacting Steam, and no achievements were saved on this PC for this game yet."
+          body="Arnav Games isn’t contacting Steam, and no achievements were saved on this PC for this game yet."
           actions={<Button onClick={() => toSettings('privacy')}>Privacy settings</Button>}
         />
       );
@@ -100,7 +100,7 @@ function AchievementsBody({ game, data, onRetry }: { game: Game; data: Achieveme
         <EmptyState
           icon={<ShieldAlert size={30} />}
           title="Your Steam game details are private"
-          body={<>Steam only shares achievements when your profile’s <strong>Game details</strong> are public. Change it in Steam under Profile → Edit Profile → Privacy Settings, then reopen this tab (VYSTRAL checks again after six hours).</>}
+          body={<>Steam only shares achievements when your profile’s <strong>Game details</strong> are public. Change it in Steam under Profile → Edit Profile → Privacy Settings, then reopen this tab (Arnav Games checks again after six hours).</>}
           actions={<Button onClick={() => void call('app.openExternal', { url: 'https://steamcommunity.com/my/edit/settings' }).catch(() => undefined)}>Open Steam privacy settings</Button>}
         />
       );

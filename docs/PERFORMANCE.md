@@ -22,7 +22,7 @@ Machine: ASUS ROG Strix G16 (i7-13650HX, RTX 4060 Laptop, 16 GB), Windows 11, 19
 | Navigation → first paint / first contentful paint | 180 ms / 264 ms | `performance.getEntriesByType('paint')` |
 | Navigation → DOMContentLoaded | 169 ms | Navigation Timing |
 | Approx. start → library visible | ~1.1–1.3 s | sum of the above, plus a ~200 ms library query |
-| CPU, foreground idle (Living Canvas animating) | 0.51% of all logical cores | `TotalProcessorTime` delta over 10 s, VYSTRAL and its WebView2 processes |
+| CPU, foreground idle (Living Canvas animating) | 0.51% of all logical cores | `TotalProcessorTime` delta over 10 s, Arnav Games and its WebView2 processes |
 | **CPU, minimized** | **0 ms over 15 s (0.000%)** | same, after minimizing (WebView hidden → page hidden → canvas stops) |
 | Memory, foreground (7 processes incl. WebView2 GPU/renderer) | 417 MB private | `PrivateMemorySize64` sum |
 | Memory, minimized | 323 MB private | same |
@@ -52,7 +52,7 @@ When a launch starts, five read-only checks run in parallel on the thread pool w
 
 ### Frame-rate capture (opt-in)
 
-With *Frame-rate capture* on, VYSTRAL runs the verified PresentMon 2.6.0 console exe as a below-normal-priority child process for the game's PID:
+With *Frame-rate capture* on, Arnav Games runs the verified PresentMon 2.6.0 console exe as a below-normal-priority child process for the game's PID:
 
 ```
 PresentMon-2.6.0-x64.exe --process_id <pid> --output_stdout --no_console_stats --no_track_input
@@ -79,7 +79,7 @@ Measured 2026-10-05 on the reference machine (i7-13650HX, ~410 processes), Relea
 | Start-up (process start → watching) | ~0.6 s; 0.4–0.6 s of CPU once |
 | **Idle CPU, waiting for a game** | **0.04–0.075% of one logical core** (406 ms over 540 s; 109 ms over 300 s after sessions) — under 0.005% of the whole 20-thread CPU |
 | Idle memory | 19–25 MB private; working set 7–35 MB (trimmed after start and after each session) |
-| Paused while VYSTRAL is open | waits on a mutex: no polling at all |
+| Paused while Arnav Games is open | waits on a mutex: no polling at all |
 | During a game, performance recording off | 0.8% of one core (a full process snapshot every 2 s) |
 | During a game, performance recording on | measured with the 0.4 sampler: dominated by its GPU counter reads; 58 MB private, back to ~20 MB after. Since 0.5 the sampler adds ~0.06% of one core (see [GPU readings](#gpu-readings-v05)) |
 | App opens → app owns tracking | 13 ms (session parked and continued without a gap) |
@@ -119,14 +119,14 @@ Goal: Home on screen in under a second, from a cached snapshot, then updated liv
 
 **What changed**
 
-- **Cached first paint.** The interface saves a compact Home view-model (hero, the games on each shelf with their already-cached cover URLs, the Library radar numbers, the theme; ~25–70 KB, at most 120 games, no notes or paths) a few seconds after the library changes and when the window is hidden. The host keeps it in `ui-state/first-paint.json`, stamped with VYSTRAL's version, and hands it to the page with a document-created script before any page script runs. Home renders from it at once and reconciles with the live library: the same component tree and keys, so cards keep their DOM nodes (Playwright checks every card survives). A missing, corrupt, oversized, older-than-45-days or other-version file is ignored and the live path runs as before; it is never used in safe mode, before onboarding, in an Immersive start or after a database reset, and it is removed after the first navigation so a renderer-crash reload takes the live path.
+- **Cached first paint.** The interface saves a compact Home view-model (hero, the games on each shelf with their already-cached cover URLs, the Library radar numbers, the theme; ~25–70 KB, at most 120 games, no notes or paths) a few seconds after the library changes and when the window is hidden. The host keeps it in `ui-state/first-paint.json`, stamped with Arnav Games' version, and hands it to the page with a document-created script before any page script runs. Home renders from it at once and reconciles with the live library: the same component tree and keys, so cards keep their DOM nodes (Playwright checks every card survives). A missing, corrupt, oversized, older-than-45-days or other-version file is ignored and the live path runs as before; it is never used in safe mode, before onboarding, in an Immersive start or after a database reset, and it is removed after the first navigation so a renderer-crash reload takes the live path.
 - **Backend in parallel with WinUI.** The backend (database open and migrate, session recovery, settings, services, bridge handlers) is built on its own thread started right after `StartupProtection`, while WinUI loads `XamlControlsResources` and creates the window, instead of afterwards on the UI thread. The WebView2 environment is created first thing in the window's constructor. Single instance, rollback and tracker mode are untouched (all of that happens before, in `Program.Main`); `app.ready` + 20 s is still the success rule and is still sent only after the *live* library.
 - **First frame.** `boot.js` (a 1 KB blocking script in `<head>`) puts the snapshot's theme on `<html>` before anything is drawn, the inline background follows it, and the native window colour follows the saved theme, so a light theme never flashes dark. The Latin Geist, Geist Mono and Unbounded faces are preloaded. Home draws the hero and the first shelf on the first frame and the rows below the fold in a deferred render right after.
 - **Lazy loading.** three.js (736 KB) was already loaded only by Constellation; a Playwright test now guards that startup requests no three.js or Constellation chunk. The game page's Achievements and Controls panels moved out of the startup bundle (−22 KB JS, −10 KB CSS); the new startup code adds ~7 KB, so the entry chunk is about the same size (717 → 724 KB).
 
 **Measured 2026-10-07** on the reference machine (i7-13650HX, Windows 11). The machine was busy with other builds during the runs (CPU 55–100%), so medians over interleaved runs are given with the best run; read differences, not absolute values. The real app was **not** run: it is single-instance and uses the real data folder.
 
-1. *WebView2 harness*: a WinForms program that hosts the real built UI exactly as `MainWindow` does (same virtual-host mapping and settings, scratch user-data folder, warm). `library.get` goes through VYSTRAL's real `BridgeDispatcher` and `LibraryRepository.LoadSnapshot` over a synthetic 300-game database, cold in each process; other bridge calls are answered instantly. 9 interleaved runs per build; ms since process start:
+1. *WebView2 harness*: a WinForms program that hosts the real built UI exactly as `MainWindow` does (same virtual-host mapping and settings, scratch user-data folder, warm). `library.get` goes through Arnav Games' real `BridgeDispatcher` and `LibraryRepository.LoadSnapshot` over a synthetic 300-game database, cold in each process; other bridge calls are answered instantly. 9 interleaved runs per build; ms since process start:
 
 | Mark | Before (0.6.0 UI) | After, live | After, cached first paint |
 |---|---|---|---|
@@ -166,7 +166,7 @@ What changed for cost: depth layers, pointer parallax, genre flavours, time-of-d
 | dread | 1.59 → 1.47 | 3.00 → 2.77 |
 | tide | 1.03 → 1.09 | 1.93 → 2.05 |
 
-So at 30 fps the canvas uses about 2.5–4.5 % of this iGPU's time on Balanced (before: 1.8–4.8 %), and half that while VYSTRAL isn't the focused window. *Drift* costs more because it is no longer "base only" (far light pools and a few soft discs); during a 1.6 s mood crossfade both moods are drawn, as before all the time. Two cheaper-looking ideas were measured and rejected: an arithmetic hash instead of `sin` (+20–40 % on this GPU) and value noise from a 256×256 texture with `texelFetch` (+30–50 %).
+So at 30 fps the canvas uses about 2.5–4.5 % of this iGPU's time on Balanced (before: 1.8–4.8 %), and half that while Arnav Games isn't the focused window. *Drift* costs more because it is no longer "base only" (far light pools and a few soft discs); during a 1.6 s mood crossfade both moods are drawn, as before all the time. Two cheaper-looking ideas were measured and rejected: an arithmetic hash instead of `sin` (+20–40 % on this GPU) and value noise from a 256×256 texture with `texelFetch` (+30–50 %).
 
 **Main thread.** The canvas now publishes its own script time per frame (`data-js-ms`): 0.06–0.09 ms on a quiet machine (up to 0.14 ms while other builds were running), i.e. about 0.2–0.3 % of one core at 30 fps; the palette is converted to RGB only while it is gliding. CDP `Performance.getMetrics` over 10 s on Home (1920×1200, dev server, real GPU), canvas on minus canvas off, two paired runs each: script time +0.14 / +0.29 points before, +0.26 / +0.15 points after — the same within noise (whole-task time is dominated by the rest of Home and moved by ±1 point between runs).
 

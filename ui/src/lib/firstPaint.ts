@@ -1,7 +1,7 @@
 /**
  * Track AA: the "first paint" snapshot. A compact copy of what Home last showed — the hero, the games on
  * each shelf (with their already-cached artwork URLs), the Library radar numbers and the theme — saved
- * through the bridge (the host keeps it in ui-state/first-paint.json, stamped with VYSTRAL's version) and
+ * through the bridge (the host keeps it in ui-state/first-paint.json, stamped with Arnav Games' version) and
  * handed back on the next start before any script runs (`globalThis.__vystralFirstPaint`). Home paints
  * from it at once, then reconciles with the live library without flicker (same tree, same keys).
  *
@@ -44,7 +44,7 @@ const STATES = ['installed', 'missing', 'notinstalled'] as const;
 const LAUNCH = ['Uri', 'Executable', 'PackagedApp'] as const;
 const STATUSES: readonly GameStatus[] = ['backlog', 'playing', 'beaten', 'completed', 'abandoned'];
 const ID = /^[0-9a-f]{32}$/;
-/** Artwork comes only from VYSTRAL's own art cache (or the preview's bundled files): never a remote URL. */
+/** Artwork comes only from Arnav Games' own art cache (or the preview's bundled files): never a remote URL. */
 const ART = /^(https:\/\/art\.vystral\.example\/|\.?\/)[A-Za-z0-9._~%/\-]{1,380}$/;
 
 // ---------------------------------------------------------------- building

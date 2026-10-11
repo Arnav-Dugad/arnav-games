@@ -165,7 +165,7 @@ public sealed class AntiCheatNoteTests
         Assert.NotNull(n);
         Assert.Equal(["Easy Anti-Cheat"], n.Kernel);
         Assert.Equal(["Custom"], n.Other);
-        Assert.Equal("Uses kernel anti-cheat (Easy Anti-Cheat). VYSTRAL never interacts with it.", n.Headline);
+        Assert.Equal("Uses kernel anti-cheat (Easy Anti-Cheat). Arnav Games never interacts with it.", n.Headline);
         Assert.DoesNotContain(AntiCheatNotes.FpsCapture, n.Notes);
         Assert.Contains(AntiCheatNotes.Decides, n.Notes);
         Assert.Contains("AreWeAntiCheatYet", n.Source);
@@ -457,7 +457,7 @@ public sealed class ReplayImageStoreTests
     public void Suggested_file_name_is_built_natively_and_safe()
     {
         var name = ReplayImageStore.SuggestedName("Half-Life: <Alyx>/\\?*", new DateTimeOffset(2026, 10, 5, 20, 0, 0, TimeSpan.Zero));
-        Assert.StartsWith("VYSTRAL replay - Half-Life Alyx - 2026-10-0", name);
+        Assert.StartsWith("Arnav Games replay - Half-Life Alyx - 2026-10-0", name);
         Assert.DoesNotContain(name, c => Path.GetInvalidFileNameChars().Contains(c));
         Assert.Contains("Session", ReplayImageStore.SuggestedName("???", DateTimeOffset.UtcNow));
     }

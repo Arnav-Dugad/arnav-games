@@ -29,7 +29,7 @@ export interface ResolvedId {
   confidence: number;
   level: IdLevel;
   status: 'native' | 'pinned' | 'matched' | 'suggested' | 'conflict';
-  /** True when VYSTRAL uses this ID for features (the store's own, your choice, or a high-confidence match). */
+  /** True when Arnav Games uses this ID for features (the store's own, your choice, or a high-confidence match). */
   used: boolean;
   evidence: IdEvidence[];
   name: string | null;

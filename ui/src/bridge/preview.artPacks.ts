@@ -99,7 +99,7 @@ export function artPackPreviewHandlers(ctx: Ctx): Record<string, (p: any) => unk
   const requireReady = () => {
     if (!configured()) throw new BridgeError('notConfigured', 'Art packs use SteamGridDB, which needs your own free API key. Add it in Settings → Library & stores → Data sources.');
     const s = ctx.settings();
-    if (s['privacy.localOnly']) throw new BridgeError('offline', 'Offline mode is on, so VYSTRAL doesn’t contact SteamGridDB. Turn it off in Settings → Privacy.');
+    if (s['privacy.localOnly']) throw new BridgeError('offline', 'Offline mode is on, so Arnav Games doesn’t contact SteamGridDB. Turn it off in Settings → Privacy.');
     if (s['dataSaver.enabled']) throw new BridgeError('disabled', 'Data saver is on, so art packs don’t download artwork. Turn it off in Settings → Privacy to apply one.');
   };
 

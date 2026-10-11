@@ -1,4 +1,4 @@
-/** SemVer ordering for VYSTRAL versions (major.minor.patch, a pre-release sorts before its release). */
+/** SemVer ordering for Arnav Games versions (major.minor.patch, a pre-release sorts before its release). */
 export function compareVersions(a: string, b: string): number {
   const parse = (v: string) => {
     const [core, pre] = v.split('+')[0].split(/-(.*)/s);

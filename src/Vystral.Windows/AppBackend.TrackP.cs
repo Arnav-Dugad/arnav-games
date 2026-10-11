@@ -27,7 +27,7 @@ public sealed partial class AppBackend
         };
         Dispatcher.Register<FriendsActivityParams>("friends.activity", async (p, ct) =>
         {
-            if (SafeMode) return new FriendsActivityDto("unavailable", "VYSTRAL is in safe mode, so it doesn’t contact Steam.", null, 0, [], [], false, null);
+            if (SafeMode) return new FriendsActivityDto("unavailable", "Arnav Games is in safe mode, so it doesn’t contact Steam.", null, 0, [], [], false, null);
             return await _friends.GetAsync(p.Force == true, ct);
         });
 

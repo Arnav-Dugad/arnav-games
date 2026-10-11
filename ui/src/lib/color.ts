@@ -171,7 +171,7 @@ export function extractPalette(data: Uint8ClampedArray, width: number, height: n
   const vivid = gamutMap([accent[0], Math.min(0.2, accent[1]), accent[2]]);
   const vivid2 = gamutMap([accent2[0], Math.min(0.2, accent2[1]), accent2[2]]);
 
-  // Restraint: cap chroma, blend toward the brand so every game still feels like VYSTRAL.
+  // Restraint: cap chroma, blend toward the brand so every game still feels like Arnav Games.
   accent = mixLch(BRAND_VIOLET, [Math.max(0.62, Math.min(0.82, accent[0])), Math.min(0.18, accent[1]), accent[2]], 0.6);
   accent2 = mixLch(BRAND_BLUE, [Math.max(0.6, Math.min(0.8, accent2[0])), Math.min(0.16, accent2[1]), accent2[2]], 0.55);
   accent = ensureContrast(accent, DARK_SURFACE, 4.5);

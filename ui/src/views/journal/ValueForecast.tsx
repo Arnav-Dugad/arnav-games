@@ -14,7 +14,7 @@ import './value-forecast.css';
 
 /**
  * Track M: Journal → Library value → forecast. The next Steam seasonal sale (dates Valve announced,
- * shipped with VYSTRAL) and an estimate of what your unplayed games have cost at their lowest.
+ * shipped with Arnav Games) and an estimate of what your unplayed games have cost at their lowest.
  */
 export function ValueForecast() {
   return (
@@ -58,7 +58,7 @@ function NextSale() {
             </div>
           )}
           {h.kind === 'notAnnounced' && (
-            <p className="vf-sale__none">Valve hasn’t announced the next seasonal sale in the dates VYSTRAL ships with, so none is shown — VYSTRAL doesn’t guess sale dates.</p>
+            <p className="vf-sale__none">Valve hasn’t announced the next seasonal sale in the dates Arnav Games ships with, so none is shown — Arnav Games doesn’t guess sale dates.</p>
           )}
           <p className="vf-src">
             <CalendarRange size={12} aria-hidden />

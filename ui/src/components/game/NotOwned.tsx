@@ -11,7 +11,7 @@ export function NotOwnedNote({ count }: { count: number }) {
       <span>
         {count === 0
           ? 'Nothing here. Games show up here when Steam stops listing them on your account.'
-          : `Steam no longer lists ${count === 1 ? 'this game' : 'these games'} on your account (refunded or removed), so ${count === 1 ? 'it’s' : 'they’re'} kept out of the rest of VYSTRAL. Play history, notes and ratings stay, and everything comes back if you buy ${count === 1 ? 'it' : 'them'} again.`}
+          : `Steam no longer lists ${count === 1 ? 'this game' : 'these games'} on your account (refunded or removed), so ${count === 1 ? 'it’s' : 'they’re'} kept out of the rest of Arnav Games. Play history, notes and ratings stay, and everything comes back if you buy ${count === 1 ? 'it' : 'them'} again.`}
       </span>
     </p>
   );

@@ -80,7 +80,7 @@ export function CloudSettings() {
         Cloud play <Badge>Optional</Badge>
       </h2>
       <p className="sgroup__desc">
-        Stream games you own with <strong>GeForce NOW</strong> or <strong>Xbox Cloud Gaming</strong>. VYSTRAL checks the services’ public game lists against
+        Stream games you own with <strong>GeForce NOW</strong> or <strong>Xbox Cloud Gaming</strong>. Arnav Games checks the services’ public game lists against
         your library and opens the vendor’s own app or website. It never signs in for you, never sees your account, and never shows the stream itself.
       </p>
 
@@ -92,7 +92,7 @@ export function CloudSettings() {
           <div className="cloudset-empty__text">
             <h3>Play in the cloud is off</h3>
             <p>
-              When you turn it on, VYSTRAL downloads two public game lists at most once a day: NVIDIA’s GeForce NOW list and Microsoft’s Xbox Cloud Gaming
+              When you turn it on, Arnav Games downloads two public game lists at most once a day: NVIDIA’s GeForce NOW list and Microsoft’s Xbox Cloud Gaming
               list (plus Microsoft Store details to recognise your Xbox games). Only your region is sent. No cookies, no account, nothing about your library.
             </p>
             <p className="cloudset-empty__small">Games you own then get a cloud badge, a “Playable in the cloud” filter and a Play in the cloud button.</p>
@@ -114,7 +114,7 @@ export function CloudSettings() {
                 <CloudOff size={18} aria-hidden />
                 <div className="srow__text">
                   <div className="srow__label">Offline mode is on</div>
-                  <div className="srow__hint">The game lists aren’t updated. What VYSTRAL already has stays visible.</div>
+                  <div className="srow__hint">The game lists aren’t updated. What Arnav Games already has stays visible.</div>
                 </div>
               </div>
             )}
@@ -160,8 +160,8 @@ export function CloudSettings() {
                 <div className="srow__label" id="cloud-browser-label">Open web games in</div>
                 <div className="srow__hint">
                   {settings['cloud.browser'] === 'edge'
-                    ? 'A separate Microsoft Edge window with its own sign-in, so VYSTRAL can tell when you stop. VYSTRAL never reads that window or its folder.'
-                    : 'Your normal browser and its sign-ins. VYSTRAL can’t see browser tabs, so press “I’m done” when you finish to save the session.'}
+                    ? 'A separate Microsoft Edge window with its own sign-in, so Arnav Games can tell when you stop. Arnav Games never reads that window or its folder.'
+                    : 'Your normal browser and its sign-ins. Arnav Games can’t see browser tabs, so press “I’m done” when you finish to save the session.'}
                   {' '}When the GeForce NOW or Xbox app is installed, games open there instead.
                 </div>
               </div>
@@ -208,7 +208,7 @@ export function CloudSettings() {
                 <CloudMeterView meter={status.meter} />
                 <XboxCloudTime meter={status.meter} />
                 <p className="cloudset__fine">
-                  Counts only sessions started from VYSTRAL on this PC, so play on your phone, TV or another PC isn’t included. Xbox Cloud Gaming time is shown
+                  Counts only sessions started from Arnav Games on this PC, so play on your phone, TV or another PC isn’t included. Xbox Cloud Gaming time is shown
                   without a meter. Limits as published by NVIDIA (checked {status.meter.asOf}).
                 </p>
               </div>
@@ -225,7 +225,7 @@ export function CloudSettings() {
 
           <p className="cloudset__footnote">
             <Lock size={13} aria-hidden /> Game lists come from public data on NVIDIA’s and Microsoft’s own websites. They’re stored only on this PC, never shared,
-            and VYSTRAL stops using them if a vendor asks. A match by title is marked “Likely match”; the vendor’s app or page always has the final answer.
+            and Arnav Games stops using them if a vendor asks. A match by title is marked “Likely match”; the vendor’s app or page always has the final answer.
           </p>
         </>
       )}

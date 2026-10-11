@@ -36,7 +36,7 @@ function load(): Promise<AwaySummary | null> {
 }
 
 /**
- * Track M: "While you were away" — games VYSTRAL noticed being played without launching them (by
+ * Track M: "While you were away" — games Arnav Games noticed being played without launching them (by
  * the background helper while it was closed, or detected while it was open), since Home was last
  * opened. Renders nothing when nothing happened.
  */

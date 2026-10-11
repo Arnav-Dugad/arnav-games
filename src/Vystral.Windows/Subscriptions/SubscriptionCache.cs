@@ -24,7 +24,7 @@ public sealed class CachedProduct
 }
 
 /// <summary>
-/// Track V: the subscription lists VYSTRAL downloaded, kept in one small JSON file in the data folder
+/// Track V: the subscription lists Arnav Games downloaded, kept in one small JSON file in the data folder
 /// (<c>subscriptions-cache.json</c>) so no migration is needed. It's a cache: deleting it only means the next refresh
 /// downloads again. Everything read back is validated again, as if it came from the network.
 /// </summary>

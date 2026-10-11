@@ -87,7 +87,7 @@ function SavesSection({ game }: { game: Game }) {
               <div>
                 <p className="files__optin-title">See where {game.title} saves</p>
                 <p className="files__optin-body">
-                  PCGamingWiki, a community wiki, lists where games keep their saves. With it on, VYSTRAL sends this game’s Steam app ID to
+                  PCGamingWiki, a community wiki, lists where games keep their saves. With it on, Arnav Games sends this game’s Steam app ID to
                   pcgamingwiki.com, then checks those folders on this PC (it only reads). Answers are kept on this PC for two weeks.
                 </p>
               </div>
@@ -205,7 +205,7 @@ function ModsSection({ game }: { game: Game }) {
         <Notice
           icon={<Package size={18} />}
           title="No mods found"
-          body="VYSTRAL looked for Steam Workshop items, Vortex’s default staging folder and Mod Organizer 2 instances in their default place. Mods installed another way don’t show up here."
+          body="Arnav Games looked for Steam Workshop items, Vortex’s default staging folder and Mod Organizer 2 instances in their default place. Mods installed another way don’t show up here."
         />
       )}
       {data?.sources.map((s) => <SourceCard key={s.id} gameId={game.id} source={s} naming={naming} />)}
@@ -215,7 +215,7 @@ function ModsSection({ game }: { game: Game }) {
       {data && (data.titles === 'done' || naming) && data.sources.some((s) => s.kind === 'workshop') && (
         <p className="files__credit"><StoreLogo platform="steam" size={14} decorative /> Workshop titles from Steam.</p>
       )}
-      <p className="files__safe"><ShieldCheck size={13} aria-hidden /> Read-only: VYSTRAL never changes, moves or deletes mods. Manage them in Steam or your mod manager.</p>
+      <p className="files__safe"><ShieldCheck size={13} aria-hidden /> Read-only: Arnav Games never changes, moves or deletes mods. Manage them in Steam or your mod manager.</p>
     </section>
   );
 }

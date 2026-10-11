@@ -127,6 +127,100 @@ public sealed class TrackerSetupTests
         Assert.Equal(AutostartState.DisabledByWindows, autostart.State());
     }
 
+    // ---------------- the rename from VYSTRAL ----------------
+
+    private sealed class PerNameRunKey : IRunKeyStore
+    {
+        public Dictionary<string, string> Values { get; } = [];
+        public HashSet<string> TurnedOff { get; } = [];
+        public string? Get(string name) => Values.GetValueOrDefault(name);
+        public void Set(string name, string value) => Values[name] = value;
+        public void Delete(string name) => Values.Remove(name);
+        public bool? IsDisabledInStartupApps(string name) => Values.ContainsKey(name) ? TurnedOff.Contains(name) : null;
+    }
+
+    private static readonly string Cmd = $"\"{Launcher}\" --background-tracker";
+
+    [Fact]
+    public void The_entry_is_named_after_the_app_and_the_pre_rename_name_is_pinned()
+    {
+        Assert.Equal("Arnav Games Background Tracker", TrackerAutostart.ValueName);
+        Assert.Equal("VYSTRAL Background Tracker", TrackerAutostart.LegacyValueName);
+    }
+
+    [Fact]
+    public void A_pre_rename_entry_is_renamed_so_there_is_only_ever_one()
+    {
+        var store = new PerNameRunKey();
+        store.Values[TrackerAutostart.LegacyValueName] = Cmd;
+        var autostart = new TrackerAutostart(store, Launcher);
+        Assert.Equal(AutostartState.Stale, autostart.State());
+
+        Assert.True(autostart.Enable());
+
+        Assert.Equal(Cmd, store.Values[TrackerAutostart.ValueName]);
+        Assert.False(store.Values.ContainsKey(TrackerAutostart.LegacyValueName));
+        Assert.Single(store.Values);
+        Assert.Equal(AutostartState.On, autostart.State());
+    }
+
+    [Fact]
+    public void A_pre_rename_entry_turned_off_in_Task_Manager_stays_off_under_its_old_name()
+    {
+        var store = new PerNameRunKey();
+        store.Values[TrackerAutostart.LegacyValueName] = "\"D:\\Old\\Vystral.exe\" --background-tracker";
+        store.TurnedOff.Add(TrackerAutostart.LegacyValueName);
+        var autostart = new TrackerAutostart(store, Launcher);
+        Assert.Equal(AutostartState.DisabledByWindows, autostart.State());
+
+        autostart.Enable();
+
+        // Not renamed into an entry that would start again; its command is still repaired.
+        Assert.Equal(Cmd, store.Values[TrackerAutostart.LegacyValueName]);
+        Assert.False(store.Values.ContainsKey(TrackerAutostart.ValueName));
+        Assert.Equal(AutostartState.DisabledByWindows, autostart.State());
+
+        // Turned back on in Task Manager: the next Enable renames it.
+        store.TurnedOff.Clear();
+        autostart.Enable();
+        Assert.Equal([TrackerAutostart.ValueName], store.Values.Keys);
+    }
+
+    [Fact]
+    public void Both_names_present_collapse_to_one()
+    {
+        var store = new PerNameRunKey();
+        store.Values[TrackerAutostart.LegacyValueName] = Cmd;
+        store.Values[TrackerAutostart.ValueName] = Cmd;
+        new TrackerAutostart(store, Launcher).Enable();
+        Assert.Equal([TrackerAutostart.ValueName], store.Values.Keys);
+
+        store.Values[TrackerAutostart.LegacyValueName] = Cmd;
+        store.TurnedOff.Add(TrackerAutostart.LegacyValueName);
+        new TrackerAutostart(store, Launcher).Enable();
+        Assert.Equal([TrackerAutostart.LegacyValueName], store.Values.Keys);
+    }
+
+    [Fact]
+    public void Turning_tracking_off_and_uninstalling_remove_both_names_and_nothing_else()
+    {
+        var store = new PerNameRunKey();
+        store.Values["OneDrive"] = "\"C:\\OneDrive.exe\" /background";
+        store.Values[TrackerAutostart.LegacyValueName] = Cmd;
+        store.Values[TrackerAutostart.ValueName] = Cmd;
+        new TrackerAutostart(store, Launcher).Disable();
+        Assert.Equal(["OneDrive"], store.Values.Keys);
+
+        store.Values[TrackerAutostart.LegacyValueName] = Cmd;
+        new TrackerAutostart(store, null).Remove();
+        Assert.Equal(["OneDrive"], store.Values.Keys);
+
+        // A development copy never touches the installed app's entry, under either name.
+        store.Values[TrackerAutostart.LegacyValueName] = Cmd;
+        new TrackerAutostart(store, null).Disable();
+        Assert.True(store.Values.ContainsKey(TrackerAutostart.LegacyValueName));
+    }
+
     [Fact]
     public void Unsafe_launcher_paths_are_never_registered()
     {

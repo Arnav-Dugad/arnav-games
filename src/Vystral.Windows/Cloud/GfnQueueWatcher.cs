@@ -67,7 +67,7 @@ public sealed class Win32WindowTitles : IWindowTitleSource
 public sealed record QueueSignal(string GameId, string Title, string Phase, int? Position, int? EtaMinutes, string? Notify, string Key);
 
 /// <summary>
-/// Track V: cloud queue alerts. Only while a GeForce NOW session VYSTRAL started is waiting for its stream (Track O's
+/// Track V: cloud queue alerts. Only while a GeForce NOW session Arnav Games started is waiting for its stream (Track O's
 /// detector in its waiting phase), it reads the titles of <c>GeForceNOW.exe</c>'s visible top-level windows and looks
 /// for a queue position or wait time (<see cref="GfnQueueTitle"/>). When the stream process
 /// (<c>GeForceNOWStreamer.exe</c>) appears after a real wait, it says the stream is starting — the dependable signal,

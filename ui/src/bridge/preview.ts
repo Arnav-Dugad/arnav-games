@@ -1,5 +1,5 @@
 /**
- * Preview backend used only when the UI runs outside the VYSTRAL app (browser development,
+ * Preview backend used only when the UI runs outside the Arnav Games app (browser development,
  * automated UI tests). All games here are fictional; the shell shows a "Preview" badge.
  * Pass ?games=5000 to stress-test with a large generated library.
  */
@@ -398,8 +398,8 @@ export function createPreviewBackend() {
       return true;
     },
     'game.savePalette': (p: { gameId: string; palette: unknown }) => { findGame(p.gameId).palette = JSON.stringify(p.palette); return true; },
-    'game.addManual': () => { throw new BridgeError('unsupported', 'Adding programs needs the VYSTRAL app (preview mode can’t open file dialogs).'); },
-    'game.chooseArtwork': () => { throw new BridgeError('unsupported', 'Choosing artwork needs the VYSTRAL app.'); },
+    'game.addManual': () => { throw new BridgeError('unsupported', 'Adding programs needs the Arnav Games app (preview mode can’t open file dialogs).'); },
+    'game.chooseArtwork': () => { throw new BridgeError('unsupported', 'Choosing artwork needs the Arnav Games app.'); },
     'game.openFolder': () => true,
     'game.openInStore': () => true,
     'game.dismissDuplicate': () => true,
@@ -533,7 +533,7 @@ export function createPreviewBackend() {
     ...trackKPreviewHandlers({ lib, settings: () => settings, liveTileRequests: [] }),
     // Track I: data sources — art picker, enrichment, prices, identity, compatibility, value (fictional data, local placeholder images).
     ...dataSources,
-    // Track H: games started outside VYSTRAL (fictional status; ?detected simulates one).
+    // Track H: games started outside Arnav Games (fictional status; ?detected simulates one).
     ...trackingPreviewHandlers({ lib, emit: () => emit, settings: () => settings, setLaunch, timers }),
     // Track N: art packs (local placeholder art; ?nosgdb = no SteamGridDB key). Also credits pack art in art.userArt.
     ...artPackPreviewHandlers({

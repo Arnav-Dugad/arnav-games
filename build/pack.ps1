@@ -1,6 +1,6 @@
 <#
 .SYNOPSIS
-  Builds a release of VYSTRAL: UI bundle -> self-contained WinUI app -> Velopack installer.
+  Builds a release of Arnav Games: UI bundle -> self-contained WinUI app -> Velopack installer.
 
 .DESCRIPTION
   Produces, in .\Releases:
@@ -18,7 +18,7 @@
 param(
   [Parameter(Mandatory)] [ValidatePattern('^\d+\.\d+\.\d+(-[0-9A-Za-z.]+)?$')] [string] $Version,
   [switch] $DownloadPrevious,
-  [string] $Repo = 'https://github.com/Arnav-Dugad/vystral',
+  [string] $Repo = 'https://github.com/Arnav-Dugad/arnav-games',
   [string] $Token = $env:GITHUB_TOKEN
 )
 
@@ -36,7 +36,7 @@ npm run build
 if ($LASTEXITCODE) { throw 'UI build failed' }
 Pop-Location
 
-Step "Publishing VYSTRAL $Version (self-contained, win-x64)"
+Step "Publishing Arnav Games $Version (self-contained, win-x64)"
 $publish = Join-Path $root 'artifacts\publish'
 if (Test-Path $publish) { Remove-Item $publish -Recurse -Force }
 dotnet publish src/Vystral.App/Vystral.App.csproj -c Release -r win-x64 --self-contained `
@@ -64,15 +64,19 @@ if (-not $section) { $section = "## $Version`n`nSee CHANGELOG.md for details." }
 Set-Content -Path $notes -Value $section.Trim() -Encoding utf8
 
 Step 'Packing with Velopack'
+# --packId and --mainExe keep the app's pre-1.0 name (VYSTRAL): the pack ID is the install folder
+# (%LOCALAPPDATA%\Vystral), the update feed, the AUMID (velopack.Vystral) and the asset names
+# (Vystral-win-Setup.exe), so changing either would orphan every existing install. People see
+# --packTitle: the installer, the shortcuts and the Apps list.
 vpk pack `
   --packId Vystral `
   --packVersion $Version `
   --packDir $publish `
   --mainExe Vystral.exe `
-  --packTitle VYSTRAL `
-  --packAuthors 'VYSTRAL contributors' `
-  --icon assets/brand/vystral.ico `
-  --splashImage assets/brand/installer-splash.png `
+  --packTitle 'Arnav Games' `
+  --packAuthors 'Arnav Games contributors' `
+  --icon assets/brand/arnav-games.ico `
+  --splashImage assets/brand/arnav-games-installer-splash.png `
   --releaseNotes $notes `
   --framework webview2 `
   --shortcuts 'Desktop,StartMenuRoot' `

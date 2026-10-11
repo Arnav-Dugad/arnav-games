@@ -1,6 +1,6 @@
 # Product requirements
 
-**Product:** VYSTRAL, "Your Universe of Play". A universal, local-first game library and launcher for Windows 11.
+**Product:** Arnav Games, "Your Universe of Play". A universal, local-first game library and launcher for Windows 11.
 
 **Audience:** PC gamers with libraries spread across several stores who want one beautiful, trustworthy place to browse and launch, with keyboard, mouse or controller.
 
@@ -44,7 +44,7 @@
 
 A console-grade, controller-first layout for the TV and the couch. Requirements:
 
-- **Switching** (F11, the Menu button, the Desktop mode / Open buttons) plays one signature ~0.9 s transition: the chrome folds away, the focused game's art fills the screen, the VYSTRAL star flares, Immersive rises in — and the reverse. It hides the native windowed ↔ full-screen change completely, is skipped by any input, is a quick crossfade under reduced motion (or with *Cinematic mode switch* off), and never plays while a game runs.
+- **Switching** (F11, the Menu button, the Desktop mode / Open buttons) plays one signature ~0.9 s transition: the chrome folds away, the focused game's art fills the screen, the Arnav Games star flares, Immersive rises in — and the reverse. It hides the native windowed ↔ full-screen change completely, is skipped by any input, is a quick crossfade under reduced motion (or with *Cinematic mode switch* off), and never plays while a game runs.
 - **Immersive opens where you were**: on the game you were looking at (detail page, focused card or Home hero).
 - **Rows** come from your own library and are ordered by time of day: Continue (with a pinned *Jump back in* slot), Picked for you, Favorites, Recently added, Never played, your collections, Installed, and browse rows by store (official marks) and genre.
 - **Quick actions without leaving the shelf**: hold X or press View for play/install, favourite, play status, store page, achievements and display settings.

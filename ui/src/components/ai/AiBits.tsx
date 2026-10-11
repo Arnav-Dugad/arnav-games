@@ -3,14 +3,14 @@ import { ChevronDown, Cpu, Info, Sparkles } from 'lucide-react';
 import './ai.css';
 
 /**
- * Track C5: who wrote a piece of text. "VYSTRAL" when it's VYSTRAL's own deterministic answer, otherwise the
+ * Track C5: who wrote a piece of text. "Arnav Games" when it's Arnav Games' own deterministic answer, otherwise the
  * engine label ("Claude · Claude Sonnet 5.5", "Local AI · qwen3:4b"). Always visible next to AI text.
  */
 export function AiByline({ label, cloud }: { label: string | null; cloud?: boolean }) {
   return (
     <span className="ai-byline" data-ai={label ? (cloud === false ? 'local' : 'cloud') : 'none'}>
       {label ? <Sparkles size={12} aria-hidden /> : <Cpu size={12} aria-hidden />}
-      {label ? <>Worded by {label}</> : <>Calculated by VYSTRAL on this PC</>}
+      {label ? <>Worded by {label}</> : <>Calculated by Arnav Games on this PC</>}
     </span>
   );
 }

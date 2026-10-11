@@ -35,7 +35,7 @@ public static class AssistantActions
             case "open_page":
             {
                 var page = AiText.Str(args["page"])!;
-                return (new(id, spec.Name, $"Open {PageNames[page]}", "Goes to that page in VYSTRAL.", "Open", args), null);
+                return (new(id, spec.Name, $"Open {PageNames[page]}", "Goes to that page in Arnav Games.", "Open", args), null);
             }
             case "open_game":
             {

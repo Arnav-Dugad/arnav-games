@@ -81,8 +81,8 @@ public sealed class StoreInsightsService
         if (!GamePageIds.IsAppId(appId)) return Reviews("notSteam", null, null, null, false);
         var cached = _reviews.Get(appId!);
         if (cached is not null && Now() - cached.Fetched < Ttl && !refresh) return Reviews("ok", null, appId, cached, false);
-        if (LocalOnly) return Reviews("offline", "Offline mode is on, so VYSTRAL doesn’t ask Steam for reviews.", appId, cached, true);
-        if (IsGameActive()) return Reviews("gameRunning", "VYSTRAL doesn’t contact Steam while a game is running.", appId, cached, true);
+        if (LocalOnly) return Reviews("offline", "Offline mode is on, so Arnav Games doesn’t ask Steam for reviews.", appId, cached, true);
+        if (IsGameActive()) return Reviews("gameRunning", "Arnav Games doesn’t contact Steam while a game is running.", appId, cached, true);
         try
         {
             var to = Now();
@@ -123,7 +123,7 @@ public sealed class StoreInsightsService
     }
 
     /// <summary>The store page's reviews section, built natively from a validated appid.</summary>
-    /// <summary>Track D6: forgets the cached review summaries (re-downloaded when a game page opens). Store facts stay: they hold the price history VYSTRAL recorded.</summary>
+    /// <summary>Track D6: forgets the cached review summaries (re-downloaded when a game page opens). Store facts stay: they hold the price history Arnav Games recorded.</summary>
     public void ClearReviews() => _reviews.Clear();
 
     public static Uri? ReviewsUrl(string? appId) => GamePageIds.IsAppId(appId) ? new Uri($"https://store.steampowered.com/app/{appId}/#app_reviews_hash") : null;
@@ -138,8 +138,8 @@ public sealed class StoreInsightsService
         var key = $"{country}:{appId}";
         var cached = _facts.Get(key);
         if (cached is not null && Now() - cached.Fetched < Ttl && !refresh) return Facts("ok", null, country, appId, cached, false);
-        if (LocalOnly) return Facts("offline", "Offline mode is on, so VYSTRAL doesn’t ask Steam for prices.", country, appId, cached, true);
-        if (IsGameActive()) return Facts("gameRunning", "VYSTRAL doesn’t contact Steam while a game is running.", country, appId, cached, true);
+        if (LocalOnly) return Facts("offline", "Offline mode is on, so Arnav Games doesn’t ask Steam for prices.", country, appId, cached, true);
+        if (IsGameActive()) return Facts("gameRunning", "Arnav Games doesn’t contact Steam while a game is running.", country, appId, cached, true);
         try
         {
             var facts = await _client.GetStoreFactsAsync(appId!, country, ct);

@@ -32,7 +32,7 @@ public sealed record SubsValueDto(string MonthStart, IReadOnlyList<string> Plans
     IReadOnlyList<SubsValuePlanDto> Rows, IReadOnlyList<SubsValueGameDto> Top, double Price, string Currency, double? CostPerHour, string? CostNote);
 
 /// <summary>
-/// Track V: tailoring VYSTRAL to the subscriptions the user says they have (stored locally only; nothing is checked
+/// Track V: tailoring Arnav Games to the subscriptions the user says they have (stored locally only; nothing is checked
 /// against an account). With the opt-in "Use public Game Pass lists" switch, Microsoft's public Game Pass data (the
 /// same grey, cached, rate-limited sources as Track O's cloud catalogue) tells which games each plan includes:
 /// badges and a library filter for games you own, a Home row of included games you don't own yet (opening the
@@ -136,7 +136,7 @@ public sealed class SubscriptionService
     public async Task<SubsStatusDto> RefreshAsync(bool manual, CancellationToken ct)
     {
         if (!CatalogOn) throw new DataSourceException(DataSourceOutcome.Disabled, "Public Game Pass lists are off. Turn them on in Settings → Library & stores → Your subscriptions.");
-        if (LocalOnly) throw new DataSourceException(DataSourceOutcome.Offline, "Offline mode is on, so VYSTRAL doesn’t download Game Pass lists. Turn it off in Settings → Privacy.");
+        if (LocalOnly) throw new DataSourceException(DataSourceOutcome.Offline, "Offline mode is on, so Arnav Games doesn’t download Game Pass lists. Turn it off in Settings → Privacy.");
         if (!HasListPlans || (!manual && (DataSaverActive() || GameActive()))) return Status();
         if (!await _gate.WaitAsync(0, ct)) return Status();
         _refreshing = true;
@@ -451,7 +451,7 @@ public sealed class SubscriptionService
         }).ToList();
     }
 
-    /// <summary>A product the Home row may open (it must be in a list VYSTRAL downloaded).</summary>
+    /// <summary>A product the Home row may open (it must be in a list Arnav Games downloaded).</summary>
     public bool IsKnownProduct(string productId)
     {
         if (!CloudIds.IsProductId(productId)) return false;

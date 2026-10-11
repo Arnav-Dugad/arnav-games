@@ -252,9 +252,9 @@ function PackForm({ status, initial, onClose, onStarted }: { status: ArtPacksSta
 function Gate({ why, onSettings }: { why: 'key' | 'offline' | 'safeMode' | 'dataSaver'; onSettings: (section: string) => void }) {
   const text = {
     key: 'Art packs use SteamGridDB, the community artwork library. It needs your own free API key: create one in your SteamGridDB preferences, then add it in Settings › Library & stores › Data sources. Nothing is sent anywhere until you do.',
-    offline: 'Offline mode is on, so VYSTRAL doesn’t contact SteamGridDB. Turn it off in Settings › Privacy to apply an art pack.',
+    offline: 'Offline mode is on, so Arnav Games doesn’t contact SteamGridDB. Turn it off in Settings › Privacy to apply an art pack.',
     dataSaver: 'Data saver is on, so art packs don’t download artwork. Turn it off in Settings › Privacy to apply one.',
-    safeMode: 'VYSTRAL is in safe mode, so background downloads are off for this session.',
+    safeMode: 'Arnav Games is in safe mode, so background downloads are off for this session.',
   }[why];
   return (
     <div className="artpacks__gate" role="alert">

@@ -2,6 +2,7 @@ import type { Route } from '../state/store';
 import type { ChangelogRelease } from './changelog';
 import { highlightsOf } from './changelog';
 import { compareVersions } from './version';
+import { APP_NAME } from '../lib/brand';
 
 /** Illustration for a card: a Lucide icon on an animated gradient of the given hue (0–360). */
 export type TourIcon =
@@ -44,7 +45,7 @@ export function tourFromChangelog(release: ChangelogRelease): Tour | null {
   if (highlights.length === 0) return null;
   return {
     version: release.version,
-    title: `What’s new in VYSTRAL ${release.version}`,
+    title: `What’s new in ${APP_NAME} ${release.version}`,
     subtitle: release.intro || undefined,
     source: 'changelog',
     cards: highlights.map((h, i) => ({

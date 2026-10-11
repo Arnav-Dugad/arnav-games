@@ -65,11 +65,11 @@ public sealed partial class MainWindow : Window, IHostShell, IEventSink
         _safeMode = safeMode;
         // Track AA: WebView2's environment first, so its browser process starts while the window and the backend finish.
         _envTask = StartWebViewEnvironment();
-        Title = "VYSTRAL";
+        Title = Brand.Name;
         ExtendsContentIntoTitleBar = true;
         AppWindow.TitleBar.PreferredHeightOption = TitleBarHeightOption.Tall;
         SetCaptionTheme(dark: true);
-        var icon = Path.Combine(AppContext.BaseDirectory, "Assets", "vystral.ico");
+        var icon = Path.Combine(AppContext.BaseDirectory, "Assets", "arnav-games.ico");
         if (File.Exists(icon)) AppWindow.SetIcon(icon);
         if (AppWindow.Presenter is OverlappedPresenter op)
         {
@@ -161,7 +161,7 @@ public sealed partial class MainWindow : Window, IHostShell, IEventSink
         if (_envTask is null)
         {
             ShowFatal("Microsoft Edge WebView2 Runtime is missing",
-                "VYSTRAL draws its interface with the WebView2 Runtime that ships with Windows 11. It looks like it was removed. Install it from Microsoft and start VYSTRAL again.",
+                "Arnav Games draws its interface with the WebView2 Runtime that ships with Windows 11. It looks like it was removed. Install it from Microsoft and start Arnav Games again.",
                 new Uri("https://go.microsoft.com/fwlink/p/?LinkId=2124703"));
             return;
         }
@@ -170,7 +170,7 @@ public sealed partial class MainWindow : Window, IHostShell, IEventSink
         if (!File.Exists(Path.Combine(wwwroot, "index.html")))
         {
             ShowFatal("Interface files are missing",
-                "This build of VYSTRAL doesn't include its interface. Reinstall VYSTRAL from the GitHub releases page.",
+                "This build of Arnav Games doesn't include its interface. Reinstall Arnav Games from the GitHub releases page.",
                 new Uri(UpdateService.RepositoryUrl + "/releases"));
             return;
         }
@@ -250,7 +250,7 @@ public sealed partial class MainWindow : Window, IHostShell, IEventSink
         catch (Exception ex)
         {
             Log.Error("webview", "WebView2 initialisation failed", ex);
-            ShowFatal("VYSTRAL couldn't start its interface",
+            ShowFatal("Arnav Games couldn't start its interface",
                 $"WebView2 failed to start ({ex.GetType().Name}). Restarting your PC usually fixes this. Logs are in {_backend.Paths.Logs}.", null);
         }
     }
@@ -408,7 +408,7 @@ public sealed partial class MainWindow : Window, IHostShell, IEventSink
 
     // ---------------- Summon & notification navigation ----------------
 
-    /// <summary>Global shortcut: show VYSTRAL (waking the interface if a game had put it to sleep).</summary>
+    /// <summary>Global shortcut: show Arnav Games (waking the interface if a game had put it to sleep).</summary>
     private void Summon()
     {
         if (_closing) return;
@@ -416,7 +416,7 @@ public sealed partial class MainWindow : Window, IHostShell, IEventSink
         BringToFront();
     }
 
-    /// <summary>A notification was clicked: bring VYSTRAL forward and open the route it points to.</summary>
+    /// <summary>A notification was clicked: bring Arnav Games forward and open the route it points to.</summary>
     internal void NavigateFromNotification(string routeJson)
     {
         if (_closing) return;
@@ -482,7 +482,7 @@ public sealed partial class MainWindow : Window, IHostShell, IEventSink
     {
         try
         {
-            // Track H: a game started outside VYSTRAL. Performance Mode still applies, but VYSTRAL doesn't move
+            // Track H: a game started outside Arnav Games. Performance Mode still applies, but Arnav Games doesn't move
             // its own window around for a game the user didn't start from it.
             var external = state.Source is not (null or "tracked");
             switch (state.Phase)
@@ -562,7 +562,7 @@ public sealed partial class MainWindow : Window, IHostShell, IEventSink
     {
         if (!args.DidPresenterChange && !args.DidSizeChange) return;
         // While minimized (and not in a game), hide the WebView so the page reports itself hidden
-        // and pauses animation; this is what keeps VYSTRAL near-idle in the background.
+        // and pauses animation; this is what keeps Arnav Games near-idle in the background.
         var minimized = sender.Presenter is OverlappedPresenter { State: OverlappedPresenterState.Minimized };
         // Restored while suspended for a game (taskbar, Alt+Tab, a second launch): wake the interface, never show a blank window.
         if (!minimized && _suspended) ResumeUi();
@@ -677,7 +677,7 @@ public sealed partial class MainWindow : Window, IHostShell, IEventSink
 
     public void SetCaptionTheme(bool dark) => OnUi(() =>
     {
-        // Contrast-checked against VYSTRAL's own title bar and Mica in both modes (CaptionPalette).
+        // Contrast-checked against Arnav Games' own title bar and Mica in both modes (CaptionPalette).
         static global::Windows.UI.Color C(Argb c) => global::Windows.UI.Color.FromArgb(c.A, c.R, c.G, c.B);
         var palette = CaptionPalette.For(dark);
         var tb = AppWindow.TitleBar;
@@ -689,7 +689,7 @@ public sealed partial class MainWindow : Window, IHostShell, IEventSink
         tb.ButtonHoverForegroundColor = C(palette.Foreground);
         tb.ButtonPressedBackgroundColor = C(palette.PressedBackground);
         tb.ButtonPressedForegroundColor = C(palette.Foreground);
-        // Mica takes its tint from the content's theme, so it follows VYSTRAL's theme rather than Windows'.
+        // Mica takes its tint from the content's theme, so it follows Arnav Games' theme rather than Windows'.
         if (_root is not null) _root.RequestedTheme = dark ? ElementTheme.Dark : ElementTheme.Light; // null during construction
         if (_root is not null && _web is not null) PushWindowState(); // Track C2: the caption area follows the theme
         // Track AA: keep the colour under the page in step with a theme change (only visible while the page repaints).

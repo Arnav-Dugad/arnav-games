@@ -10,7 +10,7 @@ public sealed record ValueResult(long Seconds, int Games, int Sessions, IReadOnl
     double? CostPerHour, string? CostNote);
 
 /// <summary>
-/// Track V: the subscription value card's numbers, from sessions VYSTRAL observed this month. A session counts when
+/// Track V: the subscription value card's numbers, from sessions Arnav Games observed this month. A session counts when
 /// its game is in one of the user's plans (as matched from the public lists), when it was an Xbox Cloud Gaming stream
 /// and the Game Pass tier includes cloud, or when it was a GeForce NOW stream and the user has a membership. Cost per
 /// hour is only shown when the user typed what they pay, and only once there's at least an hour to divide by.

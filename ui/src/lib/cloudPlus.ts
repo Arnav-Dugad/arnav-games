@@ -1,12 +1,13 @@
 /**
  * Track D5: better cloud play — the "best way to play" advice, the GeForce NOW hours forecast, cloud session
- * insights and the readiness wording. Pure functions (tested in cloudPlus.test.ts). Every sentence says what VYSTRAL
+ * insights and the readiness wording. Pure functions (tested in cloudPlus.test.ts). Every sentence says what Arnav Games
  * actually knows: link speed is never called internet speed, and the hours are always "estimated from sessions
- * VYSTRAL saw".
+ * Arnav Games saw".
  */
 import type { CloudBadge, CloudMeter, CloudReadiness, CloudReadinessLevel, CloudService, Session } from '../bridge/types';
 import { formatHours, SERVICE_SHORT } from './cloud';
 import { formatBytes } from './format';
+import { APP_NAME } from './brand';
 
 const DAY = 86_400_000;
 
@@ -48,7 +49,7 @@ export interface PlayWayAdvice {
   alternative: string | null;
 }
 
-/** Sizes read the same as everywhere else in VYSTRAL (Storage, game pages). */
+/** Sizes read the same as everywhere else in Arnav Games (Storage, game pages). */
 const gb = (bytes: number) => formatBytes(bytes);
 
 /**
@@ -95,8 +96,8 @@ export function bestWayToPlay(i: PlayWayInput): PlayWayAdvice {
     };
   }
   if (hoursOut) {
-    if (otherService) return { way: 'cloud', title: `Stream it with ${SERVICE_SHORT[otherService]}`, tone: 'warn', service: otherService, detail: 'You’ve likely used this month’s GeForce NOW hours (estimated from sessions VYSTRAL saw).', alternative: size ? `or install it: ${size}` : null };
-    return { way: 'install', title: 'Install it this month', tone: 'warn', service, detail: `You’ve likely used this month’s GeForce NOW hours (estimated from sessions VYSTRAL saw).${size ? ` Installing means about ${size} to download.` : ''}`, alternative: null };
+    if (otherService) return { way: 'cloud', title: `Stream it with ${SERVICE_SHORT[otherService]}`, tone: 'warn', service: otherService, detail: 'You’ve likely used this month’s GeForce NOW hours (estimated from sessions Arnav Games saw).', alternative: size ? `or install it: ${size}` : null };
+    return { way: 'install', title: 'Install it this month', tone: 'warn', service, detail: `You’ve likely used this month’s GeForce NOW hours (estimated from sessions ${APP_NAME} saw).${size ? ` Installing means about ${size} to download.` : ''}`, alternative: null };
   }
   const detailBits = [
     size ? `No ${size} download, and it’s ready in a minute or two.` : 'No download: it’s ready in a minute or two.',
@@ -124,7 +125,7 @@ export interface MeterForecast {
 
 /**
  * GeForce NOW hours forecast: this cycle's pace (hours per day so far) carried to the reset. Needs two days of the
- * cycle and some use; plans without a monthly limit get no forecast. Always an estimate from sessions VYSTRAL saw.
+ * cycle and some use; plans without a monthly limit get no forecast. Always an estimate from sessions Arnav Games saw.
  */
 export function meterForecast(m: Pick<CloudMeter, 'plan' | 'cycleStart' | 'nextReset' | 'usedSeconds' | 'limitSeconds'>, now: number, locale?: string): MeterForecast | null {
   if (m.plan === 'none' || m.limitSeconds == null || m.limitSeconds <= 0) return null;
@@ -162,7 +163,7 @@ export interface CloudInsights {
   usualHour: number | null;
 }
 
-/** Insights from cloud sessions VYSTRAL saw (Journal sessions with a cloud source). */
+/** Insights from cloud sessions Arnav Games saw (Journal sessions with a cloud source). */
 export function cloudInsights(sessions: readonly Pick<Session, 'gameId' | 'start' | 'durationSeconds' | 'source'>[], now: number): CloudInsights | null {
   const cloud = sessions.filter((s) => (s.source === 'cloud-gfn' || s.source === 'cloud-xbox') && s.durationSeconds > 0 && Number.isFinite(Date.parse(s.start)));
   if (!cloud.length) return null;

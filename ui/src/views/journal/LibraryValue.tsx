@@ -84,8 +84,8 @@ export function LibraryValue() {
         <Info size={16} aria-hidden />
         <p>
           <strong>Current price, not what you paid.</strong> Values are today’s Steam store prices{data.currency ? ` in ${data.currency}` : ''} ({data.country}){conv.approx ? `, shown in ${conv.currency} at the day’s exchange rate (approximate)` : ''}.
-          Steam doesn’t share purchase dates, so each game is placed at the <em>earliest evidence</em> VYSTRAL has — its first tracked session, first Steam achievement,
-          a last-played date from the store, or when VYSTRAL first saw it — and every date says which.
+          Steam doesn’t share purchase dates, so each game is placed at the <em>earliest evidence</em> Arnav Games has — its first tracked session, first Steam achievement,
+          a last-played date from the store, or when Arnav Games first saw it — and every date says which.
         </p>
       </div>
 

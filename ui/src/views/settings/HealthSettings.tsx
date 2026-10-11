@@ -43,7 +43,7 @@ export function HealthSettings() {
           <div className="srow__text">
             <label className="srow__label" htmlFor="health-news-toggle">Tell me on Home when something new needs a look</label>
             <div className="srow__hint">
-              VYSTRAL checks again quietly when a drive is plugged in or removed, after a scan, and once a day. Each new problem is shown once, with its
+              Arnav Games checks again quietly when a drive is plugged in or removed, after a scan, and once a day. Each new problem is shown once, with its
               safe fix; nothing old ever nags.
             </div>
           </div>

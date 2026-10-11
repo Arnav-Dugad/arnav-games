@@ -239,7 +239,7 @@ function DealsCard({ game }: { game: Game }) {
     setRefreshing(true);
     const ok = await reload({ refresh: true });
     setRefreshing(false);
-    if (!ok) useStore.getState().toast({ tone: 'warning', title: 'Couldn’t refresh prices', body: 'Showing the last prices VYSTRAL found.' });
+    if (!ok) useStore.getState().toast({ tone: 'warning', title: 'Couldn’t refresh prices', body: 'Showing the last prices Arnav Games found.' });
   };
   return (
     <section className="gx-card surface gx-deals" aria-labelledby="gx-deals-title">
@@ -345,7 +345,7 @@ export function IdentityPanel({ game }: { game: Game }) {
       {data.wikidataId && (
         <p className="gx-attrib">
           IDs from <button className="gx-link" onClick={openExternal('identity.open', { gameId: game.id, name: 'wikidata' })}><ServiceLogo service="wikidata" size={14} decorative /> Wikidata {data.wikidataId} <ExternalLink size={11} aria-hidden /></button>
-          {data.fetched && ` · checked ${formatRelative(data.fetched).toLowerCase()}`}. Used only to suggest duplicates — VYSTRAL never merges games on its own.
+          {data.fetched && ` · checked ${formatRelative(data.fetched).toLowerCase()}`}. Used only to suggest duplicates — Arnav Games never merges games on its own.
         </p>
       )}
       {data.reason === 'unavailable' || data.reason === 'rateLimited' ? <p className="gx-pop__muted"><AlertTriangle size={12} aria-hidden /> Wikidata couldn’t be reached just now.</p> : null}

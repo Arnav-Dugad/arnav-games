@@ -19,7 +19,7 @@ import './never-played.css';
 
 /**
  * "Owned, never played": a few gentle picks for tonight, then everything else that has been
- * waiting, longest first, each labelled with how long VYSTRAL has known about it.
+ * waiting, longest first, each labelled with how long Arnav Games has known about it.
  */
 export function NeverPlayedSection({ never, byId, live }: {
   /** Track AA: computed with the rest of Home (lib/homeModel.ts), live or from the first-paint snapshot. */

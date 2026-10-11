@@ -50,7 +50,7 @@ public sealed partial class AppBackend
         });
         Dispatcher.Register("wishlist.refresh", _ =>
         {
-            if (SafeMode) throw new BridgeException("unavailable", "VYSTRAL is in safe mode, so it doesn’t contact Steam.");
+            if (SafeMode) throw new BridgeException("unavailable", "Arnav Games is in safe mode, so it doesn’t contact Steam.");
             var (started, reason) = _wishlist.StartRefresh(manual: true, _life.Token);
             return Task.FromResult<object?>(new { started, reason, wishlist = _wishlist.Get() });
         });
@@ -65,7 +65,7 @@ public sealed partial class AppBackend
         Dispatcher.Register<GameIdParams>("friends.gameHistory", (p, _) =>
         {
             var gameId = RequireId(p.GameId);
-            if (SafeMode) return Task.FromResult<object?>(new FriendsHistoryDto("unavailable", "VYSTRAL is in safe mode, so it doesn’t contact Steam.", null, false, [], 0, 0, 0, 0));
+            if (SafeMode) return Task.FromResult<object?>(new FriendsHistoryDto("unavailable", "Arnav Games is in safe mode, so it doesn’t contact Steam.", null, false, [], 0, 0, 0, 0));
             if (!_steamKeys.IsConfigured) _friendsHistory.Forget();
             return Task.FromResult<object?>(_friendsHistory.ForApp(SteamAppIdOf(gameId), _life.Token));
         });
@@ -95,7 +95,7 @@ public sealed partial class AppBackend
         Dispatcher.Register<GameRefreshParams>("news.get", async (p, ct) =>
         {
             var gameId = RequireId(p.GameId);
-            if (SafeMode) return new NewsDto("unavailable", "VYSTRAL is in safe mode, so it doesn’t contact Steam.", null, false, []);
+            if (SafeMode) return new NewsDto("unavailable", "Arnav Games is in safe mode, so it doesn’t contact Steam.", null, false, []);
             return await _news.GetAsync(SteamAppIdOf(gameId), p.Refresh ?? false, ct); // Track D4: own or matched Steam app
         });
         Dispatcher.Register<NewsPostParams>("news.images", async (p, ct) =>

@@ -48,7 +48,7 @@
   100% { transform: translate3d(60%, 0, 0); opacity: 0.2; }
 }
 
-/* The VYSTRAL star, a ring burst behind it, then a flight into the new layout's mark. */
+/* The Arnav Games star, a ring burst behind it, then a flight into the new layout's mark. */
 .mt__star { position: absolute; left: 50%; top: 50%; will-change: transform, opacity; }
 .mt__star-svg { display: block; width: 100%; height: 100%; overflow: visible; filter: drop-shadow(0 0 18px oklch(0.8 0.14 292 / 0.75)); }
 /* While Windows finishes resizing, the star breathes so a slow resize never looks frozen. */

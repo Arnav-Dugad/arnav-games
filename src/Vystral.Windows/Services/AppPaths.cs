@@ -1,7 +1,7 @@
 namespace Vystral.Windows.Services;
 
 /// <summary>
-/// All locations VYSTRAL writes to. Data lives outside the install folder because the updater
+/// All locations Arnav Games writes to. Data lives outside the install folder because the updater
 /// replaces the install folder on every update, and uninstalling must not delete user data.
 /// </summary>
 public sealed class AppPaths
@@ -17,7 +17,7 @@ public sealed class AppPaths
     public string CrashMarker => Path.Combine(Root, "running.marker");
 
     /// <summary>The data folder used when none is given (computed only; nothing is created).</summary>
-    public static string DefaultRoot => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "VYSTRAL.Data");
+    public static string DefaultRoot => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), Brand.Legacy.DataFolderName);
 
     public AppPaths(string? root = null)
     {

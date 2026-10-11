@@ -10,6 +10,7 @@ import { StoreLogo } from '../components/ui/StoreLogo';
 import { ServiceLogo } from '../components/ui/ServiceLogo';
 import { SubsStep, useSubsStep } from './onboarding/SubsStep';
 import './onboarding.css';
+import { BRAND_ICON } from '../lib/brand';
 
 const STEPS = ['welcome', 'look', 'stores', 'subs', 'features', 'privacy'] as const;
 type Step = (typeof STEPS)[number];
@@ -53,7 +54,7 @@ export function OnboardingView() {
   }, []);
 
   return (
-    <div className="onb" role="dialog" aria-modal="true" aria-label="Welcome to VYSTRAL" data-nav-scope="overlay" ref={ref}>
+    <div className="onb" role="dialog" aria-modal="true" aria-label="Welcome to Arnav Games" data-nav-scope="overlay" ref={ref}>
       <div className="onb__panel">
         <div
           className="onb__progress"
@@ -88,7 +89,7 @@ export function OnboardingView() {
           <div style={{ display: 'flex', gap: 8 }}>
             {index > 0 && <Button onClick={() => setStep(STEPS[index - 1])}>Back</Button>}
             <Button variant="primary" icon={index === STEPS.length - 1 ? <Check size={16} /> : <ArrowRight size={16} />} onClick={next} data-autofocus>
-              {index === 0 ? 'Get started' : index === STEPS.length - 1 ? 'Enter VYSTRAL' : 'Continue'}
+              {index === 0 ? 'Get started' : index === STEPS.length - 1 ? 'Enter Arnav Games' : 'Continue'}
             </Button>
           </div>
         </div>
@@ -100,8 +101,8 @@ export function OnboardingView() {
 function Welcome() {
   return (
     <div className="onb__welcome">
-      <img src="./vystral-mark.svg" alt="" className="onb__mark" />
-      <h1 className="onb__title">Welcome to VYSTRAL</h1>
+      <img src={BRAND_ICON} alt="" className="onb__mark" />
+      <h1 className="onb__title">Welcome to Arnav Games</h1>
       <p className="onb__lead">Every game you own, from every store, in one place — launched the way each store intends. No account, no subscription, and your data stays on this PC.</p>
     </div>
   );
@@ -149,7 +150,7 @@ function Stores() {
   return (
     <>
       <h2 className="onb__h2">Your stores</h2>
-      <p className="onb__p">VYSTRAL reads what your store apps already keep on this PC. It never asks for store passwords and never changes store files.</p>
+      <p className="onb__p">Arnav Games reads what your store apps already keep on this PC. It never asks for store passwords and never changes store files.</p>
       <div className="onb__stores">
         {adapters.map((a) => {
           const count = scan.platforms[a.platform];
@@ -186,15 +187,15 @@ function Features() {
   // Track R: the marks of the services a feature talks to, beside its name.
   const rows: { k: keyof Settings; label: string; hint: string; marks?: ReactNode }[] = [
     { k: 'library.fetchMetadata', label: 'Game details & artwork', hint: 'Looks up genres, descriptions and missing artwork on Steam’s public store pages. Exact matches only.', marks: <StoreLogo platform="steam" size={14} decorative /> },
-    { k: 'performance.collectMetrics', label: 'Session performance history', hint: 'Records CPU/GPU/memory load (read-only) while games you launch from VYSTRAL run.' },
+    { k: 'performance.collectMetrics', label: 'Session performance history', hint: 'Records CPU/GPU/memory load (read-only) while games you launch from Arnav Games run.' },
     { k: 'moments.enabled', label: 'Moments', hint: 'Shows your Steam screenshots and Xbox Game Bar captures. Files are never uploaded or changed.', marks: <><StoreLogo platform="steam" size={14} decorative /><StoreLogo platform="xbox" size={14} decorative /></> },
-    { k: 'updates.autoCheck', label: 'Check for VYSTRAL updates', hint: 'Looks for new versions on GitHub shortly after starting.' },
+    { k: 'updates.autoCheck', label: 'Check for Arnav Games updates', hint: 'Looks for new versions on GitHub shortly after starting.' },
     { k: 'ai.enabled', label: 'Local AI (advanced)', hint: 'Needs Ollama installed separately. Runs on this PC only; you choose and approve any model download.', marks: <ServiceLogo service="ollama" size={14} decorative /> },
   ];
   return (
     <>
       <h2 className="onb__h2">Optional features</h2>
-      <p className="onb__p">Everything here is optional. VYSTRAL launches your games either way.</p>
+      <p className="onb__p">Everything here is optional. Arnav Games launches your games either way.</p>
       <div className="onb__list">
         {rows.map((r) => (
           <div key={r.k} className="onb__row">
@@ -218,8 +219,8 @@ function Privacy() {
       <ul className="onb__bullets">
         <li>No account, no telemetry, no ads.</li>
         <li>Your library, sessions and notes live only on this PC.</li>
-        <li>VYSTRAL never modifies games, never touches anti-cheat, and never changes hardware settings.</li>
-        <li>If VYSTRAL is ever removed, every game still works through its own store.</li>
+        <li>Arnav Games never modifies games, never touches anti-cheat, and never changes hardware settings.</li>
+        <li>If Arnav Games is ever removed, every game still works through its own store.</li>
       </ul>
     </div>
   );

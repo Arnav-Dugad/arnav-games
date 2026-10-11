@@ -8,6 +8,7 @@ import { startOwnershipNotices } from './ownership';
 import type {
   AdapterInfo, AppInfo, DriveInfo, Game, LaunchState, LibrarySnapshot, SettingKey, Settings, UpdateState, WindowState,
 } from '../bridge/types';
+import { APP_NAME } from '../lib/brand';
 
 export type Route =
   | { name: 'home' }
@@ -210,8 +211,8 @@ export const useStore = create<State>((set, get) => ({
     if (info.previousRunCrashed && !info.safeMode)
       get().toast({
         tone: 'warning',
-        title: 'VYSTRAL closed unexpectedly last time',
-        body: 'If it happens again, hold Shift while starting VYSTRAL to open it in safe mode.',
+        title: 'Arnav Games closed unexpectedly last time',
+        body: 'If it happens again, hold Shift while starting Arnav Games to open it in safe mode.',
       });
     if (info.safeMode) get().toast({ tone: 'info', title: 'Safe mode', body: 'Visual effects, local AI and background downloads are off for this session.', sticky: true });
   },
@@ -437,10 +438,10 @@ function subscribeEvents(set: (p: Partial<State>) => void, get: () => State) {
     const prev = get().update;
     set({ update });
     if (update.phase === 'ready' && prev?.phase !== 'ready')
-      get().toast({ tone: 'success', title: `VYSTRAL ${update.newVersion} is ready`, body: 'Restart to finish updating. It also installs automatically when you close VYSTRAL.' });
+      get().toast({ tone: 'success', title: `${APP_NAME} ${update.newVersion} is ready`, body: 'Restart to finish updating. It also installs automatically when you close Arnav Games.' });
   });
   on('window.state', (w) => set({ window: w }));
-  // Clicking a Windows notification brings VYSTRAL forward and opens the relevant page.
+  // Clicking a Windows notification brings Arnav Games forward and opens the relevant page.
   on('app.navigate', ({ route }) => {
     const known = ['home', 'library', 'game', 'journal', 'performance', 'moments', 'constellation', 'assistant', 'settings', 'storage', 'health', 'wishlist'];
     if (!route || !known.includes(route.name) || (route.name === 'game' && !route.id)) return;

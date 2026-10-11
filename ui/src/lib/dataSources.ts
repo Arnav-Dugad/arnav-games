@@ -15,8 +15,8 @@ export function formatMoney(amount: number, currency: string | null | undefined)
 export const formatCents = (cents: number, currency: string | null | undefined) => formatMoney(cents / 100, currency);
 
 export const SINCE_LABEL: Record<ValueSince, string> = {
-  firstSeen: 'First seen by VYSTRAL',
-  firstSession: 'First session tracked by VYSTRAL',
+  firstSeen: 'First seen by Arnav Games',
+  firstSession: 'First session tracked by Arnav Games',
   firstAchievement: 'First achievement unlocked (Steam)',
   storeLastPlayed: 'Played by then (reported by the store)',
 };

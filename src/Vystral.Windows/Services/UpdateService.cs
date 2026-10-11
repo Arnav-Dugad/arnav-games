@@ -26,7 +26,7 @@ public sealed record UpdateStateDto(
 /// </summary>
 public sealed class UpdateService
 {
-    public const string RepositoryUrl = "https://github.com/Arnav-Dugad/vystral";
+    public const string RepositoryUrl = Brand.RepositoryUrl;
     public static readonly TimeSpan CheckTimeout = TimeSpan.FromMinutes(2);
 
     private readonly IEventSink _events;
@@ -93,7 +93,7 @@ public sealed class UpdateService
                 return Set(State with
                 {
                     Phase = "upToDate", NewVersion = null, Progress = 0, CheckedAt = now,
-                    Message = $"VYSTRAL {target.Version} is skipped because it didn't start correctly on this PC. You'll get the next version automatically.",
+                    Message = $"{Brand.Name} {target.Version} is skipped because it didn't start correctly on this PC. You'll get the next version automatically.",
                 });
             }
             Log.Info("update", "Update available", new { from = State.CurrentVersion, to = target.Version.ToString(), ms = sw.ElapsedMilliseconds });
@@ -118,7 +118,7 @@ public sealed class UpdateService
             return Set(State with
             {
                 Phase = "error",
-                Message = "GitHub took too long to answer. VYSTRAL will try again later.",
+                Message = "GitHub took too long to answer. Arnav Games will try again later.",
                 CheckedAt = DateTimeOffset.Now.ToString("O"),
             });
         }
@@ -129,7 +129,7 @@ public sealed class UpdateService
             return Set(State with
             {
                 Phase = "error",
-                Message = $"Couldn't reach GitHub to check for updates ({LowerFirst(reason.Text)}). VYSTRAL will try again later.",
+                Message = $"Couldn't reach GitHub to check for updates ({LowerFirst(reason.Text)}). {Brand.Name} will try again later.",
                 CheckedAt = DateTimeOffset.Now.ToString("O"),
             });
         }
@@ -206,7 +206,7 @@ public sealed class UpdateService
     public UpdateStateDto ApplyAndRestart()
     {
         if (_manager is null || _pending is null || State.Phase != "ready") return State;
-        if (IsGameRunning()) return Set(State with { Message = "Close your game first; VYSTRAL restarts to finish updating." });
+        if (IsGameRunning()) return Set(State with { Message = "Close your game first; Arnav Games restarts to finish updating." });
         Set(State with { Phase = "applying" });
         try { BeforeRestart?.Invoke(); }
         catch (Exception ex) { Log.Warn("update", "Shutting down before the restart failed", ex: ex); }
@@ -217,14 +217,14 @@ public sealed class UpdateService
         catch (Exception ex)
         {
             Log.Error("update", "Restarting into the update failed", ex);
-            Set(State with { Phase = "ready", Message = "VYSTRAL couldn't restart to install the update. It installs when you close VYSTRAL." });
+            Set(State with { Phase = "ready", Message = "Arnav Games couldn't restart to install the update. It installs when you close Arnav Games." });
             ApplyOnExitIfReady(); // the clean-exit path already ran, so arrange the install for this process's exit here
             return State;
         }
         return State;
     }
 
-    /// <summary>If an update is downloaded but not applied, install it silently after VYSTRAL exits.</summary>
+    /// <summary>If an update is downloaded but not applied, install it silently after Arnav Games exits.</summary>
     public void ApplyOnExitIfReady()
     {
         if (_manager is null || _pending is null || State.Phase != "ready") return;
@@ -251,7 +251,7 @@ public sealed class UpdateService
 }
 
 /// <summary>
-/// Velopack's downloader with VYSTRAL's fast connector (see <see cref="FastConnect"/>): GitHub's
+/// Velopack's downloader with Arnav Games' fast connector (see <see cref="FastConnect"/>): GitHub's
 /// release files sit behind several CDN addresses, and one unreachable address used to cost 21 s
 /// per file, per release, on every check.
 /// </summary>
@@ -260,7 +260,7 @@ internal sealed class FastDownloader(string version) : HttpClientFileDownloader
     protected override HttpClient CreateHttpClient(IDictionary<string, string>? headers, double timeout)
     {
         var client = new HttpClient(FastConnect.CreateHandler(), disposeHandler: true) { Timeout = TimeSpan.FromMinutes(timeout) };
-        client.DefaultRequestHeaders.UserAgent.ParseAdd($"VYSTRAL/{version}");
+        client.DefaultRequestHeaders.UserAgent.ParseAdd($"{Brand.UserAgentProduct}/{version}");
         foreach (var (key, value) in headers ?? new Dictionary<string, string>())
             client.DefaultRequestHeaders.TryAddWithoutValidation(key, value);
         return client;

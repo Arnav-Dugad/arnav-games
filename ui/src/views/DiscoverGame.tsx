@@ -245,7 +245,7 @@ function Body({ d, onRefresh }: { d: DiscoverDetails; onRefresh: () => Promise<v
 
       {(notes.length > 0 || d.reason === 'offline') && (
         <ul className="ddetail__notes" aria-label="About these details">
-          {d.reason === 'offline' && <li><CloudOff size={14} aria-hidden /> Offline mode is on: showing what VYSTRAL found earlier.</li>}
+          {d.reason === 'offline' && <li><CloudOff size={14} aria-hidden /> Offline mode is on: showing what Arnav Games found earlier.</li>}
           {notes.map((n) => <li key={n}><Info size={14} aria-hidden /> {n}</li>)}
         </ul>
       )}
@@ -332,7 +332,7 @@ function WhereToGet({ d }: { d: DiscoverDetails }) {
           ))}
         </p>
       )}
-      <p className="provenance">Store pages open in your browser. VYSTRAL never buys, installs or launches anything from here.</p>
+      <p className="provenance">Store pages open in your browser. Arnav Games never buys, installs or launches anything from here.</p>
     </section>
   );
 }

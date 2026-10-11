@@ -258,8 +258,8 @@ for (const size of icoSizes) {
 }
 const ico = Buffer.concat([header, ...entries, ...icoSizes.map((s) => pngs[s])]);
 write(resolve(brand, 'arnav-games.ico'), ico);
-// App project equivalents of Assets/vystral.ico and Assets/vystral-256.png (taskbar, Start menu,
-// window icon and the shell-integration icon). Not referenced yet: the rename pass swaps them in.
+// The app project's copies: ApplicationIcon (exe, taskbar, Start menu, Alt+Tab), the window icon and the
+// icon registered with the app's AUMID for notifications (Host/ShellIntegration.cs).
 write(at('src/Vystral.App/Assets/arnav-games.ico'), ico);
 write(at('src/Vystral.App/Assets/arnav-games-256.png'), pngs[256]);
 

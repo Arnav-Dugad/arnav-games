@@ -36,7 +36,7 @@ function themeFor(game: Game | undefined): ReplayTheme {
   };
 }
 
-/** Sends the PNG to VYSTRAL in chunks (one bridge message is capped at 256 K characters). Returns the upload token. */
+/** Sends the PNG to Arnav Games in chunks (one bridge message is capped at 256 K characters). Returns the upload token. */
 async function upload(sessionId: string, blob: Blob): Promise<string> {
   const bytes = new Uint8Array(await blob.arrayBuffer());
   const { token } = await call<{ token: string }>('replay.imageBegin', { sessionId, bytes: bytes.length });

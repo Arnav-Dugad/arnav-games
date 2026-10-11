@@ -19,7 +19,7 @@ const ACTIVE = ['validating', 'starting', 'waiting', 'notDetected', 'failed'];
 /**
  * The launch sequence. Status text follows the real native phases (no fake countdown):
  * validating → starting the store client → waiting for the game process → running.
- * It never claims success before VYSTRAL actually sees the game running.
+ * It never claims success before Arnav Games actually sees the game running.
  */
 export function LaunchOverlay() {
   const launch = useStore((s) => s.launch);
@@ -31,7 +31,7 @@ export function LaunchOverlay() {
   const [enjoy, setEnjoy] = useState<string | null>(null);
   const [returning, setReturning] = useState<{ game: Game; ticket: string } | null>(null);
 
-  // Track H: a game started outside VYSTRAL gets no launch sequence — only the title-bar chip and the summary.
+  // Track H: a game started outside Arnav Games gets no launch sequence — only the title-bar chip and the summary.
   const external = !!launch?.source && launch.source !== 'tracked';
 
   // Brief "Enjoy" beat when the game is detected, then get out of the way.
@@ -66,7 +66,7 @@ export function LaunchOverlay() {
       } catch {
         // summary is optional
       }
-      const where = external ? 'Started outside VYSTRAL and tracked automatically. ' : '';
+      const where = external ? 'Started outside Arnav Games and tracked automatically. ' : '';
       const sessionId = launch.sessionId;
       toast({
         tone: 'success', title: `Played ${game.title} for ${formatDuration(launch.durationSeconds)}`, body: `${where}Session saved to your journal${perf}.`,
@@ -278,7 +278,7 @@ function FixButton({ ticket, fix, primary }: { ticket: string; fix: NonNullable<
 }
 
 /**
- * Once VYSTRAL has learned how long this game usually takes to open (3+ launches), the spinner
+ * Once Arnav Games has learned how long this game usually takes to open (3+ launches), the spinner
  * becomes a real progress arc. It never reaches 100% on its own — only detection completes it.
  */
 function LearnedProgress({ launch }: { launch: LaunchState }) {

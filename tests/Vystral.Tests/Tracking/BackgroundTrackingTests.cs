@@ -111,7 +111,7 @@ public sealed class BackgroundTrackingTests : IDisposable
         Assert.Null(helper.Tracker.PollOnce(now.AddSeconds(4)));
         Assert.Single(_t.Repo.ListSessions(null, 10));
 
-        // Library totals count it like any VYSTRAL session.
+        // Library totals count it like any Arnav Games session.
         var game = Assert.Single(_t.Repo.LoadSnapshot((_, _) => null).Games);
         Assert.Equal(1, game.SessionCount);
         Assert.Equal(saved.DurationSeconds, game.TrackedSeconds);

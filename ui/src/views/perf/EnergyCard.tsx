@@ -70,11 +70,11 @@ export function EnergyMethodPopover({ method, price, currency }: { method: Energ
         {method.source === 'manual' ? (
           <p>
             You entered <strong className="num">{method.manualWatts} W</strong> as your PC’s draw at a full gaming load. Each session uses
-            <span className="en-formula"> {method.manualWatts} W × (0.3 + 0.7 × load)</span>, where load is 75% GPU and 25% CPU, from the samples VYSTRAL recorded.
+            <span className="en-formula"> {method.manualWatts} W × (0.3 + 0.7 × load)</span>, where load is 75% GPU and 25% CPU, from the samples Arnav Games recorded.
           </p>
         ) : (
           <>
-            <p>Whole-PC power while a game runs, from the GPU and CPU load VYSTRAL recorded during the session and typical power figures for your hardware:</p>
+            <p>Whole-PC power while a game runs, from the GPU and CPU load Arnav Games recorded during the session and typical power figures for your hardware:</p>
             <p className="en-formula">
               {method.baseWatts} W base + {method.gpuWatts} W × (0.2 + 0.8 × GPU load) + {method.cpuWatts} W × (0.25 + 0.75 × CPU load)
             </p>
@@ -127,7 +127,7 @@ export function EnergyCard({ gameId }: { gameId: string | null }) {
       <section className="surface vx-card en-card" aria-labelledby="en-title">
         {head}
         <p className="pf-muted">
-          Estimate how much electricity your gaming uses — per session, per game and per month, and what it costs at your price — from the GPU and CPU load VYSTRAL
+          Estimate how much electricity your gaming uses — per session, per game and per month, and what it costs at your price — from the GPU and CPU load Arnav Games
           already records. It’s calculated on this PC and clearly labelled as an estimate.
         </p>
         <div className="en-actions">

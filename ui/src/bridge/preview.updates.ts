@@ -12,6 +12,7 @@ import type { HealthProbeInfo, HealthResult } from '../views/settings/networkHea
 import { CURATED } from '../whatsnew/tours';
 import { RELEASES } from '../whatsnew/releases';
 import { compareVersions } from '../whatsnew/version';
+import { APP_NAME } from '../lib/brand';
 
 const KEY = 'vystral.preview.whatsNew';
 
@@ -90,7 +91,7 @@ export function updatesPreviewHandlers(ctx: { settings: () => Settings }) {
         const ms = jitter(310);
         return {
           ...base, status: 'warn', ms,
-          summary: `One of ${p.host}'s addresses (185.199.109.133) isn't reachable from this network; VYSTRAL uses the others`,
+          summary: `One of ${p.host}'s addresses (185.199.109.133) isn't reachable from this network; ${APP_NAME} uses the others`,
           detail: `Answered in ${ms} ms.`,
           addresses: [
             { address: '185.199.108.133', family: 'IPv4', reachable: true, ms: jitter(24), error: null },

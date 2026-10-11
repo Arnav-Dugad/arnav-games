@@ -5,7 +5,7 @@ import type { Game, ResolvedIdentity } from '../bridge/types';
 import { isSteamGame, steamLinkOf, type SteamLink } from '../lib/identity';
 
 /**
- * Track D4: each library game's cross-store identity (its Steam app, IGDB/RAWG/GOG/Wikidata IDs, how sure VYSTRAL is),
+ * Track D4: each library game's cross-store identity (its Steam app, IGDB/RAWG/GOG/Wikidata IDs, how sure Arnav Games is),
  * shared by the game page's Steam sections, the hero trailer and the "Matched IDs" card. Loaded on first use per game;
  * the native `identity.changed` event (a lookup finished, you corrected a match, a setting changed) refreshes it.
  */

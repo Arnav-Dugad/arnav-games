@@ -237,7 +237,7 @@ public sealed class SteamAccountService
 
     private async Task<SteamTestResultDto> SyncCoreAsync(string steamId, CancellationToken ct, string? keyOverride)
     {
-        if (IsGameActive()) throw new BridgeException("busy", "VYSTRAL doesn’t contact Steam while a game is running.");
+        if (IsGameActive()) throw new BridgeException("busy", "Arnav Games doesn’t contact Steam while a game is running.");
         if (!await _syncLock.WaitAsync(0, ct)) throw new BridgeException("busy", "A Steam sync is already running.");
         try
         {
@@ -277,7 +277,7 @@ public sealed class SteamAccountService
     internal const string OwnershipNoticeKey = "steam.ownership.notice";
 
     /// <summary>
-    /// Remembers that games left the owned list until the UI has shown it once (a sync can finish while VYSTRAL
+    /// Remembers that games left the owned list until the UI has shown it once (a sync can finish while Arnav Games
     /// is in the tray, or before the window subscribed). Counts add up until then.
     /// </summary>
     private void RecordOwnershipNotice(int count)
@@ -322,8 +322,8 @@ public sealed class SteamAccountService
         }
         else if (stale && IsGameActive())
         {
-            note = fetch is null ? null : "Showing saved achievements. VYSTRAL doesn’t contact Steam while a game is running.";
-            if (fetch is null) return Empty("error", "VYSTRAL doesn’t contact Steam while a game is running. Try again after you close the game.");
+            note = fetch is null ? null : "Showing saved achievements. Arnav Games doesn’t contact Steam while a game is running.";
+            if (fetch is null) return Empty("error", "Arnav Games doesn’t contact Steam while a game is running. Try again after you close the game.");
         }
         else
         {
@@ -487,7 +487,7 @@ public sealed class SteamAccountService
 
     // ---------- Track F: unlocks after a session, feed icons ----------
 
-    /// <summary>True when VYSTRAL may ask Steam for achievements right now: key and account set, online, no data saver, no game running.</summary>
+    /// <summary>True when Arnav Games may ask Steam for achievements right now: key and account set, online, no data saver, no game running.</summary>
     public bool CanRefreshAchievements() =>
         !LocalOnly && !DataSaverActive && _keys.IsConfigured && !IsGameActive() && SelectedSteamId() is not null;
 
@@ -516,7 +516,7 @@ public sealed class SteamAccountService
 
     private void RequireOnline()
     {
-        if (LocalOnly) throw new BridgeException("forbidden", "Offline mode is on (Settings → Privacy), so VYSTRAL doesn’t contact Steam.");
+        if (LocalOnly) throw new BridgeException("forbidden", "Offline mode is on (Settings → Privacy), so Arnav Games doesn’t contact Steam.");
     }
 
     private static string Stamp() => DateTimeOffset.UtcNow.ToString("O");

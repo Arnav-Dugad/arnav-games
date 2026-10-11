@@ -107,7 +107,7 @@ public sealed class StartupProtection
         }
         catch (Exception ex)
         {
-            // Startup protection must never be the reason VYSTRAL doesn't start.
+            // Startup protection must never be the reason Arnav Games doesn't start.
             Log.Error("rollback", "Startup protection failed", ex);
         }
     }

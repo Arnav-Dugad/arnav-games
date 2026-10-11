@@ -17,7 +17,7 @@ export interface PlanMeta {
   tier: string;
   /** What it includes, in a line. */
   blurb: string;
-  /** Microsoft publishes a list VYSTRAL can read for it. */
+  /** Microsoft publishes a list Arnav Games can read for it. */
   hasList: boolean;
   /** Includes Xbox Cloud Gaming. */
   cloud: boolean;
@@ -85,7 +85,7 @@ export const hasListPlan = (plans: SubsPlanId[]) => plans.some((p) => PLAN[p].ha
 export const gamePassPlan = (plans: SubsPlanId[]) => familyPlan(plans, 'gamepass');
 
 /**
- * Cloud play shows only the services you have, once you've told VYSTRAL (null = show everything): GeForce NOW with
+ * Cloud play shows only the services you have, once you've told Arnav Games (null = show everything): GeForce NOW with
  * any membership, Xbox Cloud Gaming with Essential, Premium or Ultimate. "Show every service" turns this off.
  */
 export function allowedCloudServices(s: Pick<Settings, 'subs.asked' | 'subs.cloudShowAll' | 'subs.owned' | 'cloud.gfnPlan'> | null | undefined): Set<CloudService> | null {

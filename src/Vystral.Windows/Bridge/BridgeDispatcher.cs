@@ -102,7 +102,7 @@ public sealed partial class BridgeDispatcher
         catch (Exception ex)
         {
             Log.Error("bridge", "Unhandled bridge error", ex);
-            return id is null ? null : Error(id, "internal", "Something went wrong inside VYSTRAL. Details were written to the log.");
+            return id is null ? null : Error(id, "internal", "Something went wrong inside Arnav Games. Details were written to the log.");
         }
     }
 

@@ -35,7 +35,7 @@ export const CloudBadge = memo(function CloudBadge({ gameId }: { gameId: string 
 });
 
 /**
- * The GeForce NOW hours meter. Always labelled as an estimate from sessions VYSTRAL saw; warns gently at 80% and
+ * The GeForce NOW hours meter. Always labelled as an estimate from sessions Arnav Games saw; warns gently at 80% and
  * when the limit is likely reached. `compact` is the one-line version for the game page menu.
  */
 export function CloudMeterView({ meter, compact }: { meter: Meter; compact?: boolean }) {
@@ -70,13 +70,13 @@ export function CloudMeterView({ meter, compact }: { meter: Meter; compact?: boo
       {!compact && <p className="cloud-meter__detail">{sum.detail}</p>}
       <MeterForecastLine meter={meter} />
       <p className="cloud-meter__foot">
-        Estimated from sessions VYSTRAL saw{meter.plan !== 'none' ? ` · ${resetLabel(meter)}` : ''}
+        Estimated from sessions Arnav Games saw{meter.plan !== 'none' ? ` · ${resetLabel(meter)}` : ''}
       </p>
     </div>
   );
 }
 
-/** Xbox Cloud Gaming has no hour limit applied here: just the time VYSTRAL saw this cycle. */
+/** Xbox Cloud Gaming has no hour limit applied here: just the time Arnav Games saw this cycle. */
 export function XboxCloudTime({ meter }: { meter: Meter }) {
   return (
     <div className="cloud-xtime">

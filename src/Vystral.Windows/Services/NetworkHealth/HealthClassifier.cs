@@ -25,7 +25,7 @@ public sealed record HealthVerdict(string Status, string Summary, string? Detail
 /// <summary>
 /// Pure judgement of a probe's observation into a status and the actual reason in plain words,
 /// e.g. "One of github.com's addresses (185.199.109.133) isn't reachable from this network;
-/// VYSTRAL uses the others", "Slow: 1.8 s", "Rate limited (HTTP 429) — resets in 12 min".
+/// Arnav Games uses the others", "Slow: 1.8 s", "Rate limited (HTTP 429) — resets in 12 min".
 /// </summary>
 public static class HealthClassifier
 {
@@ -61,9 +61,9 @@ public static class HealthClassifier
         var reset = RateLimitReset(o);
         var resetText = reset is { } r ? $" — resets in {NetworkErrors.Duration(r)}" : "";
         if (status == 429 || (status == 403 && Header(o, "x-ratelimit-remaining") == "0"))
-            return new("warn", $"Rate limited (HTTP {status}){resetText}", "VYSTRAL waits and tries again later. Nothing else is affected.");
+            return new("warn", $"Rate limited (HTTP {status}){resetText}", "Arnav Games waits and tries again later. Nothing else is affected.");
         if (status >= 500)
-            return new("down", $"The service has a problem (HTTP {status})", "It's on their side; VYSTRAL tries again later.");
+            return new("down", $"The service has a problem (HTTP {status})", "It's on their side; Arnav Games tries again later.");
         if (status >= 400 && !o.AnyResponseIsHealthy)
         {
             var f = NetworkErrors.FromStatus(status);
@@ -80,8 +80,8 @@ public static class HealthClassifier
         {
             var list = string.Join(", ", unreachable.Take(3).Select(a => a.Address)) + (unreachable.Count > 3 ? ", …" : "");
             var summary = unreachable.Count == 1
-                ? $"One of {o.Host}'s addresses ({list}) isn't reachable from this network; VYSTRAL uses the others"
-                : $"{unreachable.Count} of {o.Host}'s {o.Addresses.Count} addresses ({list}) aren't reachable from this network; VYSTRAL uses the others";
+                ? $"One of {o.Host}'s addresses ({list}) isn't reachable from this network; {Brand.Name} uses the others"
+                : $"{unreachable.Count} of {o.Host}'s {o.Addresses.Count} addresses ({list}) aren't reachable from this network; {Brand.Name} uses the others";
             return new("warn", summary, Timing(o));
         }
 

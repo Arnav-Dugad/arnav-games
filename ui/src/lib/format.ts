@@ -78,14 +78,14 @@ export function formatDate(iso: string | null | undefined, opts: Intl.DateTimeFo
 const instant = (iso: string | null | undefined): number => (iso ? Date.parse(iso) : NaN);
 
 /**
- * Where a "last played" came from: VYSTRAL's own sessions, the store's record, or (Track C1) an estimate from the
+ * Where a "last played" came from: Arnav Games' own sessions, the store's record, or (Track C1) an estimate from the
  * game's save-data write times, which must always be labelled as an estimate.
  */
 export type LastPlayedSource = 'tracked' | 'imported' | 'estimated';
 
 /**
- * Most recent play, from VYSTRAL's own sessions or a store's import, with its source. An estimate from save data
- * doesn't replace a session VYSTRAL tracked the day before it (saves are written while that session ran).
+ * Most recent play, from Arnav Games' own sessions or a store's import, with its source. An estimate from save data
+ * doesn't replace a session Arnav Games tracked the day before it (saves are written while that session ran).
  */
 export function lastPlayed(game: Game): { at: string | null; source: LastPlayedSource | null } {
   const tracked = instant(game.lastTrackedPlay);
@@ -138,7 +138,7 @@ export function importedPlaytime(game: Game): { minutes: number; platform: Platf
 }
 
 /**
- * Total playtime in seconds. Store playtime (Steam's in particular) already includes time VYSTRAL
+ * Total playtime in seconds. Store playtime (Steam's in particular) already includes time Arnav Games
  * tracked, so the two are never added: the larger one wins.
  */
 export function playSeconds(game: Game): number {

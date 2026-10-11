@@ -119,7 +119,7 @@ public sealed partial class AppBackend
         {
             if (!Uri.TryCreate(p.Url, UriKind.Absolute, out var uri) || uri.Scheme != Uri.UriSchemeHttps ||
                 !AllowedExternalHosts.Contains(uri.Host, StringComparer.OrdinalIgnoreCase))
-                throw new BridgeException("forbidden", "VYSTRAL only opens trusted links.");
+                throw new BridgeException("forbidden", "Arnav Games only opens trusted links.");
             _shell.OpenUri(uri);
             return Task.FromResult<object?>(true);
         });

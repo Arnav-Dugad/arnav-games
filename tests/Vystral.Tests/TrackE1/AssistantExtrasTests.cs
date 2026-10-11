@@ -106,7 +106,7 @@ public sealed class AssistantExtrasTests
         var cpu = Explain(Insight(frames), Samples((300, 95, 60), (640, 96, 62), (1001, 94, 55)));
         Assert.Equal("cpu", cpu.Cause);
         Assert.StartsWith("Likely the processor", cpu.Text);
-        Assert.Contains("VYSTRAL’s reading:", cpu.FactsText);
+        Assert.Contains("Arnav Games’ reading:", cpu.FactsText);
 
         // The GPU flat out.
         var gpu = Explain(Insight(frames), Samples((300, 40, 99), (640, 35, 98), (1001, 30, 99)));
@@ -148,7 +148,7 @@ public sealed class AssistantExtrasTests
     [Fact]
     public void Ai_wording_must_stick_to_the_facts_and_never_claim_a_change()
     {
-        const string facts = "- Average frame rate: 90 fps\n- 1% low: 30 fps\n- VYSTRAL’s reading: Likely the processor.";
+        const string facts = "- Average frame rate: 90 fps\n- 1% low: 30 fps\n- Arnav Games’ reading: Likely the processor.";
         Assert.Equal("Likely the processor: it was busy whenever frames dropped to 30 fps.", LagNotes.AcceptAi("\"Likely the processor: it was busy whenever frames dropped to 30 fps.\"", facts));
         Assert.Null(LagNotes.AcceptAi("Likely the processor, which hit 97% load.", facts)); // a number that isn't in the facts
         Assert.Null(LagNotes.AcceptAi("Likely the processor. I changed your power plan to fix it.", facts));

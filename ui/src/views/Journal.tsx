@@ -173,9 +173,9 @@ export function JournalView({ tab: routeTab, day: routeDay }: { tab?: JournalTab
           <span className="caps">Journal</span>
           <h1 className="jr-title">Your gaming journal</h1>
           <p className="jr-lede">
-            Private to this PC. Built only from sessions VYSTRAL recorded (launched or detected)
+            Private to this PC. Built only from sessions Arnav Games recorded (launched or detected)
             <span className="vx-source vx-source--tracked" style={{ marginLeft: 8 }}>
-              <Activity size={11} aria-hidden /> Tracked by VYSTRAL
+              <Activity size={11} aria-hidden /> Tracked by Arnav Games
             </span>
           </p>
         </div>
@@ -286,7 +286,7 @@ export function JournalView({ tab: routeTab, day: routeDay }: { tab?: JournalTab
             <motion.div className="jr-provenance surface" {...reveal(2)}>
               <Info size={16} aria-hidden />
               <p>
-                <span className="vx-source vx-source--tracked"><Activity size={11} aria-hidden /> Tracked</span> numbers on this page come only from VYSTRAL sessions.{' '}
+                <span className="vx-source vx-source--tracked"><Activity size={11} aria-hidden /> Tracked</span> numbers on this page come only from Arnav Games sessions.{' '}
                 Your stores separately report <strong className="num">{formatDuration(store.minutes * 60, { short: true })}</strong> across{' '}
                 {plural(store.count, 'game')}{' '}
                 <span className="vx-source vx-source--store"><Store size={11} aria-hidden /> from Steam/store</span> — shown per game below, never added to tracked totals.
@@ -398,7 +398,7 @@ export function JournalView({ tab: routeTab, day: routeDay }: { tab?: JournalTab
                   </Button>
                 </div>
               )}
-              <p className="jr-footnote">Milestones come only from sessions VYSTRAL recorded{allTotals.sessions ? `, starting ${shortDate(all[all.length - 1].startMs, true)}` : ''}.</p>
+              <p className="jr-footnote">Milestones come only from sessions Arnav Games recorded{allTotals.sessions ? `, starting ${shortDate(all[all.length - 1].startMs, true)}` : ''}.</p>
             </motion.section>
           </div>
         </>
@@ -426,7 +426,7 @@ export function JournalView({ tab: routeTab, day: routeDay }: { tab?: JournalTab
           <p>This permanently deletes:</p>
           <ul>
             <li>
-              Every session VYSTRAL tracked — <strong>{plural(allTotals.sessions, 'session')}</strong>, <strong>{formatDuration(allTotals.seconds)}</strong> across {plural(allTotals.games, 'game')}.
+              Every session Arnav Games tracked — <strong>{plural(allTotals.sessions, 'session')}</strong>, <strong>{formatDuration(allTotals.seconds)}</strong> across {plural(allTotals.games, 'game')}.
             </li>
             <li>All performance samples (CPU, GPU, memory, temperature) recorded during those sessions.</li>
             <li>The graphics driver versions and background-app names noted during those sessions, and the apps you hid from that report.</li>
@@ -478,7 +478,7 @@ function TopGameRow({ rank, game, seconds, sessions, max, reduce }: { rank: numb
         <span className="jr-top__meta">
           <span>{plural(sessions, 'session')}</span>
           {store && (
-            <span className="vx-source vx-source--store" title={`Reported by ${store.store}. Not tracked by VYSTRAL.`}>
+            <span className="vx-source vx-source--store" title={`Reported by ${store.store}. Not tracked by Arnav Games.`}>
               <StoreLogo platform={store.platform} size={12} decorative /> {formatDuration(store.minutes * 60, { short: true })} from {store.store}
             </span>
           )}
@@ -590,7 +590,7 @@ function MilestoneItem({ m, gamesById }: { m: Milestone; gamesById: Map<string, 
     case 'gameHours':
       icon = <Hourglass size={15} />;
       title = `${m.hours} hours in ${name(m.gameId)}`;
-      detail = 'Tracked by VYSTRAL';
+      detail = 'Tracked by Arnav Games';
       break;
     case 'totalHours':
       icon = <Clock size={15} />;
@@ -688,7 +688,7 @@ function YearInReviewCard({ review, now, gamesById, reveal }: { review: YearRevi
           ))}
         </div>
       </div>
-      <p className="jr-footnote">Built only from sessions VYSTRAL recorded in {review.year}. Store-reported playtime isn’t included.</p>
+      <p className="jr-footnote">Built only from sessions Arnav Games recorded in {review.year}. Store-reported playtime isn’t included.</p>
     </motion.section>
   );
 }
@@ -701,7 +701,7 @@ function JournalEmpty({ storeGames }: { storeGames: number }) {
       title="Your journal starts with your next session"
       body={
         <>
-          VYSTRAL records a session each time you play a game it launched or noticed running — when it began, how long you played, and, if enabled, how your PC performed.
+          Arnav Games records a session each time you play a game it launched or noticed running — when it began, how long you played, and, if enabled, how your PC performed.
           Everything stays on this PC.
           {' '}Playtime that Steam and other stores report{storeGames > 0 ? ` (${plural(storeGames, 'game')} so far)` : ''} appears on each game’s page, labelled “from Steam/store” — it isn’t part of this journal.
         </>

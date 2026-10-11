@@ -23,18 +23,18 @@ public sealed partial class DataSourceKeyStore(ISecretStore store)
 {
     public static string Target(KeyedProvider p) => p switch
     {
-        KeyedProvider.SteamGridDb => "VYSTRAL/SteamGridDB",
-        KeyedProvider.Igdb => "VYSTRAL/IGDB",
-        KeyedProvider.Rawg => "VYSTRAL/RAWG",
-        _ => "VYSTRAL/IsThereAnyDeal",
+        KeyedProvider.SteamGridDb => Brand.Legacy.CredentialPrefix + "SteamGridDB",
+        KeyedProvider.Igdb => Brand.Legacy.CredentialPrefix + "IGDB",
+        KeyedProvider.Rawg => Brand.Legacy.CredentialPrefix + "RAWG",
+        _ => Brand.Legacy.CredentialPrefix + "IsThereAnyDeal",
     };
 
     public static string Comment(KeyedProvider p) => p switch
     {
-        KeyedProvider.SteamGridDb => "Your SteamGridDB API key, used by VYSTRAL's artwork picker.",
-        KeyedProvider.Igdb => "Your own Twitch application's client ID and secret, used by VYSTRAL to read IGDB game details.",
-        KeyedProvider.Rawg => "Your RAWG API key, used by VYSTRAL to read game details.",
-        _ => "Your IsThereAnyDeal API key, used by VYSTRAL to show prices.",
+        KeyedProvider.SteamGridDb => "Your SteamGridDB API key, used by Arnav Games' artwork picker.",
+        KeyedProvider.Igdb => "Your own Twitch application's client ID and secret, used by Arnav Games to read IGDB game details.",
+        KeyedProvider.Rawg => "Your RAWG API key, used by Arnav Games to read game details.",
+        _ => "Your IsThereAnyDeal API key, used by Arnav Games to show prices.",
     };
 
     /// <summary>Trims and checks a pasted key; returns null when it can't be a key for that provider.</summary>

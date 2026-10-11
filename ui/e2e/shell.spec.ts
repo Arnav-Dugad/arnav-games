@@ -55,7 +55,7 @@ test.describe('Windows accent & Mica', () => {
   test('Living Canvas off: no see-through window in a browser, and the reason is explained', async ({ page }) => {
     await openSettings(page);
     await page.getByRole('switch', { name: 'Living Canvas' }).click();
-    await expect(page.getByText('Mica appears in the VYSTRAL app')).toBeVisible();
+    await expect(page.getByText('Mica appears in the Arnav Games app')).toBeVisible();
     // The preview can't draw Mica, so the page must keep painting its own opaque background.
     await expect(page.locator('html')).toHaveAttribute('data-backdrop', 'none');
     const bg = await page.evaluate(() => getComputedStyle(document.body).backgroundColor);

@@ -24,7 +24,7 @@ test.describe("What's new", () => {
     const errors = await open(page, '?reduced&whatsnew=0.3.1');
     const sheet = page.getByTestId('whats-new');
     await expect(sheet).toBeVisible({ timeout: 10_000 });
-    await expect(sheet.getByRole('heading', { name: 'What’s new in VYSTRAL 0.4' })).toBeVisible();
+    await expect(sheet.getByRole('heading', { name: 'What’s new in Arnav Games 0.4' })).toBeVisible();
     await expect(sheet.getByRole('heading', { name: 'Tracked wherever you launch' })).toBeVisible();
 
     const axe = await new AxeBuilder({ page }).include('[data-testid="whats-new"]').analyze();
@@ -80,7 +80,7 @@ test.describe("What's new", () => {
 
   test('explains a silent rollback once', async ({ page }) => {
     await open(page, '?reduced&rollback');
-    await expect(page.getByText('VYSTRAL 0.4.1 didn’t start correctly, so you’re back on 0.4.0. It will try again with the next update.')).toBeVisible();
+    await expect(page.getByText('Arnav Games 0.4.1 didn’t start correctly, so you’re back on 0.4.0. It will try again with the next update.')).toBeVisible();
     await page.reload();
     await expect(page.locator('.shell')).toBeVisible();
     await page.waitForTimeout(1500);
@@ -126,7 +126,7 @@ test.describe('Network health', () => {
     await page.getByRole('button', { name: 'Check now' }).click();
 
     const download = page.getByTestId('health-github.download');
-    await expect(download).toContainText('(185.199.109.133) isn\'t reachable from this network; VYSTRAL uses the others');
+    await expect(download).toContainText('(185.199.109.133) isn\'t reachable from this network; Arnav Games uses the others');
     await expect(page.getByTestId('health-steam.video')).toContainText(/Slow: \d\.\d s/);
     await expect(page.getByTestId('health-github.api')).toContainText(/OK · \d+ ms/);
     await expect(page.getByText(/All reachable · 2 with a caveat/)).toBeVisible();

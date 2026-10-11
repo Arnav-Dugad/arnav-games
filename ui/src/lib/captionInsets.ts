@@ -1,13 +1,13 @@
 /**
  * Track C2: how much of the title bar the system caption buttons (minimize, maximize, close) cover, in CSS pixels.
  * The native side already falls back when Windows reports 0; this is the interface's own guard, so an old or odd
- * answer can never put VYSTRAL's buttons underneath the window's.
+ * answer can never put Arnav Games' buttons underneath the window's.
  */
 import type { WindowState } from '../bridge/types';
 
 /** Windows 11's three caption buttons at the tall title bar height. */
 export const CAPTION_FALLBACK = 138;
-/** Breathing room between VYSTRAL's last button and the minimize button. */
+/** Breathing room between Arnav Games' last button and the minimize button. */
 export const CAPTION_GAP = 8;
 const MAX = 480;
 

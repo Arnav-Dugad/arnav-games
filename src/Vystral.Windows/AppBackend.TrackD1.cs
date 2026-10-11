@@ -41,7 +41,7 @@ public sealed partial class AppBackend
             return Task.FromResult<object?>(new { restored });
         });
 
-        // Steam builds and Xbox package versions VYSTRAL saw for this game's copies (recorded after scans), oldest first.
+        // Steam builds and Xbox package versions Arnav Games saw for this game's copies (recorded after scans), oldest first.
         Dispatcher.Register<GameIdParams>("versions.history", (p, _) =>
             Task.FromResult<object?>(Repository.GetVersionHistory(RequireId(p.GameId))));
     }

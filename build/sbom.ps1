@@ -1,4 +1,4 @@
-# Generates a software bill of materials for both halves of VYSTRAL into docs/sbom/.
+# Generates a software bill of materials for both halves of Arnav Games into docs/sbom/.
 $ErrorActionPreference = 'Stop'
 $root = Split-Path -Parent $PSScriptRoot
 $out = Join-Path $root 'docs\sbom'

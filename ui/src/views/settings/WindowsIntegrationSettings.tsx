@@ -6,6 +6,7 @@ import { useStore } from '../../state/store';
 import { Badge, Button, Kbd, Toggle } from '../../components/ui/primitives';
 import { shortcutFromKey, validateShortcut } from './hotkey';
 import './insights-settings.css';
+import { APP_NAME } from '../../lib/brand';
 
 /** Settings › Windows integration: the global summon shortcut and Windows notifications. */
 export function WindowsIntegrationSettings() {
@@ -51,7 +52,7 @@ function SummonShortcut() {
       setStatus(await call<HotkeyStatus>('hotkey.set', { shortcut: v.shortcut }));
       setError(null);
       setCapturing(false);
-      toast({ tone: 'success', title: `${v.shortcut} now brings VYSTRAL forward` });
+      toast({ tone: 'success', title: `${v.shortcut} now brings ${APP_NAME} forward` });
     } catch (err) {
       setError(errorMessage(err));
     } finally {
@@ -88,7 +89,7 @@ function SummonShortcut() {
     <section className="sgroup" aria-labelledby="hotkey-title">
       <h2 id="hotkey-title" className="sgroup__title">Summon shortcut</h2>
       <p className="sgroup__desc">
-        A keyboard shortcut that brings VYSTRAL to the front from anywhere in Windows — including during a game. It only shows VYSTRAL; it never
+        A keyboard shortcut that brings Arnav Games to the front from anywhere in Windows — including during a game. It only shows Arnav Games; it never
         sends anything to other apps. Most Win-key combinations are reserved by Windows, so the default is <Kbd>Ctrl+Alt+V</Kbd>.
       </p>
       <div className="sgroup__rows surface">
@@ -162,8 +163,8 @@ const CATEGORIES: { key: SettingKey; label: string; hint: string }[] = [
   { key: 'notifications.sessions', label: 'Session saved', hint: 'After a game closes: “Played Nebula Drift · 1h 42m”.' },
   { key: 'notifications.thermal', label: 'GPU running hot', hint: 'When your GPU slowed down from heat for more than 30 seconds during a session.' },
   { key: 'notifications.achievements', label: 'Achievements unlocked', hint: 'After a Steam game closes: “You unlocked 3 achievements — 1 is rarer than 2%”. Needs your Steam Web API key.' },
-  { key: 'notifications.installs', label: 'Install finished', hint: 'When a game you installed through VYSTRAL is ready to play.' },
-  { key: 'notifications.updates', label: 'VYSTRAL update ready', hint: 'When a new version has downloaded and is ready to install.' },
+  { key: 'notifications.installs', label: 'Install finished', hint: 'When a game you installed through Arnav Games is ready to play.' },
+  { key: 'notifications.updates', label: 'Arnav Games update ready', hint: 'When a new version has downloaded and is ready to install.' },
   { key: 'notifications.diskSpace', label: 'Not enough space for an update', hint: 'When a pending Steam update won’t fit on its drive, or would leave it nearly full. Read from Steam’s files on this PC.' },
   { key: 'notifications.wishlist', label: 'Wishlist news', hint: 'When a game on your Steam wishlist comes out, or drops to its lowest price ever. Needs the wishlist turned on.' },
   { key: 'notifications.perfInsights', label: 'Performance notes', hint: 'Once, when it happens: a game’s GPU running clearly hotter than it used to, or how a game ran on its first session after a graphics driver update.' }, // Track E3
@@ -193,7 +194,7 @@ function NotificationSettings() {
     setTesting(true);
     try {
       const r = await call<{ shown: boolean }>('notifications.test');
-      if (r && r.shown === false) toast({ tone: 'warning', title: 'Windows didn’t show the test notification', body: 'Check that notifications for VYSTRAL are allowed in Windows Settings → System → Notifications.' });
+      if (r && r.shown === false) toast({ tone: 'warning', title: 'Windows didn’t show the test notification', body: 'Check that notifications for Arnav Games are allowed in Windows Settings → System → Notifications.' });
     } catch (err) {
       toast({ tone: 'danger', title: 'Test notification failed', body: errorMessage(err) });
     } finally {
@@ -205,12 +206,12 @@ function NotificationSettings() {
     <section className="sgroup" aria-labelledby="notify-title">
       <h2 id="notify-title" className="sgroup__title">Windows notifications</h2>
       <p className="sgroup__desc">
-        Short notifications in the Windows notification centre.{clickable ? ' Selecting one opens the matching page in VYSTRAL.' : ''} Do not
+        Short notifications in the Windows notification centre.{clickable ? ' Selecting one opens the matching page in Arnav Games.' : ''} Do not
         disturb and Focus sessions are handled by Windows, so notifications stay quiet while they’re on.
       </p>
       {available === false && (
         <p className="hkx__error" role="status">
-          <AlertTriangle size={14} aria-hidden /> Windows notifications aren’t available for VYSTRAL on this PC. Nothing else is affected.
+          <AlertTriangle size={14} aria-hidden /> Windows notifications aren’t available for Arnav Games on this PC. Nothing else is affected.
         </p>
       )}
       {available && !clickable && (
@@ -233,11 +234,11 @@ function NotificationSettings() {
         </div>
         <div className="srow">
           <div className="srow__text">
-            <label className="srow__label" htmlFor="notify-background">Only when VYSTRAL is in the background</label>
-            <div className="srow__hint">If VYSTRAL is already in front of you, you’ll see its own message instead.</div>
+            <label className="srow__label" htmlFor="notify-background">Only when Arnav Games is in the background</label>
+            <div className="srow__hint">If Arnav Games is already in front of you, you’ll see its own message instead.</div>
           </div>
           <div className="srow__control">
-            <Toggle id="notify-background" label="Only when VYSTRAL is in the background" disabled={!master} checked={settings['notifications.onlyInBackground']} onChange={(v) => void setSetting('notifications.onlyInBackground', v)} />
+            <Toggle id="notify-background" label="Only when Arnav Games is in the background" disabled={!master} checked={settings['notifications.onlyInBackground']} onChange={(v) => void setSetting('notifications.onlyInBackground', v)} />
           </div>
         </div>
         {CATEGORIES.map((c) => (

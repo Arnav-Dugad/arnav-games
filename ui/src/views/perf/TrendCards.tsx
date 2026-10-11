@@ -96,7 +96,7 @@ export function ThermalTrendCard({ entries, extras, gamesById, gameId, onOpen, h
             <Info size={13} aria-hidden />
             <span>
               Medians of each session’s average GPU temperature, from sessions of ten minutes or more, plugged in, within {THERMAL.loadBand} points of the game’s usual GPU load.
-              VYSTRAL can’t measure the room’s temperature, so a hot week shows up here too.
+              Arnav Games can’t measure the room’s temperature, so a hot week shows up here too.
             </span>
           </p>
         </>
@@ -104,7 +104,7 @@ export function ThermalTrendCard({ entries, extras, gamesById, gameId, onOpen, h
         <p className="e3-muted">
           {hasTemps
             ? `Not enough to compare yet. A trend needs ${THERMAL.minSessions} sessions of ten minutes or more in the same game in the last month, and ${THERMAL.minSessions} from the three months before, at a similar GPU load and plugged in.`
-            : 'GPU temperature hasn’t been recorded. It needs an NVIDIA graphics card and driver; other GPUs don’t report it to VYSTRAL.'}
+            : 'GPU temperature hasn’t been recorded. It needs an NVIDIA graphics card and driver; other GPUs don’t report it to Arnav Games.'}
         </p>
       )}
     </section>
@@ -208,7 +208,7 @@ function ThermalLead({ t, game, showGame, onOpen }: { t: ThermalTrend; game: Gam
           <ul>
             {COOLING_TIPS.map((tip) => <li key={tip}>{tip}</li>)}
           </ul>
-          <p className="e3-muted e3-tips__note">VYSTRAL never changes fan speeds, clocks or power limits.</p>
+          <p className="e3-muted e3-tips__note">Arnav Games never changes fan speeds, clocks or power limits.</p>
         </div>
       )}
       {(t.leftOut.battery > 0 || t.leftOut.load > 0) && (
@@ -359,7 +359,7 @@ export function GoalCard({ gameId, game, entries, extras, goal, onOpen, showGame
       {!goal ? (
         <p className="e3-muted">
           Pick a target to see how often each {gameTitle(game)} session kept up with it — for example 60 fps, or your display’s refresh rate.
-          It’s measured from the frame times VYSTRAL records{measured ? '' : ' while frame-rate capture is on'}.
+          It’s measured from the frame times Arnav Games records{measured ? '' : ' while frame-rate capture is on'}.
         </p>
       ) : !measured ? (
         <div className="e3-empty">
@@ -370,7 +370,7 @@ export function GoalCard({ gameId, game, entries, extras, goal, onOpen, showGame
         <p className="e3-muted">
           {series.noDisplayRate > 0 && series.noHistogram === 0
             ? 'The display’s refresh rate wasn’t recorded for these sessions, so they can’t be measured against it. Pick a fixed frame rate instead.'
-            : 'These sessions were recorded before VYSTRAL kept frame-time histograms, so they can’t be measured. Your next session will be.'}
+            : 'These sessions were recorded before Arnav Games kept frame-time histograms, so they can’t be measured. Your next session will be.'}
         </p>
       ) : (
         <>
@@ -534,7 +534,7 @@ export function BatteryCard({ entries, extras, gamesById, gameId, hideWhenEmpty 
         <p className="e3-muted">
           {anyPower
             ? 'No game has been played on battery yet. When one is, its frame rate and temperature on battery are compared with plugged in here.'
-            : 'VYSTRAL records whether your PC is plugged in or on battery from your next session on (read-only, from Windows). Play a game on battery and plugged in to compare them.'}
+            : 'Arnav Games records whether your PC is plugged in or on battery from your next session on (read-only, from Windows). Play a game on battery and plugged in to compare them.'}
         </p>
       )}
     </section>
@@ -645,7 +645,7 @@ export function DriverNotesCard({ entries, extras, gamesById, gameId, onOpen, hi
         <p className="e3-muted">
           {anyDriver
             ? 'No driver change yet with frame-rate data on both sides. After your GPU driver updates, the first session of each game you played before gets a short note here.'
-            : 'VYSTRAL records the graphics driver with each session. After it changes, the first session of each game gets a short note here.'}
+            : 'Arnav Games records the graphics driver with each session. After it changes, the first session of each game gets a short note here.'}
         </p>
       )}
     </section>

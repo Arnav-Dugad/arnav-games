@@ -151,8 +151,8 @@ public sealed class FranchiseService
 
     private static string? Message(string status) => status switch
     {
-        "offline" => "Offline mode is on, so VYSTRAL doesn’t ask IGDB.",
-        "gameRunning" => "VYSTRAL doesn’t contact IGDB while a game is running.",
+        "offline" => "Offline mode is on, so Arnav Games doesn’t ask IGDB.",
+        "gameRunning" => "Arnav Games doesn’t contact IGDB while a game is running.",
         _ => null,
     };
 

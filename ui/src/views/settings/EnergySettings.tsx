@@ -65,7 +65,7 @@ export function EnergySettings() {
     <section className="sgroup">
       <h2 className="sgroup__title">Energy estimate</h2>
       <p className="sgroup__desc">
-        Estimates the electricity each session used from the GPU and CPU load VYSTRAL records, using typical power for your hardware or the wattage you enter.
+        Estimates the electricity each session used from the GPU and CPU load Arnav Games records, using typical power for your hardware or the wattage you enter.
         Shown in Performance per session, per game and per month, always labelled as an estimate. Calculated on this PC; nothing is sent anywhere.
       </p>
       <div className="sgroup__rows surface">

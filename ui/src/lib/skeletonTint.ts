@@ -1,5 +1,5 @@
 /**
- * Track D5: skeletons and placeholders that shimmer in a game's own hue. Where VYSTRAL already knows a game's
+ * Track D5: skeletons and placeholders that shimmer in a game's own hue. Where Arnav Games already knows a game's
  * palette (the existing artwork analysis, cached), a container gets `data-skel-tint` and `--skel-tint`; every
  * `.skeleton` inside mixes that colour into its shimmer (ui.css). High contrast keeps neutral skeletons.
  */

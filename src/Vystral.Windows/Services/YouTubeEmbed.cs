@@ -3,7 +3,7 @@ using System.Text.RegularExpressions;
 namespace Vystral.Windows.Services;
 
 /// <summary>
-/// Track D4: the one kind of third-party frame VYSTRAL's page may load — a YouTube trailer in privacy-enhanced mode
+/// Track D4: the one kind of third-party frame Arnav Games' page may load — a YouTube trailer in privacy-enhanced mode
 /// (<c>https://www.youtube-nocookie.com/embed/{11-character id}</c>), and only while "Allow YouTube trailers" is on.
 /// The window's FrameNavigationStarting handler asks <see cref="IsAllowedFrame"/>; every other frame navigation is
 /// still cancelled (including anything the YouTube player tries to open inside itself), top-level navigation outside

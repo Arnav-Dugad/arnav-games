@@ -110,7 +110,7 @@ export function BulkBar({
             icon={<CircleCheck size={15} />}
             onClick={() => void run({ kind: 'played', value: !s.allMarkedPlayed })}
             disabled={busy}
-            title={s.allMarkedPlayed ? 'Clear the “played elsewhere” mark' : 'You played these somewhere VYSTRAL can’t see. They leave “Never played”; no playtime is added.'}
+            title={s.allMarkedPlayed ? 'Clear the “played elsewhere” mark' : 'You played these somewhere Arnav Games can’t see. They leave “Never played”; no playtime is added.'}
           >
             {s.allMarkedPlayed ? 'Unmark played' : 'Mark played'}
           </Act>

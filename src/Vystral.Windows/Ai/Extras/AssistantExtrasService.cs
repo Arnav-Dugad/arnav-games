@@ -44,7 +44,7 @@ public sealed class AssistantExtrasService(AiRouter ai, string cacheFolder)
 
     // ---------------- Lag notes ----------------
 
-    public const string LagBasis = "From VYSTRAL’s frame-time analysis of this session. Nothing was changed.";
+    public const string LagBasis = "From Arnav Games’ frame-time analysis of this session. Nothing was changed.";
 
     public LagNoteDto? CachedLagNote(string sessionId)
     {
@@ -60,7 +60,7 @@ public sealed class AssistantExtrasService(AiRouter ai, string cacheFolder)
 
     /// <summary>
     /// The note for one session: cached when there is one (unless <paramref name="refresh"/>), else worked out now. Smooth or
-    /// unmeasured sessions get no note. The AI only rewords VYSTRAL's facts, and only with the lag-note switch on.
+    /// unmeasured sessions get no note. The AI only rewords Arnav Games' facts, and only with the lag-note switch on.
     /// </summary>
     public async Task<LagNoteDto> LagNoteAsync(string sessionId, Func<CancellationToken, Task<LagInput?>> load, bool refresh, CancellationToken ct)
     {
@@ -75,7 +75,7 @@ public sealed class AssistantExtrasService(AiRouter ai, string cacheFolder)
         {
             var outcome = await ai.AskAsync("lagNotes", new AiPrompt(
                 "You write one short line (under 22 words) for a game session card, saying the most likely reason the session was rough. " +
-                "Use only the facts; keep VYSTRAL's reading unless the facts clearly point elsewhere. Start with \"Likely\". " +
+                "Use only the facts; keep Arnav Games' reading unless the facts clearly point elsewhere. Start with \"Likely\". " +
                 "Quote numbers exactly or leave them out. Never say anything was changed or fixed, and give no instructions. No markdown, no emoji.",
                 facts.FactsText, Json: false, MaxTokens: 512),
                 raw => LagNotes.AcceptAi(raw, facts.FactsText), ct);
@@ -104,7 +104,7 @@ public sealed class AssistantExtrasService(AiRouter ai, string cacheFolder)
         }
         if (facts.Count < GameSummaries.MinFacts)
             return new GameSummaryDto(g.Id, null, facts.Sources, null, false, false,
-                "VYSTRAL doesn’t know enough about this game yet to write a summary from facts.", false, featureOn, facts.Count, engine, null);
+                "Arnav Games doesn’t know enough about this game yet to write a summary from facts.", false, featureOn, facts.Count, engine, null);
         if (!engine.Ready)
             return new GameSummaryDto(g.Id, null, facts.Sources, null, false, false, engine.Reason, true, featureOn, facts.Count, engine, null);
         if (!featureOn && !userAsked)

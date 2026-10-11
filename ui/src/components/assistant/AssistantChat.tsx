@@ -93,7 +93,7 @@ function Welcome({ compact }: { compact?: boolean }) {
       <AssistantOrb size="lg" />
       <h2 className="asx-welcome__title">{game && !compact ? `Ask about ${game.title}, or anything else` : 'How can I help?'}</h2>
       <p className="asx-welcome__body">
-        I can look things up across VYSTRAL: your library, play history, performance, storage, wishlist and more. I can also set up changes for you to confirm.
+        I can look things up across Arnav Games: your library, play history, performance, storage, wishlist and more. I can also set up changes for you to confirm.
       </p>
       <div className="asx-suggest" role="group" aria-label="Suggestions">
         {prompts.map(({ text: p, learned: mine }, i) => (

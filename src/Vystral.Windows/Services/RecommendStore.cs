@@ -121,7 +121,7 @@ public sealed partial class RecommendStore(string dataRoot)
         catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
         {
             Log.Warn("recommend", "Couldn't save the \"Not interested\" list", ex: ex);
-            throw new IOException("VYSTRAL couldn’t save the list. Check that the data folder isn’t read-only.", ex);
+            throw new IOException("Arnav Games couldn’t save the list. Check that the data folder isn’t read-only.", ex);
         }
     }
 }

@@ -69,7 +69,7 @@ export function DataSourcesSettings() {
         <div className="srow">
           <div className="srow__text">
             <label className="srow__label" htmlFor="dsrc-enrich">Fill in missing game details</label>
-            <div className="srow__hint">With an IGDB or RAWG connection, VYSTRAL fills only empty fields (never ones you or your stores already set), matching games by Steam app ID first. Paused while you play.</div>
+            <div className="srow__hint">With an IGDB or RAWG connection, Arnav Games fills only empty fields (never ones you or your stores already set), matching games by Steam app ID first. Paused while you play.</div>
           </div>
           <div className="srow__control"><Toggle id="dsrc-enrich" label="Fill in missing game details" checked={enrichment} onChange={(v) => void setSetting('dataSources.enrichment', v)} /></div>
         </div>
@@ -127,7 +127,7 @@ export function DataSourcesSettings() {
             {keyless.map((p) => <ProviderCard key={p.id} p={p} localOnly={status.localOnly} onStatus={setStatus} fetchMetadata={status.fetchMetadata} />)}
           </div>
           <p className="dsrc__footnote">
-            <Lock size={13} aria-hidden /> Keys are stored only in Windows Credential Manager (as “VYSTRAL/&lt;source&gt;”), never in VYSTRAL’s database, logs or this page.
+            <Lock size={13} aria-hidden /> Keys are stored only in Windows Credential Manager (as “VYSTRAL/&lt;source&gt;”), never in Arnav Games’ database, logs or this page.
             IGDB’s access token stays in memory. See the privacy statement for exactly what each source receives.
           </p>
         </>
@@ -211,7 +211,7 @@ function ProviderCard({ p, localOnly, onStatus, fetchMetadata = true }: { p: Pro
         <p className="dsrc-card__hint" role="note"><AlertTriangle size={13} aria-hidden /> Also needs “Fetch game details” (above) to be on.</p>
       )}
       {paused && (
-        <p className="dsrc-card__hint" role="status"><PauseCircle size={13} aria-hidden /> {p.name} asked VYSTRAL to pause until {new Date(p.pausedUntil!).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}.</p>
+        <p className="dsrc-card__hint" role="status"><PauseCircle size={13} aria-hidden /> {p.name} asked Arnav Games to pause until {new Date(p.pausedUntil!).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}.</p>
       )}
 
       {isKeyed && !p.configured && (
@@ -287,7 +287,7 @@ function Result({ result }: { result: ProviderTest }) {
 
 const KEY_HELP: Partial<Record<DataSourceId, ReactNode>> = {
   steamgriddb: <>Sign in at SteamGridDB, open Preferences → API, and generate a key.</>,
-  rawg: <>Create a free RAWG account and copy the key from the API page. RAWG asks for a link back wherever its data appears, which VYSTRAL adds.</>,
+  rawg: <>Create a free RAWG account and copy the key from the API page. RAWG asks for a link back wherever its data appears, which Arnav Games adds.</>,
   itad: <>Register an app on IsThereAnyDeal (My apps) and copy its API key.</>,
 };
 
@@ -317,7 +317,7 @@ function ConnectForm({ p, disabled, busy, onConnect, onLink }: {
           <ServiceLogo service="twitch" size={16} decorative />
           <p>
             IGDB is run by Twitch. Create <strong>your own</strong> free application at dev.twitch.tv (Category: Application Integration, Client Type:
-            Confidential, any OAuth redirect such as http://localhost), then paste its Client ID and a new Client Secret. VYSTRAL never shares a key between users.
+            Confidential, any OAuth redirect such as http://localhost), then paste its Client ID and a new Client Secret. Arnav Games never shares a key between users.
           </p>
         </div>
       ) : (
@@ -347,7 +347,7 @@ function ConnectForm({ p, disabled, busy, onConnect, onLink }: {
       )}
       <div className="dsrc-connect__submit">
         <span className="srow__hint" id={`${id}-hint`}>
-          {touched && !valid ? 'That doesn’t look right yet: keys are letters and digits, without spaces.' : 'VYSTRAL tests it with one request before saving it.'}
+          {touched && !valid ? 'That doesn’t look right yet: keys are letters and digits, without spaces.' : 'Arnav Games tests it with one request before saving it.'}
         </span>
         <Button type="submit" size="sm" variant="primary" loading={busy} disabled={!valid || disabled}>Connect</Button>
       </div>

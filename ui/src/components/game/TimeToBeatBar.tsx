@@ -65,7 +65,7 @@ export function TimeToBeatPanel({ game }: { game: Game }) {
         ))}
       </ul>
       <p className="ttb-panel__foot">
-        <ServiceLogo service="igdb" size={14} decorative /> Player-reported averages from IGDB. Your time is the larger of VYSTRAL-tracked and store-reported playtime (store playtime already includes tracked sessions).
+        <ServiceLogo service="igdb" size={14} decorative /> Player-reported averages from IGDB. Your time is the larger of Arnav Games–tracked and store-reported playtime (store playtime already includes tracked sessions).
       </p>
     </section>
   );

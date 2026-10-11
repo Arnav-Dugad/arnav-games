@@ -94,7 +94,7 @@ public sealed partial class AppBackend
             }
             catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
             {
-                throw new BridgeException("unavailable", "VYSTRAL couldn’t save your Watching list. Check that the data folder isn’t read-only.");
+                throw new BridgeException("unavailable", "Arnav Games couldn’t save your Watching list. Check that the data folder isn’t read-only.");
             }
         });
     }

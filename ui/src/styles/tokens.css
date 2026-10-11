@@ -1,4 +1,4 @@
-/* VYSTRAL design tokens. Documented in docs/DESIGN-SYSTEM.md.
+/* Arnav Games design tokens. Documented in docs/DESIGN-SYSTEM.md.
    Colours are authored in OKLCH so accent shifts between games interpolate perceptually. */
 
 @property --game {

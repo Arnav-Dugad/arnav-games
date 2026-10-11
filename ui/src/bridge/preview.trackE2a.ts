@@ -12,6 +12,7 @@ import type { CollectionInfo, Game, Settings } from './types';
 import { BridgeError } from './bridge';
 import { placeholderArt } from './preview.dataSources';
 import { isStartPage } from '../lib/startPage';
+import { APP_NAME } from '../lib/brand';
 
 type Emit = (name: string, payload: unknown) => void;
 
@@ -91,7 +92,7 @@ export function trackE2aPreviewHandlers(ctx: { lib: { games: Game[] }; emit: () 
     'completion.imageSave': (p: { token: string }) => {
       const u = take(p.token, 'save');
       const title = ctx.lib.games.find((g) => g.id === u.gameId)?.title ?? 'Game';
-      return { path: `C:\\Users\\you\\Pictures\\VYSTRAL 100% - ${title}.png` };
+      return { path: `C:\\Users\\you\\Pictures\\${APP_NAME} 100% - ${title}.png` };
     },
     'completion.imageCopy': (p: { token: string }) => {
       take(p.token, 'copy');

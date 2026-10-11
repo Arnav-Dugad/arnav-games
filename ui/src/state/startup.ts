@@ -1,6 +1,6 @@
 /**
  * Track AA: startup bookkeeping that runs beside the store.
- *  - Startup marks (`vystral:*` performance marks), reported once to VYSTRAL's local log (never sent anywhere else).
+ *  - Startup marks (`vystral:*` performance marks), reported once to Arnav Games' local log (never sent anywhere else).
  *  - Keeping the first-paint snapshot current: after the library or settings change (debounced), and right
  *    away when the window is hidden. Identical snapshots aren't saved again.
  *  - Answering the after-update self-check's round trip.

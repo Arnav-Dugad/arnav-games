@@ -24,7 +24,7 @@ public sealed record SavesDto(string GameId, string Status, string? Message, str
 /// <summary>
 /// Track X: where a game keeps its saves, from PCGamingWiki (opt-in), checked on this PC. Answers are cached in
 /// <c>cache\pcgamingwiki.json</c> (14 days; 3 for "no article"), which stays on this PC: PCGamingWiki's content is
-/// CC BY-NC-SA and is never bundled with VYSTRAL. Expansion is strict (see <see cref="SaveLocations.Expand"/>); every
+/// CC BY-NC-SA and is never bundled with Arnav Games. Expansion is strict (see <see cref="SaveLocations.Expand"/>); every
 /// expanded path is re-checked to stay under the folder it started from, wildcards match at most a few folders, and
 /// only existence, sizes and dates are read.
 /// </summary>

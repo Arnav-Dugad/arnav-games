@@ -85,7 +85,7 @@ describe('first-paint snapshot', () => {
     }
   });
 
-  it('only keeps artwork from VYSTRAL’s own art cache', () => {
+  it('only keeps artwork from Arnav Games’ own art cache', () => {
     const g = liteGame(game('x', { art: { cover: 'https://evil.example/a.jpg', hero: 'https://art.vystral.example/../x', logo: 'javascript:alert(1)', header: './assets/h.png', icon: 'https://art.vystral.example/ok/icon.png' } }), false);
     expect(g.art).toEqual({ cover: null, hero: null, logo: null, header: './assets/h.png', icon: 'https://art.vystral.example/ok/icon.png' });
   });

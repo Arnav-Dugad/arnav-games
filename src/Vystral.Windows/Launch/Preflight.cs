@@ -234,7 +234,7 @@ public static class PreflightChecks
         if (running.Count == 0) return new("launchers", label, "ok", "None running");
         var total = running.Values.Sum();
         var names2 = string.Join(", ", running.Keys.OrderBy(k => k.DisplayName()).Select(k => k.DisplayName()));
-        var detail = $"{names2} {(running.Count == 1 ? "is" : "are")} running in the background and using {FormatBytes(total)} of memory. VYSTRAL never closes them; close them yourself if the game needs the memory.";
+        var detail = $"{names2} {(running.Count == 1 ? "is" : "are")} running in the background and using {FormatBytes(total)} of memory. {Brand.Name} never closes them; close them yourself if the game needs the memory.";
         return new("launchers", label, total >= LauncherMemoryWarnBytes ? "warn" : "info", $"{running.Count} running · {FormatBytes(total)}", detail);
     }
 

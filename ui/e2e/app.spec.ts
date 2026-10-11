@@ -102,7 +102,7 @@ test.describe('game details', () => {
     await page.getByRole('navigation', { name: 'Main' }).getByRole('button', { name: /Library/ }).click();
     await page.getByRole('button', { name: /^Ashen Crown/ }).first().click();
     await expect(page.getByRole('heading', { name: 'Ashen Crown', level: 1 })).toBeVisible();
-    await expect(page.getByText('Tracked by VYSTRAL')).toBeVisible();
+    await expect(page.getByText('Tracked by Arnav Games')).toBeVisible();
     await page.getByRole('tab', { name: /Versions/ }).click();
     await expect(page.locator('.version')).toHaveCount(2);
     await expect(page.getByRole('button', { name: 'Choose which store to play from' })).toBeVisible();
@@ -232,11 +232,11 @@ test.describe('settings & accessibility preferences', () => {
 test.describe('first run & immersive', () => {
   test('onboarding can be completed or skipped', async ({ page }) => {
     await open(page, '?onboarding');
-    await expect(page.getByRole('heading', { name: 'Welcome to VYSTRAL' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Welcome to Arnav Games' })).toBeVisible();
     await page.getByRole('button', { name: 'Get started' }).click();
     await expect(page.getByRole('heading', { name: 'Pick your look' })).toBeVisible();
     await page.getByRole('button', { name: 'Skip setup' }).click();
-    await expect(page.getByRole('heading', { name: 'Welcome to VYSTRAL' })).toBeHidden();
+    await expect(page.getByRole('heading', { name: 'Welcome to Arnav Games' })).toBeHidden();
   });
 
   test('immersive mode is fully keyboard navigable', async ({ page }) => {

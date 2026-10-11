@@ -214,7 +214,7 @@ export function trackXPreviewHandlers(ctx: {
     'mods.list': (p: { gameId: string }) => mods(byId(p.gameId)),
     'mods.titles': async (p: { gameId: string }) => {
       if (!ctx.settings()['dataSources.workshopTitles']) throw new BridgeError('off', 'Workshop titles are off. Turn them on in Settings › Data sources.');
-      if (ctx.settings()['privacy.localOnly']) throw new BridgeError('offline', 'Offline mode is on, so VYSTRAL can’t look up Workshop titles.');
+      if (ctx.settings()['privacy.localOnly']) throw new BridgeError('offline', 'Offline mode is on, so Arnav Games can’t look up Workshop titles.');
       await wait(500);
       const g = byId(p.gameId);
       const last = lastMods.get(g.id) ?? mods(g);

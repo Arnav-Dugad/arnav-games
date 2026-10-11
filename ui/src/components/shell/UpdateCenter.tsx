@@ -8,6 +8,7 @@ import { Dialog } from '../ui/Dialog';
 import { Button, ProgressBar } from '../ui/primitives';
 import { RichText } from '../../views/assistant/RichText';
 import { OPEN_WHATS_NEW, openWhatsNew } from '../../whatsnew/state';
+import { APP_NAME } from '../../lib/brand';
 
 const OPEN_EVENT = 'vystral:open-updates';
 export const openUpdateCenter = () => window.dispatchEvent(new CustomEvent(OPEN_EVENT));
@@ -112,9 +113,9 @@ export function UpdatePanel() {
     update.phase === 'unavailable' ? 'Updates are managed by the installer' :
     update.phase === 'checking' ? 'Checking for updates…' :
     update.phase === 'upToDate' ? 'You’re up to date' :
-    update.phase === 'available' ? `VYSTRAL ${update.newVersion} is available` :
-    update.phase === 'downloading' ? `Downloading VYSTRAL ${update.newVersion}` :
-    update.phase === 'ready' ? `VYSTRAL ${update.newVersion} is ready to install` :
+    update.phase === 'available' ? `${APP_NAME} ${update.newVersion} is available` :
+    update.phase === 'downloading' ? `Downloading ${APP_NAME} ${update.newVersion}` :
+    update.phase === 'ready' ? `${APP_NAME} ${update.newVersion} is ready to install` :
     update.phase === 'applying' ? 'Installing and restarting…' :
     update.phase === 'error' ? 'Update didn’t complete' : 'Updates';
 
@@ -195,7 +196,7 @@ export function UpdatePanel() {
         <p style={{ color: 'var(--text-3)', fontSize: 'var(--fs-sm)' }}>Updates wait until your game closes.</p>
       )}
       <p style={{ color: 'var(--text-3)', fontSize: 'var(--fs-xs)' }}>
-        Updates come from the official VYSTRAL GitHub releases. Each package is checked against its published hash before it is installed. Your library, settings and history are kept.
+        Updates come from the official Arnav Games GitHub releases. Each package is checked against its published hash before it is installed. Your library, settings and history are kept.
       </p>
     </div>
   );

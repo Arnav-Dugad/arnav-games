@@ -269,7 +269,7 @@ public sealed class DiscoverBrowseServiceTests : IDisposable
         await _svc.FeaturedAsync(true, CancellationToken.None);
         Assert.Equal(first, _sent.Count);
 
-        // Later, Steam fails: the last good copy stays, marked stale, and VYSTRAL backs off.
+        // Later, Steam fails: the last good copy stays, marked stale, and Arnav Games backs off.
         _svc.Now = () => DateTimeOffset.UtcNow.AddHours(4);
         _override = _ => FakeHandler.Json(HttpStatusCode.Forbidden, "{}");
         var failed = await _svc.FeaturedAsync(false, CancellationToken.None);

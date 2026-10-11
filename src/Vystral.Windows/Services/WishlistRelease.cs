@@ -29,7 +29,7 @@ public static partial class WishlistRelease
     /// <param name="hint">Steam's raw timestamp, also for vague dates (where it marks the month, quarter or year).</param>
     /// <param name="comingSoon">Steam's is_coming_soon.</param>
     /// <param name="display">Steam's coming_soon_display, or null.</param>
-    /// <param name="text">The publisher's custom release message, or VYSTRAL's own text for a vague Steam date.</param>
+    /// <param name="text">The publisher's custom release message, or Arnav Games' own text for a vague Steam date.</param>
     public static ReleaseWindow Parse(DateTimeOffset? release, DateTimeOffset? hint, bool comingSoon, string? display, string? text)
     {
         if (!comingSoon)
@@ -117,7 +117,7 @@ public static partial class WishlistRelease
 
     /// <summary>
     /// Northern-hemisphere seasons, as publishers on Steam use them. "Winter 2026" can mean early 2026 or the turn of
-    /// 2026/27, so its window covers both. "Early/late summer" narrows nothing VYSTRAL could promise.
+    /// 2026/27, so its window covers both. "Early/late summer" narrows nothing Arnav Games could promise.
     /// </summary>
     private static ReleaseWindow Season(int y, string season, string label)
     {

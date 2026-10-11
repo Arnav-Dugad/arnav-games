@@ -95,7 +95,7 @@ export const WAIT_LABEL: Record<string, string> = {
   offline: 'Waiting: Offline mode is on',
   dataSaver: 'Waiting: Data saver is on',
   gameRunning: 'Waiting until your game closes',
-  rateLimited: 'SteamGridDB asked VYSTRAL to slow down — continuing shortly',
+  rateLimited: 'SteamGridDB asked Arnav Games to slow down — continuing shortly',
   unavailable: 'SteamGridDB isn’t answering — trying again',
   safeMode: 'Waiting: safe mode',
 };

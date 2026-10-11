@@ -24,7 +24,7 @@ export interface ProviderStatus {
   enabled: boolean;
   settingKey: SettingKey | null;
   lastTest: ProviderTest | null;
-  /** The provider asked VYSTRAL to pause until then (429). */
+  /** The provider asked Arnav Games to pause until then (429). */
   pausedUntil: string | null;
   licence: string;
   attribution: string;
@@ -119,7 +119,7 @@ export interface IdentityEntry {
   name: string;
   label: string;
   value: string;
-  /** A store VYSTRAL knows (for PlatformBadge), or null for reference sites. */
+  /** A store Arnav Games knows (for PlatformBadge), or null for reference sites. */
   platform: PlatformKey | null;
   link: boolean;
 }

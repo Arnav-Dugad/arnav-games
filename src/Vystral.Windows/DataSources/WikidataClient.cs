@@ -9,7 +9,7 @@ public sealed record WikidataIdentity(string Key, string? ItemId, string? Label,
 
 /// <summary>
 /// Cross-store identity from Wikidata's public SPARQL endpoint (CC0, keyless). Requests carry
-/// VYSTRAL's descriptive User-Agent with the project URL (Wikimedia's policy), run one at a
+/// Arnav Games' descriptive User-Agent with the project URL (Wikimedia's policy), run one at a
 /// time, and batch up to 100 store IDs per query.
 /// </summary>
 public sealed partial class WikidataClient(ProviderTransport transport)
@@ -17,16 +17,16 @@ public sealed partial class WikidataClient(ProviderTransport transport)
     public const string Endpoint = "https://query.wikidata.org/sparql";
     public const int MaxBatch = 100;
 
-    /// <summary>The store ID kinds VYSTRAL can look up by, and their Wikidata property.</summary>
+    /// <summary>The store ID kinds Arnav Games can look up by, and their Wikidata property.</summary>
     public static readonly IReadOnlyDictionary<string, string> KeyProperties = new Dictionary<string, string>
     {
         ["steam"] = "P1733",
         ["gog"] = "P12727",
-        // Track E4: Microsoft Store product IDs (Wikidata stores them in lower case; VYSTRAL's keys are upper case).
+        // Track E4: Microsoft Store product IDs (Wikidata stores them in lower case; Arnav Games' keys are upper case).
         ["microsoft"] = "P5885",
     };
 
-    /// <summary>A key VYSTRAL may look up by: digits for Steam and GOG, an upper-case Store product ID for Microsoft.</summary>
+    /// <summary>A key Arnav Games may look up by: digits for Steam and GOG, an upper-case Store product ID for Microsoft.</summary>
     internal static bool IsKey(string keyKind, string key) => keyKind == "microsoft" ? MsKey().IsMatch(key) : Digits().IsMatch(key);
 
     /// <summary>Identifiers read for each item: name → (property, validation pattern).</summary>

@@ -9,12 +9,12 @@ export function backdropHint(a: SystemAppearance | null, livingCanvas: boolean, 
   if (theme !== 'obsidian' && theme !== 'light') return 'Mica is used with the Obsidian and Light themes; this theme keeps a solid background.';
   if (!a) return 'The title bar and sidebar use the Windows Mica material.';
   switch (a.backdrop === 'mica' ? null : a.backdropReason) {
-    case 'unsupported': return 'Mica needs Windows 11, so VYSTRAL keeps a solid background.';
-    case 'transparencyOff': return 'Transparency effects are off in Windows, so VYSTRAL keeps a solid background.';
-    case 'energySaver': return 'Energy saver is on, so VYSTRAL keeps a solid background to save power.';
+    case 'unsupported': return 'Mica needs Windows 11, so Arnav Games keeps a solid background.';
+    case 'transparencyOff': return 'Transparency effects are off in Windows, so Arnav Games keeps a solid background.';
+    case 'energySaver': return 'Energy saver is on, so Arnav Games keeps a solid background to save power.';
     case 'highContrast': return 'Windows contrast themes keep a solid background.';
     case 'safeMode': return 'Safe mode keeps a solid background.';
-    case 'preview': return 'Mica appears in the VYSTRAL app (not in this browser preview).';
+    case 'preview': return 'Mica appears in the Arnav Games app (not in this browser preview).';
     default: return 'The title bar and sidebar use the Windows Mica material.';
   }
 }

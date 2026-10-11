@@ -80,11 +80,11 @@ public sealed partial class SteamNewsService
         var fresh = cached is not null && Now() - cached.Fetched < Ttl;
         if (fresh && !refresh) return ToDto(cached!, false, null);
         if (LocalOnly)
-            return cached is null ? new NewsDto("offline", "Offline mode is on, so VYSTRAL doesn’t ask Steam for news.", null, false, [])
+            return cached is null ? new NewsDto("offline", "Offline mode is on, so Arnav Games doesn’t ask Steam for news.", null, false, [])
                 : ToDto(cached, true, "Offline mode is on, so these are the posts saved on this PC.");
         if (IsGameActive())
-            return cached is null ? new NewsDto("unavailable", "VYSTRAL doesn’t contact Steam while a game is running.", null, false, [])
-                : ToDto(cached, true, "Showing saved posts. VYSTRAL doesn’t contact Steam while a game is running.");
+            return cached is null ? new NewsDto("unavailable", "Arnav Games doesn’t contact Steam while a game is running.", null, false, [])
+                : ToDto(cached, true, "Showing saved posts. Arnav Games doesn’t contact Steam while a game is running.");
 
         await _gate.WaitAsync(ct);
         try

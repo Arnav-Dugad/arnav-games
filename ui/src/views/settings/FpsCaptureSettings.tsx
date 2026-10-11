@@ -101,7 +101,7 @@ export function FpsCaptureSettings() {
         Frame-rate capture <Badge>Optional</Badge>
       </h2>
       <p className="sgroup__desc">
-        Measure real FPS, 1% lows and frame times for games you launch from VYSTRAL, using Intel’s open-source PresentMon. It isn’t part of the
+        Measure real FPS, 1% lows and frame times for games you launch from Arnav Games, using Intel’s open-source PresentMon. It isn’t part of the
         installer. Here is exactly what turning it on involves:
       </p>
       <div className="sgroup__rows surface fpsx">
@@ -115,7 +115,7 @@ export function FpsCaptureSettings() {
               title={`Download PresentMon ${s.version}`}
               body={
                 <>
-                  About {formatBytes(s.sizeBytes)} from the official GitHub release (MIT licence), saved to VYSTRAL’s data folder. VYSTRAL checks the
+                  About {formatBytes(s.sizeBytes)} from the official GitHub release (MIT licence), saved to Arnav Games’ data folder. Arnav Games checks the
                   file’s SHA-256 fingerprint before every use and refuses to run anything else.
                   {s.localOnly && <strong className="fpsx__warn"> Offline mode is on, so downloads are blocked.</strong>}
                 </>
@@ -146,10 +146,10 @@ export function FpsCaptureSettings() {
                   <>Your account was added to <q>{s.groupName}</q>. <strong>Sign out of Windows and back in</strong> once — Windows applies group changes only at sign-in.</>
                 ) : (
                   <>
-                    Windows lets only administrators and members of the <q>{s.groupName}</q> group read these events. VYSTRAL can add your account
+                    Windows lets only administrators and members of the <q>{s.groupName}</q> group read these events. Arnav Games can add your account
                     {s.account ? <> (<span className="num">{s.account}</span>)</> : null} by running Windows’ own{' '}
                     <code>net localgroup "{s.groupName}" … /add</code>. You’ll see one Windows prompt, and you’ll need to sign out and back in once.
-                    This is the only thing in VYSTRAL that asks for administrator approval.
+                    This is the only thing in Arnav Games that asks for administrator approval.
                   </>
                 )
               }
@@ -170,7 +170,7 @@ export function FpsCaptureSettings() {
               <div className="srow__text">
                 <label className="srow__label" htmlFor="fps-capture-toggle">Measure frame rate during games</label>
                 <div className="srow__hint">
-                  PresentMon runs only while a game you started from VYSTRAL is running, watches that game’s presented frames, and stops when the
+                  PresentMon runs only while a game you started from Arnav Games is running, watches that game’s presented frames, and stops when the
                   session ends. Nothing is injected into the game and no settings change.
                   {enabled && !s.ready && <span className="fpsx__warn"> Finish the steps above first — until then FPS is shown as “not measured”.</span>}
                 </div>

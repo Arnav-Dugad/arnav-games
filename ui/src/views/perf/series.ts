@@ -39,7 +39,7 @@ export const METRICS: readonly MetricDef[] = [
   },
   {
     key: 'gpuTempC', label: 'GPU temperature', short: 'GPU temp', unit: '°C', scale: 1, avgKey: 'gpuTempAvgC', maxKey: 'gpuTempMaxC', kind: 'temp', color: 'var(--viz-3)',
-    unavailable: 'GPU temperature needs an NVIDIA graphics card and driver. Other GPUs don’t report it to VYSTRAL.', unavailableShort: 'Needs an NVIDIA driver',
+    unavailable: 'GPU temperature needs an NVIDIA graphics card and driver. Other GPUs don’t report it to Arnav Games.', unavailableShort: 'Needs an NVIDIA driver',
   },
   {
     key: 'gpuMemMb', label: 'VRAM', short: 'VRAM', unit: 'GB', scale: 1 / 1024, avgKey: 'gpuMemAvgMb', maxKey: 'gpuMemMaxMb', kind: 'memory', color: 'var(--viz-4)',

@@ -374,7 +374,7 @@ public static class AssistantWire
     {
         using var doc = JsonRead.Parse(body, name);
         var first = JsonRead.Arr(doc.RootElement, "choices").FirstOrDefault();
-        if (first.ValueKind != JsonValueKind.Object) throw new DataSourceException(DataSourceOutcome.Malformed, $"{name} sent an answer VYSTRAL couldn’t read.");
+        if (first.ValueKind != JsonValueKind.Object) throw new DataSourceException(DataSourceOutcome.Malformed, $"{name} sent an answer {Brand.Name} couldn’t read.");
         var msg = JsonNode.Parse(JsonRead.Obj(first, "message")?.GetRawText() ?? "{}") as JsonObject ?? [];
         var finish = JsonRead.Str(first, "finish_reason");
         var text = AiText.Str(msg["content"]) ?? "";

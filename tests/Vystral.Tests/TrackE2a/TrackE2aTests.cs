@@ -87,7 +87,7 @@ public sealed class TrackE2aTests : IDisposable
     {
         var at = new DateTimeOffset(2026, 10, 11, 20, 0, 0, TimeSpan.Zero);
         var name = AppBackend.CompletionImageName("Half-Life: <Alyx>/\\?*", at);
-        Assert.StartsWith("VYSTRAL 100% - Half-Life Alyx - ", name);
+        Assert.StartsWith("Arnav Games 100% - Half-Life Alyx - ", name);
         Assert.DoesNotContain(name, c => Path.GetInvalidFileNameChars().Contains(c));
         Assert.Contains("Game", AppBackend.CompletionImageName("???", at));
         Assert.Contains("Game", AppBackend.CompletionImageName("...", at));

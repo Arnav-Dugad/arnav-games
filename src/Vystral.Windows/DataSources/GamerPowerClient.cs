@@ -19,8 +19,8 @@ public sealed record Freebie(string Id, string Source, string Title, string Stor
 /// <summary>
 /// Track D4: GamerPower's public giveaways API (<c>www.gamerpower.com/api/giveaways</c>): free PC games and loot on
 /// Steam, Epic, GOG, itch.io and more. Keyless; free for personal and commercial use with an active link back to
-/// GamerPower.com (VYSTRAL credits it next to every list and opens GamerPower's own page for each giveaway); asks
-/// for under 10 requests a second (VYSTRAL makes one every few hours at most). Off by default
+/// GamerPower.com (Arnav Games credits it next to every list and opens GamerPower's own page for each giveaway); asks
+/// for under 10 requests a second (Arnav Games makes one every few hours at most). Off by default
 /// (<c>dataSources.gamerpower</c>). Track D5's "Free this week" shelf reads it through <c>freebies.get</c>.
 /// </summary>
 public sealed partial class GamerPowerClient(ProviderTransport transport)

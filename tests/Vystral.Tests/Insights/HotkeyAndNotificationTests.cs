@@ -108,7 +108,7 @@ public sealed class HotkeyAndNotificationTests
     {
         var p = Policy();
         var u = Assert.Single(p.Evaluate("update.state", J(new { phase = "ready", newVersion = "0.2.0" }), false));
-        Assert.Equal("VYSTRAL 0.2.0 is ready", u.Title);
+        Assert.Equal("Arnav Games 0.2.0 is ready", u.Title);
         Assert.Empty(p.Evaluate("update.state", J(new { phase = "ready", newVersion = "0.2.0" }), false));
         Assert.Empty(p.Evaluate("update.state", J(new { phase = "downloading", newVersion = "0.3.0" }), false));
 

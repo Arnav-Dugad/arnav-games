@@ -95,7 +95,7 @@ public sealed partial class AppBackend
         Dispatcher.Register<IdentitySearchParams>("identity.searchSteam", async (p, ct) =>
         {
             RequireId(p.GameId, "game");
-            if (SafeMode) throw new BridgeException("unavailable", "VYSTRAL is in safe mode, so it doesn’t contact Steam.");
+            if (SafeMode) throw new BridgeException("unavailable", "Arnav Games is in safe mode, so it doesn’t contact Steam.");
             return await Run(() => Identity.SearchSteamAsync(RequireText(p.Query, 100, "Search"), ct));
         });
         Dispatcher.Register<IdentityKindParams>("identity.openId", (p, _) =>
@@ -208,8 +208,8 @@ public sealed partial class AppBackend
         }
         if (cached is { Fresh: true } && hadAnswer && !refresh) return Dto(saved is null ? "none" : "ok", null, saved, cached.Value.Fetched, false);
         if (SafeMode || Settings.GetBool("privacy.localOnly"))
-            return Dto(hadAnswer ? saved is null ? "none" : "ok" : "offline", "Offline mode is on, so VYSTRAL doesn’t ask ProtonDB.", saved, cached?.Fetched, hadAnswer);
-        if (IsGameActive) return Dto("gameRunning", "VYSTRAL doesn’t contact ProtonDB while a game is running.", saved, cached?.Fetched, hadAnswer);
+            return Dto(hadAnswer ? saved is null ? "none" : "ok" : "offline", "Offline mode is on, so Arnav Games doesn’t ask ProtonDB.", saved, cached?.Fetched, hadAnswer);
+        if (IsGameActive) return Dto("gameRunning", "Arnav Games doesn’t contact ProtonDB while a game is running.", saved, cached?.Fetched, hadAnswer);
         try
         {
             var s = await _dataSources.ProtonDb.GetAsync(appId!, ct);

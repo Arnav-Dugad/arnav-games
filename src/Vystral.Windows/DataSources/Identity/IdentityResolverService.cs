@@ -16,7 +16,7 @@ public sealed record IdEvidenceDto(string Source, string Method, double Confiden
 
 /// <param name="Level">certain | high | good | medium | low — the same words the page shows.</param>
 /// <param name="Status">native | pinned | matched | suggested | conflict</param>
-/// <param name="Used">True when VYSTRAL uses this ID for features (native, your choice, or matched with high confidence).</param>
+/// <param name="Used">True when Arnav Games uses this ID for features (native, your choice, or matched with high confidence).</param>
 public sealed record ResolvedIdDto(string Kind, string Label, string Value, double Confidence, string Level, string Status, bool Used,
     IReadOnlyList<IdEvidenceDto> Evidence, string? Name, bool Link);
 
@@ -247,7 +247,7 @@ public sealed partial class IdentityResolverService
     /// <summary>Steam store search for "Fix match": the store's own answer, apps only, names cleaned.</summary>
     public async Task<IReadOnlyList<SteamSearchHitDto>> SearchSteamAsync(string query, CancellationToken ct)
     {
-        if (LocalOnly) throw new DataSourceException(DataSourceOutcome.Offline, "Offline mode is on, so VYSTRAL doesn’t search Steam.");
+        if (LocalOnly) throw new DataSourceException(DataSourceOutcome.Offline, "Offline mode is on, so Arnav Games doesn’t search Steam.");
         var q = query.Trim();
         if (q.Length is < 2 or > 100) return [];
         var json = await SteamGetAsync($"https://store.steampowered.com/api/storesearch/?term={Uri.EscapeDataString(q)}&l=english&cc={_sources.Country}", ct);
@@ -427,7 +427,7 @@ public sealed partial class IdentityResolverService
     private async Task<string> SteamGetAsync(string url, CancellationToken ct)
     {
         var r = await _sources.TransportFor("steamdeck").SendAsync(() => new HttpRequestMessage(HttpMethod.Get, new Uri(url)), ct);
-        if (r.Status == HttpStatusCode.Forbidden) throw new DataSourceException(DataSourceOutcome.RateLimited, "Steam asked VYSTRAL to slow down. Try again in a few minutes.");
+        if (r.Status == HttpStatusCode.Forbidden) throw new DataSourceException(DataSourceOutcome.RateLimited, "Steam asked Arnav Games to slow down. Try again in a few minutes.");
         if (r.Status != HttpStatusCode.OK) throw new DataSourceException(DataSourceOutcome.Malformed, $"Steam answered with an unexpected status ({(int)r.Status}).");
         return r.Body;
     }

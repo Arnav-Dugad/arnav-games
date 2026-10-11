@@ -23,7 +23,7 @@ public sealed partial class AppBackend
     private HttpClient? _cloudHttp;
     public CloudPlayService Cloud => _cloud!;
 
-    /// <summary>A cloud stream VYSTRAL started is running (background downloads and AI pause as they do for a local game).</summary>
+    /// <summary>A cloud stream Arnav Games started is running (background downloads and AI pause as they do for a local game).</summary>
     private bool CloudSessionActive => _cloud?.SessionActive == true;
 
     private static readonly Dictionary<string, string> CloudLinks = new(StringComparer.Ordinal)

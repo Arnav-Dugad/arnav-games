@@ -19,7 +19,7 @@ public sealed partial class AppBackend
 
     private void RegisterTrackC2Handlers()
     {
-        // Recent starts from VYSTRAL's own local log files only (see StartupHistory for the bounds).
+        // Recent starts from Arnav Games' own local log files only (see StartupHistory for the bounds).
         Dispatcher.Register<StartupHistoryParams>("diagnostics.startupHistory", (p, _) =>
         {
             var limit = p.Limit ?? StartupHistory.DefaultLimit;

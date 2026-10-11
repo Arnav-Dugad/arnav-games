@@ -7,7 +7,7 @@ using Vystral.Windows.DataSources;
 
 namespace Vystral.Windows.Ai;
 
-/// <summary>One request to a model: VYSTRAL's instructions, the user turn (facts + question), and whether JSON is expected.</summary>
+/// <summary>One request to a model: Arnav Games' instructions, the user turn (facts + question), and whether JSON is expected.</summary>
 public sealed record AiPrompt(string System, string User, bool Json, int MaxTokens = 2048);
 
 /// <summary>
@@ -180,7 +180,7 @@ public static partial class CloudAiClient
         new(DataSourceOutcome.Malformed, $"{name} declined to answer this one.");
 
     private static DataSourceException Odd(string name) =>
-        new(DataSourceOutcome.Malformed, $"{name} sent an answer VYSTRAL couldn’t read.");
+        new(DataSourceOutcome.Malformed, $"{name} sent an answer {Brand.Name} couldn’t read.");
 
     /// <summary>Maps HTTP errors to fixed messages. Provider error text is never shown: some echo part of the key.</summary>
     public static void ThrowForStatus(CloudAiProvider provider, HttpStatusCode status)
@@ -195,7 +195,7 @@ public static partial class CloudAiClient
             404 => new DataSourceException(DataSourceOutcome.Malformed, $"{name} doesn’t offer that model to your key. Pick another model in Settings → AI."),
             408 => new DataSourceException(DataSourceOutcome.Unavailable, $"{name} took too long to answer. Try again."),
             413 => new DataSourceException(DataSourceOutcome.Malformed, $"That request was too large for {name}."),
-            >= 300 and < 400 => new DataSourceException(DataSourceOutcome.Malformed, $"{name} tried to send VYSTRAL somewhere else. VYSTRAL doesn’t follow redirects with your key."),
+            >= 300 and < 400 => new DataSourceException(DataSourceOutcome.Malformed, $"{name} tried to send {Brand.Name} somewhere else. {Brand.Name} doesn’t follow redirects with your key."),
             _ => new DataSourceException(DataSourceOutcome.Malformed, $"{name} couldn’t use this request ({code})."),
         };
     }

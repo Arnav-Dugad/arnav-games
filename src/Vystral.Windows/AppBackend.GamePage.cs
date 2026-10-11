@@ -9,7 +9,7 @@ namespace Vystral.Windows;
 public sealed record GamePageParams(string? GameId, string? Key, string? AppId, bool? Refresh);
 public sealed record FranchiseCoverParams(string IgdbId);
 
-/// <summary>Achievement progress from what VYSTRAL already saved (no request is made for it).</summary>
+/// <summary>Achievement progress from what Arnav Games already saved (no request is made for it).</summary>
 public sealed record AchievementProgressDto(int Unlocked, int Total, string? FetchedAt, string? RarestName, double? RarestPercent);
 
 /// <summary>
@@ -39,7 +39,7 @@ public sealed partial class AppBackend
 
         Dispatcher.Register<GamePageParams>("reviews.get", async (p, ct) =>
         {
-            if (SafeMode) return new ReviewsDto("unavailable", "VYSTRAL is in safe mode, so it doesn’t contact Steam.", null, null, null, null, null, null, false);
+            if (SafeMode) return new ReviewsDto("unavailable", "Arnav Games is in safe mode, so it doesn’t contact Steam.", null, null, null, null, null, null, false);
             return await _storeInsights.GetReviewsAsync(PageAppId(p), p.Refresh ?? false, ct);
         });
         Dispatcher.Register<GamePageParams>("reviews.open", (p, _) =>
@@ -49,12 +49,12 @@ public sealed partial class AppBackend
         });
         Dispatcher.Register<GamePageParams>("store.facts", async (p, ct) =>
         {
-            if (SafeMode) return new StoreFactsDto("unavailable", "VYSTRAL is in safe mode, so it doesn’t contact Steam.", _dataSources.Country, null, false, null, null, 0, null, null, null, null, false, [], null, false);
+            if (SafeMode) return new StoreFactsDto("unavailable", "Arnav Games is in safe mode, so it doesn’t contact Steam.", _dataSources.Country, null, false, null, null, 0, null, null, null, null, false, [], null, false);
             return await _storeInsights.GetFactsAsync(PageAppId(p), p.Refresh ?? false, ct);
         });
         Dispatcher.Register<GamePageParams>("tags.get", async (p, ct) =>
         {
-            if (SafeMode) return new GameTagsDto("unavailable", "VYSTRAL is in safe mode, so it doesn’t contact Steam.", [], null, false);
+            if (SafeMode) return new GameTagsDto("unavailable", "Arnav Games is in safe mode, so it doesn’t contact Steam.", [], null, false);
             return await _tags.ForAppAsync(PageAppId(p), p.Refresh ?? false, ct);
         });
         Dispatcher.Register("tags.library", _ =>
@@ -64,7 +64,7 @@ public sealed partial class AppBackend
         });
         Dispatcher.Register<GamePageParams>("franchise.get", async (p, ct) =>
         {
-            if (SafeMode) return new FranchiseDto("unavailable", "VYSTRAL is in safe mode, so it doesn’t contact IGDB.", null, null, [], 0, null, false);
+            if (SafeMode) return new FranchiseDto("unavailable", "Arnav Games is in safe mode, so it doesn’t contact IGDB.", null, null, [], 0, null, false);
             if (p.GameId is not null) return await _franchise.ForLibraryGameAsync(RequireId(p.GameId, "game"), p.Refresh ?? false, ct);
             var key = DiscoverKeys.IsKey(p.Key) ? p.Key! : throw new BridgeException("invalid", "Unknown game.");
             return await _franchise.ForDiscoverAsync(key, RequireOptionalAppId(p.AppId), p.Refresh ?? false, ct);

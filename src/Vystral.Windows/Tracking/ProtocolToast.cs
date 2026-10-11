@@ -7,7 +7,7 @@ namespace Vystral.Windows.Tracking;
 /// <summary>
 /// Shows a toast from the background tracker, which has no window and doesn't register with the Windows
 /// App SDK. It uses the app's protocol-activation channel (<see cref="ToastXml"/>, <see cref="ActivationUri"/>):
-/// selecting the toast opens <c>vystral://open?route=…</c>, which starts VYSTRAL on that page.
+/// selecting the toast opens <c>vystral://open?route=…</c>, which starts Arnav Games on that page.
 /// </summary>
 public sealed class ProtocolToast(string aumid)
 {

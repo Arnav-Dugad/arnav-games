@@ -7,8 +7,8 @@ namespace Vystral.App.Host;
 
 /// <summary>
 /// Reads Xbox-compatible controllers through global::Windows.Gaming.Input and forwards button edges to
-/// the UI. Polling only runs while VYSTRAL's window is focused and no game is running, so
-/// VYSTRAL never competes with a game for controller input. Vibration plays only validated
+/// the UI. Polling only runs while Arnav Games' window is focused and no game is running, so
+/// Arnav Games never competes with a game for controller input. Vibration plays only validated
 /// <see cref="HapticPatterns"/> on the controller last used, and stops whenever input pauses.
 /// </summary>
 public sealed class GamepadBridge : IDisposable

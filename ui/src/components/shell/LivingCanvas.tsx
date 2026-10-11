@@ -22,7 +22,7 @@ import { useGameRunning, useReducedMotion, useStore } from '../../state/store';
  * Track E2b: palettes glide in OKLab (no muddy midpoints) and the picture has depth: far light pools, the flowing
  * base and the mood's particles move at different rates with the pointer (parallax). Particles are refined per
  * genre within each mood, the light warms in the evening and dims late at night, and it can breathe gently with
- * VYSTRAL's own ambient sound (opt-in). What it may do is decided in lib/canvasLife.ts (quality, reduced motion,
+ * Arnav Games' own ambient sound (opt-in). What it may do is decided in lib/canvasLife.ts (quality, reduced motion,
  * Performance Mode, Data saver, focus); it slows to 15 fps while another window is in front.
  */
 

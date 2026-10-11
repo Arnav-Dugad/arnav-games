@@ -1,6 +1,7 @@
 import { call, errorMessage } from '../bridge/bridge';
 import type { Game } from '../bridge/types';
 import { useStore } from './store';
+import { APP_NAME } from '../lib/brand';
 
 /** User-facing game mutations: optimistic, reversible where practical, with clear feedback. */
 
@@ -91,7 +92,7 @@ export async function removeManualGame(game: Game) {
     await call('game.removeManual', { gameId: game.id });
     await store().refreshLibrary();
     store().navigate({ name: 'library' }, { replace: true });
-    store().toast({ tone: 'info', title: `${game.title} was removed from VYSTRAL`, body: 'Its files on disk were not touched.' });
+    store().toast({ tone: 'info', title: `${game.title} was removed from ${APP_NAME}`, body: 'Its files on disk were not touched.' });
   } catch (err) {
     store().toast({ tone: 'danger', title: 'Couldn’t remove it', body: errorMessage(err) });
   }

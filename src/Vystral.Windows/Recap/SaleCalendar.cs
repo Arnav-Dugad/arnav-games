@@ -9,7 +9,7 @@ public sealed record SaleDto(string Id, string Name, string Start, string End);
 
 /// <summary>
 /// The sale calendar for the UI: the sale on now (if any), the next announced one, and where the dates come
-/// from. <c>Next</c> is null when no future sale has been announced yet; VYSTRAL never guesses one.
+/// from. <c>Next</c> is null when no future sale has been announced yet; Arnav Games never guesses one.
 /// </summary>
 public sealed record SaleForecastDto(SaleDto? Current, SaleDto? Next, int? DaysUntilNext, int? DaysLeftInCurrent, string Source, string SourceUrl,
     string Retrieved, int Version, bool Outdated);

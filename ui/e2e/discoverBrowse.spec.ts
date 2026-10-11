@@ -77,7 +77,7 @@ test.describe('Discover browse (nothing typed)', () => {
     await expect(page.getByRole('heading', { name: title, level: 1 })).toBeVisible();
   });
 
-  test('wishlist deals and Steam rows are keyboard-friendly and open VYSTRAL pages', async ({ page }) => {
+  test('wishlist deals and Steam rows are keyboard-friendly and open Arnav Games pages', async ({ page }) => {
     const { errors, external } = await open(page, '?reduced&discover&discoverStore&wishlist');
     const sale = shelf(page, 'From your wishlist, on sale');
     await expect(sale).toBeVisible({ timeout: 15_000 });
@@ -157,7 +157,7 @@ test.describe('Discover results', () => {
 });
 
 test.describe('Wishlist → game pages', () => {
-  test('a wishlist game opens its VYSTRAL page; the Steam store stays a secondary action', async ({ page }) => {
+  test('a wishlist game opens its Arnav Games page; the Steam store stays a secondary action', async ({ page }) => {
     const { errors, external } = await open(page, '?reduced&wishlist');
     await page.getByRole('navigation', { name: 'Main' }).getByRole('button', { name: 'Wishlist' }).click();
     await page.getByRole('button', { name: 'Show as list' }).click(); // Track D2: the calendar is the default view

@@ -111,7 +111,7 @@ public static partial class AssistantTools
             "That game's title, developer, genres, release date, status, rating, hours, sessions, stores, install size, time to beat and collections (never its folder or your notes)."),
         new("game_facts", "Game facts", ToolKind.Read,
             "Facts for answering questions about a game, each with its source: Steam community tags, Steam Deck compatibility, anti-cheat, " +
-            "the controller layout VYSTRAL can read, Steam user reviews and the store's price. Use for \"Is this good with a controller?\" and similar. " +
+            "the controller layout Arnav Games can read, Steam user reviews and the store's price. Use for \"Is this good with a controller?\" and similar. " +
             "Cite the sources you used.",
             [GameId()],
             "Public facts about that game: community tags, Steam Deck rating, anti-cheat, controller layout type, review scores and price."),
@@ -130,7 +130,7 @@ public static partial class AssistantTools
                 new("sort", "string", "Largest first (desc) or smallest first (asc).", Enum: ["desc", "asc"]),
                 new("limit", "integer", "How many rows (1–20).", Min: 1, Max: 20),
             ],
-            "Totals VYSTRAL calculated from your sessions: game titles or dates with hours and session counts.", Feature: "journal"),
+            "Totals Arnav Games calculated from your sessions: game titles or dates with hours and session counts.", Feature: "journal"),
         new("list_sessions", "Sessions", ToolKind.Read,
             "Recent play sessions (newest first), optionally for one game, with length and frame-rate summary. Session ids can be passed to explain_stutter.",
             [GameId(required: false), new("days", "integer", "Only the last N days (default 30).", Min: 1, Max: 3650), new("limit", "integer", "How many (default 10).", Min: 1, Max: 30)],
@@ -142,7 +142,7 @@ public static partial class AssistantTools
             "That week's totals: hours, days played, sessions, top games with their hours, the longest session, first-time games and last week's total."),
         new("tonight_picks", "Tonight's picks", ToolKind.Read,
             "Shortlist what to play tonight from installed games (and games included in the user's subscriptions), ranked by fit for the mood " +
-            "and time available, with VYSTRAL's reasons. Pick from this list only; never suggest games that aren't on it.",
+            "and time available, with Arnav Games' reasons. Pick from this list only; never suggest games that aren't on it.",
             [
                 new("mood", "string", "The mood.", Enum: TonightPlanner.Moods),
                 new("minutes", "integer", "Time available in minutes (default 60).", Min: 15, Max: 600),
@@ -163,7 +163,7 @@ public static partial class AssistantTools
             ],
             "Wishlist titles with prices, discounts, lowest prices and release dates."),
         new("search_store", "Discover search", ToolKind.Read,
-            "Search games to buy across stores (VYSTRAL's Discover search). Returns titles, years, stores, prices and whether the user already owns them. " +
+            "Search games to buy across stores (Arnav Games' Discover search). Returns titles, years, stores, prices and whether the user already owns them. " +
             "Each result has a key you can pass to watch_game.",
             [new("query", "string", "What to search for (a title or words).", Required: true, MaxLength: 100)],
             "Store search results for your words: titles, years, stores and prices."),
@@ -190,7 +190,7 @@ public static partial class AssistantTools
             [new("limit", "integer", "How many games (default 10).", Min: 1, Max: 25)],
             "Drive letters with free and total space, your largest installed games with sizes, and whether pending updates fit."),
         new("get_health", "Library health", ToolKind.Read,
-            "Library health issues VYSTRAL found (missing installs, broken shortcuts, duplicate entries, art problems) and the health score.",
+            "Library health issues Arnav Games found (missing installs, broken shortcuts, duplicate entries, art problems) and the health score.",
             [],
             "The health score and issue titles (no file paths)."),
         new("get_news", "News", ToolKind.Read,
@@ -208,18 +208,18 @@ public static partial class AssistantTools
             [GameId()],
             "That game's title, genres, developer and store description, plus the most common tag names in your library."),
         new("get_settings", "Settings", ToolKind.Read,
-            "Read VYSTRAL's settings (appearance, motion, startup, notifications, Offline mode, AI provider). Read-only: the assistant can't change settings; " +
+            "Read Arnav Games' settings (appearance, motion, startup, notifications, Offline mode, AI provider). Read-only: the assistant can't change settings; " +
             "tell the user where to change one, or propose open_page.",
             [new("area", "string", "Only this area.", Enum: ["appearance", "motion", "startup", "launch", "notifications", "privacy", "ai", "controller", "sound", "immersive", "all"])],
-            "Your VYSTRAL settings in that area (never keys or addresses)."),
+            "Your Arnav Games settings in that area (never keys or addresses)."),
 
         // ---------------- Actions (proposals the user confirms) ----------------
         new("open_page", "Open a page", ToolKind.Action,
-            "Propose opening a VYSTRAL page. The user confirms it.",
+            "Propose opening an Arnav Games page. The user confirms it.",
             [new("page", "string", "The page.", Required: true, Enum: Pages)],
             "Nothing (runs on this PC after you confirm)."),
         new("open_game", "Open a game page", ToolKind.Action,
-            "Propose opening a game's page in VYSTRAL (never launches it). The user confirms it.",
+            "Propose opening a game's page in Arnav Games (never launches it). The user confirms it.",
             [GameId()],
             "Nothing (runs on this PC after you confirm)."),
         new("create_collection", "New collection", ToolKind.Action,

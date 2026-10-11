@@ -23,8 +23,8 @@ public sealed class EpicAdapter(IRegistryReader registry, AdapterEnvironment env
     public IReadOnlyList<string> Limitations =>
     [
         "Shows games installed on this PC. Games you own but haven't installed aren't imported, because Epic only shares that with a signed-in account.",
-        "Playtime isn't available locally for Epic games; VYSTRAL tracks sessions you start from here.",
-        "Epic doesn't keep cover art on disk, so artwork comes from VYSTRAL's metadata sources.",
+        "Playtime isn't available locally for Epic games; Arnav Games tracks sessions you start from here.",
+        "Epic doesn't keep cover art on disk, so artwork comes from Arnav Games' metadata sources.",
         "Games start through the Epic Games Launcher, which may ask you to sign in.",
     ];
 

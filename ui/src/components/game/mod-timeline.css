@@ -45,7 +45,7 @@
 .mtl__m:focus-visible { outline: var(--focus-outline-width) solid var(--focus-outline); outline-offset: 3px; }
 .mtl__m[data-pinned] { box-shadow: 0 0 0 2px var(--bg-1), 0 0 0 4px var(--accent-hi); z-index: 2; }
 
-/* Updates: diamonds. Patch notes are solid, builds VYSTRAL saw are ringed, the first version seen is hollow. */
+/* Updates: diamonds. Patch notes are solid, builds Arnav Games saw are ringed, the first version seen is hollow. */
 .mtl__m[data-lane='updates'] { border-radius: 3px; rotate: 45deg; width: 12px !important; height: 12px !important; background: var(--info); }
 .mtl__m[data-lane='updates'][data-kind='build'] { background: var(--bg-1); box-shadow: inset 0 0 0 3px var(--info), 0 0 0 2px var(--bg-1); }
 .mtl__m[data-lane='updates'][data-kind='firstSeen'] { background: transparent; box-shadow: inset 0 0 0 1.5px var(--text-3); }

@@ -73,7 +73,7 @@ export interface SteamLink {
 
 /**
  * The Steam app a game's Steam-keyed sections (reviews, tags, price, news, Deck, ProtonDB) are about, or null when
- * none: a Steam game's own, or — only when VYSTRAL uses it — a matched or chosen one.
+ * none: a Steam game's own, or — only when Arnav Games uses it — a matched or chosen one.
  */
 export function steamLinkOf(game: Pick<Game, 'installations'>, identity: ResolvedIdentity | null | undefined): SteamLink | null {
   if (isSteamGame(game)) return { appId: game.installations.find((i) => i.platform === 'steam')?.platformGameId ?? null, native: true, via: null, name: null };

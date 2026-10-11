@@ -11,7 +11,8 @@ namespace Vystral.App.Host;
 /// </summary>
 internal static partial class ShellIntegration
 {
-    public const string DisplayName = "VYSTRAL";
+    /// <summary>The name toasts are attributed to. Only the display name changed in the rename: the AUMID itself stays.</summary>
+    public const string DisplayName = Brand.Name;
 
     /// <summary>Used by development builds, which Velopack doesn't manage (no shortcut, no explicit AUMID).</summary>
     public const string DevAumid = "Vystral.Dev";
@@ -40,7 +41,7 @@ internal static partial class ShellIntegration
     private static ShellRegistration Registration()
     {
         var exe = Environment.ProcessPath ?? throw new InvalidOperationException("Unknown executable path.");
-        var icon = Path.Combine(AppContext.BaseDirectory, "Assets", "vystral-256.png");
+        var icon = Path.Combine(AppContext.BaseDirectory, "Assets", "arnav-games-256.png");
         return new ShellRegistration(new WindowsUserClassesRegistry(), exe, Aumid, DisplayName, File.Exists(icon) ? icon : null);
     }
 

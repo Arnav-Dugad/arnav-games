@@ -9,7 +9,7 @@ namespace Vystral.Windows.Services.NetworkHealth;
 public sealed record HealthContext(Func<string, bool> Setting, bool SteamWebApiConfigured);
 
 /// <summary>
-/// One service VYSTRAL talks to. Other features register their own (see
+/// One service Arnav Games talks to. Other features register their own (see
 /// <see cref="NetworkHealthService.Register"/>): a probe is a single lightweight request plus
 /// optional rules for when it's hidden or skipped.
 /// </summary>
@@ -19,7 +19,7 @@ public sealed record HealthProbe
     public required string Id { get; init; }
     /// <summary>Row title, e.g. "GitHub releases".</summary>
     public required string Label { get; init; }
-    /// <summary>What VYSTRAL uses it for, e.g. "Update checks".</summary>
+    /// <summary>What Arnav Games uses it for, e.g. "Update checks".</summary>
     public required string Purpose { get; init; }
     public required Uri Url { get; init; }
     /// <summary>HEAD by default; GET for endpoints that don't answer HEAD.</summary>
@@ -200,7 +200,7 @@ public sealed class NetworkHealthService
     private static string HostOf(HealthProbe p) => p.AddressHost ?? p.Url.Host;
     private static string Family(IPAddress a) => a.AddressFamily == AddressFamily.InterNetworkV6 ? "IPv6" : "IPv4";
 
-    /// <summary>The services VYSTRAL itself uses. Hosts match the real requests in the code.</summary>
+    /// <summary>The services Arnav Games itself uses. Hosts match the real requests in the code.</summary>
     public static IEnumerable<HealthProbe> BuiltInProbes() =>
     [
         new()
@@ -263,7 +263,7 @@ public sealed class SystemNetworkProbeIo(string version) : INetworkProbeIo, IDis
         handler.UseCookies = false;
         handler.ConnectTimeout = NetworkHealthService.RequestTimeout;
         var http = new HttpClient(handler) { Timeout = Timeout.InfiniteTimeSpan };
-        http.DefaultRequestHeaders.UserAgent.ParseAdd($"VYSTRAL/{version}");
+        http.DefaultRequestHeaders.UserAgent.ParseAdd($"{Brand.UserAgentProduct}/{version}");
         return http;
     }
 

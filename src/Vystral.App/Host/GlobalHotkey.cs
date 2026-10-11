@@ -5,8 +5,8 @@ using Vystral.Windows.Services;
 namespace Vystral.App.Host;
 
 /// <summary>
-/// The global "summon VYSTRAL" shortcut: RegisterHotKey on the main window plus a window
-/// subclass (comctl32 SetWindowSubclass) to receive WM_HOTKEY. It only ever brings VYSTRAL to
+/// The global "summon Arnav Games" shortcut: RegisterHotKey on the main window plus a window
+/// subclass (comctl32 SetWindowSubclass) to receive WM_HOTKEY. It only ever brings Arnav Games to
 /// the front. Must be used on the window's UI thread.
 /// </summary>
 internal sealed partial class GlobalHotkey : IDisposable

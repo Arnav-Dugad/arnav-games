@@ -2,7 +2,7 @@ using System.Text.RegularExpressions;
 
 namespace Vystral.Core.Cloud;
 
-/// <summary>The cloud services VYSTRAL can start a game on. Keys are what the bridge and the database use.</summary>
+/// <summary>The cloud services Arnav Games can start a game on. Keys are what the bridge and the database use.</summary>
 public static class CloudServices
 {
     public const string GeForceNow = "gfn";
@@ -29,7 +29,7 @@ public static class CloudStores
     public const string Ea = "ea";
     public const string BattleNet = "battlenet";
 
-    /// <summary>GeForce NOW's <c>appStore</c> names mapped to VYSTRAL's store keys (others are ignored).</summary>
+    /// <summary>GeForce NOW's <c>appStore</c> names mapped to Arnav Games' store keys (others are ignored).</summary>
     public static string? FromGfn(string? appStore) => appStore switch
     {
         "STEAM" => Steam,

@@ -16,7 +16,7 @@ public sealed record FirstPaintSnapshot(string PayloadJson, string AppVersion, D
 /// no migration, nothing secret, and losing it only means one ordinary (live) start.
 /// <para>
 /// The file is an envelope <c>{ schema, appVersion, savedAt, payload }</c>. It is ignored, never an error,
-/// when it is missing, unreadable, from another schema or another VYSTRAL version (the interface that
+/// when it is missing, unreadable, from another schema or another Arnav Games version (the interface that
 /// wrote it may have had a different shape), older than <see cref="MaxAge"/>, or larger than
 /// <see cref="MaxBytes"/>. The payload itself is opaque to the host apart from these structural limits;
 /// the interface validates every field again before using it.

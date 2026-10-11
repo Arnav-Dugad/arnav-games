@@ -27,7 +27,7 @@ export function NowPlaying() {
   const [, tick] = useState(0);
   const active = !!launch && !!game && ['starting', 'waiting', 'notDetected', 'running'].includes(launch.phase);
   const running = launch?.phase === 'running';
-  // Track H: started outside VYSTRAL (a store client, a shortcut) and noticed by it.
+  // Track H: started outside Arnav Games (a store client, a shortcut) and noticed by it.
   const external = !!launch?.source && launch.source !== 'tracked';
   const label = running ? (external ? 'Detected' : 'Playing') : 'Starting';
 
@@ -52,8 +52,8 @@ export function NowPlaying() {
           <button
             className="now-playing__main"
             onClick={() => navigate({ name: 'game', id: game.id })}
-            title={external ? 'Started outside VYSTRAL — tracked automatically' : undefined}
-            aria-label={`${running ? 'Playing' : 'Starting'} ${game.title}${external ? ', started outside VYSTRAL and tracked automatically' : ''}. Open game page`}
+            title={external ? 'Started outside Arnav Games — tracked automatically' : undefined}
+            aria-label={`${running ? 'Playing' : 'Starting'} ${game.title}${external ? ', started outside Arnav Games and tracked automatically' : ''}. Open game page`}
           >
             <span className="now-playing__thumb">
               <GameCover game={game} />

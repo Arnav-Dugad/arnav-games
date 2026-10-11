@@ -28,7 +28,7 @@ function usePageHidden(): boolean {
  * A muted Steam trailer that crossfades in over the detail hero art after the page has been
  * visible and idle for 2.5 s, plays once plus one loop, then fades back to the art. It never
  * starts (and nothing is downloaded) under Data saver, Offline mode, reduced motion, low
- * quality, safe mode, while a game is starting or running, or while VYSTRAL is hidden.
+ * quality, safe mode, while a game is starting or running, or while Arnav Games is hidden.
  * Moving the pointer out of the hero pauses it on desktop; hovering back resumes.
  *
  * While it is visibly playing it also lends its colours to the Living Canvas: a 32×18 copy of

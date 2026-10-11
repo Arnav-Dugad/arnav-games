@@ -1,6 +1,6 @@
 namespace Vystral.Windows.Services.Rollback;
 
-/// <summary>A version VYSTRAL won't update to again, because it didn't start on this PC.</summary>
+/// <summary>A version Arnav Games won't update to again, because it didn't start on this PC.</summary>
 public sealed record BlockedVersion(string Version, string At, string Reason);
 
 /// <summary>The last automatic rollback, kept so the version we returned to can explain it once.</summary>
@@ -23,7 +23,7 @@ public sealed record StartupLedger
     /// <summary>The most recent other version that started successfully: the rollback target.</summary>
     public string? LastGoodVersion { get; init; }
     public IReadOnlyList<BlockedVersion> Blocked { get; init; } = [];
-    /// <summary>Versions VYSTRAL already rolled back from once. Never twice: no loops.</summary>
+    /// <summary>Versions Arnav Games already rolled back from once. Never twice: no loops.</summary>
     public IReadOnlyList<string> RolledBackFrom { get; init; } = [];
     public RollbackRecord? LastRollback { get; init; }
 }
@@ -134,7 +134,7 @@ public static class StartupGuard
         currentVersion is null || !SameVersion(l.Version, currentVersion) ? l : l with { Pending = false, ConsecutiveFailures = 0, EverSucceeded = true };
 
     /// <summary>
-    /// VYSTRAL closed normally. After the interface was ready that isn't a failed start (it is
+    /// Arnav Games closed normally. After the interface was ready that isn't a failed start (it is
     /// just not proof of success either); before it, the start never worked, so it stays pending.
     /// </summary>
     public static StartupLedger OnCleanExit(StartupLedger l, string? currentVersion, bool uiWasReady) =>

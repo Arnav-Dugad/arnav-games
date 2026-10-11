@@ -10,7 +10,7 @@ import './crash-free.css';
 const KIND_ICON = { failedStart: XCircle, unexpectedClose: AlertTriangle, rollback: RotateCcw, selfCheck: ShieldCheck } as const;
 
 /**
- * Track D6: Settings › About › the crash-free streak. From VYSTRAL's own start history (each start, and whether it got
+ * Track D6: Settings › About › the crash-free streak. From Arnav Games' own start history (each start, and whether it got
  * to a steady interface), the after-update self-checks and the rollback record. Local only; nothing is sent.
  */
 export function CrashFreeStreak() {
@@ -62,7 +62,7 @@ export function CrashFreeStreak() {
                 );
               })}
             </ul>
-          ) : <p className="srow__hint">Nothing has gone wrong since VYSTRAL started keeping count.</p>}
+          ) : <p className="srow__hint">Nothing has gone wrong since Arnav Games started keeping count.</p>}
         </div>
       </div>
     </section>

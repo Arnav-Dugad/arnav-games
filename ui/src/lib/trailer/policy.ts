@@ -12,7 +12,7 @@ export interface TrailerConditions {
   quality: 'high' | 'balanced' | 'low';
   /** A game is starting or running. */
   gameActive: boolean;
-  /** document.visibilityState === 'hidden' (VYSTRAL minimized or suspended). */
+  /** document.visibilityState === 'hidden' (Arnav Games minimized or suspended). */
   hidden: boolean;
   safeMode: boolean;
 }

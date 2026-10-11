@@ -12,6 +12,7 @@ import { useStore } from '../../state/store';
 import { Badge, Button, Slider, Toggle } from '../../components/ui/primitives';
 import { SubsPicker } from '../../components/subs/SubsPicker';
 import '../../components/subs/subs.css';
+import { APP_NAME } from '../../lib/brand';
 
 const STATE_TEXT: Record<SubsStatus['state'], string> = {
   off: 'Off',
@@ -64,8 +65,8 @@ export function SubscriptionsSettings() {
         Your subscriptions <Badge icon={<Lock size={11} />}>Stays on this PC</Badge><NewBadge k="settings.library.subscriptions" variant="pill" seenWhenVisible />
       </h2>
       <p className="sgroup__desc">
-        Tell VYSTRAL what you pay for and it tailors itself: badges on games your plans include, an “In my subscriptions” filter, a Home row of included games
-        you don’t own yet, “leaving soon” warnings, and cloud play that only offers your services. VYSTRAL never signs in to these services or checks your
+        Tell Arnav Games what you pay for and it tailors itself: badges on games your plans include, an “In my subscriptions” filter, a Home row of included games
+        you don’t own yet, “leaving soon” warnings, and cloud play that only offers your services. Arnav Games never signs in to these services or checks your
         accounts.
       </p>
 
@@ -113,7 +114,7 @@ export function SubscriptionsSettings() {
             <CloudOff size={18} aria-hidden />
             <div className="srow__text">
               <div className="srow__label">Offline mode is on</div>
-              <div className="srow__hint">The lists aren’t updated. What VYSTRAL already has stays visible.</div>
+              <div className="srow__hint">The lists aren’t updated. What Arnav Games already has stays visible.</div>
             </div>
           </div>
         )}
@@ -163,7 +164,7 @@ export function CloudQueueAlertSettings() {
           <div className="srow__text">
             <label className="srow__label" htmlFor="queue-alerts">Tell me when my turn is close</label>
             <div className="srow__hint">
-              While a GeForce NOW game you started from VYSTRAL waits in the queue, VYSTRAL reads the GeForce NOW window’s title (nothing else: no clicks, no
+              While a GeForce NOW game you started from Arnav Games waits in the queue, Arnav Games reads the GeForce NOW window’s title (nothing else: no clicks, no
               memory, nothing injected). If the title shows your place, you get a Windows notification near the front; when the stream process starts, you
               get “Your stream is starting”. The app doesn’t always show the queue in its title, so the second one is the dependable alert.
             </div>
@@ -228,7 +229,7 @@ function SubsPriceRow() {
       return;
     }
     if (n > SUBS_PRICE_MAX) {
-      setProblem(`That’s more than VYSTRAL can use here (up to ${SUBS_PRICE_MAX.toLocaleString()}).`);
+      setProblem(`That’s more than ${APP_NAME} can use here (up to ${SUBS_PRICE_MAX.toLocaleString()}).`);
       return;
     }
     const v = Math.round(n * 100) / 100;
@@ -243,7 +244,7 @@ function SubsPriceRow() {
       <div className="srow__text">
         <label className="srow__label" htmlFor="subs-price">What you pay a month (optional)</label>
         <div className="srow__hint" id="subs-price-hint">
-          All your subscriptions together. Only used to show cost per hour on Home, worked out from the time VYSTRAL tracks. Leave it empty to hide it.
+          All your subscriptions together. Only used to show cost per hour on Home, worked out from the time Arnav Games tracks. Leave it empty to hide it.
         </div>
         {problem ? (
           <div className="srow__hint subsset__problem" role="alert" id="subs-price-problem">{problem}</div>

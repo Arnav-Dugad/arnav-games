@@ -157,7 +157,7 @@ public sealed class CloudAiClientTests
     [InlineData(HttpStatusCode.Redirect, DataSourceOutcome.Malformed)]
     public void Error_statuses_get_fixed_messages_never_the_providers_text(HttpStatusCode status, DataSourceOutcome outcome)
     {
-        // OpenAI's real 401 echoes part of the key; VYSTRAL never shows the provider's error text.
+        // OpenAI's real 401 echoes part of the key; Arnav Games never shows the provider's error text.
         var ex = Assert.Throws<DataSourceException>(() => CloudAiClient.ParseChat(CloudAiProvider.OpenAi, status,
             """{"error":{"message":"Incorrect API key provided: sk-proj-ABC***wxyz"}}"""));
         Assert.Equal(outcome, ex.Outcome);

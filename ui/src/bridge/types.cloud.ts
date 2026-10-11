@@ -50,14 +50,14 @@ export interface CloudSession {
   state: 'waiting' | 'running';
   start: string | null;
   seconds: number;
-  /** VYSTRAL can't see when it ends (a browser tab): the user presses "I'm done". */
+  /** Arnav Games can't see when it ends (a browser tab): the user presses "I'm done". */
   manual: boolean;
   sessionLimitSeconds: number | null;
   sessionLeftSeconds: number | null;
   sessionLevel: 'none' | 'ok' | 'near' | 'reached';
 }
 
-/** The hours meter: estimated from sessions VYSTRAL saw (other devices aren't counted). */
+/** The hours meter: estimated from sessions Arnav Games saw (other devices aren't counted). */
 export interface CloudMeter {
   plan: GfnPlanId;
   planLabel: string;
@@ -74,7 +74,7 @@ export interface CloudMeter {
   sessionLeftSeconds: number | null;
   sessionLevel: 'none' | 'ok' | 'near' | 'reached';
   sessions: number;
-  /** Xbox Cloud Gaming time this cycle (no meter: no hour limit is applied by VYSTRAL). */
+  /** Xbox Cloud Gaming time this cycle (no meter: no hour limit is applied by Arnav Games). */
   xboxSeconds: number;
   xboxSessions: number;
   resetDay: number;

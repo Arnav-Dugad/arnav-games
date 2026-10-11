@@ -43,7 +43,7 @@ public sealed class HealthClassifierTests
     {
         var v = Classify(addresses: [Ok("185.199.108.133"), Bad("185.199.109.133"), Ok("185.199.110.133")]);
         Assert.Equal("warn", v.Status);
-        Assert.Equal("One of release-assets.githubusercontent.com's addresses (185.199.109.133) isn't reachable from this network; VYSTRAL uses the others", v.Summary);
+        Assert.Equal("One of release-assets.githubusercontent.com's addresses (185.199.109.133) isn't reachable from this network; Arnav Games uses the others", v.Summary);
     }
 
     [Fact]

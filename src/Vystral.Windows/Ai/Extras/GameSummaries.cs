@@ -21,7 +21,7 @@ public sealed record GameSummaryDto(string GameId, string? Text, IReadOnlyList<s
 public sealed record SummaryFacts(string Text, IReadOnlyList<string> Sources, int Count, string Hash);
 
 /// <summary>
-/// Track E1: AI-written "what is this game" lines for games without a description. Built only from facts VYSTRAL already
+/// Track E1: AI-written "what is this game" lines for games without a description. Built only from facts Arnav Games already
 /// has: the library's genres, developer, publisher and release year, matched IGDB and RAWG facts (genres, themes, modes,
 /// perspective) and cached Steam community tags. The model may only phrase them; an answer with numbers that aren't in
 /// the facts, links, first person or a claim to be official is rejected.

@@ -135,7 +135,7 @@ export function trackPPreviewHandlers(ctx: { lib: { games: Game[] }; settings: (
       if (!s['home.friendsActivity']) return empty('off');
       const steam = ctx.steamStatus();
       if (!steam.configured) return empty('notConnected');
-      if (s['privacy.localOnly']) return empty('offline', 'Offline mode is on, so VYSTRAL doesn’t ask Steam what your friends are playing.');
+      if (s['privacy.localOnly']) return empty('offline', 'Offline mode is on, so Arnav Games doesn’t ask Steam what your friends are playing.');
       if (mode === 'private') {
         return { ...empty('private', 'Steam won’t share your friends list because it isn’t public. In Steam, open your profile → Edit Profile → Privacy Settings and set “Friends List” to Public. Only your own setting matters here; your friends don’t need to change anything.'), retryAt: new Date(Date.now() + 10 * 60_000).toISOString() };
       }

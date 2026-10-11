@@ -204,8 +204,8 @@ export function ModTimeline({ game, onOpenNews, onOpenFiles }: { game: Game; onO
     return [{ id: s.id, x1: Math.max(0, ((u.t - view.from) / (view.to - view.from)) * width), x2: m.x }];
   });
   const notes: string[] = [];
-  if (!steam) notes.push('Patch notes come from Steam, so only builds VYSTRAL saw are shown for this game.');
-  else if (data.news?.status === 'off') notes.push('Patch notes are off (Settings › Data sources), so only builds VYSTRAL saw are shown.');
+  if (!steam) notes.push('Patch notes come from Steam, so only builds Arnav Games saw are shown for this game.');
+  else if (data.news?.status === 'off') notes.push('Patch notes are off (Settings › Data sources), so only builds Arnav Games saw are shown.');
   else if (data.news && data.news.status !== 'ok' && data.news.status !== 'none') notes.push('Patch notes couldn’t be loaded right now.');
   if (data.modsLoading) notes.push('Looking for mods…');
 
@@ -232,7 +232,7 @@ export function ModTimeline({ game, onOpenNews, onOpenFiles }: { game: Game; onO
       {empty ? (
         <div className="mtl__empty">
           <History size={22} aria-hidden />
-          <p>Nothing on the timeline yet. Updates appear when Steam posts patch notes or VYSTRAL notices a new build after a scan; your mods and sessions show up here too.</p>
+          <p>Nothing on the timeline yet. Updates appear when Steam posts patch notes or Arnav Games notices a new build after a scan; your mods and sessions show up here too.</p>
         </div>
       ) : (
         <>
@@ -354,7 +354,7 @@ export function ModTimeline({ game, onOpenNews, onOpenFiles }: { game: Game; onO
         </>
       )}
       <p className="mtl__foot">
-        Updates are Steam posts tagged as patch notes and builds VYSTRAL noticed on this PC (recorded from version 0.9 on; the first one seen isn’t an update). Mods use folder dates from Steam Workshop, Vortex and Mod Organizer 2. Sessions are sized by length and coloured by how smoothly they ran.
+        Updates are Steam posts tagged as patch notes and builds Arnav Games noticed on this PC (recorded from version 0.9 on; the first one seen isn’t an update). Mods use folder dates from Steam Workshop, Vortex and Mod Organizer 2. Sessions are sized by length and coloured by how smoothly they ran.
         {notes.length > 0 && <> {notes.join(' ')}</>}
       </p>
     </section>

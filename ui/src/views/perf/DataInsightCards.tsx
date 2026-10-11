@@ -103,7 +103,7 @@ export function DriverChangeCard({ gameId, hideWhenEmpty }: { gameId?: string | 
           </p>
           <p className="di-muted">
             {data.sessionsWithFps === 0
-              ? 'Frame rate wasn’t measured in these sessions, so VYSTRAL can’t say whether the new driver is faster. Frame-rate capture is optional; with it on, this card compares average FPS, 1% lows and frame-time spikes.'
+              ? 'Frame rate wasn’t measured in these sessions, so Arnav Games can’t say whether the new driver is faster. Frame-rate capture is optional; with it on, this card compares average FPS, 1% lows and frame-time spikes.'
               : 'There isn’t frame-rate data for the same game on both drivers yet. Play a game you played before the update to see a comparison.'}
           </p>
           {data.sessionsWithFps === 0 && !fpsOn && (
@@ -115,8 +115,8 @@ export function DriverChangeCard({ gameId, hideWhenEmpty }: { gameId?: string | 
       ) : (
         <p className="di-muted">
           {last
-            ? <>Every session so far ran on driver <strong className="num">{last.version}</strong>{last.gpuName ? <> (<DeviceName name={last.gpuName} />)</> : ''}. When the driver changes, VYSTRAL compares your frame rates before and after.</>
-            : 'VYSTRAL records the graphics driver version with each new session (read-only). When it changes, this card compares your frame rates before and after.'}
+            ? <>Every session so far ran on driver <strong className="num">{last.version}</strong>{last.gpuName ? <> (<DeviceName name={last.gpuName} />)</> : ''}. When the driver changes, Arnav Games compares your frame rates before and after.</>
+            : 'Arnav Games records the graphics driver version with each new session (read-only). When it changes, this card compares your frame rates before and after.'}
         </p>
       )}
     </section>
@@ -223,7 +223,7 @@ export function BackgroundAppsCard() {
     body = (
       <p className="di-muted">
         {data.collecting
-          ? 'During your next sessions, VYSTRAL notes which other apps are among the heaviest about every 30 seconds. Once there are a few sessions, this card shows which ones tend to be running when a game plays badly.'
+          ? 'During your next sessions, Arnav Games notes which other apps are among the heaviest about every 30 seconds. Once there are a few sessions, this card shows which ones tend to be running when a game plays badly.'
           : 'Background-app notes are off, or performance recording is off. Turn them on in Settings › Launching & sessions to see which apps run alongside your games.'}
       </p>
     );
@@ -240,7 +240,7 @@ export function BackgroundAppsCard() {
             <Info size={14} aria-hidden />
             <span>
               Not enough to compare yet: {plural(data.roughSessions, roughWord.replace('sessions', 'session'), roughWord)} and {plural(data.cleanSessions, 'smooth session')} so far.
-              VYSTRAL needs at least 3 of each before it points at anything.
+              Arnav Games needs at least 3 of each before it points at anything.
             </span>
           </p>
         ) : data.suspects.length === 0 ? (
@@ -259,7 +259,7 @@ export function BackgroundAppsCard() {
             <p className="di-foot">
               <AlertTriangle size={13} aria-hidden />
               <span>
-                This is correlation, not cause: these apps were running more often when games played badly ({data.roughSessions} rough vs {data.cleanSessions} smooth sessions). Closing them may help, or the cause may be something else entirely. VYSTRAL never closes apps.
+                This is correlation, not cause: these apps were running more often when games played badly ({data.roughSessions} rough vs {data.cleanSessions} smooth sessions). Closing them may help, or the cause may be something else entirely. Arnav Games never closes apps.
               </span>
             </p>
           </div>
@@ -297,7 +297,7 @@ export function BackgroundAppsCard() {
         </div>
       )}
       <p className="di-privacy">
-        Stored on this PC only: program file names, their memory and CPU share — no window titles, paths or contents. Your game, VYSTRAL and core Windows processes are left out. Deleting tracked history removes all of it.
+        Stored on this PC only: program file names, their memory and CPU share — no window titles, paths or contents. Your game, Arnav Games and core Windows processes are left out. Deleting tracked history removes all of it.
       </p>
     </section>
   );

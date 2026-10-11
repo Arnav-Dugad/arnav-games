@@ -14,6 +14,7 @@ import { StoreLogo } from '../ui/StoreLogo';
 import { HoldToConfirm } from '../controller/HoldToConfirm';
 import { GameCover } from './GameCover';
 import './uninstall-advisor.css';
+import { APP_NAME } from '../../lib/brand';
 
 const TONE_ICON: Record<AdviceTone, typeof Heart> = { keep: Heart, think: Info, safe: ShieldCheck };
 
@@ -58,7 +59,7 @@ export function UninstallAdvisor({ game, installationId, open, onClose }: { game
       await call('uninstall.open', { gameId: g.id, installationId: advice.installationId });
       onClose();
       toast(advice.action === 'steamUninstall'
-        ? { tone: 'info', title: 'Steam’s uninstall window is open', body: `Confirm there to remove ${g.title}. VYSTRAL updates your library when Steam finishes.` }
+        ? { tone: 'info', title: 'Steam’s uninstall window is open', body: `Confirm there to remove ${g.title}. ${APP_NAME} updates your library when Steam finishes.` }
         : advice.action === 'windowsApps'
           ? { tone: 'info', title: 'Installed apps is open', body: `Find ${g.title} there (or in ${store}) to uninstall it. Nothing happens until you confirm.` }
           : { tone: 'info', title: `${store} is open`, body: `Uninstall ${g.title} from its library page. Nothing happens until you confirm there.` });
@@ -160,7 +161,7 @@ export function UninstallAdvisor({ game, installationId, open, onClose }: { game
                   ) : (
                     <>
                       <strong>None known</strong>
-                      <span>Nothing VYSTRAL knows of also offers it.</span>
+                      <span>Nothing Arnav Games knows of also offers it.</span>
                     </>
                   )}
                 </Fact>
@@ -175,8 +176,8 @@ export function UninstallAdvisor({ game, installationId, open, onClose }: { game
                 <p className="uadv__safe">
                   <HardDrive size={13} aria-hidden /> Advice only.{' '}
                   {advice.action === 'none'
-                    ? 'You added this one yourself, so remove it the way you installed it. VYSTRAL never deletes files.'
-                    : `Nothing is removed until you confirm in ${advice.action === 'windowsApps' ? 'Windows' : store}. VYSTRAL deletes nothing, and the game stays in your library with its notes and history.`}
+                    ? 'You added this one yourself, so remove it the way you installed it. Arnav Games never deletes files.'
+                    : `Nothing is removed until you confirm in ${advice.action === 'windowsApps' ? 'Windows' : store}. ${APP_NAME} deletes nothing, and the game stays in your library with its notes and history.`}
                 </p>
               </div>
             </>

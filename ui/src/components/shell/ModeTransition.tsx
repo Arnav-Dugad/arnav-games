@@ -11,6 +11,7 @@ import {
 import { homeRows, tileGame } from '../../views/immersive/rows';
 import { registerModeSwitcher, useStore } from '../../state/store';
 import { GameCover } from '../game/GameCover';
+import { ASCENT, starInMark } from '../brand/BrandMark';
 import './mode-transition.css';
 
 /**
@@ -20,7 +21,7 @@ import './mode-transition.css';
  *
  * - **Out** (~380 ms): the old layout folds away (CSS, keyed on `data-mode-switch="out"`), the
  *   focused game's art zooms from its card to fill the window with a light sweep, and the
- *   VYSTRAL star flares in the middle. The overlay ends fully opaque.
+ *   Arnav Games star flares in the middle. The overlay ends fully opaque.
  * - **Commit**: the layout swaps and `window.setMode` runs; we wait for Windows to finish the
  *   resize (`settle`, a few frames at most) with the new layout held at its first frame.
  * - **In** (~500 ms): the art settles into Immersive's own backdrop (or recedes into depth when
@@ -43,7 +44,11 @@ interface Run {
   mark: Rect | null;
 }
 
-const STAR = 132; // px, the star's drawn size
+const STAR = 132; // px, the star element's size (glow included)
+/** The Ascent star is 76.16 units tall on the brand grid; here it is drawn 84 of the 120-unit box. */
+const STAR_SCALE = 84 / 76.16;
+/** The star's own height in px at scale 1, for landing it at the size of the mark's star. */
+const STAR_DRAWN = (STAR * 84) / 120;
 
 let active: { target: AppMode; done: Promise<void>; skip: () => void } | null = null;
 let seq = 0;
@@ -307,9 +312,10 @@ function Cinematic({ run }: { run: Run }) {
   const inn = SWITCH_TIMING.cinematic.in / 1000;
   const covering = phase !== 'in';
 
-  // The star flies into the new layout's mark (centre to centre), shrinking to its size.
-  const starTo = mark
-    ? { x: mark.x + mark.w / 2 - innerWidth / 2, y: mark.y + mark.h / 2 - innerHeight / 2, scale: Math.max(0.12, (mark.w * 0.62) / STAR) }
+  // The star flies into the new layout's mark and settles as the bar of its A, at the star's exact size.
+  const landing = mark ? starInMark(mark) : null;
+  const starTo = landing
+    ? { x: landing.x - innerWidth / 2, y: landing.y - innerHeight / 2, scale: Math.max(0.05, landing.height / STAR_DRAWN) }
     : { x: 0, y: 0, scale: 0.4 };
 
   return (
@@ -363,7 +369,7 @@ function Cinematic({ run }: { run: Run }) {
         animate={
           covering
             ? { scale: [0, 1.32, 1], opacity: 1, rotate: 0, x: 0, y: 0 }
-            : { scale: starTo.scale, opacity: [1, 1, 0], rotate: 45, x: starTo.x, y: starTo.y }
+            : { scale: starTo.scale, opacity: [1, 1, 0], rotate: 180, x: starTo.x, y: starTo.y }
         }
         transition={
           covering
@@ -393,7 +399,8 @@ function StarMark() {
         </radialGradient>
       </defs>
       <circle cx="60" cy="60" r="60" fill="url(#mtStarGlow)" />
-      <path d="M60,18 C64,50 70,56 102,60 C70,64 64,70 60,102 C56,70 50,64 18,60 C50,56 56,50 60,18 Z" fill="url(#mtStarFill)" />
+      {/* The Ascent star (horizontal arms 86% of the vertical), centred and drawn 84 units tall. */}
+      <path d={ASCENT.star} fill="url(#mtStarFill)" transform={`translate(60 60) scale(${STAR_SCALE}) translate(${-ASCENT.starCenter.x} ${-ASCENT.starCenter.y})`} />
     </svg>
   );
 }

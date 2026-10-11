@@ -62,7 +62,7 @@ public sealed partial class AssistantHistory(string folder)
         o["updatedAt"] = DateTimeOffset.UtcNow.ToString("O");
         lock (_lock)
         {
-            if (!JsonFileCache.Write(FileFor(id), o)) return "VYSTRAL couldn’t save the conversation. Check that the data folder isn’t read-only.";
+            if (!JsonFileCache.Write(FileFor(id), o)) return "Arnav Games couldn’t save the conversation. Check that the data folder isn’t read-only.";
             Trim();
         }
         return null;

@@ -20,6 +20,7 @@ import { openSteamApp } from '../components/discover/DiscoverBits';
 import './wishlist/wishlist.css';
 import { useMoney } from '../state/money'; // Track D6: prices in the display currency
 import { Price } from '../components/ui/Price';
+import { APP_NAME } from '../lib/brand';
 
 type Load = { kind: 'loading' } | { kind: 'error'; message: string } | { kind: 'done'; data: Wishlist };
 
@@ -57,7 +58,7 @@ function readView(): WishlistView {
 /**
  * Track W: the Steam wishlist (opt-in, Settings → Library & stores → Steam extras). Read natively with the
  * user's own key; prices from Steam's store in the price country; the lowest price ever from
- * IsThereAnyDeal (with the user's key) or CheapShark; price history is what VYSTRAL has recorded itself.
+ * IsThereAnyDeal (with the user's key) or CheapShark; price history is what Arnav Games has recorded itself.
  */
 export function WishlistView() {
   const [state, setState] = useState<Load>({ kind: 'loading' });
@@ -95,8 +96,8 @@ export function WishlistView() {
     try {
       const r = await call<WishlistRefreshResult>('wishlist.refresh');
       setState({ kind: 'done', data: r.wishlist });
-      if (!r.started && r.reason === 'recent') toast({ tone: 'info', title: 'Checked a moment ago', body: 'VYSTRAL asks Steam again in a couple of minutes.' });
-      else if (!r.started && r.reason === 'gameRunning') toast({ tone: 'info', title: 'Waiting for your game to close', body: 'VYSTRAL doesn’t contact Steam while a game is running.' });
+      if (!r.started && r.reason === 'recent') toast({ tone: 'info', title: 'Checked a moment ago', body: 'Arnav Games asks Steam again in a couple of minutes.' });
+      else if (!r.started && r.reason === 'gameRunning') toast({ tone: 'info', title: 'Waiting for your game to close', body: 'Arnav Games doesn’t contact Steam while a game is running.' });
     } catch (err) {
       toast({ tone: 'danger', title: 'Couldn’t refresh the wishlist', body: errorMessage(err) });
     } finally {
@@ -140,7 +141,7 @@ function WishlistBody({ data, busy, onRetry, onReload }: { data: Wishlist; busy:
   const navigate = useStore((s) => s.navigate);
   const setSetting = useStore((s) => s.setSetting);
   const toSettings = (section: string) => navigate({ name: 'settings', section });
-  const retry = data.retryAt ? `VYSTRAL tries again ${formatRelative(data.retryAt).toLowerCase()}.` : '';
+  const retry = data.retryAt ? `${APP_NAME} tries again ${formatRelative(data.retryAt).toLowerCase()}.` : '';
 
   switch (data.status) {
     case 'off':
@@ -148,8 +149,8 @@ function WishlistBody({ data, busy, onRetry, onReload }: { data: Wishlist; busy:
         <EmptyState
           art="shelf"
           icon={<Gift size={30} />}
-          title="Bring your Steam wishlist into VYSTRAL"
-          body="See what’s on sale, which games just came out and the lowest price each one has ever had, next to your library. VYSTRAL reads your own wishlist with your Steam Web API key; nothing is shared."
+          title="Bring your Steam wishlist into Arnav Games"
+          body="See what’s on sale, which games just came out and the lowest price each one has ever had, next to your library. Arnav Games reads your own wishlist with your Steam Web API key; nothing is shared."
           actions={<>
             <Button variant="primary" icon={<Gift size={15} />} onClick={() => void Promise.resolve(setSetting('wishlist.sync', true)).then(onReload)}>Show my wishlist</Button>
             <Button variant="ghost" onClick={() => toSettings('library')}>Settings</Button>
@@ -161,7 +162,7 @@ function WishlistBody({ data, busy, onRetry, onReload }: { data: Wishlist; busy:
         <EmptyState
           icon={<KeyRound size={30} />}
           title="Connect Steam to see your wishlist"
-          body="Add your own free Steam Web API key in Settings. It stays in Windows Credential Manager on this PC, and VYSTRAL only talks to Steam with it."
+          body="Add your own free Steam Web API key in Settings. It stays in Windows Credential Manager on this PC, and Arnav Games only talks to Steam with it."
           actions={<Button variant="primary" onClick={() => toSettings('library')}>Set up in Settings</Button>}
         />
       );
@@ -169,7 +170,7 @@ function WishlistBody({ data, busy, onRetry, onReload }: { data: Wishlist; busy:
       return <EmptyState icon={<UserX size={30} />} title="No Steam account found on this PC" body={data.message ?? 'Sign in to Steam once on this PC, then come back.'} />;
     case 'offline':
       return (
-        <EmptyState icon={<CloudOff size={30} />} title="Offline mode is on" body="VYSTRAL isn’t contacting Steam, and no wishlist was saved on this PC yet."
+        <EmptyState icon={<CloudOff size={30} />} title="Offline mode is on" body="Arnav Games isn’t contacting Steam, and no wishlist was saved on this PC yet."
           actions={<Button onClick={() => toSettings('privacy')}>Privacy settings</Button>} />
       );
     case 'invalidKey':
@@ -180,7 +181,7 @@ function WishlistBody({ data, busy, onRetry, onReload }: { data: Wishlist; busy:
     case 'unavailable':
     case 'rateLimited':
       return (
-        <EmptyState art="none" icon={<AlertTriangle size={30} />} title={data.status === 'rateLimited' ? 'Steam asked VYSTRAL to slow down' : 'Steam didn’t answer'}
+        <EmptyState art="none" icon={<AlertTriangle size={30} />} title={data.status === 'rateLimited' ? 'Steam asked Arnav Games to slow down' : 'Steam didn’t answer'}
           body={`${data.message ?? 'Try again in a little while.'} ${retry}`.trim()}
           actions={<Button icon={<RefreshCw size={15} />} loading={busy} onClick={onRetry}>Try again</Button>} />
       );
@@ -258,7 +259,7 @@ function WishlistList({ data }: { data: Wishlist }) {
 
       <p className="wish__sources">
         Prices from {steamLabel}. {data.lowestSource ? <>Lowest price ever from {data.lowestSource}{data.lowestSource === 'CheapShark' ? ', in US dollars' : ''}.</> : <>Add an IsThereAnyDeal key or turn on CheapShark in Settings → Data sources to see the lowest price ever.</>}{' '}
-        The price lines show what VYSTRAL has seen since you turned this on. Release dates and art from Steam.
+        The price lines show what Arnav Games has seen since you turned this on. Release dates and art from Steam.
       </p>
     </>
   );
@@ -280,7 +281,7 @@ function WishCard({ item, index }: { item: WishlistItem; index: number }) {
   const verdict = priceVerdict(item);
   const open = () => void call('wishlist.openStore', { appId: item.appId }).catch((err) => toast({ tone: 'info', title: errorMessage(err) }));
   const titleId = `wish-${item.appId}`;
-  // Track C3: the card opens the game's own VYSTRAL page (yours when you own it); the Steam store stays one click away.
+  // Track C3: the card opens the game's own Arnav Games page (yours when you own it); the Steam store stays one click away.
   const artRef = useRef<HTMLButtonElement>(null);
   const openPage = () => openSteamApp(item.appId, item.name, item.gameId, artRef.current);
 
@@ -296,7 +297,7 @@ function WishCard({ item, index }: { item: WishlistItem; index: number }) {
     >
       {/* The art opens the page too; it's skipped by Tab (the title button right after it is the same action). */}
       <button type="button" className="wish-card__art wish-card__open" ref={artRef} tabIndex={-1} aria-hidden onClick={openPage}>
-        {/* Track D2: the header, else the cover, else VYSTRAL's own titled poster (never a blank gift icon). */}
+        {/* Track D2: the header, else the cover, else Arnav Games' own titled poster (never a blank gift icon). */}
         <Poster item={item} wide />
         {badge === 'today' && <span className="wish-card__ribbon"><Sparkles size={13} aria-hidden /> Released!</span>}
         {item.discount > 0 && <span className="wish-card__cut num">−{item.discount}%</span>}

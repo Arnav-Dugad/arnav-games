@@ -114,7 +114,7 @@ public sealed class FxService
 
     public async Task<FxStatusDto> RefreshAsync(bool manual, CancellationToken ct)
     {
-        if (_offline()) throw new BridgeException("offline", "Offline mode is on, so VYSTRAL keeps using the exchange rates it already has.");
+        if (_offline()) throw new BridgeException("offline", "Offline mode is on, so Arnav Games keeps using the exchange rates it already has.");
         if (!Due(manual)) return Status();
         if (Interlocked.Exchange(ref _refreshing, 1) == 1) return Status();
         _lastAttempt = Clock();
@@ -126,7 +126,7 @@ public sealed class FxService
             if (parsed is null)
             {
                 ProviderHealthHub.Failed(HealthId, "The exchange rates couldn’t be read");
-                throw new DataSourceException(DataSourceOutcome.Malformed, "The exchange rates couldn’t be read. VYSTRAL keeps using the last ones it had.");
+                throw new DataSourceException(DataSourceOutcome.Malformed, "The exchange rates couldn’t be read. Arnav Games keeps using the last ones it had.");
             }
             lock (_lock)
             {

@@ -49,7 +49,7 @@ test.describe('Performance › Trends', () => {
     await expect(thermal.locator('.e3-figure').filter({ hasText: 'The months before' })).toContainText('67 °C');
     await expect(thermal).toContainText('Clean the vents and fans');
     await expect(thermal).toContainText('laptop stand');
-    await expect(thermal).toContainText('VYSTRAL never changes fan speeds, clocks or power limits.');
+    await expect(thermal).toContainText('Arnav Games never changes fan speeds, clocks or power limits.');
     await expect(thermal).toContainText('can’t measure the room’s temperature');
     await expect(thermal).toContainText('Left out: 4 sessions on battery.');
 

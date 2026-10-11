@@ -280,7 +280,7 @@ function Overview({ game, onClose, onAchievements }: { game: Game; onClose: () =
                 return;
               }
               void call<boolean>('game.focus').then((ok) => {
-                if (ok === false) useStore.getState().toast({ tone: 'info', title: `Couldn’t switch to ${game.title}`, body: 'Windows didn’t let VYSTRAL bring it forward. Use Alt+Tab to switch to it.' });
+                if (ok === false) useStore.getState().toast({ tone: 'info', title: `Couldn’t switch to ${game.title}`, body: 'Windows didn’t let Arnav Games bring it forward. Use Alt+Tab to switch to it.' });
               }).catch(() => {});
             }}
           >
@@ -530,7 +530,7 @@ function Sessions({ game }: { game: Game }) {
       </div>
       {state.kind === 'loading' && <p className="imm-page__note" role="status">Loading sessions…</p>}
       {state.kind === 'error' && <p className="imm-page__note">Sessions couldn’t be loaded.</p>}
-      {state.kind === 'done' && state.data.length === 0 && <p className="imm-page__note">No sessions recorded by VYSTRAL yet. Play it from here and they appear.</p>}
+      {state.kind === 'done' && state.data.length === 0 && <p className="imm-page__note">No sessions recorded by Arnav Games yet. Play it from here and they appear.</p>}
       {state.kind === 'done' && state.data.length > 0 && (
         <ul className="imm-sessions__list">
           {state.data.map((s) => (

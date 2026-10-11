@@ -10,14 +10,14 @@ import { formatClock, PLATFORM_NAMES, primaryInstallation } from '../../lib/form
 export type PlayKind =
   | 'play' // installed and ready
   | 'launching' // validating / starting / waiting for the game window
-  | 'running' // VYSTRAL sees the game running
+  | 'running' // Arnav Games sees the game running
   | 'failed' // the last launch of this game didn't start
   | 'updating' // Steam is downloading or applying an update
   | 'uninstalling' // Steam is removing it
   | 'install' // not installed, Steam can install it
   | 'installing' // Steam is installing it (with progress)
   | 'storeInstall' // not installed, another store installs it
-  | 'missing' // a copy VYSTRAL knew about wasn't found, and no store can install it
+  | 'missing' // a copy Arnav Games knew about wasn't found, and no store can install it
   | 'unavailable'; // nothing to do from here
 
 /** Visual tone: primary (accent fill), live (playing), progress (ring), quiet (secondary). */

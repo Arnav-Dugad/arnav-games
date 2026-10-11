@@ -13,7 +13,7 @@ namespace Vystral.Windows;
 public sealed record TrackingIgnoreParams(string GameId, bool Ignored);
 
 /// <summary>
-/// Track H: games started outside VYSTRAL. While the app is open it notices them itself (same detector as
+/// Track H: games started outside Arnav Games. While the app is open it notices them itself (same detector as
 /// the background tracker); while it is closed the background tracker (<c>Vystral.exe --background-tracker</c>)
 /// does. Exactly one process tracks at a time (see <see cref="TrackerSignals"/>). Off by default
 /// (<c>tracking.background</c>).
@@ -77,7 +77,7 @@ public sealed partial class AppBackend
                 var tracker = _trackerLock = MutexHolder.Acquire(_trackerNames.Tracker);
                 if (!await tracker.Acquired) return;
                 _trackerOwned = true;
-                Log.Info("tracker", "VYSTRAL owns game tracking");
+                Log.Info("tracker", "Arnav Games owns game tracking");
                 _externalTracker.TakeOver(DateTimeOffset.UtcNow);
                 ApplyTracking();
             }
@@ -112,7 +112,7 @@ public sealed partial class AppBackend
                     var cts = _detectCts = new CancellationTokenSource();
                     _externalTracker.InvalidateTargets();
                     _ = Task.Run(() => _externalTracker.RunAsync(cts.Token));
-                    Log.Info("tracker", "Noticing games started outside VYSTRAL");
+                    Log.Info("tracker", "Noticing games started outside Arnav Games");
                 }
                 else if (!detect && _detectCts is not null)
                 {

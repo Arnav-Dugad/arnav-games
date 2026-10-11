@@ -84,7 +84,7 @@ export function steamPreviewHandlers(ctx: Ctx): Record<string, (p: any) => unkno
   });
 
   const requireOnline = () => {
-    if (ctx.settings()['privacy.localOnly']) throw new BridgeError('forbidden', 'Offline mode is on (Settings → Privacy), so VYSTRAL doesn’t contact Steam.');
+    if (ctx.settings()['privacy.localOnly']) throw new BridgeError('forbidden', 'Offline mode is on (Settings → Privacy), so Arnav Games doesn’t contact Steam.');
   };
 
   const addOwned = () => {

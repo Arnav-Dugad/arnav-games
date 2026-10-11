@@ -1,7 +1,7 @@
 /**
  * Pure layout and maths for the Journal's play calendar (a GitHub-style year grid).
  * Rows are weekdays (starting on the locale's first day of the week), columns are weeks.
- * Only VYSTRAL-tracked sessions have dates, so only they appear here.
+ * Only Arnav Games–tracked sessions have dates, so only they appear here.
  */
 import { addDays, daysBetween, splitAcrossDays, startOfDay, type JSession } from './stats';
 

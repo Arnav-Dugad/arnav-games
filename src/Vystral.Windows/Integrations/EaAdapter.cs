@@ -26,7 +26,7 @@ public sealed partial class EaAdapter(IRegistryReader registry, AdapterEnvironme
     [
         "Shows EA app games installed on this PC. Games you own but haven't installed aren't imported.",
         "EA games bought on Steam appear under Steam instead.",
-        "Playtime isn't available locally for EA app games; VYSTRAL tracks sessions you start from here.",
+        "Playtime isn't available locally for EA app games; Arnav Games tracks sessions you start from here.",
         "Games start through the EA app, which may ask you to sign in.",
     ];
 

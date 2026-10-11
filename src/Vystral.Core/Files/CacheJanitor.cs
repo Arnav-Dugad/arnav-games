@@ -14,7 +14,7 @@ public sealed record CacheMeasure(long Bytes, int Files, DateTimeOffset? Newest,
 /// <summary>
 /// Track D6: the only code that deletes cache files for the cache viewer. It works on a fixed allow-list of
 /// relative locations inside the data folder (<see cref="Targets"/>): the page names a cache by id, never a path,
-/// and even a wrong id inside VYSTRAL can't reach anything else. Every target is resolved and must stay strictly under
+/// and even a wrong id inside Arnav Games can't reach anything else. Every target is resolved and must stay strictly under
 /// the data folder; no folder on the way may be a link (junction or symbolic link), links met while walking are never
 /// followed or deleted, and only plain files are removed (folders stay, so writers never trip over a missing one).
 /// </summary>
@@ -93,7 +93,7 @@ public static class CacheJanitor
     public static (long Bytes, int Files, int Failed) Clear(string dataRoot, string relative)
     {
         var full = Resolve(dataRoot, relative);
-        if (full is null) throw new ArgumentException("Not a cache location VYSTRAL may clear.", nameof(relative));
+        if (full is null) throw new ArgumentException("Not a cache location Arnav Games may clear.", nameof(relative));
         long bytes = 0;
         int files = 0, failed = 0;
         IEnumerable<string> victims = File.Exists(full) ? [full] : Directory.Exists(full) ? Walk(full, new HashSet<string>()).ToList() : [];

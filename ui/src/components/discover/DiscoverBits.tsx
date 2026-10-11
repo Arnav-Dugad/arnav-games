@@ -92,7 +92,7 @@ export function libraryIdForSteamApp(appId: string): string | null {
   return g?.id ?? null;
 }
 
-/** Track C3: opens a Steam game's VYSTRAL page (yours when you own it, else its Discover page). Never the store. */
+/** Track C3: opens a Steam game's Arnav Games page (yours when you own it, else its Discover page). Never the store. */
 export function openSteamApp(appId: string, title: string, libraryGameId: string | null | undefined, coverEl?: Element | null) {
   if (!/^\d{1,10}$/.test(appId)) return;
   openResult({ key: `steam-${appId}`, title, libraryGameId: libraryGameId ?? null }, coverEl);

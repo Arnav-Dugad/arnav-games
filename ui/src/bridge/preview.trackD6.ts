@@ -72,7 +72,7 @@ export function trackD6PreviewHandlers(ctx: { emit: () => Emit; settings: () => 
     providers: [
       row({ id: 'steam.webapi', name: 'Steam Web API', group: 'Steam', logo: 'steam', purpose: 'Owned games, achievements, wishlist, friends, news and tags (with your key)', state: 'ok', optIn: true, lastSuccess: ago(4), requestsToday: 38, ...gate(true, '') }),
       row({ id: 'steam.store', name: 'Steam store', group: 'Steam', logo: 'steam', purpose: 'Game details, prices, reviews, Steam Deck reports, Discover and Workshop titles',
-        ...(calm ? { state: 'ok', lastSuccess: ago(2) } : { state: 'backoff', lastSuccess: ago(26), backoffUntil: iso(Date.now() + 9 * 60_000), backoffReason: 'Steam asked VYSTRAL to slow down (HTTP 429)' }),
+        ...(calm ? { state: 'ok', lastSuccess: ago(2) } : { state: 'backoff', lastSuccess: ago(26), backoffUntil: iso(Date.now() + 9 * 60_000), backoffReason: 'Steam asked Arnav Games to slow down (HTTP 429)' }),
         requestsToday: 214, cacheUpdated: ago(26), ...gate(s()['library.fetchMetadata'], 'Game details, Discover and store prices are off', false) }),
       row({ id: 'igdb', name: 'IGDB', group: 'Game details', logo: 'igdb', purpose: 'Genres, descriptions, release dates, series and similar games', optIn: true, ...gate(false, 'Needs your Twitch app') }),
       row({ id: 'rawg', name: 'RAWG', group: 'Game details', logo: 'rawg', purpose: 'Missing details and Discover search', optIn: true, ...gate(false, 'Needs your RAWG key') }),
@@ -130,9 +130,9 @@ export function trackD6PreviewHandlers(ctx: { emit: () => Emit; settings: () => 
     const incident = params.has('streakIncident');
     const days = incident ? 9 : 42;
     const incidents: StreakIncident[] = incident
-      ? [{ at: iso(Date.now() - 9 * DAY), kind: 'failedStart', version: '0.8.0', text: 'VYSTRAL 0.8.0 didn’t finish starting' },
-         { at: iso(Date.now() - 23 * DAY), kind: 'unexpectedClose', version: '0.8.0', text: 'VYSTRAL 0.8.0 closed unexpectedly' }]
-      : [{ at: iso(Date.now() - 44 * DAY), kind: 'unexpectedClose', version: '0.7.2', text: 'VYSTRAL 0.7.2 closed unexpectedly' }];
+      ? [{ at: iso(Date.now() - 9 * DAY), kind: 'failedStart', version: '0.8.0', text: 'Arnav Games 0.8.0 didn’t finish starting' },
+         { at: iso(Date.now() - 23 * DAY), kind: 'unexpectedClose', version: '0.8.0', text: 'Arnav Games 0.8.0 closed unexpectedly' }]
+      : [{ at: iso(Date.now() - 44 * DAY), kind: 'unexpectedClose', version: '0.7.2', text: 'Arnav Games 0.7.2 closed unexpectedly' }];
     const recent = Array.from({ length: 30 }, (_, i) => {
       const n = 29 - i;
       const starts = [0, 1, 2, 1, 1, 0, 3][n % 7];
@@ -147,7 +147,7 @@ export function trackD6PreviewHandlers(ctx: { emit: () => Emit; settings: () => 
   return {
     'fx.rates': () => fx(),
     'fx.refresh': () => {
-      if (ctx.settings()['privacy.localOnly']) throw new BridgeError('offline', 'Offline mode is on, so VYSTRAL keeps using the exchange rates it already has.');
+      if (ctx.settings()['privacy.localOnly']) throw new BridgeError('offline', 'Offline mode is on, so Arnav Games keeps using the exchange rates it already has.');
       fetchedAt = Date.now();
       const st = fx();
       ctx.emit()('fx.changed', st);
