@@ -1,4 +1,4 @@
-import { memo, useMemo, useState, type CSSProperties } from 'react';
+import { memo, useMemo, useState, type CSSProperties, type KeyboardEvent } from 'react';
 import { Check, Folder, ImageIcon, LayoutGrid, Sparkles } from 'lucide-react';
 import type { CollectionInfo } from '../../bridge/types';
 import { errorMessage } from '../../bridge/bridge';
@@ -88,6 +88,21 @@ export function CollectionCoverDialog({ collection, open, onClose }: { collectio
   const [busy, setBusy] = useState(false);
   const list = useMemo(() => [...members].sort((a, b) => Number(!!b.art.cover) - Number(!!a.art.cover) || a.sortTitle.localeCompare(b.sortTitle)).slice(0, 120), [members]);
 
+  // One Tab stop: the chosen cover (or Automatic when the chosen game isn't listed); arrows move, Enter or Space chooses.
+  const tabbable = current && list.some((g) => g.id === current) ? current : null;
+  const moveFocus = (e: KeyboardEvent<HTMLDivElement>) => {
+    const items = [...e.currentTarget.querySelectorAll<HTMLButtonElement>('[role="radio"]')];
+    const i = items.indexOf(document.activeElement as HTMLButtonElement);
+    if (i < 0) return;
+    // Columns: how many options share the first row.
+    const cols = Math.max(1, items.filter((el) => el.offsetTop === items[0].offsetTop).length);
+    const to = e.key === 'ArrowRight' ? i + 1 : e.key === 'ArrowLeft' ? i - 1 : e.key === 'ArrowDown' ? i + cols : e.key === 'ArrowUp' ? i - cols
+      : e.key === 'Home' ? 0 : e.key === 'End' ? items.length - 1 : null;
+    if (to === null) return;
+    e.preventDefault();
+    items[Math.min(items.length - 1, Math.max(0, to))]?.focus();
+  };
+
   const save = async (gameId: string | null) => {
     if (busy) return;
     setBusy(true);
@@ -106,16 +121,16 @@ export function CollectionCoverDialog({ collection, open, onClose }: { collectio
     <Dialog open={open} onClose={onClose} wide title={`Cover for “${collection.name}”`} describedBy="ccpick-desc"
       actions={<Button variant="ghost" onClick={onClose}>Close</Button>}>
       <p id="ccpick-desc" className="ccpick__lede">Made from the games in this collection, or one game’s art. It shows in the sidebar, the Library and Immersive Mode.</p>
-      <div className="ccpick" role="radiogroup" aria-label="Collection cover">
-        <button type="button" className="ccpick__option ccpick__option--auto" role="radio" aria-checked={!current} disabled={busy}
-          data-autofocus={!current || undefined} onClick={() => void save(null)}>
+      <div className="ccpick" role="radiogroup" aria-label="Collection cover" onKeyDown={moveFocus}>
+        <button type="button" className="ccpick__option ccpick__option--auto" role="radio" aria-checked={!current} tabIndex={!tabbable ? 0 : -1} disabled={busy}
+          data-autofocus={!tabbable || undefined} onClick={() => void save(null)}>
           <span className="ccpick__art"><CollageView collage={auto} size="md" smart={!!collection.rule} /></span>
           <span className="ccpick__name"><LayoutGrid size={13} aria-hidden /> Automatic</span>
           {!current && <Check className="ccpick__check" size={16} aria-hidden />}
         </button>
         {list.map((g) => (
-          <button key={g.id} type="button" className="ccpick__option" role="radio" aria-checked={current === g.id} disabled={busy}
-            data-autofocus={current === g.id || undefined} onClick={() => void save(g.id)}>
+          <button key={g.id} type="button" className="ccpick__option" role="radio" aria-checked={current === g.id} tabIndex={tabbable === g.id ? 0 : -1} disabled={busy}
+            data-autofocus={tabbable === g.id || undefined} onClick={() => void save(g.id)}>
             <span className="ccpick__art">
               <CollageView collage={buildCollage(collection.name, [g], g.id)} size="md" />
             </span>

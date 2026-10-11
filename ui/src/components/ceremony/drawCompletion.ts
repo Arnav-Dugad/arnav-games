@@ -111,10 +111,17 @@ export function drawCompletion(ctx: CanvasRenderingContext2D, title: string, fac
   ctx.fillText('COMPLETED 100%', tx, 330);
   ctx.letterSpacing = '0px';
   ctx.fillStyle = '#ffffff';
-  ctx.font = `600 88px ${theme.fontDisplay}`;
+  // Long titles step down a size before anything is cut.
+  let size = 88;
+  ctx.font = `600 ${size}px ${theme.fontDisplay}`;
+  if (ctx.measureText(title).width > maxW * 1.85) {
+    size = 68;
+    ctx.font = `600 ${size}px ${theme.fontDisplay}`;
+  }
+  const lead = Math.round(size * 1.14);
   const lines = wrap(ctx, title, maxW, 2);
-  lines.forEach((l, i) => ctx.fillText(l, tx, 440 + i * 100));
-  let y = 440 + lines.length * 100 + 40;
+  lines.forEach((l, i) => ctx.fillText(l, tx, 440 + i * lead));
+  let y = 440 + lines.length * lead + 40;
 
   const stats: { value: string; label: string }[] = [];
   if (facts.hours) stats.push({ value: facts.hours, label: 'played' });
@@ -134,10 +141,10 @@ export function drawCompletion(ctx: CanvasRenderingContext2D, title: string, fac
   if (stats.length) y += 150;
 
   if (facts.achievements) {
-    const r = 54;
+    const r = 60;
     const rx = tx + r;
     const ry = y + r;
-    ctx.lineWidth = 12;
+    ctx.lineWidth = 11;
     ctx.strokeStyle = 'rgba(255,255,255,0.14)';
     ctx.beginPath();
     ctx.arc(rx, ry, r, 0, Math.PI * 2);
@@ -148,9 +155,9 @@ export function drawCompletion(ctx: CanvasRenderingContext2D, title: string, fac
     ctx.arc(rx, ry, r, -Math.PI / 2, -Math.PI / 2 + Math.PI * 2 * Math.max(0.001, facts.achievements.ratio));
     ctx.stroke();
     ctx.fillStyle = '#ffffff';
-    ctx.font = `600 30px ${theme.fontDisplay}`;
+    ctx.font = `600 24px ${theme.fontDisplay}`;
     ctx.textAlign = 'center';
-    ctx.fillText(`${Math.round(facts.achievements.ratio * 100)}%`, rx, ry + 11);
+    ctx.fillText(`${Math.round(facts.achievements.ratio * 100)}%`, rx, ry + 9);
     ctx.textAlign = 'left';
     ctx.font = `600 40px ${theme.fontDisplay}`;
     ctx.fillText(`${facts.achievements.unlocked} of ${facts.achievements.total}`, tx + r * 2 + 36, ry - 2);

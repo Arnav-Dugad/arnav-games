@@ -134,7 +134,7 @@
   transform-origin: 36px 36px;
   filter: drop-shadow(0 0 6px oklch(0.86 0.13 85 / 0.6));
 }
-.c100__ring-pct { font-family: var(--font-display); font-size: 15px; font-weight: 600; fill: var(--c100-ink); }
+.c100__ring-pct { font-family: var(--font-display); font-size: 13px; font-weight: 600; fill: var(--c100-ink); }
 .c100__ring-words { display: grid; gap: 2px; }
 
 .c100__actions { display: flex; flex-wrap: wrap; gap: var(--s-2); margin-top: var(--s-4); }

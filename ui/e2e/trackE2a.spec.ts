@@ -96,6 +96,12 @@ test.describe('Collection covers', () => {
     const dialog = page.getByRole('dialog', { name: 'Cover for “Racing nights”' });
     await expect(dialog).toBeVisible();
     await expect(dialog.getByRole('radio', { name: /Automatic/ })).toHaveAttribute('aria-checked', 'true');
+    // One Tab stop; arrows move between the choices without choosing.
+    await expect(dialog.getByRole('radio', { name: /Automatic/ })).toBeFocused();
+    await page.keyboard.press('ArrowRight');
+    await expect(dialog.getByRole('radio').nth(1)).toBeFocused();
+    await page.keyboard.press('Home');
+    await expect(dialog.getByRole('radio', { name: /Automatic/ })).toBeFocused();
     await shot(page, 'cover-picker');
     expect(await serious(page, '.dialog')).toEqual([]);
     await dialog.getByRole('radio', { name: 'Circuit Apex' }).click();

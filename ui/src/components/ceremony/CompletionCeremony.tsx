@@ -88,14 +88,18 @@ function Ceremony({ game, at, onClose }: { game: Game; at: number; onClose: () =
     return () => window.clearTimeout(t);
   }, [reduce]);
 
-  // Modal: focus moves in, Tab stays inside, Escape (controller B) closes, focus returns afterwards.
+  // Modal: focus moves in, Tab stays inside, Escape (controller B) closes, focus returns afterwards. Runs once: the
+  // parent's onClose is read through a ref, so the game updating underneath never moves focus.
+  const onCloseRef = useRef(onClose);
+  useEffect(() => { onCloseRef.current = onClose; });
+  const reduceAtOpen = useRef(reduce);
   useEffect(() => {
     const previous = document.activeElement as HTMLElement | null;
-    const t = window.setTimeout(() => ref.current?.querySelector<HTMLElement>('[data-autofocus]')?.focus(), reduce ? 20 : 420);
+    const t = window.setTimeout(() => ref.current?.querySelector<HTMLElement>('[data-autofocus]')?.focus(), reduceAtOpen.current ? 20 : 420);
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
         e.stopPropagation();
-        onClose();
+        onCloseRef.current();
       } else if (e.key === 'Tab' && ref.current) {
         const items = [...ref.current.querySelectorAll<HTMLElement>(FOCUSABLE)];
         if (!items.length) return;
@@ -111,7 +115,7 @@ function Ceremony({ game, at, onClose }: { game: Game; at: number; onClose: () =
       window.removeEventListener('keydown', onKey, true);
       previous?.focus?.({ preventScroll: true });
     };
-  }, [onClose, reduce]);
+  }, []);
 
   const facts = data.state === 'ready' ? data.facts : null;
   const summary = facts ? ceremonySummary(game.title, facts) : `${game.title}: completed 100%.`;
