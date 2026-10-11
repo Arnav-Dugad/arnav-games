@@ -44,13 +44,13 @@ export function AssistantSettings() {
     <section className="sgroup" aria-labelledby="asx-set-title" id="assistant-settings">
       <h2 className="sgroup__title" id="asx-set-title">Assistant <Badge>Optional</Badge></h2>
       <p className="sgroup__desc">
-        One assistant for all of VYSTRAL, using the AI chosen above. It looks things up on this PC, and it can prepare changes such as a new
+        One assistant for all of Arnav Games, using the AI chosen above. It looks things up on this PC, and it can prepare changes such as a new
         collection, but nothing happens until you confirm. It can’t launch or install games, change settings, privacy or security options, or see keys.
       </p>
       <div className="sgroup__rows surface">
         {row('assistant.launcher', 'Assistant button on every page', <>A small button in the corner opens the side panel. <Kbd>Ctrl</Kbd>+<Kbd>J</Kbd> works either way. Hidden in Immersive Mode.</>)}
         {row('assistant.askBeforeSharing', 'Ask before sharing look-ups with a cloud AI', 'Shows exactly what the Assistant found on this PC and waits for your OK before it goes to a cloud provider. Local AI never sends anything.')}
-        {row('assistant.keepHistory', 'Keep conversations on this PC', 'Saved in VYSTRAL’s data folder so you can come back to them. Nothing is synced anywhere.')}
+        {row('assistant.keepHistory', 'Keep conversations on this PC', 'Saved in Arnav Games’ data folder so you can come back to them. Nothing is synced anywhere.')}
         <div className="srow">
           <div className="srow__text">
             <span className="srow__label">Delete all conversations</span>

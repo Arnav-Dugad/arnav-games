@@ -85,7 +85,7 @@ describe('describeSmartFilter', () => {
 });
 
 describe('smartFilterFromQuery (no AI)', () => {
-  it('uses VYSTRAL’s own filter words and reports what it didn’t understand', () => {
+  it('uses Arnav Games’ own filter words and reports what it didn’t understand', () => {
     const s = 'installed racing games under 20 hours I haven’t finished with dragons';
     const { filter, leftover } = smartFilterFromQuery(parseQuery(s.replace('’', "'"), { genres: ['Racing'], drives: [] }), s.replace('’', "'"));
     expect(filter).toMatchObject({ installed: true, genresAny: ['Racing'], ttbMaxHours: 20, statusNone: ['beaten', 'completed'] });

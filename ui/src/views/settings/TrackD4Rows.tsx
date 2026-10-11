@@ -32,14 +32,14 @@ export function TrackD4Rows() {
         <div className="srow__text">
           <label className="srow__label" htmlFor="dsrc-youtube-toggle">Allow YouTube trailers</label>
           <div className="srow__hint">
-            When a game has no trailer VYSTRAL can play itself, show the one IGDB or GOG lists on YouTube.{' '}
+            When a game has no trailer Arnav Games can play itself, show the one IGDB or GOG lists on YouTube.{' '}
             <button type="button" className="dsrc__why" aria-expanded={why} aria-controls={whyId} onClick={() => setWhy((w) => !w)}>
               What this means <ChevronDown size={12} aria-hidden style={{ transform: why ? 'rotate(180deg)' : undefined }} />
             </button>
           </div>
           <div id={whyId} className="srow__hint dsrc__whytext" hidden={!why}>
             <ShieldAlert size={13} aria-hidden /> The trailer plays from YouTube’s privacy-enhanced site (youtube-nocookie.com), so Google sees your IP address
-            and which video you watched, and may store data in VYSTRAL’s own browser storage once it plays. It runs in a locked-down frame that can’t open
+            and which video you watched, and may store data in Arnav Games’ own browser storage once it plays. It runs in a locked-down frame that can’t open
             pages, windows or downloads, starts muted, never in Offline mode, with Data saver on or while you play.{' '}
             <button type="button" className="dsrc__why" onClick={() => void call('dataSources.openLink', { provider: 'youtube', link: 'privacy' })}>
               YouTube’s privacy-enhanced mode <ExternalLink size={11} aria-hidden />

@@ -110,7 +110,7 @@ export function gamePagePreviewHandlers(ctx: Ctx) {
     if (!s['dataSources.steamReviews'] || !s['library.fetchMetadata']) return empty('off');
     if (!appId) return empty('notSteam');
     if (!reviewsMode) return empty('none');
-    if (s['privacy.localOnly'] && reviewsMode !== 'offline') return empty('offline', 'Offline mode is on, so VYSTRAL doesn’t ask Steam for reviews.');
+    if (s['privacy.localOnly'] && reviewsMode !== 'offline') return empty('offline', 'Offline mode is on, so Arnav Games doesn’t ask Steam for reviews.');
     const r = seeded(hash(`${appId}reviews`));
     const title = p.gameId ? find(p.gameId)?.title : ctx.discoverDetails(p.key ?? '')?.title;
     const total = Math.round(400 + r() * 60_000);
@@ -144,7 +144,7 @@ export function gamePagePreviewHandlers(ctx: Ctx) {
     };
     if (!s['dataSources.storePrices']) return { ...base, status: 'off' };
     if (!appId) return { ...base, status: 'notSteam', appId: null };
-    if (s['privacy.localOnly']) return { ...base, status: 'offline', message: 'Offline mode is on, so VYSTRAL doesn’t ask Steam for prices.' };
+    if (s['privacy.localOnly']) return { ...base, status: 'offline', message: 'Offline mode is on, so Arnav Games doesn’t ask Steam for prices.' };
     const r = seeded(hash(`${appId}store`));
     let now: number | null;
     let regular: number | null;
@@ -224,7 +224,7 @@ export function gamePagePreviewHandlers(ctx: Ctx) {
   const franchise = (p: { gameId?: string; key?: string }): Franchise => {
     const s = ctx.settings();
     const empty = (status: Franchise['status'], message: string | null = null): Franchise => ({ status, message, name: null, kind: null, entries: [], owned: 0, fetchedAt: null, stale: false });
-    if (s['privacy.localOnly']) return empty('offline', 'Offline mode is on, so VYSTRAL doesn’t ask IGDB.');
+    if (s['privacy.localOnly']) return empty('offline', 'Offline mode is on, so Arnav Games doesn’t ask IGDB.');
     if (!s['dataSources.enrichment']) return empty('off');
     if (franchiseMode === 'noKey') return empty('noKey');
     if (!franchiseMode || franchiseMode === 'none') return empty('none');

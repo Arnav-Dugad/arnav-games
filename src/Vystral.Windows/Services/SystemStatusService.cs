@@ -98,7 +98,7 @@ public sealed class SystemStatusService
 
     /// <summary>
     /// The user's regional short-time format (Settings › Time &amp; language › Region, user overrides
-    /// included), as .NET read it when VYSTRAL started.
+    /// included), as .NET read it when Arnav Games started.
     /// </summary>
     private static bool? ReadClock24h()
     {

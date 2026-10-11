@@ -9,6 +9,7 @@ import { useStore } from '../../state/store';
 import { Button, PadGlyph, Segmented, Slider, Toggle } from '../../components/ui/primitives';
 import { CaptionBar } from '../../components/voiceover/CaptionBar';
 import type { PadButton } from '../../lib/padGlyphs';
+import { APP_NAME } from '../../lib/brand';
 
 /**
  * Settings → Controller & sound (Track T): voice-over and captions for Immersive Mode (Windows'
@@ -37,7 +38,7 @@ export function VoiceOverSettings() {
   const test = () => {
     voiceOver.configure(prefs);
     voiceOver.say(
-      noVoices || prefs.captionsOnly ? 'This is how captions look in Immersive Mode.' : `Hi, I'm ${voice ? voiceLabel(voice).split(' · ')[0] : 'your voice'}. This is how VYSTRAL sounds.`,
+      noVoices || prefs.captionsOnly ? 'This is how captions look in Immersive Mode.' : `Hi, I'm ${voice ? voiceLabel(voice).split(' · ')[0] : 'your voice'}. This is how ${APP_NAME} sounds.`,
       'test',
       true,
     );
@@ -125,7 +126,7 @@ export function VoiceOverSettings() {
       <section className="sgroup">
         <h2 className="sgroup__title">Button glyphs</h2>
         <p className="sgroup__desc">
-          Which controller’s buttons VYSTRAL draws in hints. Automatic follows the controller you’re using
+          Which controller’s buttons Arnav Games draws in hints. Automatic follows the controller you’re using
           {detected ? ` (now: ${FAMILY_LABEL[detected]})` : ' once you press one of its buttons'}.
         </p>
         <div className="sgroup__rows surface">

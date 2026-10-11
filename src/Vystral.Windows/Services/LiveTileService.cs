@@ -17,7 +17,7 @@ public sealed record LiveLoopDto(double Start, double Duration);
 
 /// <summary>
 /// Live tiles on Home: Steam's short silent micro-trailers, served to the page from
-/// https://media.vystral.example/live/{gameId}/{key}.mp4. The URL is derived from the trailer VYSTRAL
+/// https://media.vystral.example/live/{gameId}/{key}.mp4. The URL is derived from the trailer Arnav Games
 /// already looked up (<see cref="SteamMicroTrailers.Resolve"/>), downloaded once through an allow-listed,
 /// no-redirect client with a hard size cap, checked to be an MP4, and kept in a small least-recently-used
 /// disk cache (<see cref="CacheBudgetBytes"/>). Nothing is fetched while Offline mode or Data saver is on or a

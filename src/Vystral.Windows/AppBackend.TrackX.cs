@@ -131,7 +131,7 @@ public sealed partial class AppBackend
     {
         if (!Settings.GetBool("dataSources.workshopTitles")) throw new BridgeException("off", "Workshop titles are off. Turn them on in Settings › Data sources.");
         EnsureOnline("look up Workshop titles");
-        if (SafeMode) throw new BridgeException("unavailable", "VYSTRAL is in safe mode, so it doesn’t contact Steam.");
+        if (SafeMode) throw new BridgeException("unavailable", "Arnav Games is in safe mode, so it doesn’t contact Steam.");
         if (IsGameActive) throw new BridgeException("busy", "Lookups wait until you finish playing.");
         if (!_lastMods.TryGetValue(gameId, out var last)) throw new BridgeException("notFound", "Open the mod list first.");
         if (Interlocked.Exchange(ref _titlesRunning, 1) == 1) throw new BridgeException("busy", "Already looking those up.");
@@ -172,7 +172,7 @@ public sealed partial class AppBackend
         if (stale)
         {
             string? blocked = Settings.GetBool("privacy.localOnly") ? "Offline mode is on, so PCGamingWiki wasn’t asked."
-                : SafeMode ? "VYSTRAL is in safe mode, so it doesn’t contact PCGamingWiki."
+                : SafeMode ? "Arnav Games is in safe mode, so it doesn’t contact PCGamingWiki."
                 : IsGameActive ? "Lookups wait until you finish playing."
                 : null;
             if (blocked is not null)
@@ -269,7 +269,7 @@ public sealed partial class AppBackend
         {
             case "steamUninstall":
                 RequireSteamClient();
-                var uri = StoreActions.Steam(StoreAction.Uninstall, inst.PlatformGameId) ?? throw new BridgeException("invalid", "This Steam game can’t be uninstalled from VYSTRAL.");
+                var uri = StoreActions.Steam(StoreAction.Uninstall, inst.PlatformGameId) ?? throw new BridgeException("invalid", "This Steam game can’t be uninstalled from Arnav Games.");
                 _shell.OpenUri(uri);
                 _installs.WatchUninstall(inst.PlatformGameId, inst.GameId);
                 Repository.Audit("steam.uninstall", inst.PlatformGameId);
@@ -287,6 +287,6 @@ public sealed partial class AppBackend
         return new { action };
     }
 
-    /// <summary>Windows' documented Settings link for Apps › Installed apps (the only ms-settings link VYSTRAL opens).</summary>
+    /// <summary>Windows' documented Settings link for Apps › Installed apps (the only ms-settings link Arnav Games opens).</summary>
     public const string WindowsInstalledApps = "ms-settings:appsfeatures";
 }

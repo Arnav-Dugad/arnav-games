@@ -10,7 +10,7 @@ namespace Vystral.Windows.Cloud;
 /// <summary>
 /// GeForce NOW's public games list: the GraphQL endpoint nvidia.com's own games page uses (grey: undocumented,
 /// unauthenticated, no cookies or special headers). The body is the raw query as <c>text/plain</c>; pages hold up to
-/// 750 items and are walked by cursor. Only the fields VYSTRAL needs are asked for and kept.
+/// 750 items and are walked by cursor. Only the fields Arnav Games needs are asked for and kept.
 /// </summary>
 public sealed class GfnCatalogClient(ProviderTransport transport)
 {

@@ -7,7 +7,7 @@ using Vystral.Windows.Services;
 namespace Vystral.Windows.Tracking;
 
 /// <summary>
-/// Notices installed games that were started outside VYSTRAL and records them through
+/// Notices installed games that were started outside Arnav Games and records them through
 /// <see cref="SessionService"/>, exactly like a launch. The same class runs in the app (while it is open)
 /// and in the background tracker (while it is closed); only the process that owns tracking runs it
 /// (see <see cref="TrackerSignals"/>).
@@ -181,7 +181,7 @@ public sealed class ExternalTracker : IDisposable
                 var samples = _repo.GetPerfSamples(open.Id);
                 if (samples.Count > 0)
                     summary = PerfSampler.ToJson(PerfSampler.Summarize(samples, _repo.GetInsightSamples(open.Id), null,
-                        "VYSTRAL stopped watching this game before it closed, so FPS wasn't summarised."));
+                        "Arnav Games stopped watching this game before it closed, so FPS wasn't summarised."));
             }
             catch (Exception ex) { Log.Warn("tracker", "Couldn't summarise a recovered session", ex: ex); }
             _repo.EndSession(open.Id, end, duration, summary);

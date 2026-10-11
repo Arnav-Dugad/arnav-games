@@ -2,7 +2,7 @@ namespace Vystral.Core.Cloud;
 
 /// <summary>
 /// GeForce NOW membership limits, as published. Kept in one small table with the date and sources so they can be
-/// updated when NVIDIA changes them; VYSTRAL never claims "unlimited".
+/// updated when NVIDIA changes them; Arnav Games never claims "unlimited".
 /// Sources (checked 2026-10-05): https://www.nvidia.com/en-us/geforce-now/faq/ (100 hours a month for Performance and
 /// Ultimate from 2026-01-01, up to 15 unused hours roll over) and https://www.nvidia.com/en-us/geforce-now/memberships/
 /// (session length: Free 1 h, Performance 6 h, Ultimate 8 h; reported by several secondary sources).
@@ -28,7 +28,7 @@ public readonly record struct CloudSpan(DateTimeOffset Start, DateTimeOffset End
 
 /// <summary>
 /// The hours meter. <see cref="Level"/>: "none" (no monthly limit for this plan), "ok", "near" (80% or more used)
-/// or "reached". Everything is an estimate from sessions VYSTRAL saw: play on other devices isn't counted.
+/// or "reached". Everything is an estimate from sessions Arnav Games saw: play on other devices isn't counted.
 /// </summary>
 public sealed record CloudMeter(
     string Plan, string PlanLabel, DateTimeOffset CycleStart, DateTimeOffset NextReset, long UsedSeconds, long? LimitSeconds, long? LeftSeconds,

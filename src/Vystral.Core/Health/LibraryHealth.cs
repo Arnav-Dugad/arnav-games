@@ -142,7 +142,7 @@ public static class LibraryHealth
                     var exe = launch?.LaunchValue;
                     if (exe is not null && IsLocalRooted(exe) && !probe.FileExists(exe))
                         issues.Add(Issue("brokenShortcut", inst.Id, "launch", "problem", $"{g.Title} can't start",
-                            "The program you added isn't where it used to be. It may have been moved, renamed or uninstalled. Point VYSTRAL at it again and everything else (playtime, notes, art) stays.",
+                            "The program you added isn't where it used to be. It may have been moved, renamed or uninstalled. Point Arnav Games at it again and everything else (playtime, notes, art) stays.",
                             g, inst.Id, inst.Platform, path: exe,
                             fixes: [new("locate", "Locate the program…", false), new("hide", "Hide it", false)]));
                     continue;
@@ -224,7 +224,7 @@ public static class LibraryHealth
             var platforms = a.Installations.Concat(b.Installations).Select(i => i.Platform).Distinct().ToList();
             issues.Add(new HealthIssueDto($"duplicateSuggestion:{a.Id}-{b.Id}", "duplicateSuggestion", "duplicates", "info",
                 $"“{a.Title}” and “{b.Title}” might be the same game",
-                $"{s.Explanation} Merging only changes how they appear in VYSTRAL, and you can separate them again later.",
+                $"{s.Explanation} Merging only changes how they appear in {Brand.Name}, and you can separate them again later.",
                 a.Id, [a.Id, b.Id], null, null, platforms, null, null, null, null, b.Id,
                 [new("merge", "Merge", false), new("keepSeparate", "Keep separate", false)]));
         }
@@ -251,7 +251,7 @@ public static class LibraryHealth
                     // Covers matter everywhere; backgrounds only on installed games' pages.
                     if (kind == "cover")
                         issues.Add(Issue("artMissing", $"{g.Id}-cover", "art", "warning", $"{g.Title} has no cover",
-                            steam ? "It shows a generated cover for now. VYSTRAL can get Steam's own cover, or you can choose one." : "It shows a generated cover for now. Choose an image, or pick one from SteamGridDB if you've added a key.",
+                            steam ? "It shows a generated cover for now. Arnav Games can get Steam's own cover, or you can choose one." : "It shows a generated cover for now. Choose an image, or pick one from SteamGridDB if you've added a key.",
                             g, artKind: kind, fixes: Fixes(true)));
                     else if (kind == "hero" && isInstalled)
                         issues.Add(Issue("artMissing", $"{g.Id}-hero", "art", "info", $"{g.Title} has no background",
@@ -262,7 +262,7 @@ public static class LibraryHealth
                 if (file is null)
                 {
                     issues.Add(Issue("artFileMissing", $"{g.Id}-{kind}", "art", "warning", $"{g.Title}'s {label} file is missing",
-                        row.IsUser ? $"The {label} you chose was removed from VYSTRAL's art cache. Choose it again." : $"The {label} was removed from VYSTRAL's art cache (for example by clearing the cache).",
+                        row.IsUser ? $"The {label} you chose was removed from {Brand.Name}' art cache. Choose it again." : $"The {label} was removed from {Brand.Name}' art cache (for example by clearing the cache).",
                         g, artKind: kind, fixes: Fixes(!row.IsUser)));
                     continue;
                 }
@@ -276,7 +276,7 @@ public static class LibraryHealth
                     ((kind == "cover" && (w < MinCoverWidth || h < MinCoverHeight)) || (kind == "hero" && w < MinHeroWidth)))
                 {
                     issues.Add(Issue("artLowRes", $"{g.Id}-{kind}", "art", "info", $"{g.Title}'s {label} is low resolution",
-                        $"It's {w}×{h}, so it looks soft on large cards and screens." + (row.IsUser ? " You chose this one, so VYSTRAL won't replace it on its own." : ""),
+                        $"It's {w}×{h}, so it looks soft on large cards and screens." + (row.IsUser ? " You chose this one, so Arnav Games won't replace it on its own." : ""),
                         g, artKind: kind, fixes: Fixes(!row.IsUser)));
                 }
             }
@@ -298,7 +298,7 @@ public static class LibraryHealth
             if (g is { Hidden: true }) continue;
             issues.Add(new HealthIssueDto($"openSession:{s.Id}", "openSession", "sessions", "warning",
                 $"A {(g?.Title is { } t ? t + " " : "")}session never ended",
-                $"It started {FormatDate(s.Start)} and has no end time, so it isn't counted in your playtime. Closing it uses the last moment VYSTRAL saw the game running.",
+                $"It started {FormatDate(s.Start)} and has no end time, so it isn't counted in your playtime. Closing it uses the last moment {Brand.Name} saw the game running.",
                 g?.Id, g is null ? [] : [g.Id], null, null, [], null, null, s.Id, null, null,
                 [new("closeSession", "Close it", false)]));
         }

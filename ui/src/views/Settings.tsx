@@ -53,6 +53,8 @@ import { RESULTS_ID, SettingsSearchResults, optionId, searchKeys } from './setti
 import { StartImmersiveRow, StartPageSettings } from './settings/StartPageSettings'; // Track E2a
 import { findSettingsRow, revealSettingsRow, rowSlug, searchSettings, sectionsMatching, type SettingsHit } from '../lib/settingsSearch';
 import './settings.css';
+import { BRAND_ICON, REPOSITORY_URL } from '../lib/brand';
+import { Wordmark } from '../components/brand/Wordmark';
 
 interface Section {
   id: string;
@@ -290,13 +292,13 @@ function Appearance({ s }: { s: Settings }) {
         />
         <GameAccentRow />
       </Group>
-      <Group title="Living Canvas" description={<>A subtle animated background that takes on each game’s colours and mood ({Object.values(MOOD_LABEL).map((m) => m.split(' —')[0]).join(', ')}). It pauses whenever VYSTRAL is hidden or a game is running.</>}>
+      <Group title="Living Canvas" description={<>A subtle animated background that takes on each game’s colours and mood ({Object.values(MOOD_LABEL).map((m) => m.split(' —')[0]).join(', ')}). It pauses whenever Arnav Games is hidden or a game is running.</>}>
         <BoolRow s={s} k="appearance.livingCanvas" label="Living Canvas" hint={<BackdropHint />} />
         <Row label="Intensity" control={<div style={{ width: 200 }}><Slider label="Living Canvas intensity" value={s['appearance.canvasIntensity']} min={0} max={1} step={0.05} onChange={(v) => void set('appearance.canvasIntensity', v)} /></div>} />
         <BoolRow s={s} k="canvas.followTrailer" label="Follow trailer colours" badge="settings.appearance.follow-trailer" hint="While a game’s trailer plays, the background slowly takes on its colours, then returns to the artwork. Off with reduced motion or low quality." />
         {/* Track E2b */}
         <BoolRow s={s} k="canvas.parallax" label="Depth with the pointer" hint="The background’s layers lean gently as you move the mouse, the far light least and the particles most. Off with reduced motion or Data saver." />
-        <BoolRow s={s} k="canvas.audioReact" label="Breathe with ambient sound" hint="When Ambient sound is on (Controller & sound), the light swells softly with it. Nothing is listened to: VYSTRAL follows the notes it plays itself." />
+        <BoolRow s={s} k="canvas.audioReact" label="Breathe with ambient sound" hint="When Ambient sound is on (Controller & sound), the light swells softly with it. Nothing is listened to: Arnav Games follows the notes it plays itself." />
         <Row
           label="Visual quality"
           hint="Low turns off blur and animated backgrounds — best for older or battery-powered PCs."
@@ -334,7 +336,7 @@ function LibrarySection({ s }: { s: Settings }) {
     <>
       <Group
         title="Store integrations"
-        description="VYSTRAL reads what your store apps already keep on this PC. It never asks for your passwords, never signs in on your behalf, and never changes store files."
+        description="Arnav Games reads what your store apps already keep on this PC. It never asks for your passwords, never signs in on your behalf, and never changes store files."
       >
         <div className="srow" style={{ justifyContent: 'space-between' }}>
           <span className="srow__hint">{lastScan ? `Last scanned ${formatRelative(lastScan).toLowerCase()}` : 'Not scanned yet'}</span>
@@ -360,7 +362,7 @@ function LibrarySection({ s }: { s: Settings }) {
           </div>
         ))}
       </Group>
-      <Group title="Details and artwork" description="Optional. When on, VYSTRAL looks up genres, descriptions and artwork on Steam’s public store pages (no account needed). Only exact title matches are used, so the wrong game’s art never appears.">
+      <Group title="Details and artwork" description="Optional. When on, Arnav Games looks up genres, descriptions and artwork on Steam’s public store pages (no account needed). Only exact title matches are used, so the wrong game’s art never appears.">
         <BoolRow s={s} k="library.fetchMetadata" label="Look up game details online" />
         <BoolRow s={s} k="library.fetchArtwork" label="Download missing artwork" hint="Uses images your stores already keep on this PC first." />
       </Group>
@@ -385,12 +387,12 @@ function Launching({ s }: { s: Settings }) {
     <>
       <Group title="Launching">
         <BoolRow s={s} k="launch.cinematic" label="Cinematic launch" hint="A short full-screen transition while your game starts. Turn off for instant, minimal launches." />
-        <BoolRow s={s} k="launch.minimizeOnStart" label="Get out of the way while playing" hint="Minimizes VYSTRAL and suspends its interface so it uses almost no CPU or GPU during your game." />
-        <BoolRow s={s} k="launch.restoreOnExit" label="Come back when the game closes" hint="Restores VYSTRAL and shows a summary of your session." />
+        <BoolRow s={s} k="launch.minimizeOnStart" label="Get out of the way while playing" hint="Minimizes Arnav Games and suspends its interface so it uses almost no CPU or GPU during your game." />
+        <BoolRow s={s} k="launch.restoreOnExit" label="Come back when the game closes" hint="Restores Arnav Games and shows a summary of your session." />
       </Group>
-      <Group title="Sessions & performance" description="Readings come from Windows performance counters (and NVIDIA’s driver for GPU temperature when present). They are read-only: VYSTRAL never changes clocks, fans, power limits or game files.">
+      <Group title="Sessions & performance" description="Readings come from Windows performance counters (and NVIDIA’s driver for GPU temperature when present). They are read-only: Arnav Games never changes clocks, fans, power limits or game files.">
         <BoolRow s={s} k="performance.collectMetrics" label="Record CPU, GPU and memory while playing" hint="One light reading every two seconds, stored only on this PC. Frame rate needs the optional frame-rate capture below." />
-        <BoolRow s={s} k="performance.backgroundApps" label="Note which other apps are running" badge="settings.launching.background-apps" hint="About every 30 seconds, VYSTRAL notes the program names of the heaviest other apps (memory and CPU only — no window titles or paths), so the Performance page can show which ones tend to run during rough sessions. Read-only, without opening any process. Needs the recording above." />
+        <BoolRow s={s} k="performance.backgroundApps" label="Note which other apps are running" badge="settings.launching.background-apps" hint="About every 30 seconds, Arnav Games notes the program names of the heaviest other apps (memory and CPU only — no window titles or paths), so the Performance page can show which ones tend to run during rough sessions. Read-only, without opening any process. Needs the recording above." />
         <BoolRow s={s} k="pulse.enabled" label="Show the Pulse window during games" hint="A tiny always-on-top window with your session timer and system load. It’s a normal window — nothing is injected into games. It can’t appear over exclusive-fullscreen games." />
         <Row label="Preview the Pulse window" control={<Button size="sm" onClick={() => void call('window.pulse', { visible: true }).catch(() => {})}>Show preview</Button>} />
       </Group>
@@ -402,7 +404,7 @@ function Controller({ s }: { s: Settings }) {
   const setMode = useStore((st) => st.setMode);
   return (
     <>
-      <Group title="Controller" description="Works with Xbox-compatible controllers. VYSTRAL only reads the controller while its own window is focused, and stops completely while a game is running.">
+      <Group title="Controller" description="Works with Xbox-compatible controllers. Arnav Games only reads the controller while its own window is focused, and stops completely while a game is running.">
         <BoolRow s={s} k="controller.enabled" label="Navigate with a controller" />
         <BoolRow s={s} k="controller.vibration" label="Gentle vibration feedback" />
         <OnScreenKeyboardRows />
@@ -435,7 +437,7 @@ function Controller({ s }: { s: Settings }) {
 function AiSection({ s }: { s: Settings }) {
   const navigate = useStore((st) => st.navigate);
   return (
-    <Group title="Local AI (optional)" description={<>Uses <span className="svc-name"><ServiceLogo service="ollama" size={14} decorative />Ollama</span> running on this PC. Nothing is sent to the cloud, no account is needed, and AI pauses while you play. Everything in VYSTRAL works without it.</>}>
+    <Group title="Local AI (optional)" description={<>Uses <span className="svc-name"><ServiceLogo service="ollama" size={14} decorative />Ollama</span> running on this PC. Nothing is sent to the cloud, no account is needed, and AI pauses while you play. Everything in Arnav Games works without it.</>}>
       <BoolRow s={s} k="ai.enabled" label="Enable local AI" hint="Adds natural-language search to the command bar and the Assistant page." />
       <Row label="Model" hint={<span className="num">{s['ai.model']}</span>} control={<Button size="sm" icon={<Sparkles size={14} />} onClick={() => navigate({ name: 'assistant' })}>Manage in Assistant</Button>} />
     </Group>
@@ -451,8 +453,8 @@ function Updates({ s }: { s: Settings }) {
         </div>
       </Group>
       <Group title="Automatic updates">
-        <BoolRow s={s} k="updates.autoCheck" label="Check for updates automatically" hint="Once shortly after starting VYSTRAL. Only contacts github.com." />
-        <BoolRow s={s} k="updates.autoDownload" label="Download updates in the background" hint="Never while a game is running. Updates install when you restart VYSTRAL." />
+        <BoolRow s={s} k="updates.autoCheck" label="Check for updates automatically" hint="Once shortly after starting Arnav Games. Only contacts github.com." />
+        <BoolRow s={s} k="updates.autoDownload" label="Download updates in the background" hint="Never while a game is running. Updates install when you restart Arnav Games." />
       </Group>
       <SelfCheckSettings />
     </>
@@ -462,18 +464,18 @@ function Updates({ s }: { s: Settings }) {
 function Privacy({ s }: { s: Settings }) {
   return (
     <>
-      <Group title="Your data stays on this PC" description="VYSTRAL has no accounts, no telemetry, no ads and no tracking. Your library, sessions and notes are stored locally in VYSTRAL’s data folder.">
+      <Group title="Your data stays on this PC" description="Arnav Games has no accounts, no telemetry, no ads and no tracking. Your library, sessions and notes are stored locally in Arnav Games’ data folder.">
         <BoolRow s={s} k="privacy.localOnly" label="Offline mode" hint="Stops all optional network access: game details, artwork downloads and update checks. Launching games is unaffected." />
       </Group>
       <div className="privacy-list surface">
-        <h3>When VYSTRAL uses the network</h3>
+        <h3>When Arnav Games uses the network</h3>
         <ul>
           <li><strong>Game details & artwork</strong> — Steam’s public store pages, only if enabled.</li>
           <li><strong>Trailers</strong> — streamed from Steam’s video servers when you open a game page, only if game details are on and Data saver is off. Nothing is stored.</li>
           <li><strong>Update checks</strong> — github.com, only if enabled.</li>
           <li><strong>Local AI</strong> — talks to Ollama on this PC (localhost) only.</li>
           <li><strong>Cloud AI</strong> — only if you add your own key and turn a provider on in Settings → AI; each AI feature lists exactly what it sends. Paused in Offline mode.</li>
-          <li><strong>Your games and stores</strong> — they connect to their own services as usual; VYSTRAL doesn’t see or change that traffic.</li>
+          <li><strong>Your games and stores</strong> — they connect to their own services as usual; Arnav Games doesn’t see or change that traffic.</li>
         </ul>
       </div>
     </>
@@ -514,14 +516,14 @@ function DataSection() {
       <CompactionSettings />
 
       <Group title="Reset & delete">
-        <Row label="Delete tracked play history" hint="Removes sessions and performance readings recorded by VYSTRAL. Store playtime and your games are not affected." control={<Button size="sm" variant="danger" onClick={() => setConfirm('history')}>Delete…</Button>} />
+        <Row label="Delete tracked play history" hint="Removes sessions and performance readings recorded by Arnav Games. Store playtime and your games are not affected." control={<Button size="sm" variant="danger" onClick={() => setConfirm('history')}>Delete…</Button>} />
         <Row label="Reset all settings" hint="Restores defaults. Your library, notes and history are kept." control={<Button size="sm" variant="danger" onClick={() => setConfirm('reset')}>Reset…</Button>} />
       </Group>
-      <Group title="Troubleshooting" description="If VYSTRAL ever misbehaves, hold Shift while starting it to open safe mode (no visual effects, AI or background downloads).">
+      <Group title="Troubleshooting" description="If Arnav Games ever misbehaves, hold Shift while starting it to open safe mode (no visual effects, AI or background downloads).">
         <Row label="Logs" hint="Diagnostic logs from the last 7 days. They contain file paths but never passwords." control={<Button size="sm" onClick={() => void call('app.openLogs')}>Open logs folder</Button>} />
         {diag && diag.recentAudit.length > 0 && (
           <details className="audit">
-            <summary>Recent changes made by VYSTRAL ({diag.recentAudit.length})</summary>
+            <summary>Recent changes made by Arnav Games ({diag.recentAudit.length})</summary>
             <ul>
               {diag.recentAudit.map((a, i) => (
                 <li key={i}><span className="num">{formatDate(a.at, { dateStyle: 'short', timeStyle: 'short' })}</span> {a.action} <span className="srow__hint">{a.detail}</span></li>
@@ -536,7 +538,7 @@ function DataSection() {
         title="Delete your tracked play history?"
         actions={<><Button variant="ghost" onClick={() => setConfirm(null)}>Cancel</Button><HoldToConfirm onConfirm={() => { setConfirm(null); void run('data.deleteHistory', (r) => `Deleted ${r.deletedSessions} sessions`); }}>Delete history</HoldToConfirm></>}
       >
-        This permanently removes every session and performance reading VYSTRAL recorded. Your games, notes, ratings, collections and the playtime your stores report are kept. Consider exporting your journal first.
+        This permanently removes every session and performance reading Arnav Games recorded. Your games, notes, ratings, collections and the playtime your stores report are kept. Consider exporting your journal first.
       </Dialog>
       <Dialog
         open={confirm === 'reset'}
@@ -555,16 +557,16 @@ function About() {
   return (
     <>
     <div className="about surface" data-row="version">
-      <img src="./vystral-mark.svg" alt="" width={72} height={72} />
+      <img src={BRAND_ICON} alt="" width={72} height={72} />
       <div>
-        <div className="wordmark" style={{ fontSize: 20 }}>VYSTRAL</div>
+        <div><Wordmark style={{ fontSize: 20 }} /></div>
         <p className="srow__hint">Your Universe of Play</p>
         <p style={{ marginTop: 12 }}>Version <span className="num">{info?.version}</span></p>
         <p className="srow__hint" style={{ marginTop: 12, maxWidth: 520 }}>
-          Free, local-first and open source. Built with .NET, WinUI 3, WebView2, React and SQLite. Fonts: Geist, Geist Mono and Unbounded (SIL Open Font License). Icons: Lucide (ISC). Game names, artwork and descriptions belong to their respective owners. VYSTRAL is not affiliated with Valve, Microsoft, Epic Games, GOG, Electronic Arts, Ubisoft or Blizzard.
+          Free, local-first and open source. Built with .NET, WinUI 3, WebView2, React and SQLite. Fonts: Geist, Geist Mono and Unbounded (SIL Open Font License). Icons: Lucide (ISC). Game names, artwork and descriptions belong to their respective owners. Arnav Games is not affiliated with Valve, Microsoft, Epic Games, GOG, Electronic Arts, Ubisoft or Blizzard.
         </p>
         <div style={{ display: 'flex', gap: 8, marginTop: 16 }}>
-          <Button size="sm" onClick={() => void call('app.openExternal', { url: 'https://github.com/Arnav-Dugad/vystral' }).catch(() => {})}>GitHub</Button>
+          <Button size="sm" onClick={() => void call('app.openExternal', { url: REPOSITORY_URL }).catch(() => {})}>GitHub</Button>
           <Button size="sm" variant="ghost" onClick={() => void call('update.openReleases').catch(() => {})}>Release notes</Button>
           <Button size="sm" variant="ghost" icon={<Sparkles size={14} />} onClick={openWhatsNew}>
             See what’s new<NewBadge k="settings.about.whats-new" variant="pill" seenWhenVisible />

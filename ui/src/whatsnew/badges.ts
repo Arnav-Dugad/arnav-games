@@ -68,7 +68,7 @@ export function featureFor(key: string): NewFeature | undefined {
 
 export interface BadgeContext {
   current: string | null;
-  /** The version this PC started with; null = installed before VYSTRAL tracked it (an existing user). */
+  /** The version this PC started with; null = installed before Arnav Games tracked it (an existing user). */
   firstVersion: string | null;
   seen: ReadonlySet<string>;
 }

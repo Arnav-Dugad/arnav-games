@@ -55,4 +55,4 @@ jobs:
         run: |
           vpk upload github --repoUrl "https://github.com/${{ github.repository }}" `
             --token "${{ secrets.GITHUB_TOKEN }}" --publish --merge `
-            --releaseName "VYSTRAL $env:VERSION" --tag "v$env:VERSION" -o Releases
+            --releaseName "Arnav Games $env:VERSION" --tag "v$env:VERSION" -o Releases

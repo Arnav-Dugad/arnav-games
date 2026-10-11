@@ -50,7 +50,7 @@ export function WeeklyRecapCard({ week, onAsk, onClose }: { week: string; onAsk:
       {error && <p className="asx-recap__error" role="alert">{error}</p>}
       {!data && !error && <div aria-busy="true"><Skeleton height={20} width="60%" /><Skeleton height={110} radius={14} /></div>}
       {data && data.totalSeconds <= 0 && (
-        <p className="asx-recap__empty">No tracked play that week. When you play, VYSTRAL sums up your week here, from this PC only.</p>
+        <p className="asx-recap__empty">No tracked play that week. When you play, Arnav Games sums up your week here, from this PC only.</p>
       )}
       {data && data.totalSeconds > 0 && (
         <>

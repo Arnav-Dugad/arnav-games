@@ -13,6 +13,7 @@ import { PadGlyph, PadHint } from '../../components/ui/primitives';
 import { greeting } from './rows';
 import { clockParts } from './screensaver';
 import { useSystemStatus } from './useSystemStatus';
+import { BRAND_ICON } from '../../lib/brand';
 
 export type GuideAction = 'resume' | 'desktop' | 'display' | 'voice' | 'settings' | 'close';
 
@@ -27,8 +28,8 @@ interface Item {
 /**
  * The guide (Track T): Menu in Immersive opens it — the things you'd otherwise need a mouse or a
  * keyboard for. Return to a running game, Desktop mode (Menu again), Display & text size,
- * Voice-over & captions, Settings (in desktop mode) and Close VYSTRAL (hold A: it closes the
- * app, nothing else — VYSTRAL never shuts down, restarts or sleeps the PC). Up/Down move, A picks,
+ * Voice-over & captions, Settings (in desktop mode) and Close Arnav Games (hold A: it closes the
+ * app, nothing else — Arnav Games never shuts down, restarts or sleeps the PC). Up/Down move, A picks,
  * B closes. It owns all input while open.
  */
 export function Guide({ onAction, onClose, voiceState }: { onAction: (a: GuideAction) => void; onClose: () => void; voiceState: string }) {
@@ -43,7 +44,7 @@ export function Guide({ onAction, onClose, voiceState }: { onAction: (a: GuideAc
     { id: 'display', label: 'Display & text size', icon: <MonitorCog size="1.15em" aria-hidden /> },
     { id: 'voice', label: 'Voice-over & captions', detail: voiceState, icon: <AudioLines size="1.15em" aria-hidden /> },
     { id: 'settings', label: 'Settings', detail: 'Opens in desktop mode', icon: <SettingsIcon size="1.15em" aria-hidden /> },
-    { id: 'close', label: 'Close VYSTRAL', detail: 'Hold A. Your PC stays on.', icon: <Power size="1.15em" aria-hidden />, hold: true },
+    { id: 'close', label: 'Close Arnav Games', detail: 'Hold A. Your PC stays on.', icon: <Power size="1.15em" aria-hidden />, hold: true },
   ];
   const [index, setIndex] = useState(0);
   const refs = useRef<(HTMLButtonElement | null)[]>([]);
@@ -147,7 +148,7 @@ export function Guide({ onAction, onClose, voiceState }: { onAction: (a: GuideAc
         }}
       >
         <header className="imm-guide__head">
-          <img src="./vystral-mark.svg" alt="" className="imm-guide__mark" />
+          <img src={BRAND_ICON} alt="" className="imm-guide__mark" />
           <div className="imm-guide__when">
             <h2 id={`${uid}-title`} className="imm-guide__title">{greeting(now.getHours())}</h2>
             <span className="imm-guide__time num">

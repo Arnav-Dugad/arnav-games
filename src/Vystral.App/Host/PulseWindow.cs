@@ -22,7 +22,7 @@ public sealed class PulseWindow : Window
 
     public PulseWindow(LaunchStateDto? state)
     {
-        Title = "VYSTRAL Pulse";
+        Title = "Arnav Games Pulse";
         _start = DateTimeOffset.TryParse(state?.StartedAt, out var s) ? s : null;
         AppWindow.SetPresenter(AppWindowPresenterKind.CompactOverlay);
         AppWindow.Resize(new global::Windows.Graphics.SizeInt32(340, 150));

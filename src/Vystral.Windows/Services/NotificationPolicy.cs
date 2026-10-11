@@ -7,7 +7,7 @@ namespace Vystral.Windows.Services;
 /// <summary>
 /// Decides which Windows notifications to show, from the same events the UI receives. It reads
 /// a handful of event types (launch.state, update.state, install.progress) and never anything
-/// else, respects the per-category settings and "only when VYSTRAL is in the background", and
+/// else, respects the per-category settings and "only when Arnav Games is in the background", and
 /// shows each item once. Focus Assist / Do Not Disturb is applied by Windows itself.
 /// </summary>
 public sealed partial class NotificationPolicy(Func<string, bool> setting, Func<string, string?> gameTitle)
@@ -81,8 +81,8 @@ public sealed partial class NotificationPolicy(Func<string, bool> setting, Func<
         if (!setting(Updates) || Str(p, "phase") != "ready") return;
         var version = Str(p, "newVersion") ?? "";
         if (version.Length > 40 || !Once($"update:{version}")) return;
-        list.Add(new NotificationRequest("update", version.Length > 0 ? $"VYSTRAL {version} is ready" : "A VYSTRAL update is ready",
-            "Restart VYSTRAL to finish updating. It also installs when you close VYSTRAL.", Route("settings", ("section", "updates")), Tag: "update"));
+        list.Add(new NotificationRequest("update", version.Length > 0 ? $"{Brand.Name} {version} is ready" : "An Arnav Games update is ready",
+            "Restart Arnav Games to finish updating. It also installs when you close Arnav Games.", Route("settings", ("section", "updates")), Tag: "update"));
     }
 
     private void FromInstall(JsonElement p, List<NotificationRequest> list)

@@ -93,8 +93,8 @@ public sealed class SteamTagsService
         var cached = _apps.Get(appId!);
         var namesFresh = _names.Get("en") is { } n && Now() - n.Fetched < Ttl;
         if (cached is not null && Now() - cached.Fetched < Ttl && namesFresh && !refresh) return Dto("ok", null, cached, false);
-        if (LocalOnly) return Dto("offline", "Offline mode is on, so VYSTRAL doesn’t ask Steam for tags.", cached, true);
-        if (IsGameActive()) return Dto("gameRunning", "VYSTRAL doesn’t contact Steam while a game is running.", cached, true);
+        if (LocalOnly) return Dto("offline", "Offline mode is on, so Arnav Games doesn’t ask Steam for tags.", cached, true);
+        if (IsGameActive()) return Dto("gameRunning", "Arnav Games doesn’t contact Steam while a game is running.", cached, true);
         await _gate.WaitAsync(ct);
         try
         {

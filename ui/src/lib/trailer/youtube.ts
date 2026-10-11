@@ -1,5 +1,5 @@
 /**
- * Track D4: the YouTube embed VYSTRAL builds for a trailer, and the player messages it listens to. Pure and tested:
+ * Track D4: the YouTube embed Arnav Games builds for a trailer, and the player messages it listens to. Pure and tested:
  * the host's frame check (YouTubeEmbed.IsAllowedFrame) accepts exactly the parameters built here.
  */
 export const YOUTUBE_ORIGIN = 'https://www.youtube-nocookie.com';

@@ -14,7 +14,7 @@ const seen = new Map<string, Summary>();
 
 /**
  * Track C5: a post condensed into three bullets, on request. With AI it's worded by the chosen model (checked so it
- * only repeats numbers from the post) and cached per post; without AI, VYSTRAL shows the post's first key lines.
+ * only repeats numbers from the post) and cached per post; without AI, Arnav Games shows the post's first key lines.
  */
 export function PatchSummary({ gameId, gid }: { gameId: string; gid: string }) {
   const status = useAiStatus();

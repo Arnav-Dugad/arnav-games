@@ -9,8 +9,8 @@ namespace Vystral.Windows.DataSources;
 public sealed record RawgHit(long Id, string Slug, string Name, int? ReleaseYear);
 
 /// <summary>
-/// The parts of a RAWG game VYSTRAL keeps. RAWG's Metacritic number is deliberately not read:
-/// it is Metacritic's data, not RAWG's, and VYSTRAL already shows Steam's licensed Metacritic link.
+/// The parts of a RAWG game Arnav Games keeps. RAWG's Metacritic number is deliberately not read:
+/// it is Metacritic's data, not RAWG's, and Arnav Games already shows Steam's licensed Metacritic link.
 /// </summary>
 public sealed record RawgGame(long Id, string Slug, string Name, string Url, string? Description, string? Released, int? ReleaseYear,
     IReadOnlyList<string> Genres, IReadOnlyList<string> Developers, IReadOnlyList<string> Publishers,

@@ -46,7 +46,7 @@ public static class AchievementInsights
     public const double UltraRarePercent = 1;
     /// <summary>Games at or above this share of unlocks (but not complete) are "nearly done".</summary>
     public const double NearCompletionFraction = 0.7;
-    /// <summary>Unlock times may be stamped a little before VYSTRAL saw the game process (detection lag, clock skew).</summary>
+    /// <summary>Unlock times may be stamped a little before Arnav Games saw the game process (detection lag, clock skew).</summary>
     public static readonly TimeSpan StartTolerance = TimeSpan.FromSeconds(30);
 
     private static readonly double[] Thresholds = [1, 2, 5, 10];

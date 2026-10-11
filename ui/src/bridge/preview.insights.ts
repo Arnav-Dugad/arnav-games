@@ -89,7 +89,7 @@ export function previewPreflight(ticket: string, platform: string): PreflightRes
       { id: 'display', label: 'Display', status: 'ok', value: '165 Hz · HDR on', detail: null },
       {
         id: 'launchers', label: 'Other store apps', status: 'info', value: '2 running · 640 MB',
-        detail: 'EA app, Epic Games are running in the background and using 640 MB of memory. VYSTRAL never closes them; close them yourself if the game needs the memory.',
+        detail: 'EA app, Epic Games are running in the background and using 640 MB of memory. Arnav Games never closes them; close them yourself if the game needs the memory.',
       },
     ],
   };
@@ -143,7 +143,7 @@ export function insightPreviewHandlers(ctx: { emit: () => Emit; settings: () => 
     },
     'fps.status': fps,
     'fps.install': async () => {
-      if (ctx.settings()['privacy.localOnly']) throw new BridgeError('forbidden', 'Local-only mode is on, so VYSTRAL won’t download PresentMon.');
+      if (ctx.settings()['privacy.localOnly']) throw new BridgeError('forbidden', 'Local-only mode is on, so Arnav Games won’t download PresentMon.');
       for (const progress of [0, 0.35, 0.7, 1]) {
         ctx.emit()('fps.install', { phase: 'downloading', progress });
         await new Promise((r) => setTimeout(r, 220));

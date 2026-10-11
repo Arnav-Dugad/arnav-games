@@ -10,7 +10,7 @@ const cache = new Map<string, DuplicateExplanation>();
 
 /**
  * Track C5: "Why?" on a duplicate suggestion. The facts (same Steam app, same title without edition words, release
- * year, developer, stores) are always VYSTRAL's own; with AI on, one plain sentence weighs them up.
+ * year, developer, stores) are always Arnav Games' own; with AI on, one plain sentence weighs them up.
  */
 export function DuplicateWhy({ gameIdA, gameIdB }: { gameIdA: string; gameIdB: string }) {
   const key = `${gameIdA}:${gameIdB}`;

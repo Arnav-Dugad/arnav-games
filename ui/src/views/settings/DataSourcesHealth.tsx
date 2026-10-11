@@ -22,7 +22,7 @@ function Mark({ p }: { p: ProviderHealthEntry }) {
 }
 
 /**
- * Track D6: Settings › Data sources. Every online source VYSTRAL can use, at a glance: whether it's on (and why not),
+ * Track D6: Settings › Data sources. Every online source Arnav Games can use, at a glance: whether it's on (and why not),
  * the last answer and the last problem in plain words, any pause it asked for, how many requests went out today and
  * how old its cache is. Read from the backend's shared provider health registry; nothing here sends a request.
  */
@@ -67,7 +67,7 @@ export function DataSourcesHealth() {
     <section className="sgroup dsh" aria-labelledby="dsh-title" data-testid="sources-health">
       <h2 className="sgroup__title" id="dsh-title">Data sources at a glance</h2>
       <p className="sgroup__desc">
-        Every online source VYSTRAL can use, and how it’s doing. Each one is asked politely (one request at a time, and it waits when a source asks it
+        Every online source Arnav Games can use, and how it’s doing. Each one is asked politely (one request at a time, and it waits when a source asks it
         to slow down), and Offline mode stops them all. Counts reset at midnight and stay on this PC.
       </p>
       <div className="dsh__bar surface">

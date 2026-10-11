@@ -113,7 +113,7 @@ test.describe('maintenance settings', () => {
     await expect(group.getByText(/passed 6 of 6 checks/)).toBeVisible({ timeout: 8000 });
     await group.getByRole('button', { name: 'Show the checks' }).click();
     await expect(group.getByRole('listitem')).toHaveCount(6);
-    await expect(group.getByRole('listitem').filter({ hasText: 'Interface and VYSTRAL talk to each other' }).getByRole('img', { name: 'Passed' })).toBeVisible();
+    await expect(group.getByRole('listitem').filter({ hasText: 'Interface and Arnav Games talk to each other' }).getByRole('img', { name: 'Passed' })).toBeVisible();
     await group.getByRole('button', { name: 'Check again' }).click();
     await expect(page.getByText(/passed 6 of 6 checks/).last()).toBeVisible();
     await expect(group.getByText(/checked from Settings/)).toBeVisible();

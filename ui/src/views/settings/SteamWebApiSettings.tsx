@@ -89,8 +89,8 @@ export function SteamWebApiSettings() {
         <StoreLogo platform="steam" size={20} decorative />Steam Web API <Badge>Optional</Badge>
       </h2>
       <p className="sgroup__desc">
-        With your own free key, VYSTRAL can list Steam games you own but haven’t installed, and show your achievements with how rare they are.
-        Everything else in VYSTRAL works without it.
+        With your own free key, Arnav Games can list Steam games you own but haven’t installed, and show your achievements with how rare they are.
+        Everything else in Arnav Games works without it.
       </p>
       <div className="sgroup__rows surface">
         {localOnly && (
@@ -146,7 +146,7 @@ export function SteamWebApiSettings() {
             <Row
               id="steamapi-friends"
               label={<>Friends playing now on Home<NewBadge k="settings.library.friends" variant="pill" seenWhenVisible /></>}
-              hint="Shows which of your Steam friends are online and what they’re playing. VYSTRAL reads your friends list and their public profile status from Steam every few minutes while Home is open — only what anyone can see on their Steam profiles. Your friends list must be public in Steam’s privacy settings. Nothing is stored or shared."
+              hint="Shows which of your Steam friends are online and what they’re playing. Arnav Games reads your friends list and their public profile status from Steam every few minutes while Home is open — only what anyone can see on their Steam profiles. Your friends list must be public in Steam’s privacy settings. Nothing is stored or shared."
               control={<Toggle id="steamapi-friends" label="Friends playing now on Home" checked={friends} disabled={localOnly} onChange={(v) => void setSetting('home.friendsActivity', v)} />}
             />
           </>
@@ -155,7 +155,7 @@ export function SteamWebApiSettings() {
         <div className="srow steamapi__privacy">
           <Lock size={16} aria-hidden />
           <div className="srow__hint">
-            Your key stays in Windows Credential Manager on this PC; requests go only to api.steampowered.com. VYSTRAL reads your owned games and
+            Your key stays in Windows Credential Manager on this PC; requests go only to api.steampowered.com. Arnav Games reads your owned games and
             achievements, never your password, and never changes anything on your Steam account.
           </div>
         </div>
@@ -258,7 +258,7 @@ function ConnectForm({
             <div>
               <label className="srow__label" htmlFor={id}>Paste the key and connect</label>
               <div className="srow__hint" id={`${id}-hint`}>
-                {showFormatHint ? 'A key is exactly 32 characters using 0–9 and A–F.' : 'VYSTRAL tests it with one request before saving it.'}
+                {showFormatHint ? 'A key is exactly 32 characters using 0–9 and A–F.' : 'Arnav Games tests it with one request before saving it.'}
               </div>
             </div>
           </div>
@@ -300,7 +300,7 @@ const OUTCOME: Record<SteamTestResult['outcome'], { tone: 'ok' | 'warn' | 'dange
   ok: { tone: 'ok', title: 'Connected' },
   privateProfile: { tone: 'warn', title: 'Key works, but your game details are private' },
   invalidKey: { tone: 'danger', title: 'Steam rejected the key' },
-  rateLimited: { tone: 'warn', title: 'Steam asked VYSTRAL to slow down' },
+  rateLimited: { tone: 'warn', title: 'Steam asked Arnav Games to slow down' },
   unavailable: { tone: 'warn', title: 'Steam couldn’t be reached' },
   malformed: { tone: 'warn', title: 'Steam’s answer couldn’t be read' },
   noAccount: { tone: 'warn', title: 'No Steam account on this PC' },

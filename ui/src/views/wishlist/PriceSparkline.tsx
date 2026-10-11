@@ -4,7 +4,7 @@ import { formatMoney, sparkline, sparklineSummary } from '../../lib/wishlist';
 import { useMoneyContext } from '../../state/money';
 
 /**
- * Track W: the Steam prices VYSTRAL has seen for one game, as a step line over real time with a soft
+ * Track W: the Steam prices Arnav Games has seen for one game, as a step line over real time with a soft
  * fill, a dashed line at the lowest price ever (same currency only) and a dot on today's price. Draws
  * itself in once (CSS; static under reduced motion). Renders nothing with fewer than two points.
  */

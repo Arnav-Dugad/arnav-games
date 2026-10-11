@@ -122,7 +122,7 @@ public sealed class NtProcessSnapshotSource : IProcessSnapshotSource, IDisposabl
 /// <summary>
 /// Notes which other apps were among the heaviest while a game ran. Called from the session's 2 s
 /// sampling loop but only every ~30 s. Keeps only per-name aggregates in memory (no paths, titles or
-/// command lines). Excludes the game's process tree, VYSTRAL's own tree (WebView2, PresentMon), processes
+/// command lines). Excludes the game's process tree, Arnav Games' own tree (WebView2, PresentMon), processes
 /// of other sessions (services, other users) and core Windows processes.
 /// </summary>
 public sealed class BackgroundAppTracker(IProcessSnapshotSource source, Func<double?> memoryLoad, int ownPid, int processorCount, Func<DateTime>? clock = null)

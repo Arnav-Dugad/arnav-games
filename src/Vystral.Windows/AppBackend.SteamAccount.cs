@@ -15,7 +15,7 @@ public sealed record PlatformParams(string Platform);
 
 /// <summary>
 /// Steam Web API (opt-in), achievements, store-driven install/uninstall with live progress,
-/// and single-platform rescans. VYSTRAL never installs, moves or deletes game files itself:
+/// and single-platform rescans. Arnav Games never installs, moves or deletes game files itself:
 /// it asks Steam through steam://install|uninstall and watches Steam's manifests.
 /// </summary>
 public sealed partial class AppBackend
@@ -112,7 +112,7 @@ public sealed partial class AppBackend
             var inst = Repository.GetSteamInstallation(gameId) ?? throw new BridgeException("unsupported", "This game isn’t from Steam.");
             if (inst.State == InstallState.Installed) throw new BridgeException("invalid", "This game is already installed.");
             RequireSteamClient();
-            var uri = StoreActions.Steam(StoreAction.Install, inst.AppId) ?? throw new BridgeException("invalid", "This Steam game can’t be installed from VYSTRAL.");
+            var uri = StoreActions.Steam(StoreAction.Install, inst.AppId) ?? throw new BridgeException("invalid", "This Steam game can’t be installed from Arnav Games.");
             _shell.OpenUri(uri);
             _installs.WatchInstall(inst.AppId, gameId);
             Repository.Audit("steam.install", inst.AppId);
@@ -125,7 +125,7 @@ public sealed partial class AppBackend
             if (inst.State != InstallState.Installed) throw new BridgeException("invalid", "This game isn’t installed.");
             if (IsGameActive) throw new BridgeException("busy", "Close your game before uninstalling anything.");
             RequireSteamClient();
-            var uri = StoreActions.Steam(StoreAction.Uninstall, inst.AppId) ?? throw new BridgeException("invalid", "This Steam game can’t be uninstalled from VYSTRAL.");
+            var uri = StoreActions.Steam(StoreAction.Uninstall, inst.AppId) ?? throw new BridgeException("invalid", "This Steam game can’t be uninstalled from Arnav Games.");
             _shell.OpenUri(uri);
             _installs.WatchUninstall(inst.AppId, gameId);
             Repository.Audit("steam.uninstall", inst.AppId);

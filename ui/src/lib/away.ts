@@ -1,6 +1,6 @@
 /**
  * Track M: "While you were away" text and links. Pure and unit-tested; the data comes from
- * call('away.summary') (sessions VYSTRAL noticed without launching them since Home was last opened).
+ * call('away.summary') (sessions Arnav Games noticed without launching them since Home was last opened).
  */
 import type { AwaySummary, RecapAchievement, RecapSession } from '../bridge/types';
 import { formatDuration, plural } from './format';
@@ -17,9 +17,9 @@ export function awayHeadline(s: AwaySummary): string {
 export function awayOrigin(s: AwaySummary): string {
   const bg = s.sessions.filter((x) => x.source === 'background').length;
   const detected = s.sessions.length - bg;
-  if (detected === 0) return 'Tracked by VYSTRAL’s background helper while the app was closed';
-  if (bg === 0) return 'Started outside VYSTRAL and noticed while it was open';
-  return 'Started outside VYSTRAL — some while the app was closed';
+  if (detected === 0) return 'Tracked by Arnav Games’ background helper while the app was closed';
+  if (bg === 0) return 'Started outside Arnav Games and noticed while it was open';
+  return 'Started outside Arnav Games — some while the app was closed';
 }
 
 /** The rarest unlock first, then newest. */

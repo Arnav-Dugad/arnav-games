@@ -18,8 +18,8 @@ public sealed class UbisoftAdapter(IRegistryReader registry) : IPlatformAdapter
     public IReadOnlyList<string> Limitations =>
     [
         "Shows Ubisoft Connect games installed on this PC. Games you own but haven't installed aren't imported.",
-        "Playtime isn't available locally for Ubisoft games; VYSTRAL tracks sessions you start from here.",
-        "Ubisoft doesn't keep cover art on disk, so artwork comes from VYSTRAL's metadata sources.",
+        "Playtime isn't available locally for Ubisoft games; Arnav Games tracks sessions you start from here.",
+        "Ubisoft doesn't keep cover art on disk, so artwork comes from Arnav Games' metadata sources.",
         "Games start through Ubisoft Connect, which may ask you to sign in.",
     ];
 

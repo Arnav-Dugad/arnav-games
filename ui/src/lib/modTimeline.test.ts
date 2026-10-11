@@ -39,7 +39,7 @@ describe('building the timeline', () => {
     const first = events[0] as UpdateEvent;
     expect(first.source).toBe('firstSeen');
     expect(first.title).toBe('Build 100 first seen');
-    // A build's time is when Steam installed it (day 7), not when VYSTRAL noticed (day 8).
+    // A build's time is when Steam installed it (day 7), not when Arnav Games noticed (day 8).
     expect(events.find((e) => e.id === 'v:i1:200')!.t).toBe(T0 + 7 * DAY);
   });
 

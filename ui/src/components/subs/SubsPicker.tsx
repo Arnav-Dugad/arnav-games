@@ -42,13 +42,13 @@ export function SubsPicker({ value, onChange, compact }: { value: SubsAnswer; on
           <span className="subs-card__mark" aria-hidden><CircleSlash size={20} /></span>
           <span className="subs-card__body">
             <span className="subs-card__name">None of these</span>
-            <span className="subs-card__blurb">VYSTRAL works the same for games you own.</span>
+            <span className="subs-card__blurb">Arnav Games works the same for games you own.</span>
           </span>
           <Tick on={none} />
         </button>
       </div>
       <p className="subs-privacy">
-        <Lock size={13} aria-hidden /> Your answer stays on this PC. VYSTRAL never signs in to these services or checks your accounts. Netflix Games are
+        <Lock size={13} aria-hidden /> Your answer stays on this PC. Arnav Games never signs in to these services or checks your accounts. Netflix Games are
         mobile only, so they aren’t listed.
       </p>
     </div>

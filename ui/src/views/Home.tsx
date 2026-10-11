@@ -25,6 +25,7 @@ import { RollUp } from '../components/ui/RollUp';
 import { CloudPlayRow, PickedForYou } from './home/PickedForYou'; // Track D5
 import { FreeShelf } from '../components/recommend/FreeShelf'; // Track D5
 import './home.css';
+import { APP_NAME } from '../lib/brand';
 
 export function HomeView() {
   const games = useStore((s) => s.library.games);
@@ -67,9 +68,9 @@ export function HomeView() {
           title={scan.running ? 'Looking for your games…' : 'Your universe is waiting'}
           body={
             scan.running
-              ? 'VYSTRAL is reading your installed stores. This usually takes a few seconds.'
+              ? 'Arnav Games is reading your installed stores. This usually takes a few seconds.'
               : available.length
-                ? `VYSTRAL checked ${available.map((a) => a.displayName).join(', ')} and didn’t find installed games yet. Install a game in one of those apps, rescan, or add any program yourself.`
+                ? `${APP_NAME} checked ${available.map((a) => a.displayName).join(', ')} and didn’t find installed games yet. Install a game in one of those apps, rescan, or add any program yourself.`
                 : 'No supported store apps were found on this PC. You can still add any game or program yourself.'
           }
           actions={
@@ -91,7 +92,7 @@ export function HomeView() {
     <div className="home" data-first-paint={cached ? '' : undefined}>
       {featured && <Hero game={featured} />}
       <div className="page home__rows">
-        {/* Track M: games played while VYSTRAL was closed or in the background (renders nothing otherwise). */}
+        {/* Track M: games played while Arnav Games was closed or in the background (renders nothing otherwise). */}
         <AwayCard />
         {/* Track P: an update that won't fit (renders nothing otherwise); friends playing now (opt-in). */}
         <DiskForecastCard />

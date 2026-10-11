@@ -4,6 +4,7 @@ import { call, on } from '../../bridge/bridge';
 import type { LagCause, LagNote as Note, PerfSummary } from '../../bridge/types';
 import { sessionHealth } from './overview';
 import '../../components/assistant/assistant-extras.css';
+import { APP_NAME } from '../../lib/brand';
 
 const ICON: Record<LagCause, typeof Cpu> = {
   heat: Flame, power: Zap, shaders: Layers, timer: Timer, cpu: Cpu, gpu: MonitorCog, waiting: Hourglass, background: Waves, uneven: Gauge,
@@ -46,7 +47,7 @@ export function __clearLagNotes() {
 
 /**
  * Track E1: "Why did this session lag?" — on a session the Performance page calls Rough, one line with the likely
- * cause, from VYSTRAL's own frame-time analysis (or worded by the AI, when Settings › AI › Lag note wording is on).
+ * cause, from Arnav Games' own frame-time analysis (or worded by the AI, when Settings › AI › Lag note wording is on).
  * Always labelled, and it never changes anything. Renders nothing for smooth or unmeasured sessions.
  */
 export function LagNote({ sessionId, summary, durationSeconds, compact }: {
@@ -75,7 +76,7 @@ export function LagNote({ sessionId, summary, durationSeconds, compact }: {
 
   if (!rough || !note?.rough || !note.text) return null;
   const Icon = ICON[note.cause ?? 'uneven'] ?? Gauge;
-  const by = note.source === 'ai' && note.aiLabel ? `Worded by ${note.aiLabel.split(' · ').pop()} from VYSTRAL’s analysis` : 'From VYSTRAL’s frame-time analysis';
+  const by = note.source === 'ai' && note.aiLabel ? `Worded by ${note.aiLabel.split(' · ').pop()} from ${APP_NAME}’ analysis` : 'From Arnav Games’ frame-time analysis';
   // Compact notes sit inside session buttons, so they're phrasing content (spans), not a paragraph.
   const Tag = compact ? 'span' : 'p';
   return (

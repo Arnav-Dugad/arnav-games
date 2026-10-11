@@ -7,7 +7,7 @@ namespace Vystral.Windows.Services;
 
 /// <summary>
 /// One online friend. <c>Key</c> is an opaque hash of the SteamID (the page never sees SteamIDs).
-/// State: online | busy | away | snooze | trade | play | offline. <c>GameId</c> is the VYSTRAL game
+/// State: online | busy | away | snooze | trade | play | offline. <c>GameId</c> is the library game
 /// when the friend's game is in this library.
 /// </summary>
 public sealed record FriendDto(string Key, string Name, string State, string? Avatar, string? AppId, string? GameName, string? GameId, string? LastOnline);
@@ -15,7 +15,7 @@ public sealed record FriendDto(string Key, string Name, string State, string? Av
 /// <summary>
 /// Status: ok | off | notConnected | noAccount | offline | dataSaver | private | invalidKey | unavailable | rateLimited.
 /// <c>Friends</c> holds online friends only; <c>RecentlyOnline</c> up to six friends seen in the last two days
-/// (for the empty state). <c>Stale</c> = these are the last results VYSTRAL got, not fresh ones.
+/// (for the empty state). <c>Stale</c> = these are the last results Arnav Games got, not fresh ones.
 /// </summary>
 public sealed record FriendsActivityDto(
     string Status,
@@ -84,7 +84,7 @@ public sealed class FriendsActivityService
         var steamId = _steamId();
         if (steamId is null) { Forget(); return Empty("noAccount", "No Steam account has signed in on this PC yet."); }
         if (_settings.GetBool("privacy.localOnly"))
-            return Empty("offline", "Offline mode is on, so VYSTRAL doesn’t ask Steam what your friends are playing.");
+            return Empty("offline", "Offline mode is on, so Arnav Games doesn’t ask Steam what your friends are playing.");
 
         await _gate.WaitAsync(ct);
         try
@@ -94,12 +94,12 @@ public sealed class FriendsActivityService
             var age = now - _lastAttempt;
 
             if (IsGameActive())
-                return Cached("VYSTRAL doesn’t contact Steam while a game is running.") ?? Empty("unavailable", "VYSTRAL doesn’t contact Steam while a game is running.");
+                return Cached("Arnav Games doesn’t contact Steam while a game is running.") ?? Empty("unavailable", "Arnav Games doesn’t contact Steam while a game is running.");
             // Backing off; "Try again" (force) still gets through, at most every ManualMinInterval.
             if (now < _retryAt && !(force && age >= ManualMinInterval))
                 return _lastError is { Status: "private" or "invalidKey" } e ? e with { RetryAt = _retryAt.ToString("O") } : Cached(_lastError?.Message) ?? _lastError ?? Empty("unavailable", null);
             if (DataSaver && !force)
-                return Cached("Data saver is on, so friends refresh only when you ask.") ?? Empty("dataSaver", "Data saver is on, so VYSTRAL doesn’t check on its own.");
+                return Cached("Data saver is on, so friends refresh only when you ask.") ?? Empty("dataSaver", "Data saver is on, so Arnav Games doesn’t check on its own.");
             if (_last is not null && age < (force ? ManualMinInterval : MinInterval)) return _last;
 
             _lastAttempt = now;

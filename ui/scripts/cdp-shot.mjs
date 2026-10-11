@@ -1,5 +1,5 @@
-// Dev helper: screenshots the running VYSTRAL app's WebView2 over CDP.
-// Start VYSTRAL with WEBVIEW2_ADDITIONAL_BROWSER_ARGUMENTS=--remote-debugging-port=9333 first.
+// Dev helper: screenshots the running Arnav Games app's WebView2 over CDP.
+// Start Arnav Games with WEBVIEW2_ADDITIONAL_BROWSER_ARGUMENTS=--remote-debugging-port=9333 first.
 import { chromium } from '@playwright/test';
 const [, , out = 'shot.png', evalJs] = process.argv;
 const browser = await chromium.connectOverCDP('http://127.0.0.1:9333');

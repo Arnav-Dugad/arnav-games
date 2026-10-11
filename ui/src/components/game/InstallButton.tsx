@@ -14,7 +14,7 @@ import './install.css';
 /**
  * Shown in the detail hero when no copy of the game is installed. Steam games install through
  * Steam (steam://install/<appid>) with live progress read from Steam's manifests; other stores
- * open their own page. VYSTRAL itself never downloads or writes game files.
+ * open their own page. Arnav Games itself never downloads or writes game files.
  */
 export function InstallButton({ game, size = 'lg' }: { game: Game; size?: 'md' | 'lg' | 'xl' }) {
   const steam = game.installations.find((i) => i.platform === 'steam' && i.state !== 'installed' && /^\d{1,10}$/.test(i.platformGameId));
@@ -112,7 +112,7 @@ export function SteamInstallDialog({ game, inst, open, onClose }: { game: Game; 
         }
       >
         <p id="install-dialog-desc">
-          Steam opens its install window, where you choose the drive and see the download size. VYSTRAL then shows Steam’s progress here.
+          Steam opens its install window, where you choose the drive and see the download size. Arnav Games then shows Steam’s progress here.
         </p>
         <div className="install-dialog__facts">
           <div className="install-dialog__fact">
@@ -125,7 +125,7 @@ export function SteamInstallDialog({ game, inst, open, onClose }: { game: Game; 
           </div>
           <div className="install-dialog__fact">
             <ShieldCheck size={16} aria-hidden />
-            <span>Steam handles the download and install. VYSTRAL never downloads or changes game files itself.</span>
+            <span>Steam handles the download and install. Arnav Games never downloads or changes game files itself.</span>
           </div>
         </div>
       </Dialog>

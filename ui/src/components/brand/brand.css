@@ -1,0 +1,41 @@
+/* The Ascent mark (BrandMark.tsx) and the wordmark. Colours from docs/BRAND.md › Colour. The mark never takes
+   the game accent, a drop shadow or an outline: the Living Canvas tints the interface, not the mark. */
+.brand-mark {
+  --bm-l0: #f5f2ff; --bm-l1: #bba8ff; --bm-l2: #8466ff;
+  --bm-s0: #c9d5ff; --bm-s1: #7f9cff; --bm-s2: #3f5fea;
+  --bm-star: #fff;
+  display: inline-block; flex: none; line-height: 0;
+}
+.brand-mark > svg { display: block; width: 100%; height: 100%; overflow: visible; }
+:root[data-theme='light'] .brand-mark:not(.brand-mark--on-dark) {
+  --bm-l0: #8b6cff; --bm-l1: #6d4df2; --bm-l2: #4b2fd0;
+  --bm-s0: #6f8dff; --bm-s1: #3e63e8; --bm-s2: #2445c2;
+  --bm-star: #6d4df2;
+}
+.brand-mark__l0 { stop-color: var(--bm-l0); }
+.brand-mark__l1 { stop-color: var(--bm-l1); }
+.brand-mark__l2 { stop-color: var(--bm-l2); }
+.brand-mark__s0 { stop-color: var(--bm-s0); }
+.brand-mark__s1 { stop-color: var(--bm-s1); }
+.brand-mark__s2 { stop-color: var(--bm-s2); }
+.brand-mark__star { fill: var(--bm-star); }
+
+/* One ink: High contrast and Windows forced colours (the mono symbol: the silhouette and the star in its counter, no shaded blade). */
+:root[data-theme='contrast'] .brand-mark .brand-mark__lit,
+:root[data-theme='contrast'] .brand-mark .brand-mark__star { fill: currentColor; }
+:root[data-theme='contrast'] .brand-mark .brand-mark__shaded { display: none; }
+@media (forced-colors: active) {
+  .brand-mark .brand-mark__lit { fill: CanvasText; }
+  .brand-mark .brand-mark__shaded { display: none; }
+  .brand-mark .brand-mark__star { fill: CanvasText; }
+}
+
+/* The wordmark (Wordmark.tsx): Geist caps, ARNAV 600 and GAMES 360, tracked +0.26em, and a 0.30em word gap on top
+   of the tracking (as ui/scripts/outline-wordmark.py sets it). The real space is kept for copying and screen readers
+   but takes no width. */
+.wordmark {
+  font-family: var(--font-ui); font-weight: 600; font-size: 13px; letter-spacing: 0.26em; text-transform: uppercase;
+  color: var(--text-1); white-space: nowrap;
+}
+.wordmark__space { font-size: 0; letter-spacing: 0; }
+.wordmark__light { font-weight: 360; margin-left: 0.3em; }

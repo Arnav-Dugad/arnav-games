@@ -277,15 +277,15 @@ public sealed class CloudAiService
             var q = _recent[p];
             while (q.Count > 0 && now - q.Peek() > TimeSpan.FromDays(1)) q.Dequeue();
             if (q.Count >= DailyLimit)
-                throw new DataSourceException(DataSourceOutcome.RateLimited, $"VYSTRAL has sent {DailyLimit} requests to {CloudAiProviders.Name(p)} today, its daily limit. AI features use local summaries until tomorrow.");
+                throw new DataSourceException(DataSourceOutcome.RateLimited, $"{Brand.Name} has sent {DailyLimit} requests to {CloudAiProviders.Name(p)} today, its daily limit. AI features use local summaries until tomorrow.");
             if (q.Count(t => now - t <= Window) >= WindowLimit)
-                throw new DataSourceException(DataSourceOutcome.RateLimited, $"That’s a lot of {CloudAiProviders.Name(p)} requests in a few minutes, so VYSTRAL is pausing briefly to protect your bill. Try again in a little while.");
+                throw new DataSourceException(DataSourceOutcome.RateLimited, $"That’s a lot of {CloudAiProviders.Name(p)} requests in a few minutes, so {Brand.Name} is pausing briefly to protect your bill. Try again in a little while.");
             q.Enqueue(now);
         }
     }
 
     private void RequireOnline(CloudAiProvider p)
     {
-        if (LocalOnly) throw new DataSourceException(DataSourceOutcome.Offline, $"Offline mode is on, so VYSTRAL doesn’t contact {CloudAiProviders.Name(p)}. Turn it off in Settings → Privacy.");
+        if (LocalOnly) throw new DataSourceException(DataSourceOutcome.Offline, $"Offline mode is on, so {Brand.Name} doesn’t contact {CloudAiProviders.Name(p)}. Turn it off in Settings → Privacy.");
     }
 }

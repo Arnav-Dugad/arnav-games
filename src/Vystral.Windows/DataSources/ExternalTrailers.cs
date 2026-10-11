@@ -6,7 +6,7 @@ namespace Vystral.Windows.DataSources;
 
 /// <summary>
 /// Track D4: a trailer from somewhere other than the game's own Steam page. <see cref="Kind"/> is <c>file</c> (a
-/// single MP4 served through VYSTRAL's trailer proxy, like Steam's legacy files) or <c>youtube</c> (a YouTube video
+/// single MP4 served through Arnav Games' trailer proxy, like Steam's legacy files) or <c>youtube</c> (a YouTube video
 /// ID, only ever shown with "Allow YouTube trailers" on, in a sandboxed youtube-nocookie.com frame).
 /// </summary>
 /// <param name="Source">rawg | igdb | gog</param>

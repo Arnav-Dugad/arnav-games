@@ -21,7 +21,7 @@ public sealed record AsstSaveParams(string Id, JsonElement Conversation);
 
 /// <summary>
 /// Track D3: the one Assistant. Chat with the chosen AI (cloud via the router, or local Ollama), streamed over
-/// <c>assistant.event</c>, with validated tool calls over VYSTRAL's own data. Actions are only ever proposed; the page runs
+/// <c>assistant.event</c>, with validated tool calls over Arnav Games' own data. Actions are only ever proposed; the page runs
 /// them after the user confirms. Conversations are kept as small JSON files under the data folder when the user allows it.
 /// </summary>
 public sealed partial class AppBackend

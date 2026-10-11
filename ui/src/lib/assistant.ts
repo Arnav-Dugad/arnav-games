@@ -215,7 +215,7 @@ export function providerMark(provider: AiProviderChoice | 'none' | string | unde
   }
 }
 
-/** Ctrl+J opens the panel; never while typing in another field's own shortcut handling (Ctrl+J has none in VYSTRAL). */
+/** Ctrl+J opens the panel; never while typing in another field's own shortcut handling (Ctrl+J has none in Arnav Games). */
 export function isPanelShortcut(e: { key: string; ctrlKey: boolean; altKey: boolean; metaKey: boolean; shiftKey: boolean }): boolean {
   return e.ctrlKey && !e.altKey && !e.metaKey && !e.shiftKey && e.key.toLowerCase() === 'j';
 }

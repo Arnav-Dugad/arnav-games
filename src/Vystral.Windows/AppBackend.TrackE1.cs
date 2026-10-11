@@ -182,7 +182,7 @@ public sealed partial class AppBackend
     /// <summary>
     /// Every 10 minutes: is the weekly recap due (setting on, the chosen day and hour passed within 36 h, not yet shown for
     /// that week)? A running game defers it; a week without play is skipped quietly. The event goes to the page (an in-app
-    /// toast when VYSTRAL is in front) and to the notification policy.
+    /// toast when Arnav Games is in front) and to the notification policy.
     /// </summary>
     private void CheckWeeklyRecap()
     {

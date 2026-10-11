@@ -1,5 +1,5 @@
 /**
- * Track D6: the one place prices are formatted. Every price VYSTRAL shows goes through `money()` (or a wrapper around
+ * Track D6: the one place prices are formatted. Every price Arnav Games shows goes through `money()` (or a wrapper around
  * it), so all of them appear in the currency chosen in Settings › Appearance › Currency (`app.currency`; empty = the
  * Windows region's currency).
  *

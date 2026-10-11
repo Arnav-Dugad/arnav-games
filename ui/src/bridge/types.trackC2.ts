@@ -12,7 +12,7 @@ export interface Rig {
 }
 
 /**
- * One start of VYSTRAL as four milestones in ms since the process started, each at or after the one before:
+ * One start of Arnav Games as four milestones in ms since the process started, each at or after the one before:
  * backend ready for the window → WebView2 ready → first paint of Home → interface ready.
  */
 export interface StartupRun {

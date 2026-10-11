@@ -69,7 +69,7 @@ test.describe('asking about subscriptions', () => {
     await page.getByRole('button', { name: 'Continue' }).click();
     await expect(page.getByRole('heading', { name: 'Optional features' })).toBeVisible();
     await page.getByRole('button', { name: 'Continue' }).click();
-    await page.getByRole('button', { name: 'Enter VYSTRAL' }).click();
+    await page.getByRole('button', { name: 'Enter Arnav Games' }).click();
     await expect(page.getByTestId('subs-ask')).toHaveCount(0); // answered during setup
     await expect(page.getByTestId('subs-included')).toBeVisible();
 
@@ -83,7 +83,7 @@ test.describe('asking about subscriptions', () => {
   test('people who skipped get a one-time Home card; saving or “Not now” both put it away', async ({ page }) => {
     const { errors } = await open(page, '?subsAsk&reduced');
     const card = page.getByTestId('subs-ask');
-    await expect(card.getByRole('heading', { name: 'Tell VYSTRAL your subscriptions' })).toBeVisible();
+    await expect(card.getByRole('heading', { name: 'Tell Arnav Games your subscriptions' })).toBeVisible();
     await noSeriousViolations(page, '.subs-ask');
     await card.getByRole('group', { name: 'EA Play' }).getByRole('button', { name: /^EA Play\./ }).click();
     await card.getByRole('button', { name: 'Save' }).click();

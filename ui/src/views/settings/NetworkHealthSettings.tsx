@@ -76,7 +76,7 @@ export function NetworkHealthSettings() {
         Network health <NewBadge k="settings.privacy.network-health" variant="pill" seenWhenVisible />
       </h2>
       <p className="sgroup__desc">
-        Checks every service VYSTRAL uses, from this PC: each of its addresses, then one small request. Only when you press Check now; never in the background.
+        Checks every service Arnav Games uses, from this PC: each of its addresses, then one small request. Only when you press Check now; never in the background.
         {offline && ' Offline mode is on, so only services on this PC are checked.'}
       </p>
       <div className="sgroup__rows surface nh">

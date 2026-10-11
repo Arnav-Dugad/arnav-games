@@ -140,7 +140,7 @@ export function discoverRows(input: DiscoverInput): Row[] {
 
   // 1. Find: the search card, or why searching other stores isn't possible right now.
   const find: Tile[] = [{ kind: 'search', key: 'find', query: null, label: query ? `“${query}”` : 'Search any game', sample: null }];
-  if (reason === 'offline') find.push(note('offline', 'Offline mode is on', 'VYSTRAL isn’t contacting any store or game database, so only your library can be searched. Turn Offline mode off in desktop Settings › Privacy.'));
+  if (reason === 'offline') find.push(note('offline', 'Offline mode is on', 'Arnav Games isn’t contacting any store or game database, so only your library can be searched. Turn Offline mode off in desktop Settings › Privacy.'));
   else if (reason === 'off') find.push(note('off', 'Searching stores is off', 'Turn it on to also search Steam, Wikidata and, with your own keys, IGDB and RAWG.', 'turnOn'));
   rows.push({
     id: 'disc-find', kind: 'discover', title: 'Find a game',

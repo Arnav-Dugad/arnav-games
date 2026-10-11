@@ -409,7 +409,7 @@ public sealed class ArtPackTests : IDisposable
         File.AppendAllText(Path.Combine(_store.Directory, id + ".jsonl"), "{\"gameId\":\"012");
         Assert.Single(_store.Entries(id));
         Assert.Null(_store.Load("../" + id));
-        Assert.Equal("interrupted", _svc.Runs().Single().State); // "running" on disk but no job: VYSTRAL closed mid-run
+        Assert.Equal("interrupted", _svc.Runs().Single().State); // "running" on disk but no job: Arnav Games closed mid-run
 
         for (var i = 0; i < 12; i++)
             _store.Save(new ArtPackManifest(ArtPackManifestStore.NewId(), "white", "White logo", "all", ["logo"], false, $"2026-02-{i + 1:00}T00:00:00.0000000+00:00", null, "done", null));

@@ -32,7 +32,7 @@ public sealed class AchievementGoalFile
 /// <summary>
 /// Track W: the achievement guide on game pages: locked achievements, easiest first (highest share of
 /// players), hidden ones marked and revealed only on request, and one pinned "Current goal" per game.
-/// Uses only the achievement data VYSTRAL already caches (and the same Steam calls as the Achievements tab).
+/// Uses only the achievement data Arnav Games already caches (and the same Steam calls as the Achievements tab).
 /// Goals live in ui-state/achievement-goals.json in the data folder.
 /// </summary>
 public sealed partial class AchievementGuideService(LibraryRepository repo, ArtworkService artwork, string goalFile)

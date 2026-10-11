@@ -17,6 +17,7 @@ import { ServiceLogo } from '../../ui/ServiceLogo';
 import { Badge } from '../../ui/primitives';
 import { Meter, Ring, StatTile, type TileTone } from './StatTile';
 import '../../../views/perf/kit.css';
+import { APP_NAME } from '../../../lib/brand';
 
 const checked = (iso: string | null | undefined) => (iso ? ` · checked ${formatRelative(iso).toLowerCase()}` : '');
 
@@ -59,7 +60,7 @@ export function PlaytimeTile({ game, ttb, index }: { game: Game; ttb: TimeToBeat
           </span>
         </div>
       ) : undefined}
-      source={pr ? 'Your time: what VYSTRAL timed or the store reports, whichever is larger · Estimates: IGDB players' : 'What VYSTRAL timed or the store reports, whichever is larger'}
+      source={pr ? 'Your time: what Arnav Games timed or the store reports, whichever is larger · Estimates: IGDB players' : 'What Arnav Games timed or the store reports, whichever is larger'}
     />
   );
 }
@@ -123,7 +124,7 @@ export function SessionsTile({ sessions, index }: { sessions: Session[]; index: 
           <span id={`${id}-read`} className="visually-hidden" aria-live="polite">{active != null ? describe(active) : ''}</span>
         </div>
       }
-      source="Sessions VYSTRAL tracked on this PC, by the week they started"
+      source="Sessions Arnav Games tracked on this PC, by the week they started"
     />
   );
 }
@@ -146,7 +147,7 @@ export function AchievementsTile({ p, onOpen, index }: { p: AchievementProgress;
       value={<span className="gi-split"><span>{p.unlocked}<span className="gi-of"> / {p.total}</span></span><Ring value={frac} label={`${Math.round(frac * 100)}% of achievements unlocked`} size={56} /></span>}
       sub={p.unlocked === p.total && p.total ? 'Every achievement unlocked' : p.rarestName && p.rarestPercent != null ? <>Rarest: {p.rarestName} ({p.rarestPercent.toFixed(1)}% of players)</> : `${p.total - p.unlocked} still to unlock`}
       action={onOpen && <button className="gi-link" onClick={onOpen} aria-label="See all achievements" title="See all achievements">All <ArrowRight size={12} aria-hidden /></button>}
-      source={`Steam, as last saved by VYSTRAL${checked(p.fetchedAt)}`}
+      source={`Steam, as last saved by ${APP_NAME}${checked(p.fetchedAt)}`}
     />
   );
 }
@@ -277,12 +278,12 @@ export function PriceTile({ facts, deals, fallback, index }: {
           {regular && <span className="gi-price__was">was <s>{regular}</s></span>}
         </span>
       }
-      sub={pos != null && !atLowest ? (pos < 0.34 ? 'Close to its lowest price ever' : pos > 0.85 ? 'At or near its regular price' : 'Between its lowest and regular price') : sold && !chart ? 'VYSTRAL keeps a price history from the first time it saw this price' : undefined}
+      sub={pos != null && !atLowest ? (pos < 0.34 ? 'Close to its lowest price ever' : pos > 0.85 ? 'At or near its regular price' : 'Between its lowest and regular price') : sold && !chart ? 'Arnav Games keeps a price history from the first time it saw this price' : undefined}
       visual={
         <div className="gi-pricebox" ref={ref}>
           {chart && (
             <div className="vx-chart gi-pchart" tabIndex={0} role="img" aria-roledescription="chart" aria-describedby={`${id}-read`} onKeyDown={onKey} onBlur={() => setActive(null)}
-              aria-label={`Steam price seen by VYSTRAL over ${plural(chart.days, 'day')}: between ${formatMoney(chart.min, currency)} and ${formatMoney(chart.max, currency)}${lowCents != null ? `; lowest ever ${formatMoney(lowCents, currency)}` : ''}. Use the arrow keys to read each change.`}>
+              aria-label={`Steam price seen by ${APP_NAME} over ${plural(chart.days, 'day')}: between ${formatMoney(chart.min, currency)} and ${formatMoney(chart.max, currency)}${lowCents != null ? `; lowest ever ${formatMoney(lowCents, currency)}` : ''}. Use the arrow keys to read each change.`}>
               <svg width={width} height={h} aria-hidden focusable="false">
                 {chart.ticks.map((t) => <line key={t.cents} className="vx-chart__grid" x1={0} x2={width} y1={Math.round(t.y) + 0.5} y2={Math.round(t.y) + 0.5} />)}
                 {chart.lowY != null && <line className="gi-pchart__low" x1={0} x2={width} y1={chart.lowY} y2={chart.lowY} />}
@@ -317,7 +318,7 @@ export function PriceTile({ facts, deals, fallback, index }: {
       }
       source={<>
         {sold ? `Steam store price for ${facts!.country}${checked(facts!.fetchedAt)}` : fallback?.text ? 'Steam store price' : 'Steam store'}
-        {chart ? ' · history: prices VYSTRAL saw on this PC' : ''}
+        {chart ? ' · history: prices Arnav Games saw on this PC' : ''}
         {quotes.length ? ` · deals and lowest ever from ${[...new Set(quotes.map((q) => (q.provider === 'itad' ? 'IsThereAnyDeal' : 'CheapShark')))].join(' and ')}${quotes.some((q) => q.currency && q.currency !== currency) ? ` (${[...new Set(quotes.map((q) => q.currency).filter(Boolean))].join(', ')})` : ''}` : ''}
         {sold && needsConversion(currency, moneyCtx) ? ` · shown in ${moneyCtx.target} at the day’s exchange rate (approximate)` : ''}
         {facts?.stale ? ' · couldn’t refresh, showing the last price' : ''}

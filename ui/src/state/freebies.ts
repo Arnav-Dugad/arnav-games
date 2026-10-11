@@ -70,7 +70,7 @@ export function useClaim() {
   return useCallback(async (id: string, title: string) => {
     try {
       await call('freebies.open', { id });
-      toast({ tone: 'info', title: `Opening ${title} in your browser`, body: 'Claim it on the store’s own page. VYSTRAL never signs in or claims anything for you.' });
+      toast({ tone: 'info', title: `Opening ${title} in your browser`, body: 'Claim it on the store’s own page. Arnav Games never signs in or claims anything for you.' });
     } catch (err) {
       toast({ tone: 'warning', title: 'Couldn’t open the giveaway', body: errorMessage(err) });
     }

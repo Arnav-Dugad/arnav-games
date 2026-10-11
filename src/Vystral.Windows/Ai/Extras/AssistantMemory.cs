@@ -65,7 +65,7 @@ public sealed partial class AssistantMemoryStore(string folder)
         if (s.Length < MinChars) return "That’s too short to remember.";
         if (s.Length > MaxChars) return $"Keep it under {MaxChars} characters.";
         if (Link().IsMatch(s)) return "Memories can’t hold links.";
-        if (LooksSecret(s)) return "That looks like a password or a key. VYSTRAL never keeps those as memories.";
+        if (LooksSecret(s)) return "That looks like a password or a key. Arnav Games never keeps those as memories.";
         clean = s;
         return null;
     }
@@ -110,7 +110,7 @@ public sealed partial class AssistantMemoryStore(string folder)
             var now = Now();
             var e = new Entry { Id = NewId(), Text = clean, Origin = origin == "chat" ? "chat" : "you", CreatedAt = now, UpdatedAt = now };
             items.Add(e);
-            return Save(items) ? (ToDto(e), null) : (null, "VYSTRAL couldn’t save that just now. Try again.");
+            return Save(items) ? (ToDto(e), null) : (null, "Arnav Games couldn’t save that just now. Try again.");
         }
     }
 
@@ -125,7 +125,7 @@ public sealed partial class AssistantMemoryStore(string folder)
             if (items.Any(x => x.Id != id && Norm(x.Text!) == Norm(clean))) return (null, "The Assistant already remembers that.");
             e.Text = clean;
             e.UpdatedAt = Now();
-            return Save(items) ? (ToDto(e), null) : (null, "VYSTRAL couldn’t save that just now. Try again.");
+            return Save(items) ? (ToDto(e), null) : (null, "Arnav Games couldn’t save that just now. Try again.");
         }
     }
 

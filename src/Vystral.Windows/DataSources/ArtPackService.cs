@@ -17,7 +17,7 @@ public sealed record ArtPackJobDto(string Id, string PresetId, string PresetLabe
     string State, string? Reason, int Total, int Done, int Applied, int Kept, int NoMatch, int NoArt, int Failed,
     string Started, string? Finished, int? EtaSeconds, string? Current, string? ResumeAt);
 
-/// <param name="State">done, cancelled, failed, interrupted (VYSTRAL closed mid-run), or running.</param>
+/// <param name="State">done, cancelled, failed, interrupted (Arnav Games closed mid-run), or running.</param>
 public sealed record ArtPackRunDto(string Id, string PresetId, string PresetLabel, string Scope, IReadOnlyList<string> Kinds, int Replaced,
     string Started, string? Finished, string State, string? RestoredAt, bool CanRestore);
 
@@ -409,7 +409,7 @@ public sealed class ArtPackService
             case "notConfigured":
                 throw new DataSourceException(DataSourceOutcome.NotConfigured, "Art packs use SteamGridDB, which needs your own free API key. Add it in Settings → Library & stores → Data sources.");
             case "offline":
-                throw new DataSourceException(DataSourceOutcome.Offline, "Offline mode is on, so VYSTRAL doesn’t contact SteamGridDB. Turn it off in Settings → Privacy.");
+                throw new DataSourceException(DataSourceOutcome.Offline, "Offline mode is on, so Arnav Games doesn’t contact SteamGridDB. Turn it off in Settings → Privacy.");
             case "dataSaver":
                 throw new DataSourceException(DataSourceOutcome.Disabled, "Data saver is on, so art packs don’t download artwork. Turn it off in Settings → Privacy to apply one.");
             case "safeMode":

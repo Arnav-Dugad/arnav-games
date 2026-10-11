@@ -67,7 +67,7 @@ function Ceremony({ game, at, onClose }: { game: Game; at: number; onClose: () =
   const hue = titleHue(game.title);
   const accent = peekPalette(game)?.accent ?? `oklch(0.72 0.15 ${hue})`;
 
-  // What the moment says: real numbers only (sessions VYSTRAL saw, Steam achievements when known).
+  // What the moment says: real numbers only (sessions Arnav Games saw, Steam achievements when known).
   useEffect(() => {
     let alive = true;
     const steam = game.installations.some((i) => i.platform === 'steam');

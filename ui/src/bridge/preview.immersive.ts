@@ -33,7 +33,7 @@ export const TRACK_Z_DEFAULT_SETTINGS: Pick<Settings, 'immersive.rowOrder' | 'im
 declare global {
   interface Window {
     __vystralPreviewSystem?: { set(patch: Partial<SystemStatus>): void; calls: number };
-    /** Track T: set when Immersive's guide asked to close VYSTRAL (preview only). */
+    /** Track T: set when Immersive's guide asked to close Arnav Games (preview only). */
     __vystralPreviewClosed?: boolean;
   }
 }
@@ -55,7 +55,7 @@ export function immersivePreviewHandlers() {
   };
   if (typeof window !== 'undefined') window.__vystralPreviewSystem = hooks;
   return {
-    // Track T: the guide's "Close VYSTRAL". The preview just records it.
+    // Track T: the guide's "Close Arnav Games". The preview just records it.
     'window.close': () => {
       if (typeof window !== 'undefined') window.__vystralPreviewClosed = true;
       return true;

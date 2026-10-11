@@ -12,7 +12,7 @@ import './currency-settings.css';
 const SAMPLES: [number, string][] = [[14.99, 'USD'], [59.99, 'EUR'], [4.49, 'GBP']];
 
 /**
- * Track D6: Settings › Appearance › Currency. Every price VYSTRAL shows (deals, price history, wishlist, Discover,
+ * Track D6: Settings › Appearance › Currency. Every price Arnav Games shows (deals, price history, wishlist, Discover,
  * library value, subscriptions, the energy estimate) appears in this currency. Prices in another currency are converted
  * with the day's exchange rates and marked "≈"; a store's own price in this currency is always shown as it is.
  */
@@ -51,7 +51,7 @@ export function CurrencySettings() {
     <section className="sgroup" aria-labelledby="currency-title" data-testid="currency-settings">
       <h2 className="sgroup__title" id="currency-title">Currency</h2>
       <p className="sgroup__desc">
-        Every price in VYSTRAL is shown in this currency: deals, price history, your wishlist, Discover, library value, subscriptions and the energy
+        Every price in Arnav Games is shown in this currency: deals, price history, your wishlist, Discover, library value, subscriptions and the energy
         estimate. When a store already prices a game in it, that exact price is shown. Anything else is converted and marked “≈”.
       </p>
       <div className="sgroup__rows surface">
@@ -75,7 +75,7 @@ export function CurrencySettings() {
             <div className="srow__label">{rateLine}</div>
             <div className="srow__hint">
               {fx?.state === 'offline'
-                ? <><CloudOff size={12} aria-hidden /> Offline mode is on: VYSTRAL keeps using the last rates it downloaded.</>
+                ? <><CloudOff size={12} aria-hidden /> Offline mode is on: Arnav Games keeps using the last rates it downloaded.</>
                 : fx?.state === 'error' || (fx?.error && fx.state !== 'ok')
                   ? <><AlertTriangle size={12} aria-hidden /> {fx?.error ?? 'Couldn’t download the rates.'} Prices stay in their own currency until it works.</>
                   : <>From Frankfurter, which publishes the European Central Bank’s and other central banks’ daily reference rates. Downloaded at most once a day{fx?.fetchedAt ? ` (last ${formatRelative(fx.fetchedAt).toLowerCase()})` : ''}; no account or key, and nothing about you is sent.</>}

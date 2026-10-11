@@ -14,7 +14,8 @@ import { DiscoverHero, DiscoverHeroSkeleton } from './DiscoverHero';
 import { DiscoverShelf, DiscoverShelfSkeleton } from './DiscoverShelf';
 import './discover-browse.css';
 import { RecommendedShelf, useRanked } from '../recommend/RecommendedShelf'; // Track D5
-import { FreeShelf } from '../recommend/FreeShelf'; // Track D5
+import { FreeShelf } from '../recommend/FreeShelf';
+import { APP_NAME } from '../../lib/brand'; // Track D5
 
 const STORE_ICONS: Record<string, ReactNode> = {
   trending: <Flame size={18} aria-hidden />,
@@ -165,7 +166,7 @@ function StoreInvite() {
       </div>
       <div className="disc-invite__text">
         <strong>Bring Steam’s store shelves into Discover</strong>
-        <p>Trending games, deals, new releases, what’s coming soon and free-to-play picks, plus browsing by genre. VYSTRAL reads Steam’s public store lists for your price country at most every few hours, only while this is on, and never sends anything about you.</p>
+        <p>Trending games, deals, new releases, what’s coming soon and free-to-play picks, plus browsing by genre. Arnav Games reads Steam’s public store lists for your price country at most every few hours, only while this is on, and never sends anything about you.</p>
       </div>
       <Button variant="primary" loading={busy} onClick={() => { setBusy(true); void Promise.resolve(setSetting('discover.storeShelves', true)).finally(() => setBusy(false)); }}>
         Show Steam shelves
@@ -314,9 +315,9 @@ export function ResultGroupCell({ group, query, index }: { group: ResultGroup; q
 
 function reasonText(reason: string | null | undefined, source: string): string {
   switch (reason) {
-    case 'rateLimited': return `${source} asked VYSTRAL to slow down. VYSTRAL tries again in a little while.`;
+    case 'rateLimited': return `${source} asked ${APP_NAME} to slow down. ${APP_NAME} tries again in a little while.`;
     case 'invalidKey': return `${source} didn’t accept your key. Check it in Settings → Library & stores → Data sources.`;
-    case 'empty': return `${source}’s lists were empty just now. VYSTRAL tries again later.`;
+    case 'empty': return `${source}’s lists were empty just now. ${APP_NAME} tries again later.`;
     case 'offline': return 'Offline mode is on.';
     default: return `${source} couldn’t be reached. Check your connection, then try again.`;
   }

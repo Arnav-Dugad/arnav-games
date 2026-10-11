@@ -365,7 +365,7 @@ export function discoverPreviewHandlers(ctx: Ctx): Record<string, (p: any) => un
     'discover.details': (p: { key: string }): DiscoverDetails => {
       const e = entryOf(p.key);
       const st = ctx.settings();
-      if (st['privacy.localOnly']) throw new BridgeError('offline', 'Offline mode is on, so VYSTRAL can’t look this game up. Turn it off in Settings → Privacy.');
+      if (st['privacy.localOnly']) throw new BridgeError('offline', 'Offline mode is on, so Arnav Games can’t look this game up. Turn it off in Settings → Privacy.');
       const igdb = !noKeys;
       const cloudOn = st['cloud.enabled'];
       const cloud = cloudOn ? [

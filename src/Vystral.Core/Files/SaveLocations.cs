@@ -41,7 +41,7 @@ public static partial class SaveLocations
         ["uplay"] = "ubisoft", ["ubisoft connect"] = "ubisoft", ["battle.net"] = "battlenet",
     };
 
-    /// <summary>{{p|…}} path tokens VYSTRAL understands (lower case, backslashes). Registry and non-Windows tokens are refused.</summary>
+    /// <summary>{{p|…}} path tokens Arnav Games understands (lower case, backslashes). Registry and non-Windows tokens are refused.</summary>
     private static readonly Dictionary<string, (string Kind, string[] Tail)> Tokens = new(StringComparer.OrdinalIgnoreCase)
     {
         ["userprofile"] = ("userprofile", []),

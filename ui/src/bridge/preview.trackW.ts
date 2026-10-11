@@ -74,7 +74,7 @@ interface Seed {
   regular?: number; price?: number; low?: number; lowSource?: 'itad' | 'cheapshark'; sales?: [number, number, number][]; owned?: string;
   /** Track D2: a vague date relative to this year (Y) and month (M, 0-based): the window the native parser would give. */
   vague?: (Y: number, M: number) => { p: ReleasePrecision; from?: [number, number, number]; to?: [number, number, number]; label: string };
-  /** Track D2: no art at all (shows VYSTRAL's own generated poster). */
+  /** Track D2: no art at all (shows Arnav Games' own generated poster). */
   noArt?: boolean;
 }
 
@@ -277,7 +277,7 @@ export function trackWPreviewHandlers(ctx: Ctx): Record<string, (p: any) => unkn
       const appId = steamApp(g);
       if (!appId) return empty('notSteam');
       if (friendsMode === 'loading') return { ...empty('notLoaded'), refreshing: true };
-      if (s['privacy.localOnly']) return { ...empty('offline', 'Offline mode is on, so VYSTRAL doesn’t ask Steam what your friends played.') };
+      if (s['privacy.localOnly']) return { ...empty('offline', 'Offline mode is on, so Arnav Games doesn’t ask Steam what your friends played.') };
       const seed = [...g.id].reduce((a, c) => a + c.charCodeAt(0), 0);
       const friends = friendsFor(g.title, seed);
       return {

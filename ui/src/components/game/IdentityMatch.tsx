@@ -29,7 +29,7 @@ const toast = (title: string, tone: 'info' | 'success' | 'danger' = 'info', body
 
 /**
  * Track D4: the "Matched IDs" card (Versions tab). Shows the same game's Steam app, IGDB, RAWG, GOG and Wikidata IDs, how
- * each was found and how sure VYSTRAL is — and lets you confirm, correct or reject the Steam match. Steam data for a
+ * each was found and how sure Arnav Games is — and lets you confirm, correct or reject the Steam match. Steam data for a
  * non-Steam game is only ever used through what this card shows.
  */
 export function IdentityMatchCard({ game }: { game: Game }) {
@@ -203,7 +203,7 @@ export function FixMatchDialog({ game, identity, open, onClose }: { game: Game; 
         <Button variant="primary" loading={saving} disabled={!choice} onClick={() => void save()}>Save</Button>
       </>}>
       <p className="idm__lede">
-        VYSTRAL shows Steam reviews, tags, trailers, prices and news for <strong>{game.title}</strong> through the Steam game you pick, always labelled as Steam data.
+        Arnav Games shows Steam reviews, tags, trailers, prices and news for <strong>{game.title}</strong> through the Steam game you pick, always labelled as Steam data.
       </p>
       <form className="idm-search" role="search" onSubmit={(e) => { e.preventDefault(); void search(); }}>
         <label className="visually-hidden" htmlFor={`${group}-q`}>Search the Steam store</label>

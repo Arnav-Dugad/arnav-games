@@ -113,7 +113,7 @@
   box-shadow: var(--shadow-3), inset 0 1px 0 oklch(1 0 0 / 0.08), 0 0 0 1px oklch(1 0 0 / 0.1), 0 0 90px -30px oklch(from var(--ring, var(--accent)) l c h / 0.6);
 }
 .imm-guide__head { display: flex; align-items: center; gap: 0.9rem; padding: 0 0.5rem; }
-.imm-guide__mark { width: 2.6rem; height: 2.6rem; filter: drop-shadow(0 4px 18px oklch(from var(--accent) l c h / 0.55)); }
+.imm-guide__mark { width: 2.6rem; height: 2.6rem; filter: drop-shadow(0 4px 14px rgb(0 0 0 / 0.45)); }
 .imm-guide__when { display: grid; gap: 0.15rem; }
 .imm-guide__title { font-family: var(--font-display); font-size: 1.35rem; font-weight: 600; letter-spacing: -0.01em; }
 .imm-guide__time { font-size: 0.8rem; color: oklch(0.76 0.01 282); }

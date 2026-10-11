@@ -17,7 +17,7 @@ export const TRACK_E4_DEFAULT_SETTINGS = (): Pick<Settings, 'dataSources.xboxSto
 export const TRACK_E4_PROVIDERS: Omit<ProviderStatus, 'configured' | 'keyMasked' | 'enabled' | 'lastTest' | 'pausedUntil'>[] = [
   {
     id: 'xboxstore', name: 'Xbox Store details', access: 'keyless', settingKey: 'dataSources.xboxStore',
-    licence: 'Microsoft’s public Store data, shown with attribution. Not a documented API: it may change, and VYSTRAL stops quietly if it does.',
+    licence: 'Microsoft’s public Store data, shown with attribution. Not a documented API: it may change, and Arnav Games stops quietly if it does.',
     attribution: 'Store IDs and art from the Microsoft Store.', host: 'displaycatalog.mp.microsoft.com, store-images.s-microsoft.com',
     sends: 'The package names of the Xbox games installed on this PC (one request per game, remembered for months) and your Store region.',
     uses: 'Exact Microsoft Store IDs for your Xbox games, so Wikidata, IGDB, GeForce NOW and Game Pass match them by ID instead of by title, and Store covers and backgrounds for Xbox games without good art.',

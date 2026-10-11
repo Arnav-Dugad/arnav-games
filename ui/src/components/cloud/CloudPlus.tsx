@@ -136,7 +136,7 @@ export function CloudInsightsCard() {
     return (
       <div className="cinsights cinsights--empty">
         <strong>Cloud sessions</strong>
-        <p>Once you stream a game from VYSTRAL, you’ll see how long you play in the cloud, which games and which service, here.</p>
+        <p>Once you stream a game from Arnav Games, you’ll see how long you play in the cloud, which games and which service, here.</p>
       </div>
     );
   }
@@ -159,7 +159,7 @@ export function CloudInsightsCard() {
         ))}
       </ul>
       <p className="cinsights__foot">
-        {[trend, hour ? `You usually start around ${hour}` : null].filter(Boolean).join(' · ')}{trend || hour ? '. ' : ''}From cloud sessions VYSTRAL started; time on other devices isn’t counted.
+        {[trend, hour ? `You usually start around ${hour}` : null].filter(Boolean).join(' · ')}{trend || hour ? '. ' : ''}From cloud sessions Arnav Games started; time on other devices isn’t counted.
       </p>
     </div>
   );

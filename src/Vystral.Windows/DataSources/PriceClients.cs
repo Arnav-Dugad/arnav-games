@@ -10,7 +10,7 @@ namespace Vystral.Windows.DataSources;
 /// <summary>One shop's current price. <see cref="Url"/> is kept exactly as the provider sent it (their terms forbid changing links).</summary>
 public sealed record PriceOffer(string Id, string Shop, double Price, double? Regular, int Cut, string Currency, string Url);
 
-/// <summary>A provider's prices for one game. Prices are the provider's, never VYSTRAL's estimates.</summary>
+/// <summary>A provider's prices for one game. Prices are the provider's, never Arnav Games' estimates.</summary>
 public sealed record PriceQuote(string Provider, string Currency, IReadOnlyList<PriceOffer> Offers, double? HistoricalLow, string? HistoricalLowAt,
     string? ProviderUrl, DateTimeOffset Fetched);
 

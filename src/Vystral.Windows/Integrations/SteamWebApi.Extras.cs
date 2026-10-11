@@ -10,7 +10,7 @@ public sealed record WishlistEntry(string AppId, int Priority, DateTimeOffset? A
 
 /// <summary>
 /// Store facts for one app from IStoreBrowseService/GetItems/v1. Prices here are display-only (Steam
-/// doesn't say which currency); VYSTRAL's comparable prices come from the store's price_overview.
+/// doesn't say which currency); Arnav Games' comparable prices come from the store's price_overview.
 /// </summary>
 public sealed record StoreItemInfo(
     string AppId,

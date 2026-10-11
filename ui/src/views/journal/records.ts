@@ -1,7 +1,7 @@
 /**
  * Track C6: personal records, shown as collectible badges in the Journal and celebrated when a session beats one.
  *
- * Pure, so every rule is unit-tested. Only finished sessions VYSTRAL observed itself count: open sessions (no end
+ * Pure, so every rule is unit-tested. Only finished sessions Arnav Games observed itself count: open sessions (no end
  * yet), store-imported playtime and zero-length sessions never do. All calendar maths is in the user's local time
  * zone and DST-safe (days are stepped with the helpers in ./stats, never by adding 24 h). A session that crosses
  * midnight counts toward both days for the "per day" and "per week" records.

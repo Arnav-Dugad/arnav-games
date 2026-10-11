@@ -1,7 +1,7 @@
 namespace Vystral.Windows.Monitoring;
 
 /// <summary>
-/// Why the GPU was running below its maximum clock, in VYSTRAL's own stable encoding (stored in
+/// Why the GPU was running below its maximum clock, in Arnav Games' own stable encoding (stored in
 /// perf_samples.throttle_flags). Decoded from NVML's read-only clock-event reasons.
 /// </summary>
 [Flags]

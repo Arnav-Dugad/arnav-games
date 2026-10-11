@@ -19,7 +19,7 @@ public sealed partial class AppBackend
     private void RegisterStatusHandlers()
     {
         _network = new NetworkCostService();
-        _trailers = new TrailerService(Repository, Settings, _network, _http, () => IsGameActive, $"VYSTRAL/{Version}");
+        _trailers = new TrailerService(Repository, Settings, _network, _http, () => IsGameActive, $"{Brand.UserAgentProduct}/{Version}");
         Artwork.SkipDownloads = () => _trailers.DataSaverActive;
         Settings.Changed += key =>
         {

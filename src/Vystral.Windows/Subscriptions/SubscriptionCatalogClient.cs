@@ -16,7 +16,7 @@ public sealed record SubscriptionProduct(string ProductId, string? Title, string
 
 /// <summary>
 /// Track V: Microsoft's public Game Pass data, the same grey sources as Track O's Xbox catalogue (undocumented,
-/// unauthenticated JSON used by xbox.com's own pages; no cookies, a plain VYSTRAL User-Agent, size-capped, every field
+/// unauthenticated JSON used by xbox.com's own pages; no cookies, a plain Arnav Games User-Agent, size-capped, every field
 /// validated, refreshed at most daily). Lists come from <c>catalog.gamepass.com</c>; product names, posters and
 /// Game Pass end dates from Microsoft's display catalogue. Verified with single low-rate requests on 2026-10-07.
 /// </summary>
@@ -81,7 +81,7 @@ public sealed partial class SubscriptionCatalogClient(ProviderTransport lists, P
     }
 
     /// <summary>
-    /// <c>{"pc":["9N…",…],"console":[…],…}</c> → only the arrays VYSTRAL reads (<see cref="SubscriptionPlans.CatalogKeys"/>),
+    /// <c>{"pc":["9N…",…],"console":[…],…}</c> → only the arrays Arnav Games reads (<see cref="SubscriptionPlans.CatalogKeys"/>),
     /// with valid, unique product IDs. Anything else is ignored; a non-object answer is an error.
     /// </summary>
     internal static IReadOnlyDictionary<string, IReadOnlyList<string>> ParseLists(string json)

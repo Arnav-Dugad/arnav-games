@@ -273,7 +273,7 @@ public sealed partial class DiscoverService
 
     /// <summary>
     /// Up to <paramref name="max"/> seeds: the two games played most recently (in the last 45 days), then the most played
-    /// (an hour at least; VYSTRAL's sessions or the store's playtime, whichever is larger).
+    /// (an hour at least; Arnav Games' sessions or the store's playtime, whichever is larger).
     /// </summary>
     internal static IReadOnlyList<DiscoverSeed> PickSeeds(IEnumerable<DiscoverSeedRow> rows, DateTimeOffset now, int max = MaxSeeds)
     {

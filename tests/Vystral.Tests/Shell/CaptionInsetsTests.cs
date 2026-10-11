@@ -3,7 +3,7 @@ using Xunit;
 
 namespace Vystral.Tests.Shell;
 
-/// <summary>Track C2: the caption-button space reserved in VYSTRAL's title bar.</summary>
+/// <summary>Track C2: the caption-button space reserved in Arnav Games' title bar.</summary>
 public class CaptionInsetsTests
 {
     [Theory]

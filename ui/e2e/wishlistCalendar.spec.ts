@@ -102,7 +102,7 @@ test.describe('wishlist release calendar', () => {
     const tba = lanes.getByRole('region', { name: 'To be announced' });
     await expect(tba.getByRole('button', { name: /Hollow Choir, To be announced \(no date yet\)/ })).toBeVisible();
     await expect(tba.getByRole('button', { name: /Moonlit Ferry, Coming soon/ })).toBeVisible();
-    // A game with no art at all gets VYSTRAL's own titled poster, not a blank icon.
+    // A game with no art at all gets Arnav Games' own titled poster, not a blank icon.
     await expect(tba.locator('.wlane-card', { hasText: 'Hollow Choir' }).locator('.wposter')).toBeVisible();
     // Vague dates never land on a day.
     for (const name of ['Tidebreaker', 'Paper Lanterns II', 'Ember Atlas', 'Hollow Choir']) await expect(page.locator('.wcal__grid').getByRole('button', { name: new RegExp(name) })).toHaveCount(0);
@@ -126,7 +126,7 @@ test.describe('wishlist release calendar', () => {
     await expect(grid(page).locator('.wcal-game', { hasText: 'Quiet Orbit' }).locator('.wmark--cut')).toHaveText('−10%');
   });
 
-  test('a game opens its VYSTRAL page; Back returns to the same month', async ({ page }) => {
+  test('a game opens its Arnav Games page; Back returns to the same month', async ({ page }) => {
     const { errors, external } = await open(page);
     await page.getByRole('button', { name: 'Next month' }).click();
     await page.getByRole('button', { name: 'Previous month' }).click();

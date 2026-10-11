@@ -3,6 +3,7 @@
  * "Play in the cloud" button starts by default. Pure functions (tested in cloud.test.ts).
  */
 import type { CloudBadge, CloudMeter, CloudOption, CloudService, CloudSession, CloudServiceHealth } from '../bridge/types';
+import { APP_NAME } from './brand';
 
 export const SERVICE_NAME: Record<CloudService, string> = { gfn: 'GeForce NOW', xbox: 'Xbox Cloud Gaming' };
 export const SERVICE_SHORT: Record<CloudService, string> = { gfn: 'GeForce NOW', xbox: 'Xbox Cloud' };
@@ -26,19 +27,19 @@ export function formatHours(seconds: number): string {
 export type Tone = 'ok' | 'warn' | 'danger' | 'muted';
 
 /**
- * The meter's headline and tone. Always an estimate: VYSTRAL only sees sessions it started, so the copy never
+ * The meter's headline and tone. Always an estimate: Arnav Games only sees sessions it started, so the copy never
  * claims to be NVIDIA's balance.
  */
 export function meterSummary(m: CloudMeter): { tone: Tone; title: string; detail: string; fraction: number | null } {
   const used = formatHours(m.usedSeconds);
-  if (m.plan === 'none') return { tone: 'muted', title: 'Pick your GeForce NOW membership', detail: 'Then VYSTRAL can show your monthly hours and session length.', fraction: null };
+  if (m.plan === 'none') return { tone: 'muted', title: 'Pick your GeForce NOW membership', detail: 'Then Arnav Games can show your monthly hours and session length.', fraction: null };
   if (m.limitSeconds == null) {
     const session = m.sessionLimitSeconds ? ` Sessions end after ${formatHours(m.sessionLimitSeconds)}.` : '';
     return { tone: 'muted', title: `${used} played this month`, detail: `${m.planLabel} has no monthly hour limit.${session}`, fraction: null };
   }
   const left = formatHours(m.leftSeconds ?? 0);
   const limit = formatHours(m.limitSeconds);
-  const rollover = m.rolloverHours > 0 ? ` Up to ${m.rolloverHours} unused hours roll over; VYSTRAL can’t see those.` : '';
+  const rollover = m.rolloverHours > 0 ? ` Up to ${m.rolloverHours} unused hours roll over; ${APP_NAME} can’t see those.` : '';
   if (m.level === 'reached') return { tone: 'danger', title: `About ${limit} used`, detail: `You’ve likely reached this month’s ${limit}. NVIDIA shows your real balance in the GeForce NOW app.${rollover}`, fraction: 1 };
   if (m.level === 'near') return { tone: 'warn', title: `About ${left} left`, detail: `${used} of ${limit} used this month. Worth checking your balance in the GeForce NOW app.${rollover}`, fraction: m.fraction };
   return { tone: 'ok', title: `About ${left} left`, detail: `${used} of ${limit} used this month.${rollover}`, fraction: m.fraction };

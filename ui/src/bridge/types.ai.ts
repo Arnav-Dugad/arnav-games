@@ -135,7 +135,7 @@ export interface JournalAnswer {
 /** call('aix.patchSummary', { gameId, gid, refresh? }). */
 export interface PatchSummary {
   bullets: string[];
-  /** False: VYSTRAL's own "key lines" (no AI involved). */
+  /** False: Arnav Games' own "key lines" (no AI involved). */
   ai: boolean;
   aiLabel: string | null;
   cached: boolean;
@@ -155,7 +155,7 @@ export interface TonightPick {
   productId: string | null;
   title: string;
   reason: string;
-  /** VYSTRAL's own reasons (deterministic facts). */
+  /** Arnav Games' own reasons (deterministic facts). */
   facts: string[];
   installed: boolean;
   plan: string | null;

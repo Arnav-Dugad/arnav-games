@@ -108,7 +108,7 @@ public sealed class SettingsService
         new BoolDef("dataSources.antiCheat", true),
         new BoolDef("dataSources.storePrices", true),
         new StringDef("dataSources.priceCountry", "US", 2, "^[A-Z]{2}$"),
-        // Track H: notice games started outside VYSTRAL, and keep tracking them while it is closed (opt-in).
+        // Track H: notice games started outside Arnav Games, and keep tracking them while it is closed (opt-in).
         new BoolDef("tracking.background", false),
         // Track M: anti-cheat notes before launch and on game pages; IGDB time-to-beat bars on library cards.
         new BoolDef("launch.antiCheatNotes", true),
@@ -230,11 +230,11 @@ public sealed class SettingsService
         new BoolDef("ai.features.lagNotes", false),
         new BoolDef("assistant.learnPrompts", true),
         // Track E2b: "Use a game's colours" (the game whose cover the accent comes from; '' = none), and the Living
-        // Canvas's pointer parallax (on) and gentle reaction to VYSTRAL's ambient sound (off).
+        // Canvas's pointer parallax (on) and gentle reaction to Arnav Games' ambient sound (off).
         new StringDef("appearance.accentGame", "", 32, @"^([0-9a-f]{32})?\z"),
         new BoolDef("canvas.parallax", true),
         new BoolDef("canvas.audioReact", false),
-        // Track E2a: which page VYSTRAL opens on ('last' = where you left off; 'immersive' also turns on startup.immersive),
+        // Track E2a: which page Arnav Games opens on ('last' = where you left off; 'immersive' also turns on startup.immersive),
         // and pinned collection covers ("collectionId:gameId" pairs joined by '|', at most 200).
         new EnumDef("startup.page", "last", "last", "home", "library", "discover", "wishlist", "journal", "performance", "immersive"),
         new StringDef("library.collectionCovers", "", 13_200, @"^([0-9a-f]{32}:[0-9a-f]{32}(\|[0-9a-f]{32}:[0-9a-f]{32}){0,199})?\z"),

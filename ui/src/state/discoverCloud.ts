@@ -1,6 +1,6 @@
 /**
  * Track D5: cloud availability for Discover cards. Cards ask for their key; requests made in the same moment are
- * batched into one discover.cloudMap call (answered natively from the cloud catalogues VYSTRAL already downloaded: no
+ * batched into one discover.cloudMap call (answered natively from the cloud catalogues Arnav Games already downloaded: no
  * network request). Nothing is asked while cloud play is off.
  */
 import { useEffect } from 'react';

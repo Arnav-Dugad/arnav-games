@@ -67,7 +67,7 @@ public sealed class HealthWatchService : IDisposable
                 var signalled = wait > TimeSpan.Zero && await _signal.WaitAsync(wait, ct);
                 if (!signalled)
                 {
-                    // While a game starts or runs, look far less often (Performance Mode keeps VYSTRAL nearly idle).
+                    // While a game starts or runs, look far less often (Performance Mode keeps Arnav Games nearly idle).
                     nextPoll = DateTimeOffset.UtcNow + (_gameActive() ? TimeSpan.FromSeconds(30) : DrivePoll);
                     var now = SafeDrives();
                     if (!now.SequenceEqual(drives, StringComparer.OrdinalIgnoreCase)) { drives = now; Poke("drive"); }

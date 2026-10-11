@@ -27,7 +27,7 @@ export interface DiscoverResult {
   genres: string[];
   sources: DiscoverSourceId[];
   steamAppId: string | null;
-  /** Set when VYSTRAL is sure it's a game in your library (Steam app ID, or an exact title and year). */
+  /** Set when Arnav Games is sure it's a game in your library (Steam app ID, or an exact title and year). */
   libraryGameId: string | null;
   price: StorePrice | null;
   hasCover: boolean;

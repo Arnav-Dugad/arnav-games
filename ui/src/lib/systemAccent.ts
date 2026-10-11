@@ -1,5 +1,5 @@
 /**
- * "Windows accent": turns the Windows accent palette into VYSTRAL's --game / --game-2 colours.
+ * "Windows accent": turns the Windows accent palette into Arnav Games' --game / --game-2 colours.
  * Prefers Windows' own lighter shades (the ones Windows itself uses for text on dark surfaces),
  * then nudges lightness until the WCAG contrast guarantee holds, exactly like artwork accents.
  */
@@ -39,7 +39,7 @@ export interface DerivedAccent {
 }
 
 /**
- * Picks the first Windows shade (accent, then AccentLight1..3) that already reads on VYSTRAL's
+ * Picks the first Windows shade (accent, then AccentLight1..3) that already reads on Arnav Games'
  * panels after taming; otherwise lifts lightness until it does. The secondary colour is the next
  * lighter shade with a small hue turn, so gradients stay in the accent's family.
  */

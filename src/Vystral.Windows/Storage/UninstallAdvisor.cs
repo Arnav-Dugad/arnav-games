@@ -9,7 +9,7 @@ namespace Vystral.Windows.Storage;
 /// <param name="LastSync">The newest file time Steam recorded (ISO), when known.</param>
 public sealed record CloudSavesDto(string State, int Files, long Bytes, string? LastSync);
 
-/// <summary>A subscription or streaming service that also lists the game (from data VYSTRAL already has).</summary>
+/// <summary>A subscription or streaming service that also lists the game (from data Arnav Games already has).</summary>
 public sealed record AdviceServiceDto(string Service, string Name, string Note);
 
 /// <param name="SizeSource">manifest (Steam's appmanifest SizeOnDisk) | scan (last library scan) | none.</param>

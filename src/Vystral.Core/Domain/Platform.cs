@@ -1,6 +1,6 @@
 namespace Vystral.Core.Domain;
 
-/// <summary>Storefronts and sources VYSTRAL can read from. Stored as lowercase strings in the database.</summary>
+/// <summary>Storefronts and sources Arnav Games can read from. Stored as lowercase strings in the database.</summary>
 public enum PlatformId
 {
     Steam,

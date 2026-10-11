@@ -9,7 +9,7 @@ public enum CheckOutcome { Passed, Failed, Skipped }
 
 /// <summary>One health check after an update.</summary>
 /// <param name="CountsTowardRollback">
-/// Only failures that a previous version would plausibly not have (the interface can't talk to VYSTRAL,
+/// Only failures that a previous version would plausibly not have (the interface can't talk to Arnav Games,
 /// settings can't be read) count as a failed start. Data and environment problems (a damaged database,
 /// an unreadable artwork folder) are reported but never roll back: going back a version wouldn't fix them.
 /// </param>
@@ -103,7 +103,7 @@ public static class SelfCheckRunner
         try
         {
             if (p.DatabaseStartupProblem is { } problem)
-                return new(id, label, CheckOutcome.Failed, "It couldn't be upgraded, so VYSTRAL started with a fresh one and kept the old file in backups.", false);
+                return new(id, label, CheckOutcome.Failed, "It couldn't be upgraded, so Arnav Games started with a fresh one and kept the old file in backups.", false);
             var v = p.SchemaVersion();
             return v == p.LatestSchemaVersion
                 ? new(id, label, CheckOutcome.Passed, $"Schema version {v}.", false)
@@ -131,7 +131,7 @@ public static class SelfCheckRunner
         }
         catch (OperationCanceledException)
         {
-            return new(id, label, CheckOutcome.Skipped, "VYSTRAL was closing.", false);
+            return new(id, label, CheckOutcome.Skipped, "Arnav Games was closing.", false);
         }
         catch (Exception ex)
         {
@@ -141,7 +141,7 @@ public static class SelfCheckRunner
 
     internal static async Task<SelfCheckItem> BridgeAsync(ISelfCheckProbes p, CancellationToken ct, TimeSpan after)
     {
-        const string id = "bridge", label = "Interface and VYSTRAL talk to each other";
+        const string id = "bridge", label = "Interface and Arnav Games talk to each other";
         try
         {
             using var timeout = CancellationTokenSource.CreateLinkedTokenSource(ct);
@@ -168,7 +168,7 @@ public static class SelfCheckRunner
     {
         const string id = "uiReady", label = "Interface finished starting";
         return p.ReadyAfterMs is { } ms
-            ? new(id, label, CheckOutcome.Passed, $"Ready {ms / 1000:0.0} s after VYSTRAL started.", true)
+            ? new(id, label, CheckOutcome.Passed, $"Ready {ms / 1000:0.0} s after {Brand.Name} started.", true)
             : new(id, label, CheckOutcome.Passed, "Ready.", true);
     }
 

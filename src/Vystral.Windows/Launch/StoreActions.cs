@@ -4,9 +4,9 @@ using Vystral.Core.Domain;
 namespace Vystral.Windows.Launch;
 
 /// <summary>
-/// Builds the only store-action links VYSTRAL ever opens: <c>steam://install/&lt;appid&gt;</c> and
+/// Builds the only store-action links Arnav Games ever opens: <c>steam://install/&lt;appid&gt;</c> and
 /// <c>steam://uninstall/&lt;appid&gt;</c>. Steam then shows its own confirmation and does the work;
-/// VYSTRAL never downloads, moves or deletes game files itself.
+/// Arnav Games never downloads, moves or deletes game files itself.
 /// </summary>
 public enum StoreAction { Install, Uninstall }
 
@@ -34,10 +34,10 @@ public static partial class LaunchValidator
     public static ValidationResult ValidateStoreAction(PlatformId platform, Uri uri)
     {
         if (!AllowedSchemes.TryGetValue(platform, out var schemes) || !schemes.Contains(uri.Scheme, StringComparer.OrdinalIgnoreCase))
-            return ValidationResult.Fail($"VYSTRAL only opens {platform.DisplayName()} links for {platform.DisplayName()} games.");
+            return ValidationResult.Fail($"{Brand.Name} only opens {platform.DisplayName()} links for {platform.DisplayName()} games.");
         var raw = uri.OriginalString;
         if (raw.Length > 64 || raw.Any(c => char.IsControl(c) || char.IsWhiteSpace(c)) || !StoreActionPattern().IsMatch(raw))
-            return ValidationResult.Fail("That store link isn't one VYSTRAL opens.");
+            return ValidationResult.Fail("That store link isn't one Arnav Games opens.");
         return ValidationResult.Valid;
     }
 

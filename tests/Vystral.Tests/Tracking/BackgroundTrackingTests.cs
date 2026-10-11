@@ -62,7 +62,7 @@ public sealed class BackgroundTrackingTests : IDisposable
     }
 
     [Fact]
-    public async Task A_game_started_outside_VYSTRAL_is_detected_handed_over_continued_and_saved()
+    public async Task A_game_started_outside_the_app_is_detected_handed_over_continued_and_saved()
     {
         var app = Process(SessionSources.Detected);
         var start = DateTimeOffset.UtcNow.AddMinutes(-10);
@@ -111,7 +111,7 @@ public sealed class BackgroundTrackingTests : IDisposable
         Assert.Null(helper.Tracker.PollOnce(now.AddSeconds(4)));
         Assert.Single(_t.Repo.ListSessions(null, 10));
 
-        // Library totals count it like any VYSTRAL session.
+        // Library totals count it like any Arnav Games session.
         var game = Assert.Single(_t.Repo.LoadSnapshot((_, _) => null).Games);
         Assert.Equal(1, game.SessionCount);
         Assert.Equal(saved.DurationSeconds, game.TrackedSeconds);

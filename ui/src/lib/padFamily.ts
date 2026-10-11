@@ -3,7 +3,7 @@ import { on } from '../bridge/bridge';
 import { useStore } from '../state/store';
 
 /**
- * Which controller family's button glyphs to draw (Track T). VYSTRAL's button names are
+ * Which controller family's button glyphs to draw (Track T). Arnav Games' button names are
  * positional, Xbox-style (A = bottom face button, View/Menu = the two small centre buttons); a
  * PlayStation pad shows ✕ ○ □ △ in the same places, a Nintendo pad its own letters in the same
  * places (so the bottom button reads "B", exactly as printed on it).

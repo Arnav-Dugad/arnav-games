@@ -180,7 +180,7 @@ function TrendCard({ entries }: { entries: PerfEntry[] }) {
       <section className="pf-trend" aria-labelledby="pf-trend-title">
         <h2 id="pf-trend-title" className="pf-band__title caps">Frame rate</h2>
         <p className="pf-trend__empty">
-          {fpsOn ? 'Frame-rate capture is on — your next session will show its average and 1% lows here.' : 'Frame rate isn’t measured yet. With capture on, VYSTRAL shows each session’s average and 1% lows.'}
+          {fpsOn ? 'Frame-rate capture is on — your next session will show its average and 1% lows here.' : 'Frame rate isn’t measured yet. With capture on, Arnav Games shows each session’s average and 1% lows.'}
         </p>
         {!fpsOn && (
           <Button size="sm" variant="ghost" icon={<Settings2 size={14} />} onClick={() => navigate({ name: 'settings', section: 'launching' })}>

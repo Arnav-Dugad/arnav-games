@@ -52,7 +52,7 @@ export interface StoreFacts {
   /** As the Steam store shows it ("18 Apr, 2011", "Q3 2026"). */
   releaseText: string | null;
   comingSoon: boolean;
-  /** Steam prices VYSTRAL has seen in this country, oldest first (one point per day). */
+  /** Steam prices Arnav Games has seen in this country, oldest first (one point per day). */
   history: PricePoint[];
   fetchedAt: string | null;
   stale: boolean;

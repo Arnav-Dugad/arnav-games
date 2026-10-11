@@ -64,7 +64,7 @@ function OptIn() {
       <div className="caps">Moments</div>
       <h1 id="mv-optin-title" className="mv-optin__title">Your best moments, in one place</h1>
       <p className="mv-optin__lead">
-        VYSTRAL can gather the screenshots and clips already on this PC and sort them by game — so the moment you beat that boss is one click from the game itself.
+        Arnav Games can gather the screenshots and clips already on this PC and sort them by game — so the moment you beat that boss is one click from the game itself.
       </p>
       <ul className="mv-optin__sources">
         {sources.map((s) => (
@@ -79,7 +79,7 @@ function OptIn() {
       </ul>
       <p className="mv-optin__privacy">
         <ShieldCheck size={16} aria-hidden />
-        Files stay on this PC. They’re never uploaded, moved or modified — VYSTRAL only reads them to show previews.
+        Files stay on this PC. They’re never uploaded, moved or modified — Arnav Games only reads them to show previews.
       </p>
       <div className="mv-optin__actions">
         <Button variant="primary" size="lg" icon={<Images size={18} aria-hidden />} loading={busy} onClick={() => void enable()}>
@@ -243,7 +243,7 @@ function Vault() {
           art="hills"
           icon={<Images size={34} aria-hidden />}
           title="No captures found yet"
-          body="VYSTRAL looks in Steam’s screenshot folders, Xbox Game Bar captures and any folders you add. Take a screenshot in a game, or add the folder where you keep them."
+          body="Arnav Games looks in Steam’s screenshot folders, Xbox Game Bar captures and any folders you add. Take a screenshot in a game, or add the folder where you keep them."
           actions={
             <>
               <Button variant="primary" icon={<FolderPlus size={16} aria-hidden />} onClick={() => setFoldersOpen(true)}>

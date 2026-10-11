@@ -54,8 +54,8 @@ public sealed class CloudProcessStarter : ICloudProcessStarter
 /// Builds launches into the vendors' own apps and sites, exactly as the research recommends: the GeForce NOW desktop
 /// app (its <c>--url-route</c> argument, the same one its own desktop shortcuts carry) or NVIDIA's documented web
 /// deep link; the Xbox app's documented <c>msxbox://game/?productId=</c> or xbox.com/play. Browser fallback is a
-/// chromeless Edge <c>--app</c> window with a VYSTRAL-owned profile folder VYSTRAL never reads, or the default browser.
-/// The stream is never embedded in VYSTRAL. Every value is built from validated IDs only.
+/// chromeless Edge <c>--app</c> window with a profile folder of its own that Arnav Games never reads, or the default browser.
+/// The stream is never embedded in Arnav Games. Every value is built from validated IDs only.
 /// </summary>
 public static class CloudLauncher
 {
@@ -101,7 +101,7 @@ public static class CloudLauncher
         throw new ArgumentException("Unknown cloud service.");
     }
 
-    /// <summary>The browser fallback for a vendor URL: Edge <c>--app</c> with VYSTRAL's own profile folder, or the default browser.</summary>
+    /// <summary>The browser fallback for a vendor URL: Edge <c>--app</c> with Arnav Games' own profile folder, or the default browser.</summary>
     public static CloudLaunchPlan Browser(string url, CloudEnvironment env, bool useEdge, string edgeProfileDir)
     {
         if (!Uri.TryCreate(url, UriKind.Absolute, out var u) || u.Scheme != Uri.UriSchemeHttps || u.Host is not ("play.geforcenow.com" or "www.xbox.com"))

@@ -240,7 +240,7 @@ function OfflineState({ localCount }: { localCount: number }) {
       <CloudOff size={20} aria-hidden />
       <div>
         <strong>Offline mode is on</strong>
-        <p>VYSTRAL doesn’t contact Steam or any game database, so only your library is searched{localCount ? '' : ' (and nothing there matches)'}. Pages you opened before still show what they knew.</p>
+        <p>Arnav Games doesn’t contact Steam or any game database, so only your library is searched{localCount ? '' : ' (and nothing there matches)'}. Pages you opened before still show what they knew.</p>
       </div>
       <Button size="sm" icon={<Settings2 size={14} />} onClick={() => navigate({ name: 'settings', section: 'privacy' })}>Privacy settings</Button>
     </div>

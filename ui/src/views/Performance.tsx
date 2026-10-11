@@ -148,7 +148,7 @@ export function PerformanceView({ sessionId, tab: routeTab, compareWith }: { ses
         <div className="pf-head__text">
           <span className="caps">Performance</span>
           <h1 className="pf-title">Performance intelligence</h1>
-          <p className="pf-lede">Read-only measurements taken while games VYSTRAL launched or detected were running. Nothing here changes your system.</p>
+          <p className="pf-lede">Read-only measurements taken while games Arnav Games launched or detected were running. Nothing here changes your system.</p>
         </div>
         {entries.length > 0 && (
           <div className="pf-toolbar">
@@ -210,7 +210,7 @@ export function PerformanceView({ sessionId, tab: routeTab, compareWith }: { ses
           title="No performance data yet"
           body={
             <>
-              While a game VYSTRAL launched or detected is running, VYSTRAL samples CPU and GPU usage, memory and — on NVIDIA cards — GPU temperature, every couple of seconds.
+              While a game Arnav Games launched or detected is running, Arnav Games samples CPU and GPU usage, memory and — on NVIDIA cards — GPU temperature, every couple of seconds.
               Metrics are read-only and stay on this PC.{' '}
               {collecting ? 'Collection is on: your next session will appear here.' : 'Collection is currently off (Settings › Performance › Collect metrics).'}
             </>

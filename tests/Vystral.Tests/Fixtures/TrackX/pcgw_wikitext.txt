@@ -2,7 +2,7 @@
 |cover        = Lumen Garden cover.jpg
 |steam appid  = 1145360
 }}
-'''Lumen Garden''' is a fictional game used only by VYSTRAL's tests (the shape follows PCGamingWiki's templates).
+'''Lumen Garden''' is a fictional game used only by Arnav Games' tests (the shape follows PCGamingWiki's templates).
 
 ==Game data==
 ===Configuration file(s) location===

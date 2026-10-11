@@ -7,15 +7,16 @@ import { useStore } from '../../state/store';
 import { Badge, Button, Skeleton, Toggle } from '../../components/ui/primitives';
 import './insights-settings.css';
 import './background-tracking.css';
+import { APP_NAME } from '../../lib/brand';
 
 /** Measured footprint of the background tracker (docs/PERFORMANCE.md). */
-export const TRACKER_FOOTPRINT = 'about 20 MB of memory and under 0.1% of one CPU core while it waits (nothing at all while VYSTRAL is open)';
+export const TRACKER_FOOTPRINT = 'about 20 MB of memory and under 0.1% of one CPU core while it waits (nothing at all while Arnav Games is open)';
 
 /** The status sentence under the toggle: what is happening right now, in plain words. */
 export function trackingStatusLine(s: TrackingStatus | null, enabled: boolean, now = Date.now()): string {
-  if (!enabled) return 'Off. Only games you start from VYSTRAL are recorded.';
+  if (!enabled) return 'Off. Only games you start from Arnav Games are recorded.';
   if (!s) return 'On.';
-  if (s.safeMode) return 'Paused: VYSTRAL is running in safe mode.';
+  if (s.safeMode) return 'Paused: Arnav Games is running in safe mode.';
   const seen = s.lastSeen
     ? `last game seen: ${s.lastSeen.title}, ${formatRelative(s.lastSeen.end ?? s.lastSeen.start, now).toLowerCase()}`
     : `watching ${s.watchedGames} installed ${s.watchedGames === 1 ? 'game' : 'games'}; nothing noticed yet`;
@@ -29,7 +30,7 @@ function autostartNote(s: TrackingStatus): { tone: 'ok' | 'warn' | undefined; te
     case 'disabledByWindows':
       return { tone: 'warn', text: 'Turned off in Task Manager › Startup apps, so it won’t start when you sign in. Turn it back on there to track games after a restart.' };
     case 'stale':
-      return { tone: 'warn', text: 'The sign-in entry points at an older copy of VYSTRAL. Turn this off and on again to repair it.' };
+      return { tone: 'warn', text: 'The sign-in entry points at an older copy of Arnav Games. Turn this off and on again to repair it.' };
     case 'off':
       return { tone: undefined, text: 'Not set to start with Windows.' };
     default:
@@ -43,7 +44,7 @@ function autostartNote(s: TrackingStatus): { tone: 'ok' | 'warn' | undefined; te
 }
 
 /**
- * Settings › Launching & sessions › Games started outside VYSTRAL (Track H). Opt-in. Explains what runs,
+ * Settings › Launching & sessions › Games started outside Arnav Games (Track H). Opt-in. Explains what runs,
  * what it costs and what is stored, shows what the tracker is doing, and lists games it was told to ignore.
  */
 export function BackgroundTrackingSettings() {
@@ -78,7 +79,7 @@ export function BackgroundTrackingSettings() {
     setBusy(gameId);
     try {
       setStatus(await call<TrackingStatus>('tracking.setIgnored', { gameId, ignored }));
-      if (ignored) toast({ tone: 'info', title: `VYSTRAL won’t track ${title} when you start it elsewhere`, body: 'Starting it from VYSTRAL still records it as usual.' });
+      if (ignored) toast({ tone: 'info', title: `${APP_NAME} won’t track ${title} when you start it elsewhere`, body: 'Starting it from Arnav Games still records it as usual.' });
     } catch (err) {
       toast({ tone: 'danger', title: 'That didn’t work', body: errorMessage(err) });
     } finally {
@@ -94,16 +95,16 @@ export function BackgroundTrackingSettings() {
   return (
     <section className="sgroup" aria-labelledby="bg-tracking-title">
       <h2 id="bg-tracking-title" className="sgroup__title">
-        Games started outside VYSTRAL <Badge>Optional</Badge>
+        Games started outside Arnav Games <Badge>Optional</Badge>
       </h2>
       <p className="sgroup__desc">
-        VYSTRAL normally records only the games you start from it. Turn this on to also record installed games you start from Steam, a desktop
-        shortcut or anywhere else — while VYSTRAL is open, and through a small background tracker while it’s closed.
+        Arnav Games normally records only the games you start from it. Turn this on to also record installed games you start from Steam, a desktop
+        shortcut or anywhere else — while Arnav Games is open, and through a small background tracker while it’s closed.
       </p>
       <div className="sgroup__rows surface bgx">
         <div className="srow">
           <div className="srow__text">
-            <label className="srow__label" htmlFor="bg-tracking-toggle">Track games even when VYSTRAL is closed</label>
+            <label className="srow__label" htmlFor="bg-tracking-toggle">Track games even when Arnav Games is closed</label>
             <div className="srow__hint" role="status" aria-live="polite" data-testid="bg-tracking-status">
               {error && !s ? `Couldn’t read the tracker’s status: ${error}` : trackingStatusLine(s, enabled)}
             </div>
@@ -121,7 +122,7 @@ export function BackgroundTrackingSettings() {
             )}
           </div>
           <div className="srow__control">
-            <Toggle id="bg-tracking-toggle" label="Track games even when VYSTRAL is closed" checked={enabled} disabled={disabled}
+            <Toggle id="bg-tracking-toggle" label="Track games even when Arnav Games is closed" checked={enabled} disabled={disabled}
               onChange={(v) => void setSetting('tracking.background', v)} />
           </div>
         </div>
@@ -159,9 +160,9 @@ export function BackgroundTrackingSettings() {
           <dl>
             <dt>What runs</dt>
             <dd>
-              A windowless copy of VYSTRAL (<span className="fpsx__mono">Vystral.exe --background-tracker</span>) that starts when you sign in to
-              Windows. It’s listed as “VYSTRAL Background Tracker” in Task Manager › Startup apps. Whenever VYSTRAL itself is open, the tracker
-              pauses and VYSTRAL takes over — exactly one of them tracks at a time, so nothing is counted twice.
+              A windowless copy of Arnav Games (<span className="fpsx__mono">Vystral.exe --background-tracker</span>) that starts when you sign in to
+              Windows. Task Manager › Startup apps lists it under Arnav Games. Whenever Arnav Games itself is open, the tracker
+              pauses and Arnav Games takes over — exactly one of them tracks at a time, so nothing is counted twice.
             </dd>
             <dt>How it watches</dt>
             <dd>
@@ -170,17 +171,17 @@ export function BackgroundTrackingSettings() {
               reads or injects into any process, so anti-cheat software has nothing to object to.
             </dd>
             <dt>Footprint</dt>
-            <dd>Measured at {TRACKER_FOOTPRINT}. During a game it records exactly what a session started from VYSTRAL records.</dd>
+            <dd>Measured at {TRACKER_FOOTPRINT}. During a game it records exactly what a session started from Arnav Games records.</dd>
             <dt>What’s stored</dt>
             <dd>
-              The same session records as games you start from VYSTRAL — when you played, for how long and, if turned on above, performance
+              The same session records as games you start from Arnav Games — when you played, for how long and, if turned on above, performance
               readings — in your library on this PC, marked “Background” or “Detected” in your journal. Sessions shorter than
               {' '}{plural(s ? Math.round(s.minSessionSeconds / 60) : 1, 'minute')} aren’t kept, and hidden games aren’t noticed. Nothing leaves this PC.
             </dd>
             <dt>Turning it off</dt>
             <dd>
               Switch this off: the tracker stops and its sign-in entry is removed. You can also turn it off in Task Manager › Startup apps;
-              uninstalling VYSTRAL removes it too. Recorded sessions stay in your journal until you delete them (Settings › Data).
+              uninstalling Arnav Games removes it too. Recorded sessions stay in your journal until you delete them (Settings › Data).
             </dd>
           </dl>
         </details>

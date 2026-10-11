@@ -98,7 +98,7 @@ public sealed partial class MetadataService(LibraryRepository repo, ArtworkServi
         catch (HttpRequestException ex) when (ex.StatusCode is { } status)
         {
             if (status == HttpStatusCode.TooManyRequests || status == HttpStatusCode.Forbidden)
-                ProviderHealthHub.Failed(id, "Steam asked VYSTRAL to slow down; details are paused until the next run");
+                ProviderHealthHub.Failed(id, "Steam asked Arnav Games to slow down; details are paused until the next run");
             else ProviderHealthHub.Status(id, status, "Steam");
             throw;
         }

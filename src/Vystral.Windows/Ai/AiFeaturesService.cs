@@ -25,7 +25,7 @@ public sealed record CaptionFacts(string SessionId, string Title, DateTimeOffset
 /// <summary>
 /// Track C5: the AI-assisted features. Each one computes its facts on this PC first (deterministic queries over the
 /// library and sessions), asks the chosen AI only to plan (a validated JSON spec) or to phrase those facts, and
-/// always has a useful answer without AI. Model text that mentions a number VYSTRAL didn't provide is discarded.
+/// always has a useful answer without AI. Model text that mentions a number Arnav Games didn't provide is discarded.
 /// </summary>
 public sealed class AiFeaturesService
 {
@@ -68,7 +68,7 @@ public sealed class AiFeaturesService
         "Answer in one or two short, friendly sentences. Quote names and numbers exactly as they appear in the facts. " +
         "Never calculate new numbers (no sums, averages, percentages, conversions or rounding). No markdown, no lists, no emoji.";
 
-    /// <summary>A free-form question: the AI writes a query spec, VYSTRAL runs it here, the AI phrases the result.</summary>
+    /// <summary>A free-form question: the AI writes a query spec, Arnav Games runs it here, the AI phrases the result.</summary>
     public async Task<JournalAnswerDto> AskJournalAsync(string question, CancellationToken ct)
     {
         var engine = _ai.Active();
@@ -85,7 +85,7 @@ public sealed class AiFeaturesService
         List<string> unmatched = [];
         string? unsupported = null;
         var plan = await _ai.AskAsync("journal", new AiPrompt(
-            "You translate a question about the user's own play history into a query for VYSTRAL, a game launcher. " +
+            "You translate a question about the user's own play history into a query for Arnav Games, a game launcher. " +
             "Play sessions have: game, store, start time and length. Reply with only one JSON object matching this schema: " + JournalQuery.Schema +
             $" Today is {today:yyyy-MM-dd} ({today.DayOfWeek}). Resolve months and relative dates to explicit from/to dates (a month without a year means its most recent past occurrence). " +
             "Use exact titles and genres from the lists. If sessions can't answer the question, reply {\"unsupported\":\"a short reason\"}.",
@@ -99,7 +99,7 @@ public sealed class AiFeaturesService
             }, ct);
 
         if (plan.Answer is null)
-            return new JournalAnswerDto(q, null, "", null, null, plan.Note ?? "The AI didn’t produce a query VYSTRAL could check. Try rewording, or pick a ready-made question.",
+            return new JournalAnswerDto(q, null, "", null, null, plan.Note ?? "The AI didn’t produce a query Arnav Games could check. Try rewording, or pick a ready-made question.",
                 NeedsAi: false, null, engine, null);
         if (unsupported is not null || spec is null)
             return new JournalAnswerDto(q, null, "", plan.Answer.Label, null, plan.Answer.Note, false,
@@ -109,14 +109,14 @@ public sealed class AiFeaturesService
         var plain = JournalQuery.PlainAnswer(result);
         var facts = JournalQuery.Facts(result);
         var phrase = await _ai.AskAsync("journal", new AiPrompt(
-            "You answer a question about the user's play history using only the facts VYSTRAL computed on their PC. " + PhraseRules,
+            "You answer a question about the user's play history using only the facts Arnav Games computed on their PC. " + PhraseRules,
             $"Question: {q}\nFacts:\n{facts}", Json: false, MaxTokens: 1024),
             raw =>
             {
                 var text = AiText.Clean(raw, 420);
                 return text.Length >= 8 && AiText.OnlyKnownNumbers(text, facts + "\n" + q) ? text : null;
             }, ct);
-        var note = phrase.Answer?.Note ?? (phrase.Answer is null ? phrase.Note ?? "The AI’s wording didn’t match the numbers, so VYSTRAL’s own summary is shown." : null);
+        var note = phrase.Answer?.Note ?? (phrase.Answer is null ? phrase.Note ?? "The AI’s wording didn’t match the numbers, so Arnav Games’ own summary is shown." : null);
         return new JournalAnswerDto(q, result, phrase.Answer?.Text ?? plain, plan.Answer.Label, phrase.Answer?.Label, note ?? plan.Answer.Note, false, null, engine,
             Sent(phrase.Answer ?? plan.Answer, "journal"));
     }
@@ -214,7 +214,7 @@ public sealed class AiFeaturesService
         var facts = TonightPlanner.Facts(candidates, mood, minutes, note);
         (string Intro, List<TonightPickDto> Picks)? plan = null;
         var outcome = await _ai.AskAsync("tonight", new AiPrompt(
-            "You help someone pick a game for tonight from a fixed list of candidates VYSTRAL prepared from their library. " +
+            "You help someone pick a game for tonight from a fixed list of candidates Arnav Games prepared from their library. " +
             "Pick 1 to 3 candidates by their ref, best first, considering their mood, time and anything they said. For each, write one friendly sentence " +
             "(under 30 words) built only from that candidate's facts. Never invent features, hours or numbers, and never suggest anything not on the list. " +
             "Reply with only JSON: {\"intro\":\"one short sentence\",\"picks\":[{\"ref\":\"c1\",\"reason\":\"…\"}]}",
@@ -258,7 +258,7 @@ public sealed class AiFeaturesService
         if (outcome.Answer is { } a && filter is not null)
             return new SmartFilterDto(s, string.IsNullOrWhiteSpace(name) ? null : name, filter, dropped, false, a.Label, a.Note, engine, Sent(a, "smartCollections"));
         return new SmartFilterDto(s, null, null, [], NeedsAi: false, null,
-            outcome.Note ?? "The AI couldn’t turn that into a filter VYSTRAL could check, so VYSTRAL’s own reading of your sentence is shown.", engine, null);
+            outcome.Note ?? "The AI couldn’t turn that into a filter Arnav Games could check, so Arnav Games’ own reading of your sentence is shown.", engine, null);
     }
 
     // ---------------- Duplicate explanation ----------------

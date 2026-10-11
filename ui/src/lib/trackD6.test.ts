@@ -62,7 +62,7 @@ describe('crash-free streak words', () => {
     expect(streakSentence(streak({}))).toBe('42 days without a failed start');
     expect(streakSentence(streak({ days: 1 }))).toBe('1 day without a failed start');
     expect(streakSub(streak({}))).toMatch(/^The last failed start was on .+\. 118 starts recorded, 1 unexpected close\.$/);
-    expect(streakSub(streak({ sinceHistoryBegan: true, unexpectedCloses: 0, failedStarts: 0 }))).toMatch(/^Every start since VYSTRAL began keeping count on .+ reached a working window\. 118 starts recorded\.$/);
+    expect(streakSub(streak({ sinceHistoryBegan: true, unexpectedCloses: 0, failedStarts: 0 }))).toMatch(/^Every start since Arnav Games began keeping count on .+ reached a working window\. 118 starts recorded\.$/);
   });
 
   it('is honest on day one', () => {

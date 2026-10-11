@@ -1,5 +1,5 @@
 /**
- * Track E2a: "Open on start" — which page VYSTRAL opens on: a fixed page, Immersive Mode, or the last page you were
+ * Track E2a: "Open on start" — which page Arnav Games opens on: a fixed page, Immersive Mode, or the last page you were
  * on (the behaviour before this setting existed, and still the default).
  *
  * The first frame must already be the right page (Track AA paints before settings arrive), so the choice is mirrored

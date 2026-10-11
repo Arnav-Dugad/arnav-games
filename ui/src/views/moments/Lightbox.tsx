@@ -215,7 +215,7 @@ function Viewer({
               Open {game.title}
             </Button>
           )}
-          <p className="mv-lightbox__note">The date shown is the file’s modified date. Files stay where they are; VYSTRAL only reads them.</p>
+          <p className="mv-lightbox__note">The date shown is the file’s modified date. Files stay where they are; Arnav Games only reads them.</p>
           <div className="mv-lightbox__keys" aria-hidden>
             <span className="kbd">←</span>
             <span className="kbd">→</span> browse <span className="kbd">Esc</span> close

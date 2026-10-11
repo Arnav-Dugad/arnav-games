@@ -5,6 +5,7 @@
 import { CARD_H, CARD_W } from '../../lib/replay';
 import type { CeremonyFacts } from '../../lib/ceremony';
 import { coverFit, truncate } from '../replay/drawReplay';
+import { drawWordmark } from '../../lib/brand';
 
 export interface CompletionImages {
   cover: ImageBitmap | null;
@@ -171,12 +172,7 @@ export function drawCompletion(ctx: CanvasRenderingContext2D, title: string, fac
   ctx.font = `500 24px ${theme.fontUi}`;
   ctx.fillText(completedOn.toLocaleDateString(undefined, { day: 'numeric', month: 'long', year: 'numeric' }), tx, CARD_H - 64);
   ctx.fillStyle = 'rgba(255,255,255,0.72)';
-  ctx.font = `600 24px ${theme.fontDisplay}`;
-  ctx.letterSpacing = '7px';
-  ctx.textAlign = 'right';
-  ctx.fillText('VYSTRAL', CARD_W - 120, CARD_H - 64);
-  ctx.textAlign = 'left';
-  ctx.letterSpacing = '0px';
+  drawWordmark(ctx, CARD_W - 120, CARD_H - 64, 24, theme.fontUi);
   ctx.restore();
 }
 

@@ -18,8 +18,7 @@
 .titlebar { grid-column: 1 / -1; display: flex; align-items: center; gap: var(--s-2); padding: 0 0 0 var(--s-3); height: var(--titlebar-h); position: relative; z-index: 30; }
 .titlebar__brand { display: flex; align-items: center; gap: 10px; padding: 0 var(--s-2); width: calc(var(--sidebar-w) - var(--s-3)); flex: none; }
 .shell[data-collapsed='true'] .titlebar__brand { width: calc(var(--sidebar-w-collapsed) - var(--s-3)); }
-.titlebar__mark { width: 26px; height: 26px; flex: none; filter: drop-shadow(0 2px 10px oklch(from var(--accent) l c h / 0.5)); }
-.wordmark { font-family: var(--font-display); font-weight: 600; font-size: 13px; letter-spacing: 0.32em; color: var(--text-1); white-space: nowrap; }
+.titlebar__mark { width: 22px; height: 22px; margin-inline: 2px; }
 .shell[data-collapsed='true'] .titlebar__brand .wordmark { display: none; }
 .titlebar__drag { flex: 1; align-self: stretch; min-width: 16px; }
 .titlebar__search {
@@ -31,7 +30,7 @@
 .titlebar__search span:first-of-type { flex: 1; min-width: 0; text-align: left; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .titlebar__right { display: flex; align-items: center; gap: var(--s-1); flex: none; }
 /* Track C2: the system caption buttons' width (set from the native inset by TitleBar) plus a small gap; never shrinks,
-   so VYSTRAL's own buttons can't slide underneath minimize/maximize/close. */
+   so Arnav Games' own buttons can't slide underneath minimize/maximize/close. */
 .titlebar__caption-space { flex: none; min-width: 12px; width: calc(var(--caption-inset-right, 138px) + var(--caption-gap, 8px)); }
 .titlebar { padding-left: calc(var(--s-3) + var(--caption-inset-left, 0px)); }
 /* The search box gives way first when the window is narrow (down to its icon), so the right-hand buttons never
@@ -121,11 +120,15 @@
 }
 .intro__stage { position: relative; display: grid; justify-items: center; }
 .intro__mark { width: clamp(110px, 13vmin, 168px); height: auto; overflow: visible; }
+/* The wordmark as the brand sets it: Geist caps, ARNAV 600 and GAMES 360, +0.26em between letters and a further
+   0.30em between the words (docs/BRAND.md › Wordmark). */
 .intro__word {
-  margin-top: 26px; display: flex; gap: 0.62em; padding-left: 0.62em;
-  font-family: var(--font-display); font-weight: 600; font-size: clamp(20px, 2.3vmin, 30px); color: #f4f2ff;
+  margin-top: 28px; display: flex; gap: 0.26em;
+  font-family: var(--font-ui); font-weight: 600; font-size: clamp(20px, 2.3vmin, 30px); color: #f2effa;
 }
 .intro__word span { display: inline-block; }
+.intro__word .intro__light { font-weight: 360; }
+.intro__word .intro__light--first { margin-left: 0.3em; }
 .intro__tag { margin-top: 12px; font-size: clamp(11px, 1.15vmin, 14px); color: #a9a3c2; letter-spacing: 0.28em; text-indent: 0.28em; }
 .intro__skip { position: absolute; bottom: 28px; right: 32px; font-size: var(--fs-xs); color: #8c87a5; }
 

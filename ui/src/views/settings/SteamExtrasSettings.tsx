@@ -33,7 +33,7 @@ export function SteamExtrasSettings() {
         <Row
           id="steamextras-wishlist"
           label="Wishlist"
-          hint={<>Your Steam wishlist with today’s prices, the lowest price ever and release dates, refreshed about twice a day. VYSTRAL also keeps a price history for each game from then on.{needsKey}</>}
+          hint={<>Your Steam wishlist with today’s prices, the lowest price ever and release dates, refreshed about twice a day. Arnav Games also keeps a price history for each game from then on.{needsKey}</>}
           control={
             <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}>
               {settings['wishlist.sync'] && <Button size="sm" variant="ghost" icon={<Gift size={14} />} onClick={() => navigate({ name: 'wishlist' })}>Open</Button>}

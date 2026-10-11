@@ -41,7 +41,7 @@ public sealed class CacheJanitorTests : IDisposable
     [InlineData(@"cache\news\..\..\vystral.db")]
     [InlineData(@"cache")]
     [InlineData(@"cache\art")]                    // mixes user-chosen art: only its own service clears it
-    [InlineData(@"cache\wishlist.json")]          // holds the price history VYSTRAL recorded
+    [InlineData(@"cache\wishlist.json")]          // holds the price history Arnav Games recorded
     [InlineData(@"cache\game-pages\store-facts.json")]
     [InlineData(@"vystral.db")]
     [InlineData(@"backups")]

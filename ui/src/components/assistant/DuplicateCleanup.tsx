@@ -113,7 +113,7 @@ export function DuplicateCleanup() {
     return (
       <div className="asx-dup__empty">
         <CopyCheck size={26} aria-hidden />
-        <p><strong>No possible duplicates.</strong> When VYSTRAL finds two entries that look like the same game but differ in edition or store, they show up here.</p>
+        <p><strong>No possible duplicates.</strong> When Arnav Games finds two entries that look like the same game but differ in edition or store, they show up here.</p>
       </div>
     );
 
@@ -145,7 +145,7 @@ export function DuplicateCleanup() {
   return (
     <div className="asx-dup">
       <p className="asx-dup__intro">
-        These look like the same game in different stores or editions, so VYSTRAL kept them apart until you say so. Merging only changes how they
+        These look like the same game in different stores or editions, so Arnav Games kept them apart until you say so. Merging only changes how they
         appear here: both store versions stay, and nothing on disk changes.
       </p>
       {pending.length > 1 && (

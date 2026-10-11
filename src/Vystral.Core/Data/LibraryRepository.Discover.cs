@@ -9,7 +9,7 @@ public sealed record DiscoverLibraryRow(string Id, string Title, string? SteamAp
 
 /// <summary>
 /// Track C3: a library game that could start a "Because you played …" shelf: how much and how recently it was played
-/// (VYSTRAL's own sessions, or the store's imported playtime), its genres and, when IGDB matched it, its IGDB ID.
+/// (Arnav Games' own sessions, or the store's imported playtime), its genres and, when IGDB matched it, its IGDB ID.
 /// </summary>
 public sealed record DiscoverSeedRow(
     string Id, string Title, string? SteamAppId, string GenresJson, long TrackedSeconds, long ImportedMinutes,
@@ -46,7 +46,7 @@ public sealed partial class LibraryRepository
     }
 
     /// <summary>
-    /// Track C3: visible games that were played at all (a VYSTRAL session or store playtime), with what "Because you
+    /// Track C3: visible games that were played at all (an Arnav Games session or store playtime), with what "Because you
     /// played" needs to pick its seeds. Sorting and picking happen in the caller (pure, tested).
     /// </summary>
     public IReadOnlyList<DiscoverSeedRow> GetDiscoverSeeds()

@@ -116,7 +116,7 @@ public sealed partial class SteamWebApiClient(HttpClient http, Func<string?> api
         {
             var now = DateTime.UtcNow;
             if (_blockedUntil > now)
-                throw new SteamApiException(SteamApiOutcome.RateLimited, "Steam asked VYSTRAL to slow down. Try again in a minute.");
+                throw new SteamApiException(SteamApiOutcome.RateLimited, "Steam asked Arnav Games to slow down. Try again in a minute.");
             if (_next > now) await Delay(_next - now, ct);
             _next = DateTime.UtcNow + MinSpacing;
 
@@ -134,7 +134,7 @@ public sealed partial class SteamWebApiClient(HttpClient http, Func<string?> api
                 Services.ProviderHealthHub.Failed(HealthId, ex);
                 // Log only the endpoint name, never the query (it contains the key).
                 Log.Warn("steamapi", "Request failed", new { endpoint = Endpoint(pathAndQuery), error = ex.GetType().Name });
-                throw new SteamApiException(SteamApiOutcome.Unavailable, "VYSTRAL couldn’t reach Steam. Check your connection and try again.");
+                throw new SteamApiException(SteamApiOutcome.Unavailable, "Arnav Games couldn’t reach Steam. Check your connection and try again.");
             }
             using (response)
             {
@@ -142,9 +142,9 @@ public sealed partial class SteamWebApiClient(HttpClient http, Func<string?> api
                 {
                     var wait = response.Headers.RetryAfter?.Delta ?? TimeSpan.FromMinutes(1);
                     _blockedUntil = DateTime.UtcNow + (wait < TimeSpan.FromSeconds(5) ? TimeSpan.FromSeconds(5) : wait > TimeSpan.FromHours(1) ? TimeSpan.FromHours(1) : wait);
-                    Services.ProviderHealthHub.PausedUntil(HealthId, new DateTimeOffset(_blockedUntil, TimeSpan.Zero), "Steam asked VYSTRAL to slow down (HTTP 429)");
+                    Services.ProviderHealthHub.PausedUntil(HealthId, new DateTimeOffset(_blockedUntil, TimeSpan.Zero), "Steam asked Arnav Games to slow down (HTTP 429)");
                     Log.Warn("steamapi", "Rate limited by Steam", new { endpoint = Endpoint(pathAndQuery), seconds = (int)wait.TotalSeconds });
-                    throw new SteamApiException(SteamApiOutcome.RateLimited, "Steam asked VYSTRAL to slow down. Try again in a minute.");
+                    throw new SteamApiException(SteamApiOutcome.RateLimited, "Steam asked Arnav Games to slow down. Try again in a minute.");
                 }
                 if (response.Content.Headers.ContentLength > 8 * 1024 * 1024)
                     throw new SteamApiException(SteamApiOutcome.Malformed, "Steam sent an unexpectedly large response.");

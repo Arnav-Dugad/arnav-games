@@ -2,7 +2,7 @@
  * Track D5: what recommend.v2 needs from the rest of the app, gathered once and shared — "Not interested" memory,
  * recent sessions (for the time you usually have), Steam tags, time to beat, cloud lists, friends playing now and
  * free space — plus hooks that run the engine for Home, Discover and Immersive. Nothing here asks the network for
- * anything new: every input is something VYSTRAL already has (or asks only of features you turned on).
+ * anything new: every input is something Arnav Games already has (or asks only of features you turned on).
  */
 import { useCallback, useEffect, useMemo } from 'react';
 import { create } from 'zustand';

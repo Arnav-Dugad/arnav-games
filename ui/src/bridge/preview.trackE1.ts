@@ -15,6 +15,7 @@ import type {
   VoiceStatus, WeeklyRecapCard,
 } from './types';
 import { BridgeError } from './bridge';
+import { APP_NAME } from '../lib/brand';
 
 type Emit = (name: string, payload: unknown) => void;
 
@@ -114,7 +115,7 @@ export function trackE1PreviewHandlers(ctx: {
     if (t.length > 200) throw new BridgeError('invalid', 'Keep it under 200 characters.');
     if (/https?:\/\/|www\./i.test(t)) throw new BridgeError('invalid', 'Memories can’t hold links.');
     if (/\b(password|passcode|api[ -]?key|secret key|access token)\b/i.test(t) || /\b(sk-|ghp_)[A-Za-z0-9]/.test(t))
-      throw new BridgeError('invalid', 'That looks like a password or a key. VYSTRAL never keeps those as memories.');
+      throw new BridgeError('invalid', 'That looks like a password or a key. Arnav Games never keeps those as memories.');
     return t;
   };
   const norm = (t: string) => t.toLowerCase().replace(/[.!]+$/, '');
@@ -333,7 +334,7 @@ export function trackE1PreviewHandlers(ctx: {
     'perf.lagNote': async (p: { sessionId: string }): Promise<LagNote> => {
       const x = ctx.lib.sessions.find((y) => y.id === p?.sessionId);
       if (!x) throw new BridgeError('notFound', 'That session is no longer in your journal.');
-      const basis = 'From VYSTRAL’s frame-time analysis of this session. Nothing was changed.';
+      const basis = 'From Arnav Games’ frame-time analysis of this session. Nothing was changed.';
       const perf = x.perfSummary ? (JSON.parse(x.perfSummary) as Record<string, number>) : {};
       if (!isRough(perf, x.durationSeconds)) return { sessionId: x.id, rough: false, text: null, cause: null, source: 'analysis', aiLabel: null, basis, cached: false, sent: null };
       const deterministic = perf.cpuAvg > 85
@@ -341,7 +342,7 @@ export function trackE1PreviewHandlers(ctx: {
         : `Frame pacing was uneven (1% lows of ${Math.round(perf.fps1Low)} fps against a ${Math.round(perf.fpsAvg)} fps average), with no single clear cause in the samples.`;
       const ai = s()['ai.features.lagNotes'] ? await fakeAi('lagNotes', false) : null;
       return ai
-        ? { sessionId: x.id, rough: true, text: 'Likely the processor: it stayed nearly maxed out, so frames waited on it.', cause: 'cpu', source: 'ai', aiLabel: ai.label, basis, cached: false, sent: `Sent to ${COMPANY[ai.engine] ?? 'the provider'} (${ai.label}): that session’s frame-rate figures and VYSTRAL’s own stutter findings. (Preview: nothing actually left this PC.)` }
+        ? { sessionId: x.id, rough: true, text: 'Likely the processor: it stayed nearly maxed out, so frames waited on it.', cause: 'cpu', source: 'ai', aiLabel: ai.label, basis, cached: false, sent: `Sent to ${COMPANY[ai.engine] ?? 'the provider'} (${ai.label}): that session’s frame-rate figures and ${APP_NAME}’ own stutter findings. (Preview: nothing actually left this PC.)` }
         : { sessionId: x.id, rough: true, text: deterministic, cause: perf.cpuAvg > 85 ? 'cpu' : 'uneven', source: 'analysis', aiLabel: null, basis, cached: false, sent: null };
     },
 

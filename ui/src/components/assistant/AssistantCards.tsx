@@ -9,6 +9,7 @@ import { GameCover } from '../game/GameCover';
 import { JournalChart } from '../ai/JournalChart';
 import { Button } from '../ui/primitives';
 import { TOOL_ICONS } from './toolIcons';
+import { APP_NAME } from '../../lib/brand';
 
 /**
  * Track D3: rich cards under an answer, built from what the look-ups returned on this PC (never from the model's text):
@@ -84,8 +85,8 @@ function PicksCard({ card }: { card: Extract<AssistantCard, { kind: 'picks' }> }
   const gamesById = useStore((s) => s.gamesById);
   const navigate = useStore((s) => s.navigate);
   return (
-    <section className="asx-card asx-picks" aria-label={`VYSTRAL’s shortlist: ${card.title}`}>
-      <h4 className="asx-card__title"><Sparkles size={13} aria-hidden /> VYSTRAL’s shortlist · {card.title}</h4>
+    <section className="asx-card asx-picks" aria-label={`${APP_NAME}’ shortlist: ${card.title}`}>
+      <h4 className="asx-card__title"><Sparkles size={13} aria-hidden /> Arnav Games’ shortlist · {card.title}</h4>
       <ol className="asx-picks__list">
         {card.items.map((p, i) => {
           const g = p.gameId ? gamesById.get(p.gameId) : undefined;

@@ -22,7 +22,7 @@ public sealed record TrackerSessionNote(
 
 /// <summary>
 /// Small JSON state files in the data folder (no database schema change): the session note above and
-/// the list of games the user doesn't want noticed outside VYSTRAL. Writes are atomic (temp file +
+/// the list of games the user doesn't want noticed outside Arnav Games. Writes are atomic (temp file +
 /// rename); reads validate everything and treat anything odd as absent.
 /// </summary>
 public sealed partial class TrackerFiles(string dataRoot)

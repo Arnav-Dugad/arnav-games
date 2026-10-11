@@ -169,9 +169,9 @@ function CloudMenu({ id, anchor, open, onClose, data, active, elapsed, onStart }
   const ht = healthTone(health);
   const left = active ? sessionLeft(active) : null;
   const surfaceNote = data.options.some((o) => o.surface === 'edge')
-    ? 'Web games open in a separate Microsoft Edge window with its own sign-in. VYSTRAL never reads it.'
+    ? 'Web games open in a separate Microsoft Edge window with its own sign-in. Arnav Games never reads it.'
     : data.options.some((o) => o.surface === 'browser')
-      ? 'Web games open in your browser. VYSTRAL can’t see browser tabs, so press “I’m done” when you finish.'
+      ? 'Web games open in your browser. Arnav Games can’t see browser tabs, so press “I’m done” when you finish.'
       : null;
 
   return createPortal(
@@ -194,7 +194,7 @@ function CloudMenu({ id, anchor, open, onClose, data, active, elapsed, onStart }
             <div className="cloud-menu__active">
               <div className="cloud-menu__active-text">
                 <strong>{active.state === 'running' ? `Streaming for ${clock(elapsed)}` : `Waiting for ${SERVICE_SHORT[active.service]} to start the stream…`}</strong>
-                <span>{active.manual ? 'VYSTRAL can’t see when a browser tab closes.' : 'VYSTRAL ends the session when the stream closes.'}{left ? ` ${left.text}.` : ''}</span>
+                <span>{active.manual ? 'Arnav Games can’t see when a browser tab closes.' : 'Arnav Games ends the session when the stream closes.'}{left ? ` ${left.text}.` : ''}</span>
               </div>
               <button className="cloud-menu__done" onClick={() => { onClose(); void endCloudSession(); }}>
                 <CircleStop size={15} aria-hidden /> I’m done
@@ -279,8 +279,8 @@ export function ImmersiveCloudActions({ game, onClose }: { game: Game; onClose: 
 }
 
 /**
- * Desktop shell: a small pill while a cloud session VYSTRAL started is open (any page), with the live time, the
- * session-length warning and "I'm done" — the only way to end a browser session VYSTRAL can't see.
+ * Desktop shell: a small pill while a cloud session Arnav Games started is open (any page), with the live time, the
+ * session-length warning and "I'm done" — the only way to end a browser session Arnav Games can't see.
  */
 export function CloudSessionPill() {
   const active = useCloudActive();

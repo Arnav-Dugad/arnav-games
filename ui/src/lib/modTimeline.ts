@@ -3,8 +3,8 @@
  * axis, finds the first session after each update (and a measured session before it, for the frame-rate comparison),
  * lays the markers out for a zoom level, and moves keyboard focus between them. Unit-tested; the view only draws.
  *
- * Honesty: a version VYSTRAL saw for the first time is a "first seen" marker, never an update (it may have been
- * installed long before). An update's time is when the store says it was installed, else when VYSTRAL noticed it.
+ * Honesty: a version Arnav Games saw for the first time is a "first seen" marker, never an update (it may have been
+ * installed long before). An update's time is when the store says it was installed, else when Arnav Games noticed it.
  */
 import type { ModsList, NewsPost, Session, VersionHistoryEntry } from '../bridge/types';
 import { isObserved } from './sessions';
@@ -18,7 +18,7 @@ export interface UpdateEvent {
   kind: 'update';
   id: string;
   t: number;
-  /** news: a Steam post tagged as patch notes; build: a version change VYSTRAL saw; firstSeen: the first version it saw. */
+  /** news: a Steam post tagged as patch notes; build: a version change Arnav Games saw; firstSeen: the first version it saw. */
   source: 'news' | 'build' | 'firstSeen';
   title: string;
   /** "Build 14287654", "Version 1.5.17.0". */

@@ -9,11 +9,11 @@ export interface GroupMeta {
 }
 
 export const GROUPS: GroupMeta[] = [
-  { id: 'launch', title: 'Games that can’t start', blurb: 'Their program or folder isn’t where VYSTRAL expects it.' },
+  { id: 'launch', title: 'Games that can’t start', blurb: 'Their program or folder isn’t where Arnav Games expects it.' },
   { id: 'drives', title: 'Drives that aren’t connected', blurb: 'Games on these drives come back when you plug them in.' },
   { id: 'sessions', title: 'Play sessions', blurb: 'Sessions without an end, or long enough to look like the game was left open.' },
   { id: 'duplicates', title: 'Duplicates', blurb: 'The same game more than once, installed or listed.' },
-  { id: 'installs', title: 'Installs and stores', blurb: 'Games stores stopped listing, and stores VYSTRAL isn’t reading.' },
+  { id: 'installs', title: 'Installs and stores', blurb: 'Games stores stopped listing, and stores Arnav Games isn’t reading.' },
   { id: 'art', title: 'Artwork', blurb: 'Missing, placeholder or blurry covers and backgrounds.' },
   { id: 'metadata', title: 'Game details', blurb: 'Games without a description, developer or genres.' },
 ];

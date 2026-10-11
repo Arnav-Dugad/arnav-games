@@ -3,9 +3,9 @@ import { isCloud, sessionOrigin } from '../../lib/sessions';
 import './origin.css';
 
 /**
- * Track H: a small, quiet note on sessions VYSTRAL didn't launch — "Background" (recorded by the background
- * tracker while VYSTRAL was closed) or "Detected" (started elsewhere, noticed while open). Renders nothing
- * for sessions started from VYSTRAL.
+ * Track H: a small, quiet note on sessions Arnav Games didn't launch — "Background" (recorded by the background
+ * tracker while Arnav Games was closed) or "Detected" (started elsewhere, noticed while open). Renders nothing
+ * for sessions started from Arnav Games.
  */
 export function SessionOriginChip({ source, compact }: { source: string | null | undefined; compact?: boolean }) {
   const origin = sessionOrigin(source);

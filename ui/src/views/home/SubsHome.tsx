@@ -16,7 +16,7 @@ import '../../components/game/shelf.css';
 import '../../components/subs/subs.css';
 
 /**
- * Track V: the one-time "Tell VYSTRAL your subscriptions" card for people who skipped (or predate) the onboarding
+ * Track V: the one-time "Tell Arnav Games your subscriptions" card for people who skipped (or predate) the onboarding
  * step. Saving or "Not now" both mark the question as asked, so it never comes back; Settings → Library & stores
  * changes the answer any time.
  */
@@ -61,10 +61,10 @@ export function SubsAskCard() {
       <div className="subs-ask__glow" aria-hidden />
       <header className="subs-ask__head">
         <div>
-          <span className="subs-ask__eyebrow caps"><Ticket size={13} aria-hidden /> Make VYSTRAL yours</span>
-          <h2 className="subs-ask__title" id="subs-ask-title">Tell VYSTRAL your subscriptions</h2>
+          <span className="subs-ask__eyebrow caps"><Ticket size={13} aria-hidden /> Make Arnav Games yours</span>
+          <h2 className="subs-ask__title" id="subs-ask-title">Tell Arnav Games your subscriptions</h2>
           <p className="subs-ask__lead">
-            Pick what you pay for and VYSTRAL tailors itself: badges on games your plans include, a row of included games you don’t own yet,
+            Pick what you pay for and Arnav Games tailors itself: badges on games your plans include, a row of included games you don’t own yet,
             “leaving soon” warnings, and cloud play that only shows your services.
           </p>
         </div>
@@ -164,7 +164,7 @@ function PickTile({ pick }: { pick: SubsPick }) {
 }
 
 /**
- * The subscription value card: hours this month in games your plans include (as tracked by VYSTRAL), per plan, and —
+ * The subscription value card: hours this month in games your plans include (as tracked by Arnav Games), per plan, and —
  * only if you typed what you pay — cost per hour. Renders nothing until there's time to show.
  */
 export function SubsValueCard() {
@@ -186,14 +186,14 @@ export function SubsValueCard() {
         <span className="subs-value__eyebrow caps"><Ticket size={13} aria-hidden /> Your subscriptions · {month}</span>
         <h2 className="subs-value__big" id="subs-value-title">{formatHours(value.seconds)}</h2>
         <p className="subs-value__sub">
-          in games your plans include, across {plural(value.games, 'game')} and {plural(value.sessions, 'session')}, as tracked by VYSTRAL this month.
+          in games your plans include, across {plural(value.games, 'game')} and {plural(value.sessions, 'session')}, as tracked by Arnav Games this month.
         </p>
         <div className="subs-value__cost">
           {value.costPerHour != null ? (
             <>
               <strong>About {formatMoney(value.costPerHour, value.currency)} an hour</strong>
               <span className="subs-value__note">
-                What you entered ({formatMoney(value.price, value.currency)} a month) ÷ the hours VYSTRAL tracked. Play on other devices isn’t counted, so
+                What you entered ({formatMoney(value.price, value.currency)} a month) ÷ the hours Arnav Games tracked. Play on other devices isn’t counted, so
                 your real cost per hour is likely lower.
               </span>
             </>

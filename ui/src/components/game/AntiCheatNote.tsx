@@ -8,7 +8,7 @@ import './anticheat-note.css';
 
 /**
  * Track M: a calm, informative note on the game page when AreWeAntiCheatYet lists a kernel-level
- * anti-cheat for this game. It says what VYSTRAL itself does (read-only) and nothing it can't verify.
+ * anti-cheat for this game. It says what Arnav Games itself does (read-only) and nothing it can't verify.
  * Hidden with Settings › Launching & sessions › Anti-cheat notes.
  */
 export function AntiCheatNote({ game }: { game: Game }) {
@@ -37,7 +37,7 @@ export function AntiCheatNote({ game }: { game: Game }) {
       <div className="acn__body">
         <p id={`${id}-h`} className="acn__headline">{note.headline}</p>
         <button className="acn__toggle" aria-expanded={open} aria-controls={`${id}-more`} onClick={() => setOpen((o) => !o)}>
-          What VYSTRAL does <ChevronDown size={13} aria-hidden data-open={open || undefined} />
+          What Arnav Games does <ChevronDown size={13} aria-hidden data-open={open || undefined} />
         </button>
         <ul id={`${id}-more`} className="acn__notes" hidden={!open}>
           {note.notes.map((n) => <li key={n}>{n}</li>)}

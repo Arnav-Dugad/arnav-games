@@ -50,7 +50,7 @@ public sealed partial class AppBackend
         Dispatcher.Register("subs.refresh", async ct => await Run(() => _subs.RefreshAsync(manual: true, ct)));
         Dispatcher.Register<SubsProductParams>("subs.openStore", (p, _) =>
         {
-            // Only a product from a list VYSTRAL downloaded, opened on its official page. Nothing is installed.
+            // Only a product from a list Arnav Games downloaded, opened on its official page. Nothing is installed.
             if (!CloudIds.IsProductId(p.ProductId) || !_subs.IsKnownProduct(p.ProductId)) throw new BridgeException("invalid", "Unknown game.");
             // The Xbox app's documented game page when it's installed (Track O's builder and starter), else the Store page.
             if (CloudLauncher.Detect(new WindowsRegistryReader()).XboxApp)
@@ -108,7 +108,7 @@ public sealed partial class AppBackend
     }
 
     /// <summary>
-    /// Cloud queue alerts: while a GeForce NOW session VYSTRAL started waits for its stream, look at the GeForce NOW
+    /// Cloud queue alerts: while a GeForce NOW session Arnav Games started waits for its stream, look at the GeForce NOW
     /// app's window titles every few seconds (read-only). Idle, it only checks whether such a session exists.
     /// </summary>
     private void StartQueueWatch()

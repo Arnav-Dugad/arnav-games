@@ -76,7 +76,7 @@ public static class Program
         // could smuggle onto that command line is ignored, including --safe-mode.
         var uriLaunch = args.Length > 0 && args[0] == ActivationUri.Switch;
 
-        // Holding Shift while starting VYSTRAL, or --safe-mode, starts without visual effects,
+        // Holding Shift while starting Arnav Games, or --safe-mode, starts without visual effects,
         // AI or background downloads, so a bad setting or driver issue can always be recovered.
         SafeMode = (!uriLaunch && args.Contains("--safe-mode", StringComparer.OrdinalIgnoreCase)) || (GetAsyncKeyState(0x10) & 0x8000) != 0;
 

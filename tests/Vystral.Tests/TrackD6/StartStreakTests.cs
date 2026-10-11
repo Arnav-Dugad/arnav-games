@@ -71,7 +71,7 @@ public sealed class StartStreakTests
     [Fact]
     public void Other_incidents_join_the_history_newest_first_but_dont_break_the_streak()
     {
-        var other = new StreakIncident(Now.AddDays(-5).ToString("O"), "rollback", "0.9.1", "VYSTRAL 0.9.1 didn’t start twice, so it went back to 0.9.0");
+        var other = new StreakIncident(Now.AddDays(-5).ToString("O"), "rollback", "0.9.1", "Arnav Games 0.9.1 didn’t start twice, so it went back to 0.9.0");
         var future = new StreakIncident(Now.AddDays(5).ToString("O"), "selfCheck", "9.9.9", "from the future");
         var s = StartStreak.Summarize([S(30, StartStreak.Ok), S(10, StartStreak.Unexpected)], [other, future], Now, Utc);
         Assert.Equal(30, s.Days);

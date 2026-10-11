@@ -31,7 +31,7 @@ async function noSeriousViolations(page: Page, include?: string) {
 }
 
 test.describe('while you were away', () => {
-  test('summarises games noticed while VYSTRAL was closed, links to the Journal and can be dismissed', async ({ page }) => {
+  test('summarises games noticed while Arnav Games was closed, links to the Journal and can be dismissed', async ({ page }) => {
     const { errors, external } = await open(page, '?away&reduced');
     const card = page.getByRole('region', { name: /You played/ });
     await expect(card).toBeVisible();
@@ -102,7 +102,7 @@ test.describe('anti-cheat notes', () => {
     await expect(preflight).toBeVisible();
     const row = preflight.getByRole('listitem').filter({ hasText: 'Anti-cheat' });
     await expect(row).toContainText(/kernel/);
-    await expect(row).toContainText('VYSTRAL never interacts with it');
+    await expect(row).toContainText('Arnav Games never interacts with it');
     await expect(row).toContainText('AreWeAntiCheatYet');
     await noSeriousViolations(page, '.preflight');
     await expect(page.getByText(/Played Nebula Drift for/)).toBeVisible({ timeout: 15_000 });
@@ -114,7 +114,7 @@ test.describe('anti-cheat notes', () => {
     const note = page.locator('.acn');
     await expect(note).toContainText('Uses kernel anti-cheat');
     await expect(note.getByRole('list')).toBeHidden();
-    await note.getByRole('button', { name: 'What VYSTRAL does' }).click();
+    await note.getByRole('button', { name: 'What Arnav Games does' }).click();
     await expect(note.getByRole('list')).toBeVisible();
     await note.getByRole('button', { name: 'Hide these notes' }).click();
     await page.getByRole('switch', { name: 'Show anti-cheat notes' }).click();
@@ -161,7 +161,7 @@ test.describe('session replay', () => {
     // The preview bridge, like the native one, only accepts a complete 1920×1080 PNG (chunked upload).
     await dialog.getByRole('button', { name: 'Save as image' }).click();
     await expect(page.getByText('Replay saved')).toBeVisible();
-    await expect(page.getByText(/Pictures\\VYSTRAL replay - .+\.png/)).toBeVisible();
+    await expect(page.getByText(/Pictures\\Arnav Games replay - .+\.png/)).toBeVisible();
     await dialog.getByRole('button', { name: 'Copy image' }).click();
     await expect(page.getByText('Replay copied')).toBeVisible();
     await expect(page.getByText(/Couldn’t (save|copy)/)).toHaveCount(0);

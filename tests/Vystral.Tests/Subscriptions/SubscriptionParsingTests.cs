@@ -43,7 +43,7 @@ public sealed class SubscriptionParsingTests
         Assert.Equal(["ubisoftplus"], SubscriptionPlans.CatalogKeysFor("ubi-classics"));
         Assert.Empty(SubscriptionPlans.CatalogKeysFor("humble-choice"));
         Assert.Empty(SubscriptionPlans.CatalogKeysFor("prime-gaming"));
-        // Every key a plan uses is one VYSTRAL reads.
+        // Every key a plan uses is one Arnav Games reads.
         Assert.All(SubscriptionPlans.All.SelectMany(SubscriptionPlans.CatalogKeysFor), k => Assert.Contains(k, SubscriptionPlans.CatalogKeys));
         // Cloud gaming: Essential, Premium and Ultimate; not PC Game Pass.
         Assert.Equal(["gp-essential", "gp-premium", "gp-ultimate"], SubscriptionPlans.All.Where(SubscriptionPlans.IncludesXboxCloud));

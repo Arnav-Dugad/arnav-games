@@ -36,7 +36,7 @@ export function SubsStep({ state }: { state: SubsStepState }) {
   return (
     <>
       <h2 className="onb__h2">Your subscriptions</h2>
-      <p className="onb__p">Pick the ones you have and VYSTRAL tailors itself to them. Not sure? Skip it; Settings can change it any time.</p>
+      <p className="onb__p">Pick the ones you have and Arnav Games tailors itself to them. Not sure? Skip it; Settings can change it any time.</p>
       <SubsPicker value={state.answer} onChange={state.setAnswer} compact />
       {withList && (
         <div className="onb__row">

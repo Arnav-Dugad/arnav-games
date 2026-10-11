@@ -1,5 +1,5 @@
 /**
- * Pure computations for the Gaming Journal. Everything here works on sessions VYSTRAL
+ * Pure computations for the Gaming Journal. Everything here works on sessions Arnav Games
  * recorded itself (source 'tracked', 'detected' or 'background'); store-imported playtime never enters these numbers.
  * All calendar maths uses the user's local time zone and is DST-safe (days are stepped
  * with Date#setDate, never by adding 24h).
@@ -21,7 +21,7 @@ export interface JSession {
   startMs: number;
   seconds: number;
   hasMetrics: boolean;
-  /** Track H: how VYSTRAL noticed the game (launched, detected while open, background tracker). */
+  /** Track H: how Arnav Games noticed the game (launched, detected while open, background tracker). */
   source: ObservedSource;
 }
 

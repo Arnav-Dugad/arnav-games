@@ -29,7 +29,7 @@ describe('Completed 100% ceremony', () => {
     expect(ceremonySummary(g.title, f)).toBe('Ashen Crown: completed 100%, 112h played, 2 years 3 months since your first session, 48 of 50 achievements.');
   });
 
-  it('falls back honestly: store playtime, the date VYSTRAL first saw it, no achievements', () => {
+  it('falls back honestly: store playtime, the date Arnav Games first saw it, no achievements', () => {
     const g = game({ installations: [{ importedPlaytimeMinutes: 90 } as Game['installations'][number]] });
     const f = ceremonyFacts(g, [], null, NOW);
     expect(f.hours).toBe('1h 30m');

@@ -5,7 +5,7 @@ using System.Text.RegularExpressions;
 namespace Vystral.Windows.Services;
 
 /// <summary>
-/// The <c>vystral:</c> URI scheme used to open a page in VYSTRAL from a Windows notification
+/// The <c>vystral:</c> URI scheme used to open a page in Arnav Games from a Windows notification
 /// (toast protocol activation). Any program or web page can launch a registered URI, so the
 /// input is treated as hostile: only a fixed shape is accepted
 /// (<c>vystral://open?route=&lt;name&gt;[&amp;id|sessionId|section=&lt;value&gt;]</c>), every value is
@@ -14,7 +14,7 @@ namespace Vystral.Windows.Services;
 /// </summary>
 public static partial class ActivationUri
 {
-    public const string Scheme = "vystral";
+    public const string Scheme = Brand.Legacy.ProtocolScheme;
     public const string Host = "open";
     /// <summary>The single switch the registered command passes: <c>"Vystral.exe" --uri "%1"</c>.</summary>
     public const string Switch = "--uri";
@@ -100,14 +100,14 @@ public static partial class ActivationUri
     }
 
     /// <summary>
-    /// The URI from VYSTRAL's own command line, only when the process was started exactly as the
+    /// The URI from Arnav Games' own command line, only when the process was started exactly as the
     /// registered command does (<c>--uri &lt;uri&gt;</c> and nothing else).
     /// </summary>
     public static string? FromArgs(IReadOnlyList<string> args) =>
         args.Count == 2 && args[0] == Switch ? args[1] : null;
 
     /// <summary>
-    /// The URI from a raw command line (a launch redirected from a second VYSTRAL process). The
+    /// The URI from a raw command line (a launch redirected from a second Arnav Games process). The
     /// first token may be the executable path. Same rule: exactly <c>--uri &lt;uri&gt;</c>.
     /// </summary>
     public static string? FromCommandLine(string? commandLine)

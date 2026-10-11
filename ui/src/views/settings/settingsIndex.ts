@@ -22,17 +22,17 @@ export const SETTINGS_INDEX: SettingsEntry[] = [
   // ---- Appearance ----
   { section: 'appearance', group: 'Theme', label: 'Theme', row: 'theme', hint: 'Obsidian, OLED black, Light or High contrast.', keywords: 'dark light oled black high contrast mode colours' },
   { section: 'appearance', group: 'Theme', label: 'Accent colour', hint: 'Follow the artwork, your Windows colour, or pick one.', keywords: 'accent color colour windows highlight' },
-  { section: 'appearance', group: 'Currency', label: 'Show prices in', row: 'currency', hint: 'The currency every price in VYSTRAL is shown in.', keywords: 'currency money price prices rupee inr dollar usd euro eur pound gbp yen convert region' },
+  { section: 'appearance', group: 'Currency', label: 'Show prices in', row: 'currency', hint: 'The currency every price in Arnav Games is shown in.', keywords: 'currency money price prices rupee inr dollar usd euro eur pound gbp yen convert region' },
   { section: 'appearance', group: 'Currency', label: 'Exchange rates', row: 'exchange-rates', hint: 'Daily rates used to convert prices from other currencies.', keywords: 'currency conversion frankfurter ecb central bank rates update' },
   { section: 'appearance', group: 'Living Canvas', label: 'Living Canvas', hint: 'The animated background that takes on each game’s colours.', keywords: 'background animated canvas wallpaper mood' },
   { section: 'appearance', group: 'Living Canvas', label: 'Intensity', row: 'canvas-intensity', hint: 'How strong the Living Canvas is.', keywords: 'background strength brightness' },
   { section: 'appearance', group: 'Living Canvas', label: 'Follow trailer colours', hint: 'The background takes on a playing trailer’s colours.', keywords: 'trailer video colour background' },
   { section: 'appearance', group: 'Living Canvas', label: 'Visual quality', hint: 'Low turns off blur and animated backgrounds.', keywords: 'performance quality blur battery low high balanced' },
   { section: 'appearance', group: 'Motion', label: 'Reduce motion', hint: 'Swap movement for quick fades.', keywords: 'animation motion accessibility reduced fades' },
-  { section: 'appearance', group: 'Motion', label: 'Play the startup animation', hint: 'The short intro when VYSTRAL starts.', keywords: 'intro splash startup animation' },
+  { section: 'appearance', group: 'Motion', label: 'Play the startup animation', hint: 'The short intro when Arnav Games starts.', keywords: 'intro splash startup animation' },
   { section: 'appearance', group: 'Home', label: 'Live tiles', hint: 'Silent trailer loops on Home.', keywords: 'home tiles video loops trailers' },
   // Track E2a
-  { section: 'appearance', group: 'When VYSTRAL opens', label: 'Open on start', row: 'start-page', hint: 'Home, Library, another page, Immersive Mode or the last page you were on.', keywords: 'startup start page open launch first page default home library discover wishlist journal performance immersive last remember' },
+  { section: 'appearance', group: 'When Arnav Games opens', label: 'Open on start', row: 'start-page', hint: 'Home, Library, another page, Immersive Mode or the last page you were on.', keywords: 'startup start page open launch first page default home library discover wishlist journal performance immersive last remember' },
 
   // ---- Library & stores ----
   { section: 'library', group: 'Store integrations', label: 'Store integrations', row: 'stores', hint: 'Steam, Xbox, Epic, GOG, EA, Ubisoft and Battle.net on this PC.', keywords: 'steam xbox epic gog ea ubisoft battle.net stores scan rescan platforms launchers' },
@@ -74,12 +74,12 @@ export const SETTINGS_INDEX: SettingsEntry[] = [
 
   // ---- Launching & sessions ----
   { section: 'launching', group: 'Launching', label: 'Cinematic launch', hint: 'A short full-screen transition while your game starts.', keywords: 'launch animation transition' },
-  { section: 'launching', group: 'Launching', label: 'Get out of the way while playing', hint: 'Minimize and suspend VYSTRAL during games.', keywords: 'minimize performance mode suspend' },
-  { section: 'launching', group: 'Launching', label: 'Come back when the game closes', hint: 'Restore VYSTRAL with a session summary.', keywords: 'restore summary return' },
+  { section: 'launching', group: 'Launching', label: 'Get out of the way while playing', hint: 'Minimize and suspend Arnav Games during games.', keywords: 'minimize performance mode suspend' },
+  { section: 'launching', group: 'Launching', label: 'Come back when the game closes', hint: 'Restore Arnav Games with a session summary.', keywords: 'restore summary return' },
   { section: 'launching', group: 'Sessions & performance', label: 'Record CPU, GPU and memory while playing', hint: 'One light reading every two seconds.', keywords: 'metrics cpu gpu memory performance recording' },
   { section: 'launching', group: 'Sessions & performance', label: 'Note which other apps are running', hint: 'Which heavy apps run during rough sessions.', keywords: 'background apps processes' },
   { section: 'launching', group: 'Sessions & performance', label: 'Show the Pulse window during games', hint: 'A tiny always-on-top session timer.', keywords: 'pulse overlay timer window' },
-  { section: 'launching', group: 'Background tracking', label: 'Track games even when VYSTRAL is closed', hint: 'Record games you start elsewhere.', keywords: 'tracker background detect outside closed startup' },
+  { section: 'launching', group: 'Background tracking', label: 'Track games even when Arnav Games is closed', hint: 'Record games you start elsewhere.', keywords: 'tracker background detect outside closed startup' },
   { section: 'launching', group: 'Background tracking', label: 'Start with Windows', hint: 'Run the tracker when you sign in.', keywords: 'startup sign in windows' },
   { section: 'launching', group: 'Frame-rate capture', label: 'Measure frame rate during games', hint: 'FPS with PresentMon (optional download).', keywords: 'fps frame rate presentmon' },
   { section: 'launching', group: 'Energy estimate', label: 'Estimate energy use', hint: 'Electricity used per session, game and month.', keywords: 'energy power watts electricity kwh' },
@@ -87,7 +87,7 @@ export const SETTINGS_INDEX: SettingsEntry[] = [
   { section: 'launching', group: 'Anti-cheat notes', label: 'Show anti-cheat notes', hint: 'Anti-cheat details on game pages.', keywords: 'anti-cheat linux deck' },
 
   // ---- Controller & sound ----
-  { section: 'controller', group: 'Controller', label: 'Navigate with a controller', hint: 'Use a gamepad anywhere in VYSTRAL.', keywords: 'gamepad xbox controller' },
+  { section: 'controller', group: 'Controller', label: 'Navigate with a controller', hint: 'Use a gamepad anywhere in Arnav Games.', keywords: 'gamepad xbox controller' },
   { section: 'controller', group: 'Controller', label: 'Gentle vibration feedback', hint: 'Small rumbles as you move.', keywords: 'vibration rumble haptics' },
   { section: 'controller', group: 'Controller', label: 'On-screen keyboard when using a controller', hint: 'Type with the controller.', keywords: 'keyboard typing osk text' },
   { section: 'controller', group: 'Controller', label: 'Start in Immersive Mode', hint: 'The full-screen, controller-first layout.', keywords: 'immersive fullscreen tv big picture couch' },
@@ -104,7 +104,7 @@ export const SETTINGS_INDEX: SettingsEntry[] = [
   { section: 'controller', group: 'Sound', label: 'Ambient sound', hint: 'A soft layer that follows the game’s mood.', keywords: 'ambient music mood audio' },
 
   // ---- Windows integration ----
-  { section: 'windows', group: 'Windows integration', label: 'Use a summon shortcut', hint: 'A hotkey that brings VYSTRAL forward.', keywords: 'hotkey shortcut summon keyboard' },
+  { section: 'windows', group: 'Windows integration', label: 'Use a summon shortcut', hint: 'A hotkey that brings Arnav Games forward.', keywords: 'hotkey shortcut summon keyboard' },
   { section: 'windows', group: 'Windows integration', label: 'Show Windows notifications', hint: 'Session summaries, achievements and alerts.', keywords: 'notifications toast alerts' },
 
   // ---- AI ----
@@ -121,10 +121,10 @@ export const SETTINGS_INDEX: SettingsEntry[] = [
   { section: 'privacy', group: 'Your data stays on this PC', label: 'Offline mode', hint: 'Stops all optional network access.', keywords: 'offline network internet privacy local' },
   { section: 'privacy', group: 'Data saver', label: 'Data saver', hint: 'Fewer downloads on limited connections.', keywords: 'data saver metered bandwidth mobile hotspot' },
   { section: 'privacy', group: 'Trailers', label: 'Autoplay trailers', hint: 'Play trailers on game pages by themselves.', keywords: 'trailers video autoplay' },
-  { section: 'privacy', group: 'Network health', label: 'Network health', hint: 'Check the services VYSTRAL talks to.', keywords: 'network connection dns tls diagnose test' },
+  { section: 'privacy', group: 'Network health', label: 'Network health', hint: 'Check the services Arnav Games talks to.', keywords: 'network connection dns tls diagnose test' },
 
   // ---- Data & recovery ----
-  { section: 'data', group: 'Your data', label: 'Data folder', hint: 'Where VYSTRAL keeps your library and settings.', keywords: 'folder location path appdata' },
+  { section: 'data', group: 'Your data', label: 'Data folder', hint: 'Where Arnav Games keeps your library and settings.', keywords: 'folder location path appdata' },
   { section: 'data', group: 'Your data', label: 'Library database', hint: 'Check it or back it up.', keywords: 'database backup check sqlite' },
   { section: 'data', group: 'Your data', label: 'Export your journal', hint: 'Sessions, playtime, notes and ratings as JSON.', keywords: 'export journal json backup' },
   { section: 'data', group: 'Caches', label: 'Caches', row: 'caches', hint: 'See and clear downloaded data: art, trailers, prices and more.', keywords: 'cache clear space disk storage free size downloads' },

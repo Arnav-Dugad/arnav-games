@@ -450,7 +450,7 @@ public sealed partial class LibraryRepository(Database db)
         return gameId;
     }
 
-    /// <summary>Removes a user-added entry from VYSTRAL only. Files on disk are never touched.</summary>
+    /// <summary>Removes a user-added entry from Arnav Games only. Files on disk are never touched.</summary>
     public bool RemoveManualGame(string gameId)
     {
         using var conn = db.Open();
@@ -633,7 +633,7 @@ public sealed partial class LibraryRepository(Database db)
             .Select(r => new PerfSampleDto(r.T, r.Cpu, r.Gpu, r.Mem, r.Ram, r.Temp)).ToList();
     }
 
-    /// <summary>Permanently deletes VYSTRAL-tracked history (sessions + samples). Platform data is untouched.</summary>
+    /// <summary>Permanently deletes Arnav Games–tracked history (sessions + samples). Platform data is untouched.</summary>
     public int DeleteTrackedHistory()
     {
         using var conn = db.Open();

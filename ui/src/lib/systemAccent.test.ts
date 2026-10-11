@@ -35,7 +35,7 @@ describe('parseHex', () => {
 });
 
 describe('deriveSystemAccent', () => {
-  it.each(PALETTES)('keeps %s readable on VYSTRAL panels', (accent, light) => {
+  it.each(PALETTES)('keeps %s readable on Arnav Games panels', (accent, light) => {
     const d = deriveSystemAccent(accent, light)!;
     expect(d).not.toBeNull();
     expect(contrastOf(d.accent)).toBeGreaterThanOrEqual(ACCENT_MIN_CONTRAST);

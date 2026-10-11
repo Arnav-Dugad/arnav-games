@@ -52,7 +52,7 @@ public sealed class TrackerNames
     {
         var normalized = Path.GetFullPath(dataRoot).TrimEnd('\\').ToUpperInvariant();
         var hash = Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(normalized)))[..12];
-        return new TrackerNames($@"Local\VYSTRAL-{hash}");
+        return new TrackerNames($"{Brand.Legacy.MutexPrefix}{hash}");
     }
 
     /// <summary>Held by the app's window process for its whole lifetime.</summary>

@@ -572,7 +572,7 @@ public sealed class AchievementNotificationTests
         Assert.StartsWith("1 is rarer than 2% of players.", n.Body);
         Assert.Contains("Ach 0, Ach 1, Ach 2", n.Body);
         Assert.Contains("\"tab\":\"achievements\"", n.RouteJson);
-        Assert.Empty(Policy().Evaluate("achievements.unlocked", Payload(3, 2, 1), foreground: true)); // VYSTRAL in front: the toast is enough
+        Assert.Empty(Policy().Evaluate("achievements.unlocked", Payload(3, 2, 1), foreground: true)); // Arnav Games in front: the toast is enough
     }
 
     [Fact]

@@ -43,7 +43,7 @@ describe('best way to play', () => {
     expect(poor.alternative).toBe('or stream it with GeForce NOW anyway');
     const out = bestWayToPlay({ ...base, meter: { level: 'reached', leftSeconds: 0, plan: 'performance' } });
     expect(out.way).toBe('install');
-    expect(out.detail).toMatch(/estimated from sessions VYSTRAL saw/);
+    expect(out.detail).toMatch(/estimated from sessions Arnav Games saw/);
     // …unless Xbox Cloud Gaming also lists it.
     const other = bestWayToPlay({ ...base, cloud: [gfn, xbox], meter: { level: 'reached', leftSeconds: 0, plan: 'performance' } });
     expect(other).toMatchObject({ way: 'cloud', service: 'xbox' });

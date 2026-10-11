@@ -292,7 +292,7 @@ function TimelineEmpty({ status }: { status: AchievementOverview['status'] }) {
       <EmptyState
         icon={<KeyRound size={30} />}
         title="Connect Steam to see your achievement timeline"
-        body="VYSTRAL reads achievements with your own free Steam Web API key. Add it in Settings › Library & stores; it stays in Windows Credential Manager on this PC and VYSTRAL only talks to api.steampowered.com. Other stores don’t share achievements, so they aren’t included."
+        body="Arnav Games reads achievements with your own free Steam Web API key. Add it in Settings › Library & stores; it stays in Windows Credential Manager on this PC and Arnav Games only talks to api.steampowered.com. Other stores don’t share achievements, so they aren’t included."
         actions={<Button variant="primary" onClick={() => navigate({ name: 'settings', section: 'library' })}>Set up in Settings</Button>}
       />
     );
@@ -301,7 +301,7 @@ function TimelineEmpty({ status }: { status: AchievementOverview['status'] }) {
       <EmptyState
         icon={<CloudOff size={30} />}
         title="Offline mode is on"
-        body="VYSTRAL isn’t contacting Steam, and no achievements are saved on this PC yet. Turn off Offline mode to fetch them."
+        body="Arnav Games isn’t contacting Steam, and no achievements are saved on this PC yet. Turn off Offline mode to fetch them."
         actions={<Button onClick={() => navigate({ name: 'settings', section: 'privacy' })}>Privacy settings</Button>}
       />
     );
@@ -310,7 +310,7 @@ function TimelineEmpty({ status }: { status: AchievementOverview['status'] }) {
       art="trophy"
       icon={<Award size={30} />}
       title="No achievements yet"
-      body="Steam hasn’t reported any unlocked achievements for your games yet. VYSTRAL refreshes played games in the background every few hours, and checks again right after each Steam session you start from VYSTRAL."
+      body="Steam hasn’t reported any unlocked achievements for your games yet. Arnav Games refreshes played games in the background every few hours, and checks again right after each Steam session you start from Arnav Games."
       actions={<Button onClick={() => navigate({ name: 'settings', section: 'library' })}>Steam settings</Button>}
     />
   );

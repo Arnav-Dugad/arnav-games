@@ -41,7 +41,7 @@ export function FoldersDialog({
     try {
       const result = await call<MediaFolder[] | null>('media.removeFolder', { folderId: folder.id });
       onChanged(Array.isArray(result) ? result : null);
-      toast({ tone: 'info', title: `${folder.label} removed`, body: 'Nothing was deleted — VYSTRAL just stops showing files from it.' });
+      toast({ tone: 'info', title: `${folder.label} removed`, body: 'Nothing was deleted — Arnav Games just stops showing files from it.' });
     } catch (err) {
       toast({ tone: 'danger', title: 'Couldn’t remove that folder', body: errorMessage(err) });
     } finally {
@@ -73,7 +73,7 @@ export function FoldersDialog({
     >
       <p id="mv-folders-desc" className="mv-folders__desc">
         <ShieldCheck size={16} aria-hidden />
-        VYSTRAL reads these folders on this PC only. Files are never uploaded, moved or changed.
+        Arnav Games reads these folders on this PC only. Files are never uploaded, moved or changed.
       </p>
       {folders.length === 0 ? (
         <p className="mv-folders__empty">No capture folders were found yet. Add a folder where you keep screenshots or clips.</p>

@@ -37,7 +37,7 @@ public enum FpsPermission
 }
 
 /// <summary>
-/// Downloads and verifies the pinned PresentMon console exe into VYSTRAL's data folder, and
+/// Downloads and verifies the pinned PresentMon console exe into Arnav Games' data folder, and
 /// answers whether frame-rate capture is permitted. Never bundled: the user opts in.
 /// </summary>
 public sealed class PresentMonInstaller(string toolsDir, HttpClient http, PresentMonRelease? release = null)

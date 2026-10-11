@@ -7,7 +7,7 @@ export const FRIENDS_POLL_MS = 150_000;
 export interface FriendGroup {
   key: string;
   title: string;
-  /** The VYSTRAL game when it's in this library (opens its page). */
+  /** The library game when it's in this library (opens its page). */
   gameId: string | null;
   appId: string | null;
   friends: Friend[];
@@ -94,13 +94,13 @@ export function statusCopy(a: FriendsActivity | null): { title: string; body: st
     case 'invalidKey':
       return { title: 'Steam didn’t accept your key', body: a.message ?? 'Check your Steam Web API key in Settings.', action: 'settings' };
     case 'offline':
-      return { title: 'Offline mode is on', body: a.message ?? 'VYSTRAL doesn’t contact Steam in Offline mode.', action: 'settings' };
+      return { title: 'Offline mode is on', body: a.message ?? 'Arnav Games doesn’t contact Steam in Offline mode.', action: 'settings' };
     case 'dataSaver':
       return { title: 'Paused by Data saver', body: a.message ?? 'Friends refresh only when you ask.', action: 'retry' };
     case 'rateLimited':
-      return { title: 'Steam asked VYSTRAL to slow down', body: a.message ?? 'VYSTRAL will try again in a few minutes.', action: 'retry' };
+      return { title: 'Steam asked Arnav Games to slow down', body: a.message ?? 'Arnav Games will try again in a few minutes.', action: 'retry' };
     case 'unavailable':
-      return { title: 'Steam couldn’t be reached', body: a.message ?? 'VYSTRAL will try again in a few minutes.', action: 'retry' };
+      return { title: 'Steam couldn’t be reached', body: a.message ?? 'Arnav Games will try again in a few minutes.', action: 'retry' };
     default:
       return null;
   }

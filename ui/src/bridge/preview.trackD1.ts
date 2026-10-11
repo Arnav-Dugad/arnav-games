@@ -4,7 +4,7 @@
  * URL switches:
  *   ?bulk           start with two collections ("Couch co-op", and a smart one), for trying bulk collection actions
  *   ?bulkFail       library.bulkEdit fails (nothing changes; the page must put every game back)
- *   ?noVersions     no versions recorded yet (a fresh install of VYSTRAL)
+ *   ?noVersions     no versions recorded yet (a fresh install of Arnav Games)
  *   ?timeline       Nebula Drift's last two sessions have frame-rate data, with an update between them
  */
 import type { BulkEditResult, BulkUndoResult, Game, GameStatus, LibrarySnapshot, Session, StatusHistoryEntry, VersionHistoryEntry } from './types';
@@ -34,7 +34,7 @@ function hash(s: string): number {
   return h >>> 0;
 }
 
-/** Fictional versions: a baseline when VYSTRAL first saw the copy, then an update a couple of days before some sessions. */
+/** Fictional versions: a baseline when Arnav Games first saw the copy, then an update a couple of days before some sessions. */
 export function previewVersions(g: Game, sessions: readonly Session[], now = Date.now()): VersionHistoryEntry[] {
   const out: VersionHistoryEntry[] = [];
   const own = sessions.filter((s) => s.gameId === g.id).map((s) => Date.parse(s.start)).filter(Number.isFinite).sort((a, b) => a - b);

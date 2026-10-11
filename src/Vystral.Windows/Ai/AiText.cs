@@ -8,7 +8,7 @@ namespace Vystral.Windows.Ai;
 /// <summary>
 /// Track C5: helpers for untrusted model output. Models only phrase and plan: every structured answer is parsed
 /// with limits and validated by the feature, and every sentence shown to the user may only contain numbers that
-/// VYSTRAL itself gave the model (<see cref="OnlyKnownNumbers"/>), so a model can't invent playtime or counts.
+/// Arnav Games itself gave the model (<see cref="OnlyKnownNumbers"/>), so a model can't invent playtime or counts.
 /// </summary>
 public static partial class AiText
 {
@@ -64,7 +64,7 @@ public static partial class AiText
     }
 
     /// <summary>
-    /// True when every number in <paramref name="answer"/> also appears in <paramref name="facts"/> (the text VYSTRAL
+    /// True when every number in <paramref name="answer"/> also appears in <paramref name="facts"/> (the text Arnav Games
     /// sent, which the model was told to quote exactly). "12.5" and "12,5" are the same number; ordinals like "3rd"
     /// count as their digits.
     /// </summary>

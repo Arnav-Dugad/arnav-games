@@ -87,7 +87,7 @@ export async function call<T = unknown>(method: string, params?: unknown, timeou
   return new Promise<T>((resolve, reject) => {
     const timer = window.setTimeout(() => {
       pending.delete(id);
-      reject(new BridgeError('timeout', 'VYSTRAL took too long to respond. Please try again.'));
+      reject(new BridgeError('timeout', 'Arnav Games took too long to respond. Please try again.'));
     }, timeoutMs);
     pending.set(id, { resolve: resolve as (v: unknown) => void, reject, timer });
     channel.postMessage(JSON.stringify({ kind: 'req', id, method, params }));

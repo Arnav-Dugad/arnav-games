@@ -75,7 +75,7 @@ public sealed partial class AppBackend : ILaunchFixRunner
         Dispatcher.Register("fps.install", async ct =>
         {
             if (Settings.GetBool("privacy.localOnly"))
-                throw new BridgeException("forbidden", "Local-only mode is on, so VYSTRAL won't download PresentMon. Turn it off in Settings › Privacy first.");
+                throw new BridgeException("forbidden", "Local-only mode is on, so Arnav Games won't download PresentMon. Turn it off in Settings › Privacy first.");
             if (Interlocked.Exchange(ref _fpsInstalling, 1) == 1) throw new BridgeException("busy", "PresentMon is already downloading.");
             try
             {
@@ -125,7 +125,7 @@ public sealed partial class AppBackend : ILaunchFixRunner
         {
             if (!Hotkey.TryParse(RequireText(p.Shortcut, 40, "Shortcut"), out var hotkey, out var error))
                 throw new BridgeException("invalid", error ?? "That shortcut isn't valid.");
-            var host = _insightHost ?? throw new BridgeException("unavailable", "Shortcuts need the VYSTRAL window.");
+            var host = _insightHost ?? throw new BridgeException("unavailable", "Shortcuts need the Arnav Games window.");
             lock (_hotkeyLock)
             {
                 var result = host.ApplyHotkey(hotkey);
@@ -154,9 +154,9 @@ public sealed partial class AppBackend : ILaunchFixRunner
         Dispatcher.Register("notifications.test", _ =>
         {
             var host = _insightHost;
-            if (host is null || !host.NotificationsAvailable) throw new BridgeException("unavailable", "Windows notifications aren't available for VYSTRAL on this PC.");
+            if (host is null || !host.NotificationsAvailable) throw new BridgeException("unavailable", "Windows notifications aren't available for Arnav Games on this PC.");
             var shown = host.ShowNotification(new NotificationRequest("test", "Notifications are on",
-                "This is how VYSTRAL will let you know about saved sessions, updates and installs.",
+                "This is how Arnav Games will let you know about saved sessions, updates and installs.",
                 NotificationPolicy.Route("settings", ("section", "windows")), "test"));
             return Task.FromResult<object?>(new { shown });
         });
@@ -332,7 +332,7 @@ public sealed partial class AppBackend : ILaunchFixRunner
     }
 
     /// <summary>
-    /// The only elevated action in VYSTRAL, and only on an explicit click: runs Windows' own
+    /// The only elevated action in Arnav Games, and only on an explicit click: runs Windows' own
     /// <c>net localgroup "Performance Log Users" "&lt;you&gt;" /add</c> through a UAC prompt.
     /// </summary>
     private async Task<object?> GrantPerformanceLogUsersAsync()

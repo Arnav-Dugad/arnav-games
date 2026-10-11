@@ -6,7 +6,7 @@ using Vystral.Windows.Ai.Assistant;
 namespace Vystral.Windows.Ai.Extras;
 
 /// <summary>
-/// "Why did this session lag?" for one rough session. <c>Source</c>: "analysis" (VYSTRAL's own words from the frame-time
+/// "Why did this session lag?" for one rough session. <c>Source</c>: "analysis" (Arnav Games' own words from the frame-time
 /// analysis) or "ai" (the same facts, worded by the chosen AI). <c>Cause</c> is a stable key the page can use for an icon:
 /// heat | power | shaders | timer | cpu | gpu | waiting | background | uneven.
 /// </summary>
@@ -20,7 +20,7 @@ public sealed record LagFacts(string Cause, string Text, string FactsText);
 /// (<c>ui/src/views/perf/overview.ts</c> → <c>sessionHealth</c>): 1% lows under half the average, more than one stutter a
 /// minute, or the CPU averaging over 85%. The cause comes from Track D3's deterministic stutter analysis
 /// (<see cref="StutterAnalysis"/>); an AI, when the user turned that on, may only reword those facts. Purely descriptive:
-/// VYSTRAL never changes a setting because of it.
+/// Arnav Games never changes a setting because of it.
 /// </summary>
 public static class LagNotes
 {
@@ -89,7 +89,7 @@ public static class LagNotes
                 ? $"Frame pacing was uneven (1% lows of {Math.Round(l).ToString(CultureInfo.InvariantCulture)} fps against a {Math.Round(aa).ToString(CultureInfo.InvariantCulture)} fps average), with no single clear cause in the samples."
                 : "Frame pacing was uneven, with no single clear cause in the samples.");
         if (backgroundSuspects.Count > 0) F($"Background apps often seen in rough sessions: {string.Join(", ", backgroundSuspects.Take(3))}");
-        F($"VYSTRAL’s reading: {pick.Text}");
+        F($"{Brand.Name}’ reading: {pick.Text}");
         return new LagFacts(pick.Cause, Clip(pick.Text), facts.ToString());
     }
 

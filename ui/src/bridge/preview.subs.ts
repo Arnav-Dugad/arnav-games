@@ -7,7 +7,7 @@
  *   on: badges, the "In my subscriptions" filter, the Home row and the value card (some fictional sessions this month).
  * - `?subsPrice` — as `?subs`, plus a monthly price, so the value card shows cost per hour.
  * - `?leaving` — as `?subs`, with two of your games and two included games in "Leaving soon" (one with a date).
- * - `?subsAsk` — not asked yet: Home shows the one-time "Tell VYSTRAL your subscriptions" card (also with `?onboarding`).
+ * - `?subsAsk` — not asked yet: Home shows the one-time "Tell Arnav Games your subscriptions" card (also with `?onboarding`).
  * - `?subsNoData` — the lists are on but haven't downloaded yet.
  *
  * Without a switch the preview behaves like a user who already answered "None" with "show every service" on, so other
@@ -224,7 +224,7 @@ export function subsPreviewHandlers(ctx: { lib: { games: Game[]; sessions: Sessi
     'subs.value': () => value(),
     'subs.refresh': () => {
       if (!s()['subs.catalog']) throw new BridgeError('disabled', 'Public Game Pass lists are off. Turn them on in Settings → Library & stores → Your subscriptions.');
-      if (s()['privacy.localOnly']) throw new BridgeError('offline', 'Offline mode is on, so VYSTRAL doesn’t download Game Pass lists. Turn it off in Settings → Privacy.');
+      if (s()['privacy.localOnly']) throw new BridgeError('offline', 'Offline mode is on, so Arnav Games doesn’t download Game Pass lists. Turn it off in Settings → Privacy.');
       refreshedAt = new Date().toISOString();
       const st = status();
       ctx.emit()('subs.changed', st);

@@ -26,7 +26,7 @@ export function AntiCheatNotesSettings() {
     <section className="sgroup">
       <h2 className="sgroup__title">Anti-cheat notes</h2>
       <p className="sgroup__desc">
-        When AreWeAntiCheatYet lists a kernel-level anti-cheat for a game, a short note appears before it starts and on its page, with what VYSTRAL itself does
+        When AreWeAntiCheatYet lists a kernel-level anti-cheat for a game, a short note appears before it starts and on its page, with what Arnav Games itself does
         (read-only). It’s information only: nothing is blocked or changed. Needs the AreWeAntiCheatYet source on in Library &amp; stores → Data sources.
       </p>
       <div className="sgroup__rows surface">

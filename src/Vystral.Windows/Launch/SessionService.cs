@@ -28,7 +28,7 @@ public sealed record LaunchStateDto(
     /// <summary>When the store/OS accepted the launch (ISO 8601). Progress = (now − AcceptedAt) / ExpectedDetectMs.</summary>
     string? AcceptedAt = null,
     // ---- Track H additions (append only) ----
-    /// <summary>How VYSTRAL came to track this game: "tracked" (launched from VYSTRAL), "detected" (started outside VYSTRAL
+    /// <summary>How Arnav Games came to track this game: "tracked" (launched from Arnav Games), "detected" (started outside Arnav Games
     /// while it was open) or "background" (noticed by the background tracker). See <see cref="Vystral.Core.Domain.SessionSources"/>.</summary>
     string? Source = null);
 
@@ -43,7 +43,7 @@ public readonly record struct SessionTick(IReadOnlyList<int> Pids, bool Ended = 
 
 /// <summary>
 /// Follows the processes of a running session. A launch uses the original rules (<c>LaunchedFeed</c>); a game
-/// noticed outside VYSTRAL is followed by the game detector (<see cref="Tracking.GameDetector"/>).
+/// noticed outside Arnav Games is followed by the game detector (<see cref="Tracking.GameDetector"/>).
 /// </summary>
 public interface ISessionFeed
 {
@@ -84,7 +84,7 @@ public sealed class SessionService : IDisposable
 {
     /// <summary>After this long without seeing the game, the launch shows "notDetected" (tests shorten it).</summary>
     internal TimeSpan DetectionWindow { get; set; } = TimeSpan.FromSeconds(120);
-    /// <summary>After this long without seeing the game, VYSTRAL stops waiting (tests shorten it).</summary>
+    /// <summary>After this long without seeing the game, Arnav Games stops waiting (tests shorten it).</summary>
     internal TimeSpan SlowWatchWindow { get; set; } = TimeSpan.FromMinutes(10);
     /// <summary>How the game is started (tests replace it so no process is created).</summary>
     internal Func<Installation, string?, string?, LaunchStartResult> Starter { get; set; } = ProcessLauncher.Start;
@@ -219,16 +219,16 @@ public sealed class SessionService : IDisposable
         {
             // Never leave the slot reserved: that would block every later launch.
             Log.Error("launch", "Launch failed unexpectedly", ex);
-            return Fail(ticket, gameId, installationId ?? "", "", "VYSTRAL couldn't start the game. Try again.");
+            return Fail(ticket, gameId, installationId ?? "", "", "Arnav Games couldn't start the game. Try again.");
         }
     }
 
     private static string BusyMessage(LaunchStateDto busy) => busy.Phase switch
     {
         "running" => busy.Source is null or Core.Domain.SessionSources.Tracked
-            ? "A game started from VYSTRAL is still running. Close it first, or stop tracking it."
-            : "VYSTRAL is tracking a game you started outside it. Close that game first, or stop tracking it.",
-        "notDetected" => "VYSTRAL is still waiting for another game to start. Stop waiting for it first.",
+            ? "A game started from Arnav Games is still running. Close it first, or stop tracking it."
+            : "Arnav Games is tracking a game you started outside it. Close that game first, or stop tracking it.",
+        "notDetected" => "Arnav Games is still waiting for another game to start. Stop waiting for it first.",
         _ => "Another game is still starting.",
     };
 
@@ -408,7 +408,7 @@ public sealed class SessionService : IDisposable
                     Emit(state with
                     {
                         Phase = "notDetected",
-                        Message = "VYSTRAL hasn't seen the game start yet. It may still be updating or waiting in the store app. You can keep waiting or stop tracking; VYSTRAL won't relaunch it.",
+                        Message = "Arnav Games hasn't seen the game start yet. It may still be updating or waiting in the store app. You can keep waiting or stop tracking; Arnav Games won't relaunch it.",
                     });
                 }
                 if (elapsed > SlowWatchWindow)
@@ -444,15 +444,15 @@ public sealed class SessionService : IDisposable
         catch (Exception ex)
         {
             Log.Error("session", "Session watcher failed", ex);
-            Emit(state with { Phase = "ended", Message = "VYSTRAL lost track of this session. The game was not affected." });
+            Emit(state with { Phase = "ended", Message = "Arnav Games lost track of this session. The game was not affected." });
         }
     }
 
     // ---------------- Track H: one recording loop for every session ----------------
 
     /// <summary>
-    /// Starts recording a game VYSTRAL didn't launch (noticed by the game detector), or continues
-    /// <paramref name="adopt"/>, a session another VYSTRAL process handed over. Returns null when a launch
+    /// Starts recording a game Arnav Games didn't launch (noticed by the game detector), or continues
+    /// <paramref name="adopt"/>, a session another Arnav Games process handed over. Returns null when a launch
     /// or another session is already in progress. Recording is identical to a launch: same samples,
     /// frame-rate capture, background apps and GPU driver, stored in the same tables.
     /// </summary>
@@ -484,7 +484,7 @@ public sealed class SessionService : IDisposable
         }
         var state = provisional with { SessionId = sessionId };
         lock (_lock) if (_current == provisional) _current = state; // readers see the session id right away
-        Log.Info("session", adopt is null ? "Tracking a game started outside VYSTRAL" : "Continuing a handed-over session",
+        Log.Info("session", adopt is null ? "Tracking a game started outside Arnav Games" : "Continuing a handed-over session",
             new { gameId = inst.GameId, installationId = inst.Id, source, sessionId });
         _ = Task.Run(async () =>
         {
@@ -492,7 +492,7 @@ public sealed class SessionService : IDisposable
             catch (Exception ex)
             {
                 Log.Error("session", "Detected session watcher failed", ex);
-                Emit(state with { Phase = "ended", Message = "VYSTRAL lost track of this session. The game was not affected." });
+                Emit(state with { Phase = "ended", Message = "Arnav Games lost track of this session. The game was not affected." });
             }
         });
         return state;
@@ -500,7 +500,7 @@ public sealed class SessionService : IDisposable
 
     /// <summary>
     /// Stops recording the running session <i>without ending it</i> (everything so far is flushed), so the
-    /// other VYSTRAL process can continue it. Returns what was parked, or null when nothing was running.
+    /// other Arnav Games process can continue it. Returns what was parked, or null when nothing was running.
     /// </summary>
     public async Task<ActiveSessionInfo?> ParkAsync(TimeSpan timeout)
     {
@@ -942,7 +942,7 @@ public sealed class SessionService : IDisposable
                 if (target is null) return;
                 if (!PresentMonInstaller.VerifyFile(plan.ExePath, PresentMonRelease.Pinned.Sha256))
                 {
-                    _failure = "PresentMon's file changed after it was downloaded, so VYSTRAL didn't run it. Reinstall frame-rate capture in Settings.";
+                    _failure = "PresentMon's file changed after it was downloaded, so Arnav Games didn't run it. Reinstall frame-rate capture in Settings.";
                     return;
                 }
                 _capture = FrameCapture.Start(plan.ExePath, target.Value, _stats);
@@ -963,7 +963,7 @@ public sealed class SessionService : IDisposable
         {
             if (frames is not null) return $"Measured with Intel PresentMon {PresentMonRelease.Pinned.Version}. Frame time is the time between the game's presented frames.";
             if (plan.ExePath is null) return plan.Status;
-            return _failure ?? "PresentMon ran but didn't see any frames from the game, so FPS wasn't recorded. Some games present frames from a helper process VYSTRAL can't identify.";
+            return _failure ?? "PresentMon ran but didn't see any frames from the game, so FPS wasn't recorded. Some games present frames from a helper process Arnav Games can't identify.";
         }
 
         public async Task StopAsync()

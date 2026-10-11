@@ -42,7 +42,7 @@ export interface AwayGame {
   lastEnd: string;
 }
 
-/** call('away.summary'): sessions noticed (not launched) by VYSTRAL since Home was last opened. */
+/** call('away.summary'): sessions noticed (not launched) by Arnav Games since Home was last opened. */
 export interface AwaySummary {
   since: string;
   until: string;

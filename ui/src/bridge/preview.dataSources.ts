@@ -89,7 +89,7 @@ export function dataSourcePreviewHandlers(ctx: Ctx): Record<string, (p: any) => 
     { id: 'steamdeck', name: 'Steam Deck compatibility', access: 'keyless', settingKey: 'dataSources.steamDeck', licence: 'Valve’s public store data, shown with attribution.', attribution: 'Steam Deck compatibility as reported by Valve on the Steam store.', host: 'store.steampowered.com', sends: 'A game’s Steam app ID when you open its page (also used for current Steam prices in the library value timeline).', uses: 'Verified / Playable / Unsupported badges with Valve’s test results.' },
     { id: 'awacy', name: 'AreWeAntiCheatYet', access: 'keyless', settingKey: 'dataSources.antiCheat', licence: 'MIT licence (AreWeAntiCheatYet contributors).', attribution: 'Anti-cheat details per AreWeAntiCheatYet.', host: 'raw.githubusercontent.com', sends: 'Nothing about you: the whole public list is downloaded at most once a week.', uses: 'Which anti-cheat a game uses, and its Linux/Steam Deck status.' },
     // Track X (mirror of DataSourcesService.Providers).
-    { id: 'pcgamingwiki', name: 'PCGamingWiki', access: 'keyless', settingKey: 'dataSources.pcgamingwiki', licence: 'CC BY-NC-SA 3.0 (PCGamingWiki contributors). Credited wherever it’s shown; looked up on this PC only, never shipped with VYSTRAL.', attribution: 'Save locations from PCGamingWiki, CC BY-NC-SA 3.0.', host: 'www.pcgamingwiki.com', sends: 'A game’s Steam app ID, then its article name, when you open that game’s Files tab.', uses: 'Where a game keeps its saves on Windows, checked against your PC (read-only), with Open folder.' },
+    { id: 'pcgamingwiki', name: 'PCGamingWiki', access: 'keyless', settingKey: 'dataSources.pcgamingwiki', licence: 'CC BY-NC-SA 3.0 (PCGamingWiki contributors). Credited wherever it’s shown; looked up on this PC only, never shipped with Arnav Games.', attribution: 'Save locations from PCGamingWiki, CC BY-NC-SA 3.0.', host: 'www.pcgamingwiki.com', sends: 'A game’s Steam app ID, then its article name, when you open that game’s Files tab.', uses: 'Where a game keeps its saves on Windows, checked against your PC (read-only), with Open folder.' },
     { id: 'workshop', name: 'Steam Workshop titles', access: 'keyless', settingKey: 'dataSources.workshopTitles', licence: 'Valve’s public Steam Web API (no key), shown with attribution.', attribution: 'Workshop titles from Steam.', host: 'api.steampowered.com', sends: 'The Workshop item IDs installed for a game, when you open its Files tab (up to 100 per request).', uses: 'Names for the Workshop items in a game’s mod list instead of bare numbers.' },
     ...TRACK_D4_PROVIDERS, // Track D4 (mirror of DataSourcesService.Providers)
     ...TRACK_E4_PROVIDERS, // Track E4
@@ -116,7 +116,7 @@ export function dataSourcePreviewHandlers(ctx: Ctx): Record<string, (p: any) => 
   };
 
   const requireOnline = () => {
-    if (offline()) throw new BridgeError('offline', 'Offline mode is on, so VYSTRAL doesn’t contact data sources. Turn it off in Settings → Privacy.');
+    if (offline()) throw new BridgeError('offline', 'Offline mode is on, so Arnav Games doesn’t contact data sources. Turn it off in Settings → Privacy.');
   };
 
   const handlers: Record<string, (p: any) => unknown> = {

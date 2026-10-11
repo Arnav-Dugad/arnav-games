@@ -48,7 +48,7 @@ public static class TrackerLifecycle
                 using var _ = Process.Start(psi);
             }
         }
-        catch (Exception) { /* started at the next sign-in or when VYSTRAL opens */ }
+        catch (Exception) { /* started at the next sign-in or when Arnav Games opens */ }
     }
 
     /// <summary>Before uninstall (<c>--veloapp-uninstall</c>): stop the tracker and remove its sign-in entry.</summary>

@@ -24,7 +24,7 @@ public sealed partial class SteamInputLocator(Func<string?> steamPath)
     private const int MaxConfigSetBytes = 1024 * 1024;
     private const int MaxConfigSets = 64;
 
-    // Xbox layouts first: that's the diagram VYSTRAL draws. Then other common pads, then device-specific sets (newest first).
+    // Xbox layouts first: that's the diagram Arnav Games draws. Then other common pads, then device-specific sets (newest first).
     private static readonly string[] TypePriority =
     [
         "controller_xboxone", "controller_xboxelite", "controller_xbox360", "controller_generic", "controller_ps5", "controller_ps4",
@@ -109,7 +109,7 @@ public sealed partial class SteamInputLocator(Func<string?> steamPath)
         catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or ArgumentException or NotSupportedException)
         {
             Services.Log.Warn("controls", "Couldn't compare Steam Input layouts", new { appId }, ex);
-            return ControllerCompareDto.Simple("noDefault", yours, "VYSTRAL couldn't read Steam's templates.");
+            return ControllerCompareDto.Simple("noDefault", yours, "Arnav Games couldn't read Steam's templates.");
         }
     }
 
@@ -223,7 +223,7 @@ public sealed partial class SteamInputLocator(Func<string?> steamPath)
         catch (FormatException ex)
         {
             Services.Log.Warn("controls", "A Steam Input layout couldn't be read", new { kind, error = ex.Message });
-            return new Found(ControllerLayoutDto.Simple("unreadable", "Steam has a layout for this game, but VYSTRAL couldn't read it.") with { SourceKind = kind }, null);
+            return new Found(ControllerLayoutDto.Simple("unreadable", "Steam has a layout for this game, but Arnav Games couldn't read it.") with { SourceKind = kind }, null);
         }
     }
 

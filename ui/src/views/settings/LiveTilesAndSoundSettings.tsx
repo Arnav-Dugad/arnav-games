@@ -56,7 +56,7 @@ export function LiveTilesSettings() {
         <h2 className="sgroup__title">Home</h2>
         <p className="sgroup__desc">
           Live tiles play the short, silent loops Steam makes for each store trailer, two at a time, only while a tile is on screen. They’re
-          fetched through VYSTRAL (never straight from the page), kept in a small cache on this PC, and never downloaded in Offline mode,
+          fetched through Arnav Games (never straight from the page), kept in a small cache on this PC, and never downloaded in Offline mode,
           with Data saver on, on a metered connection with Data saver for metered connections, or while a game runs.
         </p>
         <div className="sgroup__rows surface">
@@ -84,7 +84,7 @@ export function SoundSettings() {
         <p className="sgroup__desc">
           Soft interface sounds, made on the fly (no audio files). Ambient sound adds a quiet bed and places focus sounds left or right
           where your focus lands, in the mood of the game you’re looking at ({Object.values(MOOD_LABEL).map((m) => m.split(' —')[0]).join(', ')}).
-          Silent while a game runs, when VYSTRAL is minimized and when another window has focus.
+          Silent while a game runs, when Arnav Games is minimized and when another window has focus.
         </p>
         <div className="sgroup__rows surface">
           <SwitchRow k="sounds.enabled" label="Interface sounds" hint="Short clicks for focus, select and back — mostly heard in Immersive Mode and with a controller." />

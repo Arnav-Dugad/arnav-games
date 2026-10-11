@@ -140,7 +140,7 @@ public sealed partial class AppBackend
         try
         {
             if (_startup?.Load().LastRollback is { } rb)
-                incidents.Add(new StreakIncident(rb.At, "rollback", rb.From, $"VYSTRAL {rb.From} didn’t start twice, so it went back to {rb.To}"));
+                incidents.Add(new StreakIncident(rb.At, "rollback", rb.From, $"{Brand.Name} {rb.From} didn’t start twice, so it went back to {rb.To}"));
         }
         catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or JsonException) { }
         return StartStreak.Summarize(_starts.Load(), incidents, DateTimeOffset.Now, TimeZoneInfo.Local);

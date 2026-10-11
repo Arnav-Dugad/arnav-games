@@ -69,7 +69,7 @@ public static partial class IdKinds
 /// Microsoft Store named the product an installed package belongs to; a store fact, certain like native)</param>
 public sealed record IdEvidence(string Kind, string Value, string Source, string Method, double Confidence, string? Name = null, int? Year = null);
 
-/// <summary>One resolved ID with how sure VYSTRAL is.</summary>
+/// <summary>One resolved ID with how sure Arnav Games is.</summary>
 /// <param name="Status">native (the store said so) | pinned (you chose) | matched (used automatically) | suggested (shown, not used) | conflict (sources disagree)</param>
 public sealed record ResolvedId(string Kind, string Value, double Confidence, string Status, IReadOnlyList<IdEvidence> Evidence, string? Name);
 

@@ -7,7 +7,7 @@ namespace Vystral.Windows.DataSources;
 
 /// <summary>
 /// Track X: PCGamingWiki's documented public APIs (CC BY-NC-SA 3.0 content, credited wherever it's shown and never shipped
-/// with VYSTRAL). A Steam app id is matched to its article with the Cargo API (<c>action=cargoquery</c> on
+/// with Arnav Games). A Steam app id is matched to its article with the Cargo API (<c>action=cargoquery</c> on
 /// <c>Infobox_game.Steam_AppID</c>); when the wiki refuses anonymous Cargo queries, with its documented
 /// <c>/api/appid.php</c> redirect instead (read from the Location header; the redirect is never followed). The article's
 /// wikitext then comes from MediaWiki's <c>action=parse</c>. One polite lane, size-capped answers, no cookies or keys.

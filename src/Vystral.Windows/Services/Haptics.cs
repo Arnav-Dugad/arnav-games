@@ -6,7 +6,7 @@ namespace Vystral.Windows.Services;
 public readonly record struct HapticStep(int DurationMs, double LeftMotor, double RightMotor, double LeftTrigger = 0, double RightTrigger = 0);
 
 /// <summary>
-/// The only vibrations VYSTRAL can play. The UI asks for a pattern by name; it can never pass
+/// The only vibrations Arnav Games can play. The UI asks for a pattern by name; it can never pass
 /// strengths or durations, so every buzz is short, gentle and ends with the motors off.
 /// </summary>
 public static class HapticPatterns

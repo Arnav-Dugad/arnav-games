@@ -45,7 +45,7 @@ public sealed record WishlistItemDto(
 
 /// <summary>
 /// Status: ok | empty | off | notConnected | noAccount | offline | invalidKey | unavailable | rateLimited | notLoaded.
-/// <c>Stale</c>: these are the last results VYSTRAL got (the latest refresh didn't finish).
+/// <c>Stale</c>: these are the last results Arnav Games got (the latest refresh didn't finish).
 /// </summary>
 public sealed record WishlistDto(
     string Status,
@@ -101,7 +101,7 @@ public sealed class WishlistCacheItem
     public string? HeroCapsuleUrl { get; set; }
     public string? HeroUrl { get; set; }
     public string? CoverFile { get; set; }
-    /// <summary>When VYSTRAL last tried every art source and something was still missing (retried a day later).</summary>
+    /// <summary>When Arnav Games last tried every art source and something was still missing (retried a day later).</summary>
     public DateTimeOffset? ArtTriedAt { get; set; }
     /// <summary>Store facts below <see cref="WishlistService.ArtVersion"/> are read again on the next refresh.</summary>
     public int ArtVersion { get; set; }
@@ -121,7 +121,7 @@ public sealed class WishlistCache
 /// IWishlistService with the user's own key, store facts (names, release dates, header art) through
 /// IStoreBrowseService, current prices through the store's price_overview (the same lane as the library
 /// value timeline), and the lowest price ever from IsThereAnyDeal (the user's key) or CheapShark (US
-/// dollars), a few games per refresh. Each refresh records the Steam price, so VYSTRAL draws its own
+/// dollars), a few games per refresh. Each refresh records the Steam price, so Arnav Games draws its own
 /// price history over time. Never in Offline mode or while a game runs; Data saver stops automatic
 /// refreshes and image downloads. Everything is cached in one JSON file in the data folder.
 /// </summary>
@@ -199,7 +199,7 @@ public sealed class WishlistService
         var note = LocalOnly ? "Offline mode is on, so this is the wishlist saved on this PC." : null;
         if (cache?.Fetched is null)
         {
-            if (LocalOnly) return Empty("offline", "Offline mode is on, so VYSTRAL doesn’t ask Steam for your wishlist.", country);
+            if (LocalOnly) return Empty("offline", "Offline mode is on, so Arnav Games doesn’t ask Steam for your wishlist.", country);
             if (_lastError is { } e && !IsRefreshing) return Empty(e.Status, e.Message, country) with { RetryAt = RetryText() };
             return Empty("notLoaded", null, country) with { Refreshing = IsRefreshing };
         }
@@ -691,7 +691,7 @@ public sealed class WishlistService
     /// <summary>
     /// Track D6 (cache viewer): forgets what was downloaded for the wishlist — store facts, header pictures (their files
     /// are cleared with the thumbnails) and lowest prices — so the next sync fetches them again. The price history
-    /// VYSTRAL recorded and which alerts were already sent are kept: Steam can't give those back.
+    /// Arnav Games recorded and which alerts were already sent are kept: Steam can't give those back.
     /// </summary>
     public void ClearDownloaded()
     {

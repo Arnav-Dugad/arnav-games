@@ -9,7 +9,7 @@ public sealed record RunningProcess(int Id, string ImagePath);
 /// <summary>
 /// Lists running processes and their image paths using the least-privileged query right
 /// (PROCESS_QUERY_LIMITED_INFORMATION). This is the same read-only information Task Manager
-/// shows; VYSTRAL never opens game processes for reading memory or injecting anything.
+/// shows; Arnav Games never opens game processes for reading memory or injecting anything.
 /// </summary>
 public static partial class ProcessScanner
 {

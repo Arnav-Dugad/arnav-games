@@ -43,9 +43,9 @@ public sealed partial class XboxAdapter(IRegistryReader registry) : IPlatformAda
     [
         "Shows Xbox app and Microsoft Store games installed on this PC. Game Pass games you haven't installed aren't shown.",
         "Older Store games without Xbox Live may be missed; you can add them yourself.",
-        "Playtime isn't available locally for Xbox games; VYSTRAL tracks sessions you start from here.",
-        "When VYSTRAL hasn't seen you play, \"last played\" is estimated from when the game last wrote its saves.",
-        "Windows doesn't say locally whether a game came with Game Pass or was bought, so VYSTRAL doesn't guess.",
+        "Playtime isn't available locally for Xbox games; Arnav Games tracks sessions you start from here.",
+        "When Arnav Games hasn't seen you play, \"last played\" is estimated from when the game last wrote its saves.",
+        "Windows doesn't say locally whether a game came with Game Pass or was bought, so Arnav Games doesn't guess.",
     ];
 
     public AdapterStatus GetStatus()

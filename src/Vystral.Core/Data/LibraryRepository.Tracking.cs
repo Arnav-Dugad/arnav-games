@@ -6,11 +6,11 @@ namespace Vystral.Core.Data;
 /// <summary>An open (unfinished) session, as the background tracker needs it to continue or close it.</summary>
 public sealed record OpenSessionRow(string Id, string GameId, string? InstallationId, DateTimeOffset Start, string Source);
 
-/// <summary>The most recent session VYSTRAL noticed without launching it (for the Settings status line).</summary>
+/// <summary>The most recent session Arnav Games noticed without launching it (for the Settings status line).</summary>
 public sealed record ObservedSessionRow(string Id, string GameId, string GameTitle, string Source, DateTimeOffset Start, DateTimeOffset? End, int DurationSeconds);
 
 /// <summary>
-/// Track H: games tracked when they were started outside VYSTRAL (while it was open, or by the
+/// Track H: games tracked when they were started outside Arnav Games (while it was open, or by the
 /// background tracker while it was closed). Uses the existing tables only.
 /// </summary>
 public sealed partial class LibraryRepository

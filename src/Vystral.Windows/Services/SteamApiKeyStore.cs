@@ -20,7 +20,7 @@ public interface ISecretStore
 /// </summary>
 public sealed partial class SteamApiKeyStore(ISecretStore store)
 {
-    public const string Target = "VYSTRAL/SteamWebApiKey";
+    public const string Target = Brand.Legacy.CredentialPrefix + "SteamWebApiKey";
 
     /// <summary>Steam Web API keys are 32 hexadecimal characters.</summary>
     public static bool IsValidFormat(string? key) => key is not null && KeyPattern().IsMatch(key);
@@ -91,7 +91,7 @@ public sealed class WindowsCredentialStore(string? comment = null) : ISecretStor
             {
                 Type = CredTypeGeneric,
                 TargetName = target,
-                Comment = comment ?? "Steam Web API key used by VYSTRAL to read your owned games and achievements.",
+                Comment = comment ?? "Steam Web API key used by Arnav Games to read your owned games and achievements.",
                 CredentialBlobSize = (uint)bytes.Length,
                 CredentialBlob = blob,
                 Persist = CredPersistLocalMachine,

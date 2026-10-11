@@ -187,7 +187,7 @@ function NotRunning({ status, onRetry, retrying }: { status: AiStatus; onRetry: 
       </span>
       <div className="caps">Local AI</div>
       <h1 id="as-nr-title" className="as-card__title">Ollama isn’t running</h1>
-      <p className="as-card__body">{status.problem ?? 'VYSTRAL couldn’t reach Ollama on this PC.'}</p>
+      <p className="as-card__body">{status.problem ?? 'Arnav Games couldn’t reach Ollama on this PC.'}</p>
       <ol className="as-steps">
         <li>Install Ollama for Windows — it’s free.</li>
         <li>Start it (it runs quietly in the system tray).</li>
@@ -204,7 +204,7 @@ function NotRunning({ status, onRetry, retrying }: { status: AiStatus; onRetry: 
           Turn off
         </Button>
       </div>
-      <p className="as-card__foot">Opens ollama.com in your browser. VYSTRAL doesn’t install anything for you.</p>
+      <p className="as-card__foot">Opens ollama.com in your browser. Arnav Games doesn’t install anything for you.</p>
     </section>
   );
 }
@@ -307,7 +307,7 @@ function ModelSetup({ status, onRefresh }: { status: AiStatus; onRefresh: () => 
               </div>
               <ProgressBar label={`Downloading ${rec.name}`} value={pull.percent ?? undefined} indeterminate={pull.percent == null} />
               <div className="as-pull__row">
-                <span className="as-pull__note">You can keep using VYSTRAL while this downloads.</span>
+                <span className="as-pull__note">You can keep using Arnav Games while this downloads.</span>
                 <Button size="sm" variant="ghost" onClick={() => void cancel()}>
                   Cancel
                 </Button>

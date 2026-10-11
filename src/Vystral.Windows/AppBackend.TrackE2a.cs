@@ -54,14 +54,14 @@ public sealed partial class AppBackend
         });
     }
 
-    /// <summary>"VYSTRAL 100% - Ashen Crown - 2026-10-11": a safe default name from the title (never from the page).</summary>
+    /// <summary>"Arnav Games 100% - Ashen Crown - 2026-10-11": a safe default name from the title (never from the page).</summary>
     public static string CompletionImageName(string title, DateTimeOffset at)
     {
         var invalid = Path.GetInvalidFileNameChars();
         var clean = new string((title ?? "").Where(c => !invalid.Contains(c) && !char.IsControl(c)).ToArray()).Trim().TrimEnd('.');
         if (clean.Length > 60) clean = clean[..60].TrimEnd();
         if (clean.Length == 0) clean = "Game";
-        return $"VYSTRAL 100% - {clean} - {at.ToLocalTime():yyyy-MM-dd}";
+        return $"{Brand.Name} 100% - {clean} - {at.ToLocalTime():yyyy-MM-dd}";
     }
 
     /// <summary>Whether the host should open in Immersive Mode: the older switch, or "Open on start" set to Immersive.</summary>

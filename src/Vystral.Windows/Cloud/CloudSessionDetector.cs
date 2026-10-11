@@ -5,12 +5,12 @@ namespace Vystral.Windows.Cloud;
 public enum CloudDetectorState { Waiting, Running, Ended, Abandoned }
 
 /// <summary>
-/// Notices a cloud session started from VYSTRAL, read-only, from a handle-free process list and the foreground
+/// Notices a cloud session started from Arnav Games, read-only, from a handle-free process list and the foreground
 /// window's process id (nothing is opened, read or hooked):
 /// <list type="bullet">
-/// <item><see cref="CloudDetect.OwnProcess"/>: the Edge window VYSTRAL started with its own profile folder; the session
+/// <item><see cref="CloudDetect.OwnProcess"/>: the Edge window Arnav Games started with its own profile folder; the session
 /// lasts while that process runs. If it hands over to an Edge already open on that folder, the earlier browser process
-/// is followed when VYSTRAL knows it, otherwise the session waits for "I'm done".</item>
+/// is followed when Arnav Games knows it, otherwise the session waits for "I'm done".</item>
 /// <item><see cref="CloudDetect.GfnStreamer"/>: GeForce NOW's stream process (<c>GeForceNOWStreamer.exe</c>) appearing and
 /// going away, with a grace period. Queue time before the stream isn't counted.</item>
 /// <item><see cref="CloudDetect.XboxForeground"/>: the Xbox app in the foreground after the launch; the session ends when it
@@ -95,7 +95,7 @@ public sealed class CloudSessionDetector
         }
         if (now - _launchedAt <= HandOffWindow)
         {
-            // Edge handed the window to a browser already open on VYSTRAL's profile folder and exited.
+            // Edge handed the window to a browser already open on Arnav Games' profile folder and exited.
             if (_previousBrowserPid is { } prev && processes.Any(p => p.Pid == prev && p.Name.Equals("msedge.exe", StringComparison.OrdinalIgnoreCase)))
                 _pid = prev;
             else

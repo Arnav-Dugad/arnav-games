@@ -204,7 +204,7 @@ test.describe('data sources health', () => {
     await expect(health.getByRole('heading', { name: 'Data sources at a glance' })).toBeVisible();
     const store = page.getByTestId('health-steam.store');
     await expect(store.locator('.dsh-pill')).toHaveText(/Paused/);
-    await expect(store).toContainText('Steam asked VYSTRAL to slow down (HTTP 429)');
+    await expect(store).toContainText('Steam asked Arnav Games to slow down (HTTP 429)');
     await expect(store).toContainText(/for \d+ more minutes/);
     await expect(page.getByTestId('health-steamgriddb')).toContainText('didn’t accept the key');
     await expect(page.getByTestId('health-igdb')).toContainText('Needs your Twitch app');
@@ -270,7 +270,7 @@ test.describe('crash-free streak', () => {
     await expect(card.getByText('42 days without a failed start')).toBeAttached();
     await expect(card.locator('.streak__big')).toHaveText('42 days');
     await expect(card.locator('.streak__bar')).toHaveCount(30);
-    await expect(card).toContainText('VYSTRAL 0.7.2 closed unexpectedly');
+    await expect(card).toContainText('Arnav Games 0.7.2 closed unexpectedly');
     await settled(page);
     await noSeriousViolations(page, '[data-testid="crash-free-streak"]');
     expect(errors).toEqual([]);

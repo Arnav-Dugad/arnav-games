@@ -104,7 +104,7 @@ test.describe('cloud play', () => {
     await expect(xbox).toContainText('Likely match');
     await expect(xbox).toContainText('Opens in a separate Microsoft Edge window');
     await expect(menu.getByRole('meter', { name: /GeForce NOW hours used/ })).toBeVisible();
-    await expect(menu.getByText('Estimated from sessions VYSTRAL saw', { exact: false })).toBeVisible();
+    await expect(menu.getByText('Estimated from sessions Arnav Games saw', { exact: false })).toBeVisible();
     await expect(menu.getByText(/GeForce NOW: All systems operational/)).toBeVisible();
     await noSeriousViolations(page, '.cloud-menu');
 
@@ -158,7 +158,7 @@ test.describe('cloud play', () => {
       const meter = section.locator('.cloud-meter');
       await expect(meter.locator('.cloud-meter__title')).toHaveText(title);
       await expect(meter).toHaveAttribute('data-tone', tone);
-      await expect(meter).toContainText('Estimated from sessions VYSTRAL saw');
+      await expect(meter).toContainText('Estimated from sessions Arnav Games saw');
       if (state === 'near' || state === 'reached' || state === 'ok') await expect(meter.getByRole('meter')).toBeVisible();
       else await expect(meter.getByRole('meter')).toHaveCount(0);
       await expect(section.getByText(/Xbox Cloud Gaming: .* this cycle/)).toBeVisible();

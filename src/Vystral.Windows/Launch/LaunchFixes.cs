@@ -7,7 +7,7 @@ namespace Vystral.Windows.Launch;
 public sealed record LaunchFixDto(string Id, string Label, string? Platform = null);
 
 /// <summary>
-/// What a fix does, decided by VYSTRAL when the launch failed (never by the UI): the URI, the
+/// What a fix does, decided by Arnav Games when the launch failed (never by the UI): the URI, the
 /// store client exe reported by the adapter, or the game's install folder.
 /// </summary>
 public sealed record LaunchFixPlan(string Id, PlatformId Platform, Uri? Uri = null, string? ExePath = null, string? Folder = null);

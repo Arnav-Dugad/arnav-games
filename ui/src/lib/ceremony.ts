@@ -1,7 +1,7 @@
 /**
  * Track E2a: the "Completed 100%" ceremony — a short cinematic moment when you mark a game Completed 100%. This file
  * is the pure part: what the moment says (hours, the time from your first session to now, achievements when known)
- * and the "once per game" memory. Only real numbers: anything VYSTRAL doesn't know is left out, never guessed.
+ * and the "once per game" memory. Only real numbers: anything Arnav Games doesn't know is left out, never guessed.
  */
 import type { AchievementProgress, Game, Session } from '../bridge/types';
 import { formatDuration, playSeconds } from './format';
@@ -11,7 +11,7 @@ export interface CeremonyFacts {
   /** "112h", from tracked time or the store's playtime (whichever is larger); null when there is none. */
   hours: string | null;
   seconds: number;
-  /** Where the first-to-now span starts: your first session VYSTRAL saw, else when VYSTRAL first saw the game. */
+  /** Where the first-to-now span starts: your first session Arnav Games saw, else when Arnav Games first saw the game. */
   since: { at: Date; kind: 'firstSession' | 'added' } | null;
   /** "2 years 3 months" from `since` to now. */
   span: string | null;

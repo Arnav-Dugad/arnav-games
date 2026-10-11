@@ -47,7 +47,7 @@ public static partial class LaunchValidator
                     return ValidationResult.Fail("The store launch link is malformed.");
                 if (!AllowedSchemes.TryGetValue(inst.Platform, out var schemes) ||
                     !schemes.Contains(uri.Scheme, StringComparer.OrdinalIgnoreCase))
-                    return ValidationResult.Fail($"VYSTRAL only opens {inst.Platform.DisplayName()} links for {inst.Platform.DisplayName()} games.");
+                    return ValidationResult.Fail($"{Brand.Name} only opens {inst.Platform.DisplayName()} links for {inst.Platform.DisplayName()} games.");
                 return ValidationResult.Valid;
 
             case LaunchKind.PackagedApp:
@@ -77,7 +77,7 @@ public static partial class LaunchValidator
         }
 
         if (full.StartsWith(@"\\", StringComparison.Ordinal))
-            return ValidationResult.Fail("Games on network paths can't be launched from VYSTRAL.");
+            return ValidationResult.Fail("Games on network paths can't be launched from Arnav Games.");
         if (!string.Equals(Path.GetExtension(full), ".exe", StringComparison.OrdinalIgnoreCase))
             return ValidationResult.Fail("Only .exe programs can be launched.");
         if (!File.Exists(full))
@@ -89,7 +89,7 @@ public static partial class LaunchValidator
         {
             var root = Path.GetFullPath(inst.InstallPath).TrimEnd('\\') + "\\";
             if (!full.StartsWith(root, StringComparison.OrdinalIgnoreCase))
-                return ValidationResult.Fail("The game's program is outside its install folder, so VYSTRAL won't start it.");
+                return ValidationResult.Fail("The game's program is outside its install folder, so Arnav Games won't start it.");
         }
 
         if (target.WorkingDirectory is not null &&

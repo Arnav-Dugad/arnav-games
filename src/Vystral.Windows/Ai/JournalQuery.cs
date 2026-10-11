@@ -342,12 +342,12 @@ public static class JournalQuery
         _ => AiText.Duration(value),
     };
 
-    /// <summary>VYSTRAL's own one-paragraph answer (used without AI, and when a model's phrasing is rejected).</summary>
+    /// <summary>Arnav Games' own one-paragraph answer (used without AI, and when a model's phrasing is rejected).</summary>
     public static string PlainAnswer(JournalResultDto r)
     {
         if (r.Sessions == 0)
             return r.Unmatched.Count > 0
-                ? $"VYSTRAL couldn’t find {string.Join(", ", r.Unmatched.Select(u => $"“{u}”"))} in your library, and no sessions matched in {r.RangeLabel}."
+                ? $"{Brand.Name} couldn’t find {string.Join(", ", r.Unmatched.Select(u => $"“{u}”"))} in your library, and no sessions matched in {r.RangeLabel}."
                 : $"No tracked sessions match in {r.RangeLabel}.";
         var top = r.Rows.Where(x => x.Value > 0).OrderByDescending(x => x.Value).FirstOrDefault();
         var total = Format(r.Total, r.Unit);
@@ -368,7 +368,7 @@ public static class JournalQuery
         };
     }
 
-    /// <summary>The facts a model may quote when phrasing (rows formatted exactly as VYSTRAL shows them).</summary>
+    /// <summary>The facts a model may quote when phrasing (rows formatted exactly as Arnav Games shows them).</summary>
     public static string Facts(JournalResultDto r)
     {
         var sb = new StringBuilder();

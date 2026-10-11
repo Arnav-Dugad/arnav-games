@@ -14,7 +14,7 @@ namespace Vystral.Tests.DataSources;
 /// <summary>
 /// Track E4: Xbox Store IDs for exact matching. <c>Fixtures/E4/msstore_lookup_fh4.json</c> is the live display-catalogue answer
 /// for Forza Horizon 4's package (<c>Microsoft.SunriseBaseGame_8wekyb3d8bbwe</c>), captured on 2026-10-11 and trimmed to the
-/// fields VYSTRAL reads; <c>msstore_lookup_none.json</c> is the live answer for a family name the Store doesn't know. The
+/// fields Arnav Games reads; <c>msstore_lookup_none.json</c> is the live answer for a family name the Store doesn't know. The
 /// Wikidata answer below is the live answer to the same query shape on that day; the IGDB answers are hand-written from
 /// IGDB's documented shapes (no Twitch app was used).
 /// </summary>

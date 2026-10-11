@@ -48,12 +48,12 @@ describe('never played selection', () => {
 });
 
 describe('age labels', () => {
-  it('says how long VYSTRAL has known the game, honestly labelled', () => {
+  it('says how long Arnav Games has known the game, honestly labelled', () => {
     expect(ownedSince(game('x', { added: daysAgo(3) }))).toEqual({ at: daysAgo(3), source: 'firstSeen' });
     expect(ownedSince(game('x', { added: 'garbage' }))).toBeNull();
-    expect(ageLabel(game('x', { added: daysAgo(0.2) }), NOW)).toBe('New to VYSTRAL today');
-    expect(ageLabel(game('x', { added: daysAgo(1) }), NOW)).toBe('In VYSTRAL for 1 day');
-    expect(ageLabel(game('x', { added: daysAgo(3 * 365.25 + 10) }), NOW)).toBe('In VYSTRAL for 3 years');
+    expect(ageLabel(game('x', { added: daysAgo(0.2) }), NOW)).toBe('New to Arnav Games today');
+    expect(ageLabel(game('x', { added: daysAgo(1) }), NOW)).toBe('In Arnav Games for 1 day');
+    expect(ageLabel(game('x', { added: daysAgo(3 * 365.25 + 10) }), NOW)).toBe('In Arnav Games for 3 years');
   });
 
   it('rounds spans down to the natural unit', () => {

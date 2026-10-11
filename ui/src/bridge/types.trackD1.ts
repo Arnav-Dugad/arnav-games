@@ -26,8 +26,8 @@ export interface BulkUndoResult {
 }
 
 /**
- * call('versions.history', { gameId }): versions VYSTRAL saw for the game's copies, oldest first, recorded after scans.
- * `baseline` = the first version seen for that copy (VYSTRAL doesn't know when it arrived, so it isn't an update).
+ * call('versions.history', { gameId }): versions Arnav Games saw for the game's copies, oldest first, recorded after scans.
+ * `baseline` = the first version seen for that copy (Arnav Games doesn't know when it arrived, so it isn't an update).
  * `storeUpdated` = when the store says it was installed (Steam's LastUpdated, the package's install date), if known.
  */
 export interface VersionHistoryEntry {

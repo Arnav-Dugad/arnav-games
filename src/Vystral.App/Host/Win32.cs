@@ -7,7 +7,7 @@ internal static partial class Win32
 {
     public static IntPtr GetHwnd(Window window) => WinRT.Interop.WindowNative.GetWindowHandle(window);
 
-    /// <summary>Brings our own window to the foreground when the user re-launches VYSTRAL.</summary>
+    /// <summary>Brings our own window to the foreground when the user re-launches Arnav Games.</summary>
     public static void ForceForeground(IntPtr hwnd)
     {
         ShowWindow(hwnd, 9); // SW_RESTORE

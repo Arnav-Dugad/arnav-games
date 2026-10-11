@@ -338,11 +338,11 @@ test.describe('Immersive improvements', () => {
     expect(errors).toEqual([]);
   });
 
-  test('Close VYSTRAL needs a hold; Settings opens desktop settings', async ({ page }) => {
+  test('Close Arnav Games needs a hold; Settings opens desktop settings', async ({ page }) => {
     await open(page);
     await enter(page);
     await pad(page, 'Menu');
-    const close = page.getByRole('menuitem', { name: /Close VYSTRAL/ });
+    const close = page.getByRole('menuitem', { name: /Close Arnav Games/ });
     for (let i = 0; i < 5; i++) await pad(page, 'Down');
     await expect(close).toBeFocused();
     await pad(page, 'A'); // a tap does nothing

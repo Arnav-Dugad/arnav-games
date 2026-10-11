@@ -6,7 +6,7 @@ namespace Vystral.Windows.Bridge;
 /// <param name="Key">Track Y: opaque hash of the device id (<see cref="ControllerKeys"/>), matching the battery history; null if unknown.</param>
 public sealed record ControllerInfo(string Name, int? BatteryPercent, bool? Charging, bool Wireless, string? Key = null);
 
-/// <summary>A Windows notification VYSTRAL wants to show. Route is navigated to when it is clicked.</summary>
+/// <summary>A Windows notification Arnav Games wants to show. Route is navigated to when it is clicked.</summary>
 public sealed record NotificationRequest(string Category, string Title, string Body, string RouteJson, string? Tag = null);
 
 public sealed record HotkeyApplyResult(bool Registered, string? Error);
@@ -21,7 +21,7 @@ public interface IInsightHost
     /// <summary>The main window handle (for display queries); 0 before the window exists.</summary>
     nint WindowHandle { get; }
 
-    /// <summary>True when VYSTRAL's window is the active, visible foreground window.</summary>
+    /// <summary>True when Arnav Games' window is the active, visible foreground window.</summary>
     bool IsForeground { get; }
 
     IReadOnlyList<ControllerInfo> GetControllers();
@@ -32,7 +32,7 @@ public interface IInsightHost
     /// <summary>False when Windows notifications couldn't be registered for this process.</summary>
     bool NotificationsAvailable { get; }
 
-    /// <summary>False when a notification can be shown but selecting it can't open VYSTRAL's page.</summary>
+    /// <summary>False when a notification can be shown but selecting it can't open Arnav Games' page.</summary>
     bool NotificationsClickable { get; }
 
     bool ShowNotification(NotificationRequest request);

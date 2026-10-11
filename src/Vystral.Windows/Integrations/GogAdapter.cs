@@ -29,7 +29,7 @@ public sealed partial class GogAdapter(IRegistryReader registry) : IPlatformAdap
     [
         "Shows GOG games installed on this PC, whether installed with GOG Galaxy or an offline installer.",
         "Games start directly from their own executable, so GOG Galaxy features such as cloud saves and overlay aren't active for sessions started here.",
-        "Playtime recorded by GOG Galaxy isn't imported; VYSTRAL tracks sessions you start from here.",
+        "Playtime recorded by GOG Galaxy isn't imported; Arnav Games tracks sessions you start from here.",
     ];
 
     public string? FindGalaxyExe()

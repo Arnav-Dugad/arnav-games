@@ -1,7 +1,7 @@
 /**
  * Track M: IGDB time-to-beat bars. Pure and unit-tested (the native side applies the same "first known
  * estimate" rule in TimeToBeatData.Progress). Nothing here fetches anything: estimates come from the
- * IGDB facts VYSTRAL already cached during enrichment, and only with the user's own IGDB key.
+ * IGDB facts Arnav Games already cached during enrichment, and only with the user's own IGDB key.
  */
 import type { Game, TimeToBeat } from '../bridge/types';
 import { formatHours } from './dataSources';
@@ -25,8 +25,8 @@ export const TTB_HINT: Record<TtbKey, string> = {
 export const TTB_SOURCE = 'IGDB estimate';
 
 /**
- * Your playtime for the bar: the larger of VYSTRAL-tracked time and store-reported time. Store playtime
- * (e.g. Steam's) already includes sessions VYSTRAL tracked for that store, so adding them would count
+ * Your playtime for the bar: the larger of Arnav Games–tracked time and store-reported time. Store playtime
+ * (e.g. Steam's) already includes sessions Arnav Games tracked for that store, so adding them would count
  * the same hours twice.
  */
 export function playedSeconds(game: Pick<Game, 'trackedSeconds' | 'installations'>): number {

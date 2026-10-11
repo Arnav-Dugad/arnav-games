@@ -1,6 +1,6 @@
 /**
- * Track H preview: games started outside VYSTRAL. A few fictional sessions are marked as noticed in the
- * background or while open, and `?detected` simulates a game started outside VYSTRAL (title-bar chip,
+ * Track H preview: games started outside Arnav Games. A few fictional sessions are marked as noticed in the
+ * background or while open, and `?detected` simulates a game started outside Arnav Games (title-bar chip,
  * stop tracking). Nothing here watches real processes.
  */
 import type { Game, LaunchState, Session, Settings, TrackingStatus } from './types';

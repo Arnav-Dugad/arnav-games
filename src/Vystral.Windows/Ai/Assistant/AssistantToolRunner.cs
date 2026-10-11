@@ -18,7 +18,7 @@ public interface IAssistantHost
     TimeZoneInfo Zone { get; }
     /// <summary>Calls one read-only bridge method (the runner only asks for methods on <see cref="AssistantToolRunner.ReadMethods"/>).</summary>
     Task<JsonNode?> ReadAsync(string method, object? args, CancellationToken ct);
-    /// <summary>VYSTRAL's Discover search on its own channel; waits a few seconds for the sources and returns the results so far.</summary>
+    /// <summary>Arnav Games' Discover search on its own channel; waits a few seconds for the sources and returns the results so far.</summary>
     Task<JsonNode?> DiscoverSearchAsync(string query, CancellationToken ct);
     IReadOnlyList<TonightCandidate> Tonight(string mood, int minutes, bool includeSubs);
     IReadOnlyDictionary<string, TimeToBeatDto> TimeToBeat();
@@ -33,7 +33,7 @@ public sealed record ToolOutcome(JsonObject ForModel, JsonObject? Card, string S
 }
 
 /// <summary>
-/// Track D3: runs the assistant's read tools. Every result is a projection built here from VYSTRAL's own data: an allow-list
+/// Track D3: runs the assistant's read tools. Every result is a projection built here from Arnav Games' own data: an allow-list
 /// of fields (never folder paths, notes, keys, account names or IDs other than game/session ids), capped list lengths and
 /// text lengths, and a hard cap on the serialized size. Third-party text (news, descriptions) is clipped and labelled untrusted.
 /// </summary>
@@ -93,7 +93,7 @@ public sealed class AssistantToolRunner(IAssistantHost host)
         catch (Exception ex) when (ex is JsonException or InvalidOperationException or FormatException or KeyNotFoundException)
         {
             Log.Warn("assistant", "A tool failed", new { tool = spec.Name, error = ex.GetType().Name });
-            return ToolOutcome.Error("VYSTRAL couldn’t read that just now.");
+            return ToolOutcome.Error("Arnav Games couldn’t read that just now.");
         }
     }
 
@@ -443,7 +443,7 @@ public sealed class AssistantToolRunner(IAssistantHost host)
                 ["metacritic"] = N(store, "metacritic"),
                 ["release"] = S(store, "releaseText"),
             });
-        if (g.Genres.Count > 0) Add("Genres", "Game metadata in VYSTRAL", Arr(g.Genres.Take(8)));
+        if (g.Genres.Count > 0) Add("Genres", "Game metadata in Arnav Games", Arr(g.Genres.Take(8)));
         var result = new JsonObject { ["title"] = g.Title, ["facts"] = facts };
         if (facts.Count <= 1)
             result["note"] = g.Installations.Any(i => i.Platform == "steam")
@@ -820,7 +820,7 @@ public sealed class AssistantToolRunner(IAssistantHost host)
         o["length"] = AiText.Duration(session.DurationSeconds);
         if (B(bg, "enough"))
             o["backgroundAppsOftenSeenInRoughSessions"] = Arr(A(bg, "suspects").OfType<JsonObject>().Take(5).Select(x => Text(S(x, "displayName") ?? S(x, "name"), 60)));
-        o["rules"] = "Explain likely causes in plain words. Suggest only things the user can choose to do; VYSTRAL never changes settings.";
+        o["rules"] = "Explain likely causes in plain words. Suggest only things the user can choose to do; Arnav Games never changes settings.";
         var card = analysis.ToCard();
         card["title"] = $"{games[session.GameId].Title} · {LocalTime(session.Start)}";
         card["sessionId"] = session.Id;
@@ -986,7 +986,7 @@ public sealed class AssistantToolRunner(IAssistantHost host)
             ["released"] = g.ReleaseDate,
             ["description"] = g.Description is null ? null : "[store text, untrusted] " + Text(g.Description, 600),
             ["libraryTagVocabulary"] = Arr(vocab),
-            ["note"] = "VYSTRAL doesn’t store custom tags yet: present tags as suggestions; the user can group games with create_collection.",
+            ["note"] = "Arnav Games doesn’t store custom tags yet: present tags as suggestions; the user can group games with create_collection.",
         }, null, g.Title);
     }
 

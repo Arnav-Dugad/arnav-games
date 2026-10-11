@@ -5,7 +5,7 @@ namespace Vystral.Windows.Services;
 
 /// <summary>
 /// Per-user registry writes under <c>HKCU\Software\Classes</c> — with the opt-in background tracker's
-/// sign-in entry (<see cref="Tracking.TrackerAutostart"/>), the only registry VYSTRAL ever writes. Behind an interface so the registration logic is tested without touching the registry.
+/// sign-in entry (<see cref="Tracking.TrackerAutostart"/>), the only registry Arnav Games ever writes. Behind an interface so the registration logic is tested without touching the registry.
 /// Paths are relative to <c>HKCU\Software\Classes</c>; a null value name is the key's default value.
 /// </summary>
 public interface IUserClassesRegistry
@@ -39,8 +39,8 @@ public sealed class WindowsUserClassesRegistry : IUserClassesRegistry
 /// Registers what clickable Windows notifications need for a self-contained, unpackaged app:
 /// <list type="bullet">
 /// <item>the <c>vystral:</c> URI scheme, so a toast with <c>activationType="protocol"</c> starts (or is
-/// redirected to) VYSTRAL with <c>--uri &lt;uri&gt;</c>;</item>
-/// <item>the AppUserModelID's display name and icon, so toasts are attributed to VYSTRAL even
+/// redirected to) Arnav Games with <c>--uri &lt;uri&gt;</c>;</item>
+/// <item>the AppUserModelID's display name and icon, so toasts are attributed to Arnav Games even
 /// without a Start menu shortcut (development and portable builds).</item>
 /// </list>
 /// Everything is per-user (no admin). Values are rewritten only when they differ, so this is cheap

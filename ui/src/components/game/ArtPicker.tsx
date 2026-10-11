@@ -308,7 +308,7 @@ export function ArtPickerDialog({ game, kind, open, onClose, onApplyStyle }: {
                 <div><dt>Style</dt><dd>{chosen.style ? STYLE_LABEL[chosen.style] ?? chosen.style : '—'}</dd></div>
               </dl>
             )}
-            <p className="artpick__note">The full-size image is downloaded, checked and kept in VYSTRAL’s private cache. It becomes your choice: scans never replace it, and “Reset to default” brings the store’s art back.</p>
+            <p className="artpick__note">The full-size image is downloaded, checked and kept in Arnav Games’ private cache. It becomes your choice: scans never replace it, and “Reset to default” brings the store’s art back.</p>
           </aside>
         </div>
       </div>

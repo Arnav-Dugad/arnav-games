@@ -131,7 +131,7 @@ export function HealthView() {
           mark(true);
           await call('game.dismissDuplicate', { gameIdA: issue.gameId, gameIdB: issue.otherGameId });
           await refreshAll();
-          toast({ tone: 'info', title: 'Kept separate', body: 'VYSTRAL won’t suggest these two again.' });
+          toast({ tone: 'info', title: 'Kept separate', body: 'Arnav Games won’t suggest these two again.' });
           return;
         case 'enableStore':
           if (!issue.platform) return;
@@ -269,7 +269,7 @@ function HealthyState({ report, reduce }: { report: HealthReport; reduce: boolea
       <p className="health-ok__body">
         {empty
           ? 'Once your stores are scanned (or you add a game), this page keeps an eye on shortcuts, drives, duplicates and art.'
-          : 'Every shortcut starts, every drive is connected, no duplicates are waiting and the art looks sharp. VYSTRAL checks again whenever you open this page.'}
+          : 'Every shortcut starts, every drive is connected, no duplicates are waiting and the art looks sharp. Arnav Games checks again whenever you open this page.'}
       </p>
       <ul className="health-ok__list">
         {['Shortcuts and install folders', 'Drives', 'Duplicates', 'Covers and backgrounds', 'Game details', 'Play sessions'].map((t) => (

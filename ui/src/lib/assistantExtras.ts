@@ -142,7 +142,7 @@ export function memoryProblem(text: string, max = 200): string | null {
   if (/\b(password|passwd|passcode|pin code|api[ -]?key|secret key|access token|auth token|2fa code|recovery code)s?\b/i.test(s) ||
       /\b(sk-|ghp_|xox[bp]-|AKIA)[A-Za-z0-9]/.test(s) ||
       (s.match(/[A-Za-z0-9_-]{24,}/g) ?? []).some((t) => /\d/.test(t) && /[A-Za-z]/.test(t)))
-    return 'That looks like a password or a key. VYSTRAL never keeps those as memories.';
+    return 'That looks like a password or a key. Arnav Games never keeps those as memories.';
   return null;
 }
 

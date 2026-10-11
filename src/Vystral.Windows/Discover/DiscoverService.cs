@@ -287,7 +287,7 @@ public sealed partial class DiscoverService
     private async Task<string> SteamGetAsync(string url, CancellationToken ct)
     {
         var r = await _sources.TransportFor("steamdeck").SendAsync(() => new HttpRequestMessage(HttpMethod.Get, new Uri(url)), ct);
-        if (r.Status == HttpStatusCode.Forbidden) throw new DataSourceException(DataSourceOutcome.RateLimited, "Steam asked VYSTRAL to slow down. Try again in a few minutes.");
+        if (r.Status == HttpStatusCode.Forbidden) throw new DataSourceException(DataSourceOutcome.RateLimited, "Steam asked Arnav Games to slow down. Try again in a few minutes.");
         if (r.Status != HttpStatusCode.OK) throw new DataSourceException(DataSourceOutcome.Malformed, $"Steam answered with an unexpected status ({(int)r.Status}).");
         return r.Body;
     }
@@ -539,7 +539,7 @@ public sealed partial class DiscoverService
         var title = steam?.Name ?? igdb?.Name ?? wiki?.Label ?? rawg?.Name ?? entry?.Title;
         if (title is null)
         {
-            if (reason is not null) throw new BridgeException("offline", "Offline mode is on, so VYSTRAL can’t look this game up. Turn it off in Settings → Privacy.");
+            if (reason is not null) throw new BridgeException("offline", "Offline mode is on, so Arnav Games can’t look this game up. Turn it off in Settings → Privacy.");
             throw new BridgeException("notFound", "None of the connected sources know this game any more.");
         }
 
@@ -667,7 +667,7 @@ public sealed partial class DiscoverService
     }
 
     /// <summary>
-    /// Whether a cloud catalogue VYSTRAL already downloaded lists this game. GeForce NOW is matched only by Steam app ID
+    /// Whether a cloud catalogue Arnav Games already downloaded lists this game. GeForce NOW is matched only by Steam app ID
     /// (a verified store ID: you'd stream your own Steam copy); Xbox Cloud Gaming by an unambiguous title (a likely match,
     /// labelled as such). Needs cloud play to be on, since the catalogues are only downloaded then. No request is made.
     /// </summary>

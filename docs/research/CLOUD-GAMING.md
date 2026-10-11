@@ -1,4 +1,4 @@
-# Cloud gaming in VYSTRAL: Xbox Cloud Gaming and GeForce NOW
+# Cloud gaming in Arnav Games: Xbox Cloud Gaming and GeForce NOW
 
 Research only. No code was changed. Researched 2026-10-05.
 
@@ -15,22 +15,22 @@ Some 2026 search results came from SEO content farms (tech-insider.org, shattere
 
 ## 1. Executive summary
 
-**Verdict: both services can be added.** VYSTRAL should be a **launcher and companion** for cloud play. It should not be a **cloud client**. It finds out that a game can be streamed, shows that next to the installed copies, checks whether the PC and network look ready, starts the stream using the vendor's own app or website, and keeps a local record of the session. The stream itself always runs in an official surface: the Xbox PC app, the GeForce NOW app, or Edge or Chrome on the vendor's own site.
+**Verdict: both services can be added.** Arnav Games should be a **launcher and companion** for cloud play. It should not be a **cloud client**. It finds out that a game can be streamed, shows that next to the installed copies, checks whether the PC and network look ready, starts the stream using the vendor's own app or website, and keeps a local record of the session. The stream itself always runs in an official surface: the Xbox PC app, the GeForce NOW app, or Edge or Chrome on the vendor's own site.
 
 | | Xbox Cloud Gaming | GeForce NOW |
 |---|---|---|
 | Launch a specific game | ✅ `https://www.xbox.com/{locale}/play/launch/{slug}/{productId}` in a browser. The slug is cosmetic and the site corrects it (verified). ✅ `msxbox://game/?productId={id}` opens the game's page in the Xbox PC app (Microsoft documents this). The user then presses Stream. No documented way exists to start the stream from inside the app. | ✅ `https://play.geforcenow.com/games?game-id={uuid}&utm_source=…&utm_campaign=…`. NVIDIA documents this deep link and lists "aggregator developers" as an intended user. ⚠️ `GeForceNOW.exe --url-route="#?cmsId={cmsId}&launchSource=External…"` starts the game directly in the desktop app. NVIDIA does not document it, but its own "Create desktop shortcut" feature and Playnite use it. |
 | Which games can be streamed | ⚠️ `catalog.gamepass.com/sigls/v2?id=…`: undocumented but public JSON that xbox.com's own pages use. ⚠️ `displaycatalog.mp.microsoft.com/v7.0/products`: undocumented public JSON that gives each game's PackageFamilyName, which joins straight onto the existing XboxAdapter IDs. | ⚠️ `api-prod.nvidia.com/services/gfngames/v1/gameList`: undocumented public GraphQL that nvidia.com's public games page uses. It covers about 6,100 titles (US), with Steam, Epic, Xbox, Ubisoft, Battle.net, EA and GOG store IDs and an Install-to-Play flag. ❌ The old documented `gfnpc.json` now returns `null` (verified). |
 | Service status | ⚠️ `xnotify.xboxlive.com/servicestatusv6/{market}/{lang}`: undocumented XML behind support.xbox.com. It has a "Cloud gaming & remote play" category. | ✅ `status.geforcenow.com/api/v2/*.json`: the standard public Atlassian Statuspage API, with 113 components (data centres and cloud storage). |
-| SDK or partner programme | None for third-party launchers. | GFN SDK (NVIDIAGameWorks/GeForceNOW-SDK). Its EULA is proprietary, it is aimed at game developers and publishers, and it needs registration. **It isn't suitable for VYSTRAL.** The deep link documentation is what applies to VYSTRAL. |
+| SDK or partner programme | None for third-party launchers. | GFN SDK (NVIDIAGameWorks/GeForceNOW-SDK). Its EULA is proprietary, it is aimed at game developers and publishers, and it needs registration. **It isn't suitable for Arnav Games.** The deep link documentation is what applies to Arnav Games. |
 
 **Recommended architecture:** "Play on" launch targets, with no embedded stream:
 
 1. **Official desktop app first, if it's installed.** For GeForce NOW that means the `--url-route` launch, which goes straight into the game. For Xbox it means `msxbox://game/?productId=` (the game page in the Xbox app, one more click to stream).
-2. **Otherwise, a chromeless Microsoft Edge `--app=` window** on the official URL. VYSTRAL gives it a separate Edge user-data folder that it never reads. A browser setting lets the user choose their default browser instead.
-3. **Never** render xbox.com/play or play.geforcenow.com inside VYSTRAL's UI WebView2, and **don't** build a dedicated WebView2 player window either. Section 4 explains why.
+2. **Otherwise, a chromeless Microsoft Edge `--app=` window** on the official URL. Arnav Games gives it a separate Edge user-data folder that it never reads. A browser setting lets the user choose their default browser instead.
+3. **Never** render xbox.com/play or play.geforcenow.com inside Arnav Games' UI WebView2, and **don't** build a dedicated WebView2 player window either. Section 4 explains why.
 
-**What is allowed, what is grey and what is forbidden** (judged against the VYSTRAL spec):
+**What is allowed, what is grey and what is forbidden** (judged against the Arnav Games spec):
 
 - **Clearly allowed:** launching the official apps or official URLs and deep links; the GeForce NOW deep link format (documented for aggregators); `msxbox://` and `ms-windows-store://` (Microsoft documents both); the public Statuspage API; read-only process and window detection; Windows network APIs (NetworkInformation, connection cost, signal bars, connected SSID); pinging the local default gateway; storing session history locally; pointing users to the vendors' own network tests.
 - **Grey (allowed with care):** undocumented but public JSON that the vendors' own public web pages use: Game Pass SIGLs, displaycatalog, the NVIDIA gameList GraphQL and the Xbox xnotify status feed. All of them are unauthenticated and need no cookies or tokens. They can change without warning. They need caching, low request rates, an opt-in, and graceful failure. The GeForce NOW `--url-route` argument is also grey: it's undocumented, but it is what the vendor's own app writes into its desktop shortcuts.
@@ -40,7 +40,7 @@ Some 2026 search results came from SEO content farms (tech-insider.org, shattere
 
 ## 2. Xbox Cloud Gaming (xCloud)
 
-### 2.1 What VYSTRAL already has
+### 2.1 What Arnav Games already has
 
 `src/Vystral.Windows/Integrations/XboxAdapter.cs` finds installed packaged games through `PackageManager.FindPackagesForUser("")` plus `MicrosoftGame.config` or `.GamingRoot`. It stores `PlatformGameId = PackageFamilyName` and launches by AUMID. `GetClientPageUri` returns `ms-windows-store://pdp/?PFN=…`. The adapter has no Store ProductId and no cloud awareness. Its own limitation text says "Game Pass games you haven't installed aren't shown". Cloud play fixes exactly that gap.
 
@@ -99,7 +99,7 @@ No per-product "cloud playable" attribute turned up in our probe. Cloud availabi
 - Owned games outside Game Pass can be streamed if they're on the BYOG list **[Official]**.
 - It reached the Xbox PC app for Insiders in July 2025 **[Official, Xbox Wire 2025-07-15]**.
 - About 30 titles were added in September 2026 **[Secondary]**.
-- No separate public BYOG list ID was found. VYSTRAL can't know what the user owns without signing in, and it won't sign in. The heuristic: if the game is installed locally through XboxAdapter **and** appears in allCloud, show "Stream (if you own it or it's in your plan)".
+- No separate public BYOG list ID was found. Arnav Games can't know what the user owns without signing in, and it won't sign in. The heuristic: if the game is installed locally through XboxAdapter **and** appears in allCloud, show "Stream (if you own it or it's in your plan)".
 
 **Rate and terms:**
 
@@ -107,8 +107,8 @@ No per-product "cloud playable" attribute turned up in our probe. Cloud availabi
 - Refresh no more than once every 24 hours.
 - Batch displaycatalog calls (about 20 IDs per request).
 - Honour `Cache-Control` and back off on 429 or 5xx responses.
-- Send no cookies. Send a plain `User-Agent` that identifies VYSTRAL.
-- Put the feature behind an opt-in "Online catalogue data" switch, as VYSTRAL's other online features already are.
+- Send no cookies. Send a plain `User-Agent` that identifies Arnav Games.
+- Put the feature behind an opt-in "Online catalogue data" switch, as Arnav Games' other online features already are.
 
 ### 2.4 Requirements (as of October 2026)
 
@@ -137,8 +137,8 @@ No per-product "cloud playable" attribute turned up in our probe. Cloud availabi
 
 ### 2.6 Session detection (read-only)
 
-- **Edge `--app` with a VYSTRAL-only `--user-data-dir`:** VYSTRAL owns the process tree. The session starts when the window appears and ends when the process exits. This is the most reliable option **[Unverified: Edge's process model should be checked on Windows 11 26H1]**.
-- **Xbox app:** there's no separate stream process. Use `EnumWindows` and `GetWindowText` on `XboxPcApp.exe` windows and use foreground time. **[Unverified]** whether the window title changes while streaming. Otherwise fall back to "Xbox app focused after a VYSTRAL cloud launch", with a prompt such as "Still playing?".
+- **Edge `--app` with a `--user-data-dir` used only by Arnav Games:** Arnav Games owns the process tree. The session starts when the window appears and ends when the process exits. This is the most reliable option **[Unverified: Edge's process model should be checked on Windows 11 26H1]**.
+- **Xbox app:** there's no separate stream process. Use `EnumWindows` and `GetWindowText` on `XboxPcApp.exe` windows and use foreground time. **[Unverified]** whether the window title changes while streaming. Otherwise fall back to "Xbox app focused after an Arnav Games cloud launch", with a prompt such as "Still playing?".
 - Never read the Xbox app's storage, use UI Automation on it, or hook it.
 
 ### 2.7 Terms of service notes
@@ -189,14 +189,14 @@ Working query (fields verified):
 ```
 
 - `id` (a UUID) has the same format as the deep-link `game-id` in NVIDIA's documentation. `cmsId` (numeric) is the ID used by `--url-route`.
-- **Mapping to VYSTRAL adapters:**
+- **Mapping to Arnav Games adapters:**
   - STEAM `storeId` is the appid (`SteamAdapter.PlatformGameId`) **[Verified: HL2 = 220]**.
   - EPIC `storeId` is a 32-hex ID. **[Unverified]** whether it's the `CatalogNamespace` or the `CatalogItemId`. EpicAdapter reads both from manifests but keys on `AppName`.
   - XBOX `storeId` → displaycatalog → PackageFamilyName → `XboxAdapter.PlatformGameId`.
   - UPLAY `storeId` probably equals Ubisoft's install ID (Far Cry 3 = 599) **[Unverified]**.
   - BATTLENET and EA_APP mappings are unknown. Playnite users report Battle.net ID mismatches (darklinkpower issue #576).
 - **Install-to-Play**: Performance and Ultimate members can install Steam games that publishers have opted into Steam Cloud Gaming (2,200+ by NVIDIA's count at launch; 3,853 flagged today). From 2026-04-30 members keep Install-to-Play access after their 100 hours run out, at free-tier performance **[Secondary]**. Show it as "GeForce NOW · Install-to-Play (premium)".
-- **Licence:** NVIDIA publishes no licence for the data. It's public facts with no stated terms. **Grey.** Fetch no more than once a day per country, and only with the user's opt-in. Store only the fields that are needed. Don't redistribute a cached copy inside VYSTRAL's releases.
+- **Licence:** NVIDIA publishes no licence for the data. It's public facts with no stated terms. **Grey.** Fetch no more than once a day per country, and only with the user's opt-in. Store only the fields that are needed. Don't redistribute a cached copy inside Arnav Games' releases.
 
 ### 3.3 Memberships and limits (as of October 2026)
 
@@ -228,7 +228,7 @@ Working query (fields verified):
   - Watch for `GeForceNOWStreamer.exe` to start and stop. It probably runs only while a stream is active **[Unverified]**.
   - Fall back to `GeForceNOW.exe`. Playnite polls `GeForceNOW` every 15 s and notes that *"GeForce NOW leaves leftover processes when closed"*. Don't use "GeForceNOW.exe exited" alone as the end-of-session signal.
   - Combine process presence with window foreground and title via `EnumWindows`, plus a grace period.
-- **Edge `--app` with a VYSTRAL-only profile:** the same approach as for Xbox.
+- **Edge `--app` with a profile used only by Arnav Games:** the same approach as for Xbox.
 
 ### 3.6 Terms of service notes
 
@@ -243,35 +243,35 @@ Reading of these clauses:
 
 - Deep links are explicitly invited for aggregators.
 - The public games list is used by NVIDIA's own public page.
-- Re-hosting the web client, or unofficial clients such as OpenNOW (PCWorld, 2026-04-08, "while you can"), are a different matter. VYSTRAL must stay with launching.
+- Re-hosting the web client, or unofficial clients such as OpenNOW (PCWorld, 2026-04-08, "while you can"), are a different matter. Arnav Games must stay with launching.
 
 ---
 
 ## 4. Embedding comparison
 
-VYSTRAL's UI WebView2 is locked down, and this is the starting point:
+Arnav Games' UI WebView2 is locked down, and this is the starting point:
 
 - It allows only `https://{AppHost}` and the art host, and cancels every other navigation and frame navigation.
 - It sets `NewWindowRequested` as handled, cancels downloads, and **denies all permission requests**.
 - Browser extensions are off and dev tools are off in release builds.
-- `docs/RESEARCH.md` records that **the browser Gamepad API is unreliable in WinUI's composition-hosted WebView2** (WebView2Feedback #4968), which is why VYSTRAL reads controllers natively.
+- `docs/RESEARCH.md` records that **the browser Gamepad API is unreliable in WinUI's composition-hosted WebView2** (WebView2Feedback #4968), which is why Arnav Games reads controllers natively.
 
-| | (a) Official desktop app via deep link | (b) User's default browser | (c) Separate WebView2 window inside VYSTRAL | (d) Edge `--app=` window |
+| | (a) Official desktop app via deep link | (b) User's default browser | (c) Separate WebView2 window inside Arnav Games | (d) Edge `--app=` window |
 |---|---|---|---|---|
-| ToS posture | ✅ Ordinary use | ✅ Ordinary use, and GFN's deep links are designed for it | ⚠️ VYSTRAL becomes the host for the vendor's player. That's arguably an "unauthorized third-party application" (MSA). Neither vendor lists WebView2 as a supported client. | ✅ Edge is a supported browser for both services, and Microsoft itself documents Edge launch flags for xCloud on Steam Deck. |
-| Sign-in | ✅ Vendor-managed | ✅ The existing browser session | ❌ Google OAuth blocks embedded webviews (`disallowed_useragent`, 2021 policy), so GFN accounts that sign in with Google would break. Microsoft accounts do work in WebView2. Credentials are typed into a VYSTRAL-owned surface, and password managers and extensions are missing. | ✅ A real Edge profile, so Google, Microsoft and passkeys all work |
-| Controller and mouse capture | ✅ Native | ✅ Gamepad and Pointer Lock work | ❌ The WinUI WebView2 control uses composition hosting, where Gamepad and Pointer Lock break (#4968, VYSTRAL's own finding). It would need a separate Win32 HWND-hosted controller, which is significant work. | ✅ A full browser |
+| ToS posture | ✅ Ordinary use | ✅ Ordinary use, and GFN's deep links are designed for it | ⚠️ Arnav Games becomes the host for the vendor's player. That's arguably an "unauthorized third-party application" (MSA). Neither vendor lists WebView2 as a supported client. | ✅ Edge is a supported browser for both services, and Microsoft itself documents Edge launch flags for xCloud on Steam Deck. |
+| Sign-in | ✅ Vendor-managed | ✅ The existing browser session | ❌ Google OAuth blocks embedded webviews (`disallowed_useragent`, 2021 policy), so GFN accounts that sign in with Google would break. Microsoft accounts do work in WebView2. Credentials are typed into an Arnav Games–owned surface, and password managers and extensions are missing. | ✅ A real Edge profile, so Google, Microsoft and passkeys all work |
+| Controller and mouse capture | ✅ Native | ✅ Gamepad and Pointer Lock work | ❌ The WinUI WebView2 control uses composition hosting, where Gamepad and Pointer Lock break (#4968, Arnav Games' own finding). It would need a separate Win32 HWND-hosted controller, which is significant work. | ✅ A full browser |
 | WebRTC, DRM, codecs | ✅ | ✅ | ⚠️ WebRTC and H.264 work in WebView2. **No DRM is needed:** both services stream over WebRTC, not EME. AV1 or HEVC hardware decoding and HDR would need checking per runtime **[Unverified]**. | ✅ |
-| Security for VYSTRAL | ✅ No change | ✅ No change | ❌ The origin lock would need opening up for vendor sites, permissions (pointer lock, fullscreen, keyboard lock, autoplay) would need granting, and the risk grows if VYSTRAL ever loads attacker-controlled content in the same environment. It needs a separate environment and profile, and VYSTRAL would effectively be shipping a browser. | ✅ No change. The Edge profile folder is never read by VYSTRAL. |
-| Session tracking | ⚠️ Process and window heuristics | ❌ Hard: tabs in an existing browser | ✅ Exact (navigation events), but at the costs above | ✅ Good, if a VYSTRAL-only `--user-data-dir` gives a separate process tree. ⚠️ Without it, Edge hands the window to the running browser and the launcher process exits at once. |
+| Security for Arnav Games | ✅ No change | ✅ No change | ❌ The origin lock would need opening up for vendor sites, permissions (pointer lock, fullscreen, keyboard lock, autoplay) would need granting, and the risk grows if Arnav Games ever loads attacker-controlled content in the same environment. It needs a separate environment and profile, and Arnav Games would effectively be shipping a browser. | ✅ No change. The Edge profile folder is never read by Arnav Games. |
+| Session tracking | ⚠️ Process and window heuristics | ❌ Hard: tabs in an existing browser | ✅ Exact (navigation events), but at the costs above | ✅ Good, if a `--user-data-dir` used only by Arnav Games gives a separate process tree. ⚠️ Without it, Edge hands the window to the running browser and the launcher process exits at once. |
 | Controller-first (Immersive) feel | ✅ Fullscreen app | ⚠️ Browser chrome and tabs | ✅ | ✅ A chromeless window; the vendor page can go fullscreen |
 | Effort | Low | Lowest | High | Low |
 
 **Recommendation: (a) when the vendor app is installed; otherwise (d), with (b) as a user setting. Never (c).**
 
-- For (d), launch `msedge.exe --app="{officialUrl}" --user-data-dir="%LOCALAPPDATA%\VYSTRAL\cloud-edge" --no-first-run`. The user signs in once, inside Edge.
-  - Be open about it in the UI, for example: "Cloud games open in a separate Microsoft Edge window. VYSTRAL never reads it."
-  - Leave this folder out of VYSTRAL backups and diagnostic bundles.
+- For (d), launch `msedge.exe --app="{officialUrl}" --user-data-dir="%LOCALAPPDATA%\VYSTRAL.Data\cloud-edge" --no-first-run`. The user signs in once, inside Edge.
+  - Be open about it in the UI, for example: "Cloud games open in a separate Microsoft Edge window. Arnav Games never reads it."
+  - Leave this folder out of Arnav Games backups and diagnostic bundles.
   - Offer "Use my normal browser instead" for people who prefer their existing sign-ins.
 - If Edge is missing, which is rare on Windows 11, fall back to (b).
 - Don't use `--kiosk`. On Windows it runs InPrivate, so sign-in would never persist.
@@ -279,7 +279,7 @@ VYSTRAL's UI WebView2 is locked down, and this is the starting point:
 
 ---
 
-## 5. Ways VYSTRAL can do better than the services alone
+## 5. Ways Arnav Games can do better than the services alone
 
 Each idea lists the data it needs and how feasible it is. "Local" means no network call.
 
@@ -296,19 +296,19 @@ Each idea lists the data it needs and how feasible it is. "Local" means no netwo
    - VPN active: an adapter-type heuristic
    - Local jitter and packet loss: 20 ICMP pings to the **default gateway** (`System.Net.NetworkInformation.Ping`). This is local only and no third party is contacted.
    - Wi-Fi band (2.4 or 5 GHz) needs `WlanQueryInterface`, which **on Windows 11 24H2+ needs location consent**. Make it optional. `WlanConnectionProfileDetails.GetConnectedSsid()` does not prompt.
-6. **"Open official network test" button.** For GFN, open the app's Settings (or tell the user where TEST NETWORK is). For Xbox, link to the official troubleshooter. VYSTRAL shouldn't build its own WAN latency test against vendor servers. Optional M-Lab ndt7 test: see Risks. **High.**
+6. **"Open official network test" button.** For GFN, open the app's Settings (or tell the user where TEST NETWORK is). For Xbox, link to the official troubleshooter. Arnav Games shouldn't build its own WAN latency test against vendor servers. Optional M-Lab ndt7 test: see Risks. **High.**
 7. **Data usage estimator.** "About 9 GB per hour at 20 Mbps; this session used about 6.1 GB (estimated)". Derived from the vendor bitrate tables multiplied by measured session time. Show a warning on metered connections. **High.**
-8. **Hour-budget tracker.** Shows something like "Xbox: 9.5 of 15 h used this cycle" or "GFN: 62 of 100 h (+ rollover)". The user sets their plan and billing day. The count covers **only sessions started from VYSTRAL** and is labelled as an estimate, not the vendor's balance. Warn at 80% and 100%. Data: local sessions. **High.** This matters a lot given the new caps.
+8. **Hour-budget tracker.** Shows something like "Xbox: 9.5 of 15 h used this cycle" or "GFN: 62 of 100 h (+ rollover)". The user sets their plan and billing day. The count covers **only sessions started from Arnav Games** and is labelled as an estimate, not the vendor's balance. Warn at 80% and 100%. Data: local sessions. **High.** This matters a lot given the new caps.
 9. **Session length guard.** Shows "Free tier: session ends at 1 h, 10 minutes left" as a Windows toast or Game Bar-style overlay notification. Uses local timers and the tier the user picked. **High.** The toast must not draw over the stream in a way that steals focus.
 10. **Service status chip** on every cloud action and in the Cloud hub. For GFN it can show per-region incidents. Data: Statuspage (allowed) and xnotify (grey). **High.**
-11. **Queue-aware tips.** Before a GFN launch on the Free tier, show "Free tier often has queues; peak hours are…". VYSTRAL can't read live queue positions without private APIs, and it **won't claim** to. It can show the user's own history of measured time from launch to stream, which VYSTRAL records locally. **Medium.**
-12. **Cloud journal.** Sessions appear in VYSTRAL's Journal with service, duration, estimated GB and the network quality recorded at launch. Results are compared over time ("your Wi-Fi sessions had 3× more gateway jitter"). Data: local. **High.**
-13. **Controller-first Immersive launch.** Press A to pick the route and VYSTRAL starts the Edge app window or the vendor app fullscreen. While a cloud session is active, VYSTRAL's `GamepadBridge` **stops listening**, so it doesn't steal input or react to the Guide button. Data: local. **High.**
+11. **Queue-aware tips.** Before a GFN launch on the Free tier, show "Free tier often has queues; peak hours are…". Arnav Games can't read live queue positions without private APIs, and it **won't claim** to. It can show the user's own history of measured time from launch to stream, which Arnav Games records locally. **Medium.**
+12. **Cloud journal.** Sessions appear in Arnav Games' Journal with service, duration, estimated GB and the network quality recorded at launch. Results are compared over time ("your Wi-Fi sessions had 3× more gateway jitter"). Data: local. **High.**
+13. **Controller-first Immersive launch.** Press A to pick the route and Arnav Games starts the Edge app window or the vendor app fullscreen. While a cloud session is active, Arnav Games' `GamepadBridge` **stops listening**, so it doesn't steal input or react to the Guide button. Data: local. **High.**
 14. **Edition and region guidance.** "Not available in your region" comes from SIGL market or GFN country results. A "Your Steam copy works on GFN, but your Epic copy isn't supported" note comes from variant matching. **High.**
-15. **"Cloud-only" library shelf.** Shows Game Pass cloud titles and GFN READY_TO_PLAY titles the user owns on linked stores but hasn't installed. Ownership comes only from local data VYSTRAL already has (installed or known games). It never signs in to stores. **Medium.**
+15. **"Cloud-only" library shelf.** Shows Game Pass cloud titles and GFN READY_TO_PLAY titles the user owns on linked stores but hasn't installed. Ownership comes only from local data Arnav Games already has (installed or known games). It never signs in to stores. **Medium.**
 16. **Input hints.** Mouse and keyboard support (displaycatalog `ConsoleKeyboardMouse`) and "controller recommended". **High (Xbox)**, **Low (GFN, no field)**.
-17. **Resolution and bandwidth advisor.** Example: "Your link sustains about 40 Mbps and your display is 2560×1440 at 165 Hz, so choose GFN 1440p120 (Ultimate) in GFN's settings". VYSTRAL can't set the vendor's stream settings, so it advises only. Data: vendor tables, display info and the readiness check. **High.**
-18. **Windows tuning hints.** Turn Game Mode on, unplug from battery saver, close bandwidth-heavy apps such as active OneDrive or Steam downloads during a session (VYSTRAL can **pause its own** downloads and update checks). **High.**
+17. **Resolution and bandwidth advisor.** Example: "Your link sustains about 40 Mbps and your display is 2560×1440 at 165 Hz, so choose GFN 1440p120 (Ultimate) in GFN's settings". Arnav Games can't set the vendor's stream settings, so it advises only. Data: vendor tables, display info and the readiness check. **High.**
+18. **Windows tuning hints.** Turn Game Mode on, unplug from battery saver, close bandwidth-heavy apps such as active OneDrive or Steam downloads during a session (Arnav Games can **pause its own** downloads and update checks). **High.**
 19. **Ad-tier awareness.** If the user's tier is "GFN Free" or "Xbox free (ads)", add the expected pre-roll time to launch-time estimates and suggest a tier upgrade only once. Never show ads itself. **High.**
 20. **Notifications for catalogue changes.** For example: "3 games in your wishlist are now cloud playable" or "Leaving Game Pass soon" (SIGL `cc7fc951-…`). Data: daily catalogue diff, opt-in. **Medium.**
 21. **Deep-link share card.** Copy an official link (xbox.com or the GFN deep link) for a friend. **High.**
@@ -363,15 +363,15 @@ Matching rules:
 │                         62 GB on D:              ☁ Included:     ☁ Steam copy │
 │                                                  Ultimate         Ready to play│
 │  Cloud readiness  ● Ethernet 940 Mbps · gateway jitter 1 ms · unmetered     │
-│  Xbox Cloud: ~9 GB/h · 6.5 of 15 h used this cycle (VYSTRAL-tracked)        │
+│  Xbox Cloud: ~9 GB/h · 6.5 of 15 h used this cycle (Arnav Games–tracked)        │
 │  Status: Xbox ✓ Operational · GeForce NOW ✓ Operational                     │
 └─────────────────────────────────────────────────────────────────────────────┘
 ```
 
 - **Library:** small cloud glyphs on tiles, and filters for "Cloud playable", "Not installed but streamable" and "Install-to-Play".
-- **Immersive mode:** the hero card shows a route carousel (LB/RB switches route). A press triggers a 1.5 s readiness sweep, then launch. VYSTRAL fades to a "Streaming in Edge · press the Guide button to return" state and suspends its WebView, as it already does for local games.
+- **Immersive mode:** the hero card shows a route carousel (LB/RB switches route). A press triggers a 1.5 s readiness sweep, then launch. Arnav Games fades to a "Streaming in Edge · press the Guide button to return" state and suspends its WebView, as it already does for local games.
 - **Launching from the Command bar:** `Play Halo in the cloud`.
-- **The first cloud launch** shows a one-time sheet explaining what VYSTRAL does and doesn't do: no sign-in through VYSTRAL, no tokens, and a separate Edge window.
+- **The first cloud launch** shows a one-time sheet explaining what Arnav Games does and doesn't do: no sign-in through Arnav Games, no tokens, and a separate Edge window.
 
 ---
 
@@ -379,14 +379,14 @@ Matching rules:
 
 1. **Undocumented catalogue endpoints can change or disappear.** It has already happened: `gfnpc.json` now returns `null`. Design for failure: keep the last good cache, show "cloud data may be out of date", and keep the feature switchable per service. Consider writing to `gdp-queries@nvidia.com` to register as an aggregator and ask for a supported catalogue feed.
 2. **Hour caps and tiers are moving quickly** (Xbox caps from November 2026, regional exemptions, a free ad-supported test; GFN's 100 h rule). Keep plan rules in a small versioned JSON file in the repo, with dates and source URLs. Never hard-code "unlimited".
-3. **VYSTRAL's hour counts aren't the vendor's balance.** Sessions on phones, TVs and other devices aren't seen. Always label them "tracked by VYSTRAL".
+3. **Arnav Games' hour counts aren't the vendor's balance.** Sessions on phones, TVs and other devices aren't seen. Always label them "tracked by Arnav Games".
 4. **Entitlement is unknown** without signing in. Keep the wording conservative ("may be included") and let the vendor page decide. The 1000xRESIST footnote anomaly shows that SIGL inclusion isn't the final word.
 5. **The GFN `--url-route` argument is undocumented.** NVIDIA could change it in an app update. Detect launch failure (the app opens but no streamer process starts within N seconds) and fall back to the documented web deep link.
 6. **Session detection heuristics:** stray GFN processes; the Xbox app streams inside its own window; Edge's process model with `--user-data-dir`. All of these must be tested on real hardware. Provide a manual "I'm done" button and an idle prompt.
 7. **The Edge `--app` and `--user-data-dir` switches aren't formally documented by Microsoft.** Enterprise policies can block them. Fall back to the default browser.
 8. **Optional internet latency test:** M-Lab ndt7 is open and documented, but M-Lab **publishes the client IP in its open data**, so it needs explicit informed consent, and it measures the path to M-Lab, not to Xbox or NVIDIA. NVIDIA explicitly says generic speed tests don't reflect GFN quality. Recommendation: don't ship it by default. Local gateway jitter plus the vendors' own tests are enough.
 9. **Location consent for Wi-Fi band on 24H2+.** Make it optional and explain the prompt.
-10. **Controller conflicts:** VYSTRAL's native `GamepadBridge` must release or ignore input while a cloud window has focus. This needs testing with Edge and the Xbox app.
+10. **Controller conflicts:** Arnav Games' native `GamepadBridge` must release or ignore input while a cloud window has focus. This needs testing with Edge and the Xbox app.
 11. **Legal:** the meaning of "impermissible scraping" (MSA) and NVIDIA's silence on catalogue reuse. Mitigate with low-rate opt-in fetching, attribution ("Catalogue data from Microsoft and NVIDIA public pages"), no redistribution of cached data, and a commitment to remove the feature on request. Don't use vendor logos beyond what their brand guidelines allow. Prefer text names ("Xbox Cloud Gaming", "GeForce NOW") and generic cloud glyphs.
 12. **Open questions:**
     - Does `/play/launch/{slug}/{id}` start the stream immediately when signed in?
@@ -442,7 +442,7 @@ Matching rules:
 - Playnite issue #1642 (GeForce NOW): https://github.com/JosefNemec/Playnite/issues/1642
 - Playnite XCloud Library (SIGL plus `/play/launch/` URLs): https://github.com/joyrider3774/Playnite_XCloud_Library
 - GOG Galaxy GFN integration: https://github.com/bertbert72/galaxy-integration-geforcenow
-- GFNOW-SYNC (Steam shortcuts; reads GFN's CacheStorage, which is not acceptable for VYSTRAL): https://github.com/supernebuleux/GFNOW-SYNC
+- GFNOW-SYNC (Steam shortcuts; reads GFN's CacheStorage, which is not acceptable for Arnav Games): https://github.com/supernebuleux/GFNOW-SYNC
 - OpenNOW (unofficial GFN client): https://github.com/OpenCloudGaming/OpenNOW · PCWorld (2026-04-08): https://www.pcworld.com/article/3109606/try-out-an-open-source-app-to-access-geforce-now-while-you-can.html
 - gfn-electron (wrapper with a quality override): https://github.com/hmlendea/geforcenow-electron
 - Better xCloud (userscript): https://better-xcloud.github.io/

@@ -11,6 +11,7 @@ import type {
   AssistantToolInfo, Game, JournalAnswer, Session, Settings,
 } from './types';
 import { BridgeError } from './bridge';
+import { APP_NAME } from '../lib/brand';
 
 type Emit = (name: string, payload: unknown) => void;
 
@@ -25,7 +26,7 @@ const TOOLS: AssistantToolInfo[] = [
   ['search_library', 'Library search', 'read', 'Matching games from your library: titles, genres, stores, status, favorite, hours played, last played, install state and size.'],
   ['get_game', 'Game details', 'read', 'That game’s title, developer, genres, release date, status, rating, hours, sessions, stores, install size, time to beat and collections (never its folder or your notes).'],
   ['game_facts', 'Game facts', 'read', 'Public facts about that game: community tags, Steam Deck rating, anti-cheat, controller layout type, review scores and price.'],
-  ['query_journal', 'Play history', 'read', 'Totals VYSTRAL calculated from your sessions: game titles or dates with hours and session counts.'],
+  ['query_journal', 'Play history', 'read', 'Totals Arnav Games calculated from your sessions: game titles or dates with hours and session counts.'],
   ['list_sessions', 'Sessions', 'read', 'Your recent sessions: game title, start time, length, average frame rate, 1% low and stutter count.'],
   ['weekly_recap', 'Weekly recap', 'read', 'That week’s totals: hours, days played, sessions, top games with their hours, the longest session, first-time games and last week’s total.'],
   ['tonight_picks', 'Tonight’s picks', 'read', 'Up to 8 candidate games: title, genres, your hours, average session length, time left to beat, status, install and subscription status.'],
@@ -41,7 +42,7 @@ const TOOLS: AssistantToolInfo[] = [
   ['get_news', 'News', 'read', 'Titles, dates and the first lines of that game’s latest news posts.'],
   ['notifications_digest', 'Digest', 'read', 'Counts and titles: health issues, discounted wishlist games, subscription games leaving soon, drives short on space and near-complete achievements.'],
   ['suggest_tags', 'Tag ideas', 'read', 'That game’s title, genres, developer and store description, plus the most common tag names in your library.'],
-  ['get_settings', 'Settings', 'read', 'Your VYSTRAL settings in that area (never keys or addresses).'],
+  ['get_settings', 'Settings', 'read', 'Your Arnav Games settings in that area (never keys or addresses).'],
   ['open_page', 'Open a page', 'action', 'Nothing (runs on this PC after you confirm).'],
   ['open_game', 'Open a game page', 'action', 'Nothing (runs on this PC after you confirm).'],
   ['create_collection', 'New collection', 'action', 'Nothing (runs on this PC after you confirm).'],
@@ -169,7 +170,7 @@ export function assistantPreviewHandlers(ctx: {
         return {
           summary: '4 spikes found', shared: true,
           card: { kind: 'stutter', title: 'Last session with frame data', fpsAvg: 88.4, fps1Low: 41, p99: 38.5, stutters: 14, spikes: [{ at: '0:30', ms: 95 }, { at: '1:00', ms: 92 }, { at: '1:30', ms: 96 }, { at: '6:40', ms: 88 }], signals: ['CPU load was 85% or more during 4 of 4 spikes.', 'The GPU was under 70% busy during those spikes.'] },
-          say: 'The stutter came in **four short spikes**, three of them in the first two minutes. During each one the **CPU was nearly maxed out while the GPU sat mostly idle**, so the graphics card was waiting, not struggling.\n\nLikely causes, most likely first:\n- **Shaders compiling** as the level loaded (typical in the first minutes; it usually settles on the next run).\n- **Background work** competing for the CPU: closing heavy apps before playing can help.\n\nVYSTRAL didn’t change anything; these are just things you can try.',
+          say: 'The stutter came in **four short spikes**, three of them in the first two minutes. During each one the **CPU was nearly maxed out while the GPU sat mostly idle**, so the graphics card was waiting, not struggling.\n\nLikely causes, most likely first:\n- **Shaders compiling** as the level loaded (typical in the first minutes; it usually settles on the next run).\n- **Background work** competing for the CPU: closing heavy apps before playing can help.\n\nArnav Games didn’t change anything; these are just things you can try.',
         };
       case 'notifications_digest':
         return { summary: '3 things to look at', shared: true, say: 'Three things could use a look:\n- **Library health**: two games have a missing install folder.\n- **Wishlist**: one game is on sale.\n- **Disk space**: your C: drive is tight for pending updates.' };
@@ -178,7 +179,7 @@ export function assistantPreviewHandlers(ctx: {
         return {
           summary: '2 drives', shared: true,
           card: { kind: 'games', title: 'Largest installed games', items: big.map((g) => ({ id: g.id, title: g.title, sub: `${Math.round((g.installations[0]?.sizeBytes ?? 0) / 1e9)} GB` })) },
-          say: `Your biggest installs are ${big.slice(0, 2).map((g) => `**${g.title}**`).join(' and ')}. If you haven’t played one in a while, uninstalling it from its store frees the most space. VYSTRAL won’t uninstall anything for you.`,
+          say: `Your biggest installs are ${big.slice(0, 2).map((g) => `**${g.title}**`).join(' and ')}. If you haven’t played one in a while, uninstalling it from its store frees the most space. ${APP_NAME} won’t uninstall anything for you.`,
         };
       }
       case 'set_favorite': {
@@ -203,7 +204,7 @@ export function assistantPreviewHandlers(ctx: {
       case 'open_page': {
         const page = String(step.args?.page);
         const label = page[0].toUpperCase() + page.slice(1);
-        return { summary: `Open ${label}`, shared: false, action: { tool: 'open_page', title: `Open ${label}`, detail: 'Goes to that page in VYSTRAL.', confirm: 'Open', args: { page } }, say: `Ready when you are: confirm below to open ${label}.` };
+        return { summary: `Open ${label}`, shared: false, action: { tool: 'open_page', title: `Open ${label}`, detail: 'Goes to that page in Arnav Games.', confirm: 'Open', args: { page } }, say: `Ready when you are: confirm below to open ${label}.` };
       }
       case 'remember': {
         const raw = String(step.args?.text ?? '').replace(/^i /, 'I ').trim();
@@ -284,7 +285,7 @@ export function assistantPreviewHandlers(ctx: {
       || (/what do you (know|remember)/.test(q)
         ? (() => { const mem = ctx.call('__e1.memories') as string[]; return mem.length ? `Here’s what you asked me to remember:\n${mem.map((m) => `- ${m}`).join('\n')}` : 'You haven’t asked me to remember anything yet. Say “remember that…” and I’ll offer to keep it.'; })()
         : '')
-      || 'I’m the VYSTRAL Assistant (preview stand-in). Ask about your library, play history, performance or storage, or what to play tonight.';
+      || 'I’m the Arnav Games Assistant (preview stand-in). Ask about your library, play history, performance or storage, or what to play tonight.';
     await stream(id, state, text);
     emit({ requestId: id, type: 'done', engine: e.label, cloud: e.cloud, sent: sent(e, shared.map((o) => o.call.label), memories) });
   }

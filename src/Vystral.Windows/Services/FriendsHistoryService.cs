@@ -103,7 +103,7 @@ public sealed class FriendsHistoryService
         var cache = Cache(steamId);
         string? note = null;
         if (LocalOnly) note = "Offline mode is on, so these are the results saved on this PC.";
-        else if (IsGameActive()) note = "VYSTRAL doesn’t contact Steam while a game is running.";
+        else if (IsGameActive()) note = "Arnav Games doesn’t contact Steam while a game is running.";
         else if (cache?.Fetched is not { } f || Now() - f > MinInterval)
         {
             if (DataSaver && cache?.Fetched is not null) note = "Data saver is on, so friends’ recent games refresh only when you turn it off.";
@@ -111,7 +111,7 @@ public sealed class FriendsHistoryService
         }
         if (cache?.Fetched is null)
         {
-            if (LocalOnly) return Empty("offline", "Offline mode is on, so VYSTRAL doesn’t ask Steam what your friends played.");
+            if (LocalOnly) return Empty("offline", "Offline mode is on, so Arnav Games doesn’t ask Steam what your friends played.");
             if (_lastError is { } e && !IsRefreshing) return Empty(e.Status, e.Message);
             return Empty("notLoaded", null) with { Refreshing = IsRefreshing };
         }

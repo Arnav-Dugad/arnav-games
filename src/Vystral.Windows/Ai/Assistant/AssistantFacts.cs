@@ -61,7 +61,7 @@ public sealed record WeeklyRecapFacts(
 /// <summary>
 /// Track D3: "Explain this stutter". Reads one session's frame-time summary and its per-second samples and finds the worst
 /// moments and what the system was doing then. Purely descriptive: it names likely causes as facts for the model to word,
-/// and suggests nothing VYSTRAL would change (it never changes settings).
+/// and suggests nothing Arnav Games would change (it never changes settings).
 /// </summary>
 public sealed record StutterAnalysis(
     bool HasFrameData,

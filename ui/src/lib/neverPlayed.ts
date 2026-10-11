@@ -1,27 +1,28 @@
 /**
  * "Owned but never played": games in the library with no playtime anywhere — no store-reported
- * minutes, no store last-played date and no session tracked by VYSTRAL. Pure, so the selection,
+ * minutes, no store last-played date and no session tracked by Arnav Games. Pure, so the selection,
  * the age labels and the "Try it tonight" picks are unit-tested.
  *
- * Honest dates: stores don't tell VYSTRAL when you bought something, so the age is the date
- * VYSTRAL first saw the game (`Game.added`), and the label says so. If a store ever provides an
+ * Honest dates: stores don't tell Arnav Games when you bought something, so the age is the date
+ * Arnav Games first saw the game (`Game.added`), and the label says so. If a store ever provides an
  * acquisition date it goes first in {@link ownedSince} with its own label.
  */
 import type { Game } from '../bridge/types';
 import { importedMinutes, isInstalled, lastPlayed } from './format';
 import { hashString } from './color';
+import { APP_NAME } from './brand';
 
 /** Statuses that mean "I've dealt with this one" — never offered as unplayed picks. */
 const DONE = new Set(['beaten', 'completed', 'abandoned']);
 
 /**
  * The one definition of "never played", used by Home, the Library filter, search and suggestions:
- * no session VYSTRAL recorded, no tracked time, no store last-played date and no store playtime.
+ * no session Arnav Games recorded, no tracked time, no store last-played date and no store playtime.
  * Ignores whether the game is hidden (callers decide that).
  */
 export function hasNeverBeenPlayed(g: Game): boolean {
   if (g.trackedSeconds > 0 || g.sessionCount > 0) return false;
-  // Track D1: the user said they played it somewhere VYSTRAL can't see.
+  // Track D1: the user said they played it somewhere Arnav Games can't see.
   if (g.playedMarkedAt) return false;
   if (lastPlayed(g).at) return false;
   const minutes = importedMinutes(g);
@@ -40,7 +41,7 @@ export function isWaiting(g: Game): boolean {
 
 export interface OwnedSince {
   at: string;
-  /** Where the date comes from: currently always the first time VYSTRAL saw the game. */
+  /** Where the date comes from: currently always the first time Arnav Games saw the game. */
   source: 'firstSeen';
 }
 
@@ -67,18 +68,18 @@ export function ageSpan(fromIso: string, now = Date.now()): string {
   return `${y} ${y === 1 ? 'year' : 'years'}`;
 }
 
-/** Short caption under a card: "In VYSTRAL for 3 years" / "New to VYSTRAL today". */
+/** Short caption under a card: "In Arnav Games for 3 years" / "New to Arnav Games today". */
 export function ageLabel(g: Game, now = Date.now()): string {
   const since = ownedSince(g);
   if (!since) return 'Never played';
   const span = ageSpan(since.at, now);
-  return span === 'today' ? 'New to VYSTRAL today' : `In VYSTRAL for ${span}`;
+  return span === 'today' ? 'New to Arnav Games today' : `In ${APP_NAME} for ${span}`;
 }
 
 /** Tooltip/explanation of where the age comes from. */
 export function ageSourceNote(source: OwnedSince['source']): string {
   return source === 'firstSeen'
-    ? 'Counted from when VYSTRAL first found it in your library. Stores don’t share purchase dates.'
+    ? 'Counted from when Arnav Games first found it in your library. Stores don’t share purchase dates.'
     : '';
 }
 

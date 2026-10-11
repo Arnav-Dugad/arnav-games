@@ -8,7 +8,7 @@ public readonly record struct WindowCandidate(IntPtr Handle, int ProcessId, bool
 /// <summary>
 /// Brings a tracked game's main window to the front (the Play button's "Playing" state). It only
 /// restores and activates an existing window; nothing is sent to or read from the game. Windows
-/// allows this because VYSTRAL is the foreground app at the moment the user clicks.
+/// allows this because Arnav Games is the foreground app at the moment the user clicks.
 /// </summary>
 public static partial class WindowFocus
 {

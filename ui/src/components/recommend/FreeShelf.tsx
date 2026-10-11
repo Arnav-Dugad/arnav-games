@@ -48,13 +48,13 @@ export function FreeShelf({ place }: { place: 'discover' | 'home' }) {
   if (data.reason === 'off') return place === 'discover' ? <FreeInvite /> : null;
   if (!items.length) {
     if (place === 'home') return null;
-    if (allFailed(data)) return <FreeProblem text="The giveaway lists didn’t answer. VYSTRAL tries again later." onRetry={() => void load(true)} busy={loading} />;
+    if (allFailed(data)) return <FreeProblem text="The giveaway lists didn’t answer. Arnav Games tries again later." onRetry={() => void load(true)} busy={loading} />;
     return (
       <div className="disc-banner disc-banner--soft surface" data-free-state={data.reason ?? 'empty'} role="status">
         <Gift size={20} aria-hidden />
         <div>
           <strong>{data.reason === 'offline' ? 'Offline mode is on' : 'No giveaways right now'}</strong>
-          <p>{data.reason === 'offline' ? 'Free this week is checked only while VYSTRAL is online.' : 'Nothing is free to keep at the moment. New giveaways usually appear every few days.'}</p>
+          <p>{data.reason === 'offline' ? 'Free this week is checked only while Arnav Games is online.' : 'Nothing is free to keep at the moment. New giveaways usually appear every few days.'}</p>
         </div>
       </div>
     );
@@ -83,7 +83,7 @@ export function FreeShelf({ place }: { place: 'discover' | 'home' }) {
               : s.attribution}
           </span>
         ))}
-        {fetched ? `, checked ${formatRelative(fetched).toLowerCase()}` : ''}{stale ? ' (an older copy)' : ''}. VYSTRAL never claims, signs in or buys anything.
+        {fetched ? `, checked ${formatRelative(fetched).toLowerCase()}` : ''}{stale ? ' (an older copy)' : ''}. Arnav Games never claims, signs in or buys anything.
       </p>
     </>
   );

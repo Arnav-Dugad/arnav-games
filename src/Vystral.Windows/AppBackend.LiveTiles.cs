@@ -15,7 +15,7 @@ public sealed partial class AppBackend
     /// <summary>Track K: live tiles. Needs the trailer service (RegisterStatusHandlers) first.</summary>
     private void RegisterLiveTileHandlers()
     {
-        _liveTiles = new LiveTileService(Repository, Settings, Trailers, Path.Combine(Paths.Root, "cache", "live"), () => IsGameActive, $"VYSTRAL/{Version}");
+        _liveTiles = new LiveTileService(Repository, Settings, Trailers, Path.Combine(Paths.Root, "cache", "live"), () => IsGameActive, $"{Brand.UserAgentProduct}/{Version}");
         Dispatcher.Register<GameIdParams>("liveTile.get", async (p, ct) => await LiveTiles.GetAsync(RequireId(p.GameId), ct));
         Dispatcher.Register("liveTile.clearCache", _ => Task.FromResult<object?>(new { freedBytes = LiveTiles.ClearCache() }));
         // Track N: the live-tile director's choice for this game's cached clip (null start = loop it whole).

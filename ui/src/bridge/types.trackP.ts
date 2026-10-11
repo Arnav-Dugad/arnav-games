@@ -13,7 +13,7 @@ export interface Friend {
   appId: string | null;
   /** Steam's name for the game, when it sent one. */
   gameName: string | null;
-  /** The VYSTRAL game when that game is in this library. */
+  /** The library game when that game is in this library. */
   gameId: string | null;
   lastOnline: string | null;
 }
@@ -30,7 +30,7 @@ export interface FriendsActivity {
   friends: Friend[];
   /** Up to six friends seen in the last two days, only when nobody is online. */
   recentlyOnline: Friend[];
-  /** These are the last results VYSTRAL got, not fresh ones. */
+  /** These are the last results Arnav Games got, not fresh ones. */
   stale: boolean;
   retryAt: string | null;
 }

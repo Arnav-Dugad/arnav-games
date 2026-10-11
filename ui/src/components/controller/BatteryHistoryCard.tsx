@@ -218,7 +218,7 @@ export function BatteryHistoryCard({ variant }: { variant: 'settings' | 'perform
     <section className="sgroup">
       <h2 className="sgroup__title">Controller battery</h2>
       <p className="sgroup__desc">
-        VYSTRAL notes each wireless controller’s battery about every 10 minutes while it’s connected, and whenever it changes by 5% or starts or stops charging.
+        Arnav Games notes each wireless controller’s battery about every 10 minutes while it’s connected, and whenever it changes by 5% or starts or stops charging.
         It stays on this PC, is kept for 90 days, and lets the pre-flight card warn you before a long session.
       </p>
       <div className="sgroup__rows surface">

@@ -48,7 +48,7 @@ export function StorageStudioView() {
         <span className="caps">Storage</span>
         <h1 className="storage__title">Storage Studio</h1>
         <p className="storage__lede">
-          See where your installed games live and what you could free up. VYSTRAL never deletes files: uninstalling always happens in the store that installed the game.
+          See where your installed games live and what you could free up. Arnav Games never deletes files: uninstalling always happens in the store that installed the game.
         </p>
       </header>
 
@@ -63,7 +63,7 @@ export function StorageStudioView() {
           <Skeleton height={420} />
         </div>
       ) : fixed.length === 0 ? (
-        <EmptyState art="orbits" icon={<HardDrive size={30} />} title="No drives to show" body="VYSTRAL couldn’t read any fixed drives on this PC." />
+        <EmptyState art="orbits" icon={<HardDrive size={30} />} title="No drives to show" body="Arnav Games couldn’t read any fixed drives on this PC." />
       ) : (
         <div className="storage__layout">
           <div className="storage__drives">
@@ -110,7 +110,7 @@ function DriveSection({ drive, games }: { drive: DriveInfo; games: Game[] }) {
         <span className="capbar__other" style={{ width: `${pct(usage.other)}%` }} />
       </div>
       <div className="capbar__legend">
-        <span><i className="dot dot--games" aria-hidden /> Games VYSTRAL knows <b className="num">{formatBytes(usage.games)}</b></span>
+        <span><i className="dot dot--games" aria-hidden /> Games Arnav Games knows <b className="num">{formatBytes(usage.games)}</b></span>
         <span><i className="dot dot--other" aria-hidden /> Everything else <b className="num">{formatBytes(usage.other)}</b></span>
         <span><i className="dot dot--free" aria-hidden /> Free <b className="num">{formatBytes(usage.free)}</b></span>
       </div>

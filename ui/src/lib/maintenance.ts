@@ -26,7 +26,7 @@ export function selfCheckHint(r: SelfCheckReport, currentVersion: string): strin
     tone === 'danger'
       ? r.manual
         ? ' · a check from Settings never affects updates'
-        : ' · if this keeps happening, VYSTRAL goes back to the last version that worked'
+        : ' · if this keeps happening, Arnav Games goes back to the last version that worked'
       : tone === 'warn'
         ? ' · a slow answer isn’t a failure; it’s checked again next time'
         : '';
@@ -55,7 +55,7 @@ export function compactionToast(r: CompactionResult): { tone: 'success' | 'info'
       ? { tone: 'success', title: `Database compacted · saved ${formatBytes(saved)}`, body: `${formatBytes(r.beforeBytes)} → ${formatBytes(r.afterBytes)} in ${(r.durationMs / 1000).toFixed(1)} s.` }
       : { tone: 'success', title: 'Database is already compact', body: `${formatBytes(r.afterBytes)}. Nothing worth reclaiming right now.` };
   }
-  if (r.outcome === 'busy') return { tone: 'info', title: 'The database was busy', body: 'Something else was using it, so nothing changed. VYSTRAL will try again later.' };
+  if (r.outcome === 'busy') return { tone: 'info', title: 'The database was busy', body: 'Something else was using it, so nothing changed. Arnav Games will try again later.' };
   return { tone: 'warning', title: 'Couldn’t compact the database', body: 'Your database is unchanged. The details are in the log.' };
 }
 

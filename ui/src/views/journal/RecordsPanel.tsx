@@ -151,7 +151,7 @@ export function RecordsPanel({ sessions, status, gamesById }: { sessions: Sessio
         ))}
       </ol>
       <p className="jr-footnote">
-        Records come only from finished sessions VYSTRAL recorded, in your time zone. A game that’s still running, and playtime your stores report, don’t count. A session past midnight counts for both days.
+        Records come only from finished sessions Arnav Games recorded, in your time zone. A game that’s still running, and playtime your stores report, don’t count. A session past midnight counts for both days.
         {' '}Achievement, genre and release-year badges also read your achievements and library; frame-rate and temperature badges count sessions of 20 minutes or more; Speedrunner compares your tracked play with IGDB’s time to beat, when you have one.
       </p>
     </section>

@@ -11,7 +11,7 @@ public sealed record MergeProposalDto(string Id, string TargetGameId, string Sou
     IReadOnlyList<string> SourceInstallationIds, IReadOnlyList<DuplicateFactDto> Facts, string Confidence, string Explanation, string KeepReason);
 
 /// <summary>
-/// Track E1: smart duplicate cleanup. Turns the library's duplicate suggestions (which VYSTRAL deliberately did not merge
+/// Track E1: smart duplicate cleanup. Turns the library's duplicate suggestions (which Arnav Games deliberately did not merge
 /// on its own) into merge proposals with the facts behind each one, strongest first. Nothing is merged here: the page runs
 /// each approved proposal through the existing <c>game.merge</c>, and each can be undone with <c>game.unmerge</c>.
 /// </summary>
@@ -89,7 +89,7 @@ public static class DuplicateCleanup
     {
         var alike = facts.Where(f => f.Supports).Select(f => f.Text).ToList();
         var differ = facts.Where(f => !f.Supports).Select(f => f.Text).ToList();
-        if (alike.Count == 0) return differ.Count == 0 ? "VYSTRAL found them alike by title." : "But: " + string.Join(" ", differ);
+        if (alike.Count == 0) return differ.Count == 0 ? "Arnav Games found them alike by title." : "But: " + string.Join(" ", differ);
         var s = string.Join(" ", alike);
         return differ.Count == 0 ? s : $"{s} But: {string.Join(" ", differ)}";
     }

@@ -7,6 +7,8 @@ import { UpdatePill } from './UpdateCenter';
 import { NowPlaying } from './NowPlaying';
 import { NotificationBell } from './NotificationCenter';
 import { applyCaptionInsets, captionInsets } from '../../lib/captionInsets';
+import { BrandMark } from '../brand/BrandMark';
+import { Wordmark } from '../brand/Wordmark';
 
 /**
  * Custom title bar. Empty areas are reported to the native window as caption (drag) regions;
@@ -73,8 +75,8 @@ export function TitleBar() {
   return (
     <header className="titlebar" ref={barRef}>
       <div className="titlebar__brand" data-drag>
-        <img className="titlebar__mark" src="./vystral-mark.svg" alt="" />
-        <span className="wordmark">VYSTRAL</span>
+        <BrandMark className="titlebar__mark" />
+        <Wordmark />
       </div>
       <IconButton label="Back (Alt+Left)" size="sm" disabled={!back} onClick={goBack}>
         <ArrowLeft size={16} />
@@ -92,7 +94,7 @@ export function TitleBar() {
       <div className="titlebar__drag" data-drag />
       <div className="titlebar__right">
         <NowPlaying />
-        {!native && <span className="preview-chip" title="Running outside the VYSTRAL app with sample data">PREVIEW · SAMPLE DATA</span>}
+        {!native && <span className="preview-chip" title="Running outside the Arnav Games app with sample data">PREVIEW · SAMPLE DATA</span>}
         <UpdatePill />
         <NotificationBell />
         <IconButton label={scan.running ? 'Scanning your stores…' : 'Rescan installed games'} size="sm" onClick={() => void scanLibrary()} disabled={scan.running}>

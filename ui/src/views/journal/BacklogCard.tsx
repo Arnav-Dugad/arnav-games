@@ -14,6 +14,7 @@ import { backlogSeries, currentCounts, describeBacklog, finishedInYear, normaliz
 import type { JSession } from './stats';
 import '../../components/game/status.css';
 import './backlog.css';
+import { APP_NAME } from '../../lib/brand';
 
 function useStatusHistory(): { history: StatusHistoryEntry[] | null; failed: boolean } {
   const [history, setHistory] = useState<StatusHistoryEntry[] | null>(null);
@@ -156,15 +157,15 @@ export function BacklogCard({ sessions, now, gamesById, reveal }: { sessions: re
                   </div>
                   <p className="jr-backlog__ttb-sub">
                     {ttb.avgTrackedSeconds != null
-                      ? `Across ${plural(ttb.trackedGames, 'game')} with VYSTRAL sessions between “Playing” and “Beaten”.`
-                      : 'None of your finished games have VYSTRAL sessions between “Playing” and “Beaten”.'}
+                      ? `Across ${plural(ttb.trackedGames, 'game')} with ${APP_NAME} sessions between “Playing” and “Beaten”.`
+                      : 'None of your finished games have Arnav Games sessions between “Playing” and “Beaten”.'}
                     {' '}About {plural(Math.max(1, Math.round(ttb.avgDays ?? 0)), 'day')} from start to finish on average ({plural(ttb.games, 'game')}).
                   </p>
                 </>
               ) : (
                 <p className="jr-muted">Mark a game Playing when you start it and Beaten when you finish, and your average shows up here.</p>
               )}
-              <p className="jr-footnote">Only counts time VYSTRAL tracked; store-reported playtime isn’t included.</p>
+              <p className="jr-footnote">Only counts time Arnav Games tracked; store-reported playtime isn’t included.</p>
             </div>
           </div>
         </>

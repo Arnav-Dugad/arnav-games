@@ -74,7 +74,7 @@ public readonly record struct Argb(byte A, byte R, byte G, byte B);
 public sealed record CaptionColors(Argb Foreground, Argb InactiveForeground, Argb HoverBackground, Argb PressedBackground);
 
 /// <summary>
-/// Colours for the system-drawn minimize/maximize/close buttons. They sit over VYSTRAL's own title
+/// Colours for the system-drawn minimize/maximize/close buttons. They sit over Arnav Games' own title
 /// bar, or over Mica when the backdrop is on, so they are checked against every surface they can
 /// appear on: active glyphs need 4.5:1, inactive glyphs 3:1 (WCAG non-text contrast).
 /// </summary>
@@ -83,7 +83,7 @@ public static class CaptionPalette
     /// <summary>Surfaces behind the caption buttons in dark mode: Obsidian, OLED black, and Mica (dark).</summary>
     public static readonly Rgb[] DarkSurfaces = [new(9, 9, 14), new(0, 0, 0), new(32, 32, 32), new(44, 44, 52)];
 
-    /// <summary>Surfaces in light mode: VYSTRAL Light, Mica (light) and its accent-tinted variants.</summary>
+    /// <summary>Surfaces in light mode: Arnav Games Light, Mica (light) and its accent-tinted variants.</summary>
     public static readonly Rgb[] LightSurfaces = [new(244, 244, 248), new(243, 243, 243), new(232, 232, 236), new(255, 255, 255)];
 
     public static CaptionColors For(bool dark)

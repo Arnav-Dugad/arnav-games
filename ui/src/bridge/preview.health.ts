@@ -38,7 +38,7 @@ function buildIssues(lib: { games: Game[]; sessions: Session[] }): HealthIssue[]
     const inst = lumen.installations[0];
     out.push(base(lumen, {
       id: `brokenShortcut:${inst.id}`, kind: 'brokenShortcut', group: 'launch', severity: 'problem', title: 'Lumen Garden can’t start',
-      detail: 'The program you added isn’t where it used to be. It may have been moved, renamed or uninstalled. Point VYSTRAL at it again and everything else (playtime, notes, art) stays.',
+      detail: 'The program you added isn’t where it used to be. It may have been moved, renamed or uninstalled. Point Arnav Games at it again and everything else (playtime, notes, art) stays.',
       installationId: inst.id, platform: 'manual', path: 'C:\\Games\\Lumen Garden\\LumenGarden.exe', fixes: [fix('locate', 'Locate the program…'), fix('hide', 'Hide it')],
     }));
   }
@@ -64,7 +64,7 @@ function buildIssues(lib: { games: Game[]; sessions: Session[] }): HealthIssue[]
   if (session && sessionGame) {
     out.push(base(sessionGame, {
       id: `openSession:${session.id}`, kind: 'openSession', group: 'sessions', severity: 'warning', title: `A ${sessionGame.title} session never ended`,
-      detail: 'It started 2 Oct 2026, 21:14 and has no end time, so it isn’t counted in your playtime. Closing it uses the last moment VYSTRAL saw the game running.',
+      detail: 'It started 2 Oct 2026, 21:14 and has no end time, so it isn’t counted in your playtime. Closing it uses the last moment Arnav Games saw the game running.',
       sessionId: session.id, platforms: [], fixes: [fix('closeSession', 'Close it')],
     }));
     out.push(base(sessionGame, {
@@ -95,7 +95,7 @@ function buildIssues(lib: { games: Game[]; sessions: Session[] }): HealthIssue[]
       ...base(k1, {
         id: `duplicateSuggestion:${k1.id}-${k2.id}`, kind: 'duplicateSuggestion', group: 'duplicates', severity: 'info',
         title: '“Kingsfall” and “Kingsfall Remastered” might be the same game',
-        detail: 'Both titles reduce to “kingsfall” but differ in edition or store, so they were kept separate. Merging only changes how they appear in VYSTRAL, and you can separate them again later.',
+        detail: 'Both titles reduce to “kingsfall” but differ in edition or store, so they were kept separate. Merging only changes how they appear in Arnav Games, and you can separate them again later.',
         otherGameId: k2.id, fixes: [fix('merge', 'Merge'), fix('keepSeparate', 'Keep separate')],
       }),
       gameIds: [k1.id, k2.id], platforms: ['steam', 'xbox'],
@@ -119,11 +119,11 @@ function buildIssues(lib: { games: Game[]; sessions: Session[] }): HealthIssue[]
     });
   }
   const art: [string, HealthIssue['kind'], HealthIssue['artKind'], HealthSeverity, string, string][] = [
-    ['Starfall Tactics', 'artMissing', 'cover', 'warning', 'Starfall Tactics has no cover', 'It shows a generated cover for now. VYSTRAL can get Steam’s own cover, or you can choose one.'],
+    ['Starfall Tactics', 'artMissing', 'cover', 'warning', 'Starfall Tactics has no cover', 'It shows a generated cover for now. Arnav Games can get Steam’s own cover, or you can choose one.'],
     ['Glasswing', 'artPlaceholder', 'cover', 'warning', 'Glasswing’s cover is a placeholder', 'The image is a blank stand-in (4.4 KB), not real art.'],
     ['Northbound', 'artLowRes', 'cover', 'info', 'Northbound’s cover is low resolution', 'It’s 200×300, so it looks soft on large cards and screens.'],
     ['Deep Field', 'artMissing', 'hero', 'info', 'Deep Field has no background', 'Its page and Immersive Mode use a blurred cover instead.'],
-    ['Moss & Marrow', 'artFileMissing', 'hero', 'warning', 'Moss & Marrow’s background file is missing', 'The background was removed from VYSTRAL’s art cache (for example by clearing the cache).'],
+    ['Moss & Marrow', 'artFileMissing', 'hero', 'warning', 'Moss & Marrow’s background file is missing', 'The background was removed from Arnav Games’ art cache (for example by clearing the cache).'],
   ];
   for (const [title, kind, artKind, severity, t, detail] of art) {
     const g = by(title);
@@ -206,7 +206,7 @@ export function healthPreviewHandlers(ctx: { lib: { games: Game[]; sessions: Ses
       return { fixed: total, skipped: 0, notes: total ? ['Details are being looked up in the background; they appear over the next few minutes.'] : [], report: report() };
     },
     'health.locateExecutable': () => {
-      throw new BridgeError('unsupported', 'Locating a program needs the VYSTRAL app (preview mode can’t open file dialogs).');
+      throw new BridgeError('unsupported', 'Locating a program needs the Arnav Games app (preview mode can’t open file dialogs).');
     },
     'controls.get': (p: { gameId: string }): ControllerLayout => previewLayout(ctx.lib.games.find((g) => g.id === p.gameId), params.has('controls') || params.has('compare')), // Track X: ?compare
   };

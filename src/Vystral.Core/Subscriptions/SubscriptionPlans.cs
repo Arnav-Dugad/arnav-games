@@ -1,8 +1,8 @@
 namespace Vystral.Core.Subscriptions;
 
 /// <summary>
-/// Track V: the gaming subscriptions a user can tell VYSTRAL about. The answer is stored locally only (settings
-/// <c>subs.owned</c>, a comma list of these keys); VYSTRAL never checks an account. Plans in the same family
+/// Track V: the gaming subscriptions a user can tell Arnav Games about. The answer is stored locally only (settings
+/// <c>subs.owned</c>, a comma list of these keys); Arnav Games never checks an account. Plans in the same family
 /// (one Game Pass tier, one EA Play tier, one Ubisoft+ tier) exclude each other.
 /// <para>
 /// Catalogue keys are the arrays of Microsoft's public <c>catalog.gamepass.com/subscriptions</c> list (verified
@@ -38,7 +38,7 @@ public static class SubscriptionPlans
         GamePassPc, GamePassEssential, GamePassPremium, GamePassUltimate, EaPlay, EaPlayPro, UbisoftClassics, UbisoftPremium, HumbleChoice, PrimeGaming,
     ];
 
-    /// <summary>The public list's keys VYSTRAL reads (anything else in the answer is ignored).</summary>
+    /// <summary>The public list's keys Arnav Games reads (anything else in the answer is ignored).</summary>
     public static readonly IReadOnlyList<string> CatalogKeys = ["pc", "console", "ultimate", "gamepassstandard", "gamepasscore", "eaaccess", "ubisoftplus"];
 
     public static bool IsKnown(string? key) => key is not null && All.Contains(key);

@@ -4,6 +4,7 @@
  * exactly what was shown. Only real numbers are drawn; missing data is left out, never invented.
  */
 import { formatDuration } from '../../lib/format';
+import { drawWordmark } from '../../lib/brand';
 import { formatPercent } from '../../lib/achievements';
 import {
   achievementAt, CARD_H, CARD_W, clamp01, counterValue, easeOutCubic, phase, REPLAY_SECONDS, seriesMax, TIMELINE, type ReplayModel,
@@ -335,9 +336,7 @@ export function drawReplay(ctx: CanvasRenderingContext2D, model: ReplayModel, im
   ctx.save();
   ctx.globalAlpha = 0.75 * b;
   ctx.fillStyle = '#fff';
-  ctx.font = `800 30px ${theme.fontDisplay}`;
-  ctx.textAlign = 'right';
-  ctx.fillText('VYSTRAL', CARD_W - 120, CARD_H - 64);
+  drawWordmark(ctx, CARD_W - 120, CARD_H - 64, 28, theme.fontUi, [700, 380]);
   ctx.restore();
 
   ctx.restore();

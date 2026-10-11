@@ -2,7 +2,7 @@
 
 Releases are built by GitHub Actions from version tags and published as GitHub Releases. The in-app updater (Velopack) reads those releases, and the README's download link always points at the newest installer:
 
-`https://github.com/Arnav-Dugad/vystral/releases/latest/download/Vystral-win-Setup.exe`
+`https://github.com/Arnav-Dugad/arnav-games/releases/latest/download/Vystral-win-Setup.exe`
 
 ## Cutting a release
 
@@ -17,13 +17,13 @@ Releases are built by GitHub Actions from version tags and published as GitHub R
    - builds the UI and publishes the self-contained app
    - downloads the previous release (to generate a **delta** update)
    - runs `vpk pack`
-   - uploads everything to a published GitHub Release named `VYSTRAL 0.2.0`
+   - uploads everything to a published GitHub Release named `Arnav Games 0.2.0`
 
 Every installed copy with automatic checks on sees the update within a session, shows it in the update viewer, and installs it on restart.
 
 ## "What's new" and "New" badges
 
-After an update, VYSTRAL shows a short tour of the new version once (never on a fresh install, never in Immersive Mode, where it waits for the next desktop session). It's also under Settings → About and in the update centre ("See what's new").
+After an update, Arnav Games shows a short tour of the new version once (never on a fresh install, never in Immersive Mode, where it waits for the next desktop session). It's also under Settings → About and in the update centre ("See what's new").
 
 - **Default source: `CHANGELOG.md`.** At UI build time a Vite plugin parses the newest sections into `virtual:vystral-changelog`. Items written as `- **Bold lead.** Text` in sections other than *Fixed*, *Known issue*, *Research* or *Note…* become cards (up to five), so a fixes-only release shows no tour. Keep the existing format: `## [x.y.z] — YYYY-MM-DD`, `### Section`, bullets.
 - **Curated tour (recommended for feature releases):** `ui/src/whatsnew/versions/<x.y.z>.ts` exporting `tour` with 3–6 cards: `key`, `eyebrow`, `title`, `body` (one or two sentences), optional `icon` and `hue`, and an optional deep link `action: { label, to: { name: 'settings', section: 'privacy' } | 'updates' }`. A curated tour wins over the changelog for that version; a patch release without its own tour shows nothing new to people already on that minor version.
@@ -31,7 +31,7 @@ After an update, VYSTRAL shows a short tour of the new version once (never on a 
 
 ## Silent rollback
 
-If a newly installed version fails to start twice in a row (it never reached "interface ready + 20 s"), its third start returns to the previous version, shows "VYSTRAL x didn't start correctly, so you're back on y. It will try again with the next update.", and skips that exact version in automatic updates. Shipping a fixed **higher** version is the way out: never re-publish the same version number. Details: [ARCHITECTURE.md](ARCHITECTURE.md#key-decisions) ("Silent rollback"), state in `%LOCALAPPDATA%\VYSTRAL.Data\update\` (`startup.json`, `rollback/`), log area `rollback`.
+If a newly installed version fails to start twice in a row (it never reached "interface ready + 20 s"), its third start returns to the previous version, shows "Arnav Games x didn't start correctly, so you're back on y. It will try again with the next update.", and skips that exact version in automatic updates. Shipping a fixed **higher** version is the way out: never re-publish the same version number. Details: [ARCHITECTURE.md](ARCHITECTURE.md#key-decisions) ("Silent rollback"), state in `%LOCALAPPDATA%\VYSTRAL.Data\update\` (`startup.json`, `rollback/`), log area `rollback`.
 
 To test a release candidate's rollback by hand: install version N, update to N+1 built to crash at start (for example `throw` in `App.OnLaunched` behind an environment variable), start it three times, and check that N comes back with the notice and that "Check for updates" says N+1 is skipped.
 
@@ -45,13 +45,22 @@ To test a release candidate's rollback by hand: install version N, update to N+1
 | `Vystral-<ver>-delta.nupkg` | Delta from the previous version (small downloads) |
 | `releases.win.json`, `RELEASES` | Update feed |
 
+### Why the files are still called `Vystral-…`
+
+The app was called VYSTRAL before 1.0.0. Velopack names every asset after the pack ID (`--packId Vystral` in `build/pack.ps1`), and the pack ID is also the install folder (`%LOCALAPPDATA%\Vystral`), the update feed every installed copy reads and the AUMID (`velopack.Vystral`) its shortcuts and notifications use. Changing it would make Velopack treat Arnav Games as a different app: existing installs would never see the update and would end up installed twice. So the pack ID, and with it the file names, stay; people only ever see the title (`--packTitle 'Arnav Games'`), which names the installer window, the shortcuts and the entry in *Settings › Apps*. Other names kept for the same reason are listed in [ARCHITECTURE.md › Legacy identifiers](ARCHITECTURE.md#legacy-identifiers).
+
+### The rename and the repository move
+
+- **Shortcuts.** On the first update to 1.0.0, Velopack renames the existing `VYSTRAL` Desktop and Start-menu shortcuts to `Arnav Games` (it finds the old shortcut by the previous version's title and target; shortcuts the user pinned or edited are left alone).
+- **The repository** moved from `Arnav-Dugad/vystral` to `Arnav-Dugad/arnav-games`. GitHub redirects the old URLs (web, API and release downloads), so copies of 0.9.x and older, which still check the old address, find 1.0.0 and update themselves. That only lasts while nothing new is created at the old address: never create a repository or fork named `vystral` under the account.
+
 ## Building a release locally
 
 ```powershell
 dotnet tool install -g vpk --version 1.2.161
 ./build/pack.ps1 -Version 0.2.0                     # full package only
 ./build/pack.ps1 -Version 0.2.0 -DownloadPrevious   # plus delta against the latest GitHub release
-vpk upload github --repoUrl https://github.com/Arnav-Dugad/vystral --token <PAT> --publish --merge --releaseName "VYSTRAL 0.2.0" --tag v0.2.0 -o Releases
+vpk upload github --repoUrl https://github.com/Arnav-Dugad/arnav-games --token <PAT> --publish --merge --releaseName "Arnav Games 0.2.0" --tag v0.2.0 -o Releases
 ```
 
 ## Versioning

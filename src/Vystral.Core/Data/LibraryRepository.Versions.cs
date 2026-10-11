@@ -11,8 +11,8 @@ namespace Vystral.Core.Data;
 public sealed record ObservedVersion(string Platform, string PlatformGameId, string Kind, string Value, DateTimeOffset? StoreUpdated);
 
 /// <summary>
-/// Track D1: one version of one copy, as VYSTRAL saw it. <see cref="Baseline"/> = the first version seen for that copy
-/// (not an update: VYSTRAL doesn't know when it arrived). <see cref="StoreUpdated"/> = when the store says it was installed.
+/// Track D1: one version of one copy, as Arnav Games saw it. <see cref="Baseline"/> = the first version seen for that copy
+/// (not an update: Arnav Games doesn't know when it arrived). <see cref="StoreUpdated"/> = when the store says it was installed.
 /// </summary>
 public sealed record VersionHistoryEntry(string InstallationId, string Platform, string Kind, string Value, string Seen, string? StoreUpdated, bool Baseline);
 

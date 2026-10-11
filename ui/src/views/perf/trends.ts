@@ -145,7 +145,7 @@ export function thermalTrends(entries: readonly TrendEntry[], extras: Extras): T
     .sort((a, b) => b.deltaC - a.deltaC);
 }
 
-/** Safe things to try — never a setting VYSTRAL changes, and nothing that touches clocks, fans or power limits. */
+/** Safe things to try — never a setting Arnav Games changes, and nothing that touches clocks, fans or power limits. */
 export const COOLING_TIPS: readonly string[] = [
   'Clean the vents and fans — dust builds up over months and is the most common cause.',
   'Give it room to breathe: a laptop stand, or a hard, flat surface instead of a bed or sofa.',

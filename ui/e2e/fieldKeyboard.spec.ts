@@ -137,7 +137,7 @@ test.describe('desktop on-screen keyboard', () => {
   test('number fields get a number pad; typing on a real keyboard hands back to it', async ({ page }) => {
     await open(page);
     await settings(page, 'Controller & sound');
-    // Any number field gets the pad (VYSTRAL's own settings use sliders, so add one).
+    // Any number field gets the pad (Arnav Games' own settings use sliders, so add one).
     await page.evaluate(() => {
       const input = document.createElement('input');
       input.type = 'number';

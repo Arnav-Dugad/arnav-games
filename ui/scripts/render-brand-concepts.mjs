@@ -153,7 +153,7 @@ const finalists = [
 const renderList = (list, prefix) =>
   list.map((cpt, i) => ({ ...cpt, tileSvg: tile(prefix + i, cpt.draw), bareSvg: bare(prefix + i, cpt.draw, '#15131D') }));
 
-const old = readFileSync(resolve(root, 'assets/brand/vystral-mark.svg'), 'utf8');
+const old = readFileSync(resolve(root, 'assets/brand/concepts/00-vystral-legacy.svg'), 'utf8');
 const reference = { id: '00-vystral', title: 'VYSTRAL (today)', idea: 'For reference.', tileSvg: old, bareSvg: old };
 const round1 = renderList(concepts, 'a');
 const round2 = renderList(finalists, 'b');

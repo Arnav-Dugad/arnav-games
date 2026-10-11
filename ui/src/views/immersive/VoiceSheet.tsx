@@ -10,6 +10,7 @@ import { useLocalVoices } from '../../lib/useVoiceOver';
 import { normalizePrefs, pickVoice, RATE, voiceLabel, voiceOver } from '../../lib/voiceover';
 import { useReducedMotion, useStore } from '../../state/store';
 import { PadHint } from '../../components/ui/primitives';
+import { APP_NAME } from '../../lib/brand';
 
 type RowId = 'enabled' | 'captions' | 'voice' | 'rate' | 'volume' | 'test';
 
@@ -50,7 +51,7 @@ export function VoiceSheet({ onClose }: { onClose: () => void }) {
     voiceOver.say(
       noVoices || prefs.captionsOnly
         ? 'This is how captions look. They show what voice-over would say.'
-        : `Hi, I'm ${voice ? voiceLabel(voice).split(' · ')[0] : 'your voice'}. This is how VYSTRAL sounds.`,
+        : `Hi, I'm ${voice ? voiceLabel(voice).split(' · ')[0] : 'your voice'}. This is how ${APP_NAME} sounds.`,
       'test',
       true,
     );

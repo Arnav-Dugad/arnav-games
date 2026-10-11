@@ -3,7 +3,7 @@ import type { OwnershipNotice } from '../bridge/types';
 
 /**
  * Track C1: the quiet "no longer in your Steam library" toast. The backend keeps the notice until it is read
- * (a sync can finish while VYSTRAL is in the tray), and reading clears it, so it is shown exactly once.
+ * (a sync can finish while Arnav Games is in the tray), and reading clears it, so it is shown exactly once.
  */
 export interface OwnershipToast {
   tone: 'info';

@@ -7,7 +7,7 @@ namespace Vystral.Windows.Recap;
 /// <summary>
 /// Receives a replay card the page rendered (a 1920×1080 PNG) in base64 chunks, because one bridge message is
 /// capped at 256 K characters. Each upload is bound to a session, expires after two minutes, must arrive in
-/// order and is checked to be exactly a PNG of the expected size before VYSTRAL saves or copies it. The page
+/// order and is checked to be exactly a PNG of the expected size before Arnav Games saves or copies it. The page
 /// never chooses a path: saving always goes through the native save dialog.
 /// </summary>
 public sealed class ReplayImageStore(Func<DateTimeOffset>? clock = null)
@@ -120,6 +120,6 @@ public sealed class ReplayImageStore(Func<DateTimeOffset>? clock = null)
         var clean = new string(title.Where(c => !invalid.Contains(c) && !char.IsControl(c)).ToArray()).Trim().TrimEnd('.');
         if (clean.Length > 60) clean = clean[..60].TrimEnd();
         if (clean.Length == 0) clean = "Session";
-        return $"VYSTRAL replay - {clean} - {start.ToLocalTime():yyyy-MM-dd}";
+        return $"{Brand.Name} replay - {clean} - {start.ToLocalTime():yyyy-MM-dd}";
     }
 }
