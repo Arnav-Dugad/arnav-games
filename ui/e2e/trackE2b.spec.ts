@@ -287,9 +287,14 @@ test.describe('Living Canvas quality levels', () => {
     await expect(canvas(page)).toHaveAttribute('data-state', 'still');
     await expect(canvas(page)).toHaveAttribute('data-parallax', 'off');
     await expect(canvas(page)).toHaveAttribute('data-audio', 'off');
-    const a = Number(await canvas(page).getAttribute('data-frames'));
-    await page.waitForTimeout(800);
-    expect(Number(await canvas(page).getAttribute('data-frames'))).toBe(a);
+    // A still frame redraws only while a colour change settles (a couple of seconds at most), then stops.
+    const frames = async () => Number(await canvas(page).getAttribute('data-frames'));
+    await expect.poll(async () => {
+      const a = await frames();
+      await page.waitForTimeout(1000);
+      return (await frames()) - a;
+    }, { timeout: 15_000 }).toBe(0);
+    expect(await frames()).toBeLessThan(400); // never a running loop
 
     await page.goto('/?nowPlaying');
     await expect(canvas(page)).toHaveAttribute('data-state', 'still');

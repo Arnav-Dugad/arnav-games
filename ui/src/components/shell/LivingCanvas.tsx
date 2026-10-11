@@ -335,6 +335,9 @@ export function LivingCanvas() {
       el.dataset.jsMs = (frames ? jsMs / frames : 0).toFixed(3);
     };
 
+    let rgbFor: LabPalette | null = null;
+    let rgb = new Float32Array(12);
+
     /** Draws one frame; returns whether something is still settling (palette or mood). */
     const draw = (now: number): boolean => {
       const t0 = performance.now();
@@ -365,7 +368,11 @@ export function LivingCanvas() {
       gl.uniform1f(U.dim, day.dim);
       gl.uniform1f(U.pulse, pulse);
       gl.uniform2f(U.ptr, ptr.x, ptr.y);
-      gl.uniform3fv(U.a, labPaletteToRgb(s.cur).flat());
+      if (rgbFor !== s.cur) {
+        rgbFor = s.cur;
+        rgb = new Float32Array(labPaletteToRgb(s.cur).flat()); // only while a palette is gliding
+      }
+      gl.uniform3fv(U.a, rgb);
       if (animate) {
         const tint = useHeroTrailer.getState().tint;
         const target = live.current.follow && tint && tint.gameId === live.current.focusId ? tint : null;
