@@ -24,7 +24,8 @@ test.describe("What's new", () => {
     const errors = await open(page, '?reduced&whatsnew=0.3.1');
     const sheet = page.getByTestId('whats-new');
     await expect(sheet).toBeVisible({ timeout: 10_000 });
-    await expect(sheet.getByRole('heading', { name: 'What’s new in Arnav Games 0.4' })).toBeVisible();
+    // Tours of releases before the rename keep the name they shipped with (like the CHANGELOG).
+    await expect(sheet.getByRole('heading', { name: 'What’s new in VYSTRAL 0.4' })).toBeVisible();
     await expect(sheet.getByRole('heading', { name: 'Tracked wherever you launch' })).toBeVisible();
 
     const axe = await new AxeBuilder({ page }).include('[data-testid="whats-new"]').analyze();

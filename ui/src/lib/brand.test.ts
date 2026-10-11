@@ -1,10 +1,10 @@
 import { describe, expect, it } from 'vitest';
-import { readFileSync } from 'node:fs';
-import { resolve } from 'node:path';
 import { APP_NAME, BRAND_ICON, REPOSITORY_URL, WORDMARK, drawWordmark } from './brand';
 import { PREVIEW_KEY } from './firstPaint';
-
-const ui = resolve(__dirname, '../..');
+import html from '../../index.html?raw';
+import favicon from '../../public/arnav-games-favicon.svg?raw';
+import icon from '../../public/arnav-games-icon.svg?raw';
+import intro from '../components/shell/Intro.tsx?raw';
 
 describe('brand', () => {
   it('is Arnav Games', () => {
@@ -14,17 +14,15 @@ describe('brand', () => {
   });
 
   it('ships the icon, the favicon and the page title', () => {
-    const html = readFileSync(resolve(ui, 'index.html'), 'utf8');
     expect(html).toContain('<title>Arnav Games</title>');
-    const favicon = /rel="icon"[^>]*href="\.\/([^"]+)"/.exec(html)?.[1];
-    expect(favicon).toBe('arnav-games-favicon.svg');
-    for (const file of [favicon!, BRAND_ICON.replace('./', '')]) expect(readFileSync(resolve(ui, 'public', file), 'utf8')).toContain('<svg');
+    expect(/rel="icon"[^>]*href="\.\/([^"]+)"/.exec(html)?.[1]).toBe('arnav-games-favicon.svg');
+    expect(BRAND_ICON).toBe('./arnav-games-icon.svg');
+    for (const svg of [favicon, icon]) expect(svg).toContain('<svg');
   });
 
   it('keeps the pre-rename storage keys, so nothing saved in the interface is lost', () => {
     // The page origin (app.vystral.example) and every vystral.* key stay as they were before 1.0.0.
     expect(PREVIEW_KEY).toBe('vystral.preview.firstPaint');
-    const intro = readFileSync(resolve(ui, 'src/components/shell/Intro.tsx'), 'utf8');
     expect(intro).toContain("'vystral.introPref'");
     expect(intro).toContain("'vystral.introPlayed'");
   });
