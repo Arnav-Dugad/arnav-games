@@ -23,6 +23,7 @@ public sealed partial class AppBackend
         var store = _xboxStore = new XboxStoreIdService(Repository, Settings, _dataSources, _dataSources.XboxStore)
         {
             IsGameActive = () => IsGameActive,
+            DataSaverActive = () => DataSaverActive,
             Market = () => _cloud?.Market.Market ?? "US",
             ApplyArt = (gameId, entry, ct) => Artwork.ApplyXboxStoreArtAsync(gameId, entry.Poster, entry.Hero, entry.Logo, ct),
         };

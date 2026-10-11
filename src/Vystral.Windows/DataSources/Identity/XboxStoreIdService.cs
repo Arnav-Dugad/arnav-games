@@ -40,6 +40,8 @@ public sealed class XboxStoreIdService
     private readonly HashSet<string> _artTried = new(StringComparer.Ordinal);
 
     public Func<bool> IsGameActive { get; set; } = () => false;
+    /// <summary>Data saver: Store art waits (lookups are small and still run).</summary>
+    public Func<bool> DataSaverActive { get; set; } = () => false;
     /// <summary>The Store market (Track O's: the setting, then the Windows region).</summary>
     public Func<string> Market { get; set; } = () => "US";
     /// <summary>Downloads the Store's art for a game whose art is weak; returns how many images landed. Null = no art.</summary>
@@ -247,7 +249,7 @@ public sealed class XboxStoreIdService
 
         // The Store's own art, for Xbox games whose art is weak (missing, or only the package's splash and tile images).
         // Tried once per game per run (or when you ask for a fresh look), so a game without Store art isn't asked again on every visit.
-        if (ApplyArt is { } art && !IsGameActive() && (_artTried.Add(gameId) || refresh))
+        if (ApplyArt is { } art && !IsGameActive() && !DataSaverActive() && (_artTried.Add(gameId) || refresh))
         {
             var landed = await art(gameId, entry, ct);
             if (landed > 0) Raise([gameId], identity: false);
