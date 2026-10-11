@@ -3,6 +3,7 @@ import { useReducedMotion, useStore } from '../../state/store';
 import { requestBackdrop, startSystemAppearance, useSystemAppearance } from '../../state/systemAppearance';
 import { deriveSystemAccent } from '../../lib/systemAccent';
 import { BACKDROP_FADE_MS, backdropHint } from '../../lib/backdrop';
+import { AccentTheme } from './AccentTheme';
 import './backdrop.css';
 
 /**
@@ -68,7 +69,8 @@ export function SystemBackdrop() {
     else if (appearance.backdrop === 'mica' && wanted) root.dataset.backdrop = 'mica';
   }, [appearance, wanted]);
 
-  return null;
+  // Track E2b: full accent sets for the Windows accent and "Use a game's colours".
+  return <AccentTheme />;
 }
 
 /** Settings → Appearance: what the Mica backdrop is doing, and why when it's off. */

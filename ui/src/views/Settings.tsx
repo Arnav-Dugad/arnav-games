@@ -13,6 +13,8 @@ import { Dialog } from '../components/ui/Dialog';
 import { UpdatePanel } from '../components/shell/UpdateCenter';
 import { BackdropHint } from '../components/shell/SystemBackdrop';
 import { useSystemAppearance } from '../state/systemAppearance';
+import { GameAccentRow } from './settings/GameAccent'; // Track E2b
+import { useAccentTheme } from '../state/accentTheme'; // Track E2b
 import { SteamWebApiSettings } from './settings/SteamWebApiSettings';
 import { SteamExtrasSettings } from './settings/SteamExtrasSettings'; // Track W
 import { GamePageSettings } from './settings/GamePageSettings'; // Track C4
@@ -247,8 +249,10 @@ function Appearance({ s }: { s: Settings }) {
     { value: 'light', label: 'Light', swatch: 'linear-gradient(135deg, #fff, oklch(0.93 0.01 282))' },
     { value: 'contrast', label: 'High contrast', swatch: 'linear-gradient(135deg, #000 50%, oklch(0.9 0.18 100) 50%)' },
   ];
-  const accents: Settings['appearance.accent'][] = ['auto', 'system', 'violet', 'blue', 'cyan', 'rose', 'amber', 'emerald'];
-  const accentLabel = (a: string) => (a === 'auto' ? 'Automatic' : a === 'system' ? 'Windows accent' : a);
+  // Track E2b: once a game's colours have been chosen, they stay one click away as their own swatch.
+  const coverSet = useAccentTheme((x) => x.sets[s['appearance.accentGame']] ?? null);
+  const accents: Settings['appearance.accent'][] = ['auto', 'system', ...(s['appearance.accentGame'] ? ['cover' as const] : []), 'violet', 'blue', 'cyan', 'rose', 'amber', 'emerald'];
+  const accentLabel = (a: string) => (a === 'auto' ? 'Automatic' : a === 'system' ? 'Windows accent' : a === 'cover' ? 'Game colours' : a);
   const sys = useSystemAppearance((x) => x.appearance);
   const systemSwatch = sys ? `linear-gradient(135deg, ${sys.accentLight[1] ?? sys.accent}, ${sys.accent} 55%, ${sys.accentDark[0] ?? sys.accent})` : '#0078d4';
   const accentColor: Record<string, string> = { violet: 'oklch(0.7 0.17 292)', blue: 'oklch(0.7 0.15 255)', cyan: 'oklch(0.78 0.12 210)', rose: 'oklch(0.74 0.16 5)', amber: 'oklch(0.82 0.15 75)', emerald: 'oklch(0.78 0.15 160)' };
@@ -277,11 +281,12 @@ function Appearance({ s }: { s: Settings }) {
           control={
             <div className="accent-picker" role="radiogroup" aria-label="Accent colour">
               {accents.map((a) => (
-                <button key={a} role="radio" aria-checked={s['appearance.accent'] === a} tabIndex={s['appearance.accent'] === a ? 0 : -1} onKeyDown={(e) => rovingKey(e, accents.map((value) => ({ value })), s['appearance.accent'], (v) => void set('appearance.accent', v), true)} aria-label={accentLabel(a)} title={accentLabel(a)} className={a === 'system' ? 'accent-dot accent-dot--system' : 'accent-dot'} style={{ background: a === 'auto' ? 'conic-gradient(oklch(0.7 0.17 292), oklch(0.78 0.12 210), oklch(0.82 0.15 75), oklch(0.74 0.16 5), oklch(0.7 0.17 292))' : a === 'system' ? systemSwatch : accentColor[a] }} onClick={() => void set('appearance.accent', a)} />
+                <button key={a} role="radio" aria-checked={s['appearance.accent'] === a} tabIndex={s['appearance.accent'] === a ? 0 : -1} onKeyDown={(e) => rovingKey(e, accents.map((value) => ({ value })), s['appearance.accent'], (v) => void set('appearance.accent', v), true)} aria-label={accentLabel(a)} title={accentLabel(a)} className={a === 'system' ? 'accent-dot accent-dot--system' : 'accent-dot'} style={{ background: a === 'auto' ? 'conic-gradient(oklch(0.7 0.17 292), oklch(0.78 0.12 210), oklch(0.82 0.15 75), oklch(0.74 0.16 5), oklch(0.7 0.17 292))' : a === 'system' ? systemSwatch : a === 'cover' ? (coverSet ? `linear-gradient(135deg, ${coverSet.dark.accent}, ${coverSet.dark.accent2})` : 'var(--bg-3)') : accentColor[a] }} onClick={() => void set('appearance.accent', a)} />
               ))}
             </div>
           }
         />
+        <GameAccentRow />
       </Group>
       <Group title="Living Canvas" description={<>A subtle animated background that takes on each game’s colours and mood ({Object.values(MOOD_LABEL).map((m) => m.split(' —')[0]).join(', ')}). It pauses whenever VYSTRAL is hidden or a game is running.</>}>
         <BoolRow s={s} k="appearance.livingCanvas" label="Living Canvas" hint={<BackdropHint />} />
