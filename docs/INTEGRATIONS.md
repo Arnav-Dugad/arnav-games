@@ -180,6 +180,8 @@ Code: `src/Vystral.Windows/DataSources/Identity/` (`IdentityMerge` is pure; `Ide
 | Evidence | Confidence | Source |
 |---|---|---|
 | The store's own ID (Steam installation, GOG `goggame-<id>`) | 1.00, always wins | local |
+| An Xbox copy's Microsoft Store product, named by the Store's own package lookup (Track E4, *Xbox Store details*) | 1.00, always wins (*package lookup*) | `provider_cache` `xboxstore` |
+| Wikidata item / IGDB game whose Microsoft Store product ID is that product (Track E4) | 0.95 (via a bundle that contains it: 0.90; IGDB's Steam/GOG link one step further: −0.05) | `external_ids` (`microsoft`), `provider_cache` `xboxstore-igdb` |
 | Your choice (*Fix match*, or *It isn't on Steam*) | 1.00, final until you undo it | local (`provider_cache` `identity-pin`) |
 | Wikidata row by the game's own Steam/GOG ID (existing identity lookups) | 0.95 | `external_ids` |
 | Earlier IGDB/RAWG enrichment matches | as recorded (≤ 0.95) | `game_enrichment` |
@@ -214,6 +216,29 @@ Order (`TrailerService` + `AppBackend.AlternativeTrailerAsync`): **Steam** (the 
 **Health (for Track D6):** every new source is a row in `dataSources.status` (last test, pause from a 429, licence, host, what's sent) and has `dataSources.test`; network probes `provider.gamerpower`, `provider.epicfree`, `provider.protondb`, `provider.gogcatalog` are registered with `NetworkHealthService` (visible while the source is on), so `network.health.list` / `network.health.check` cover them.
 
 Researched and **not** integrated (see `docs/research/GAME-DATA-SOURCES.md` §8): SteamSpy, OpenCritic, Giant Bomb, MobyGames, TheGamesDB.
+
+## Xbox Store IDs for exact matching (Track E4, 1.0; Settings › Data sources › *Xbox Store details*, off by default)
+
+Code: `src/Vystral.Windows/DataSources/Identity/XboxStoreLookup.cs` (client, parser, pure evidence rules), `XboxStoreIdService.cs`, `IgdbClient.MicrosoftStore.cs`, wired in `AppBackend.TrackE4.cs`. Xbox games used to be matched by title and year only, because VYSTRAL stored no Store product ID for them. Now each installed Xbox package is looked up **by its package family name** in Microsoft's display catalogue — the reverse of Track O's product → package lookup:
+
+| Step | Endpoint | Kept | Limits |
+|---|---|---|---|
+| Package → product (**grey**: public and unauthenticated, no cookies or special headers, but undocumented) | `GET displaycatalog.mp.microsoft.com/v7.0/products/lookup?alternateId=PackageFamilyName&value=<PFN>&market=<market>&languages=en-us&fieldsTemplate=details` | The product whose own `Properties.PackageFamilyName` is the one asked (case-insensitive; anything else is ignored), its title and kind, up to 16 `RelatedProducts` of type `Bundle` (editions that contain it), and the `Poster` (else `BoxArt`), `SuperHeroArt` (else `Hero`) and largest `Logo` image URLs (only `store-images.s-microsoft.com/image/apps.…`) | Own lane (`xboxstore`), 2 s apart, 1 MB answers (Forza Horizon 4's is ~87 KB); `provider_cache` `xboxstore` keyed by the lower-case family name, **180 days** found / 30 days not listed / 1 day after an unreadable answer; 20 packages per background round every 6 h, and on game-page open |
+| Product → Wikidata | the existing SPARQL lane, `?item wdt:P5885 ?raw` with `VALUES ?raw` holding each ID in upper and lower case (Wikidata stores them lower-case), `BIND(UCASE(STR(?raw)) AS ?key)` | Item, label and store IDs (Steam, GOG, RAWG) per product/bundle | Only with the Wikidata switch on; `external_ids` rows with `key_kind = 'microsoft'` (30 days / 7 days) |
+| Product → IGDB | `external_games`: `where external_game_source = (11,31,54) & uid = ("9PNQ…","9pnq…",…)` with `game.name`, `game.first_release_date` and the game's own `external_games` | IGDB game ID, name, year, Steam app and GOG product | Only with your Twitch app; `provider_cache` `xboxstore-igdb` (60 days / 14 days) |
+
+IGDB's sources, from api-docs.igdb.com ("External Game Enums"; `category` is deprecated in favour of `external_game_source`, same values): `microsoft` = 11, `xbox_marketplace` = 31, `xbox_game_pass_ultimate_cloud` = 54 (Steam 1, GOG 5). IGDB doesn't document the case of these `uid`s, so both cases are asked.
+
+**Bundles.** Other catalogues often list a game under an edition rather than the base product: Wikidata's Forza Horizon 4 (Q54893555) carries `9pnjxvcvwd4k` (*Forza Horizon 4 Standard Edition*), while the installed package's own product is `9PNQKHFLD2WQ`. So a product's bundles are used as aliases: an answer for the product itself always wins; bundle answers count (a little less sure) only when they all point to one item or game, so an "A + B bundle" never decides. In the product → package map, a bundle that contains more than one of your installed games is left out.
+
+**Used for:**
+- **Identity:** a certain *Microsoft Store* ID (kind `msstore`, status `native`, method `packageLookup`; *How found: package lookup*) in the Matched IDs card, with *Open on Microsoft Store* (`apps.microsoft.com/detail/<ID>`, built from the validated value). The Wikidata/IGDB answers add `storeId` evidence for the Steam app, GOG product, IGDB ID and Wikidata item — two agreeing store-ID links put the Steam match at 0.99. With *Match games across stores* off, the Store fact and store-ID links still apply (like the Steam/GOG ones).
+- **GeForce NOW and Game Pass:** `XboxStoreIdService.ProductPfns()` (product and bundles → your package) is merged into the product → package map that `CloudMatcher` uses for GeForce NOW's Xbox variants (`storeId`) and Track V's plan lists, so those match **by ID** even when the catalogue lists an edition whose own answer has no package (and Track V no longer needs a full Store answer for them).
+- **Art:** for Xbox games whose art is weak — missing, or only the package's own splash/tile images (`xbox-local`) — the Store's Poster → cover (`?w=600&h=900`), SuperHeroArt → background (`?w=1920&h=1080`) and Logo → icon (`?w=256&h=256`), each at most 4 MB, a real JPEG/PNG/WebP, the answer must stay on `store-images.s-microsoft.com`; source `msstore`. Art you picked, art packs and other stores' art are never replaced; a rescan doesn't replace Store art. (The Store's *Logo* is a square tile, not a transparent wordmark, so it is used as the icon, not the title logo.) Tried once per game per run; Data saver skips it.
+
+Health: `dataSources.test('xboxstore')` asks for Windows Calculator's package (in every market); network probe `provider.xboxstore`; Data sources health row `xboxstore`.
+
+Verified with single low-rate requests on 2026-10-11: Forza Horizon 4 (`Microsoft.SunriseBaseGame_8wekyb3d8bbwe`) → `9PNQKHFLD2WQ` (12 bundles, including `9PNJXVCVWD4K`); an unknown family name → `200` with `"Products":[]`; Windows Calculator → `9WZDNCRFHVN5` (kind `Application`). Fixtures: `tests/Vystral.Tests/Fixtures/E4/`.
 
 ## Cloud AI (Track C5; optional, Settings → AI; off by default)
 

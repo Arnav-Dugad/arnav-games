@@ -22,7 +22,12 @@ public sealed partial class WikidataClient(ProviderTransport transport)
     {
         ["steam"] = "P1733",
         ["gog"] = "P12727",
+        // Track E4: Microsoft Store product IDs (Wikidata stores them in lower case; VYSTRAL's keys are upper case).
+        ["microsoft"] = "P5885",
     };
+
+    /// <summary>A key VYSTRAL may look up by: digits for Steam and GOG, an upper-case Store product ID for Microsoft.</summary>
+    internal static bool IsKey(string keyKind, string key) => keyKind == "microsoft" ? MsKey().IsMatch(key) : Digits().IsMatch(key);
 
     /// <summary>Identifiers read for each item: name → (property, validation pattern).</summary>
     internal static readonly (string Name, string Property, Regex Pattern)[] Properties =
@@ -55,7 +60,7 @@ public sealed partial class WikidataClient(ProviderTransport transport)
             return req;
         }, ct);
         if (r.Status != HttpStatusCode.OK) throw new DataSourceException(DataSourceOutcome.Malformed, $"Wikidata answered with an unexpected status ({(int)r.Status}).");
-        return Parse(r.Body, keys);
+        return Parse(r.Body, keys, keyKind);
     }
 
     // ---------- Track U: Discover ----------
@@ -138,14 +143,24 @@ public sealed partial class WikidataClient(ProviderTransport transport)
     internal static string? BuildQuery(string keyKind, IReadOnlyList<string> keys)
     {
         if (!KeyProperties.TryGetValue(keyKind, out var keyProp)) throw new ArgumentException("Unknown key kind.", nameof(keyKind));
-        var values = keys.Where(k => Digits().IsMatch(k)).Distinct().Take(MaxBatch).ToList();
+        var values = keys.Where(k => IsKey(keyKind, k)).Distinct().Take(MaxBatch).ToList();
         if (values.Count == 0) return null;
         var sb = new StringBuilder();
         sb.Append("SELECT ?key ?item (SAMPLE(?label) AS ?lbl) (SAMPLE(?isGame) AS ?game)");
         foreach (var (name, _, _) in Properties) sb.Append($" (SAMPLE(?{name}) AS ?v_{name})");
-        sb.Append(" WHERE { VALUES ?key { ");
-        foreach (var v in values) sb.Append('"').Append(v).Append("\" ");
-        sb.Append($"}} ?item wdt:{keyProp} ?key . ");
+        if (keyKind == "microsoft")
+        {
+            // Store product IDs are case-insensitive and Wikidata keeps them in lower case: ask for both, answer in upper case.
+            sb.Append(" WHERE { VALUES ?raw { ");
+            foreach (var v in values) sb.Append('"').Append(v).Append("\" \"").Append(v.ToLowerInvariant()).Append("\" ");
+            sb.Append($"}} ?item wdt:{keyProp} ?raw . BIND(UCASE(STR(?raw)) AS ?key) ");
+        }
+        else
+        {
+            sb.Append(" WHERE { VALUES ?key { ");
+            foreach (var v in values) sb.Append('"').Append(v).Append("\" ");
+            sb.Append($"}} ?item wdt:{keyProp} ?key . ");
+        }
         sb.Append("OPTIONAL { ?item rdfs:label ?label FILTER(LANG(?label) IN (\"en\", \"mul\")) } ");
         sb.Append("OPTIONAL { ?item wdt:P31 wd:Q7889 . BIND(1 AS ?isGame) } ");
         foreach (var (name, prop, _) in Properties) sb.Append($"OPTIONAL {{ ?item wdt:{prop} ?{name} }} ");
@@ -158,12 +173,12 @@ public sealed partial class WikidataClient(ProviderTransport transport)
     /// one that is a "video game" (Q7889) with the most identifiers wins. Keys without an item are
     /// returned with no item so the absence can be cached too.
     /// </summary>
-    internal static IReadOnlyList<WikidataIdentity> Parse(string json, IReadOnlyList<string> requested)
+    internal static IReadOnlyList<WikidataIdentity> Parse(string json, IReadOnlyList<string> requested, string keyKind = "steam")
     {
         using var doc = JsonRead.Parse(json, "Wikidata");
         var bindings = JsonRead.Obj(doc.RootElement, "results") is { } results ? JsonRead.Arr(results, "bindings").ToList() : null;
         if (bindings is null) throw new DataSourceException(DataSourceOutcome.Malformed, "Wikidata’s answer couldn’t be read.");
-        var wanted = requested.Where(k => Digits().IsMatch(k)).ToHashSet(StringComparer.Ordinal);
+        var wanted = requested.Where(k => IsKey(keyKind, k)).ToHashSet(StringComparer.Ordinal);
         var best = new Dictionary<string, (WikidataIdentity Identity, int Score)>(StringComparer.Ordinal);
         foreach (var b in bindings)
         {
@@ -218,6 +233,9 @@ public sealed partial class WikidataClient(ProviderTransport transport)
 
     [GeneratedRegex(@"\A[0-9A-Za-z]{12}\z")]
     private static partial Regex MsBigId();
+
+    [GeneratedRegex(@"\A[0-9A-Z]{12}\z")]
+    private static partial Regex MsKey();
 
     [GeneratedRegex(@"\A[\p{L}\p{N}_\-:().,'!&+]{1,120}\z")]
     private static partial Regex WikiTitle();

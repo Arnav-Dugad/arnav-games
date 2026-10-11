@@ -1,3 +1,5 @@
+using Vystral.Core.Domain;
+
 namespace Vystral.Windows.Services;
 
 /// <summary>
@@ -55,6 +57,71 @@ public sealed partial class ArtworkService
         {
             Log.Warn("art", "Store poster download failed", new { error = ex.GetType().Name });
             return null;
+        }
+    }
+
+    /// <summary>The art source for Store images of an Xbox game you have installed (Track E4).</summary>
+    public const string XboxStoreArtSource = "msstore";
+
+    /// <summary>
+    /// Track E4: the Store's own Poster, SuperHeroArt and Logo for an Xbox game whose art is weak — missing, or only the
+    /// package's own splash/tile images (<c>xbox-local</c>). Never replaces art you picked or art from another source.
+    /// Same host rules as Track V's posters (only <see cref="Subscriptions.SubscriptionCatalogClient.SafeImageUrl"/> URLs, the
+    /// answer must stay on Microsoft's image CDN), asked at a sensible size from the CDN, at most 4 MB each, real images only.
+    /// Returns how many images landed.
+    /// </summary>
+    public async Task<int> ApplyXboxStoreArtAsync(string gameId, string? poster, string? hero, string? logo, CancellationToken ct)
+    {
+        if (SkipDownloads?.Invoke() == true) return 0;
+        var existing = repo.GetArtworkSources(gameId);
+        bool Weak(ArtworkKind kind) => !existing.TryGetValue(kind.ToString().ToLowerInvariant(), out var e) || !e.IsUser && e.Source == "xbox-local";
+        var landed = 0;
+        foreach (var (kind, url, size) in new (ArtworkKind, string?, string)[]
+                 {
+                     (ArtworkKind.Cover, poster, "w=600&h=900&q=90"), (ArtworkKind.Hero, hero, "w=1920&h=1080&q=85"), (ArtworkKind.Icon, logo, "w=256&h=256&q=90"),
+                 })
+        {
+            if (url is null || !Weak(kind) || Subscriptions.SubscriptionCatalogClient.SafeImageUrl(url) is not { } safe) continue;
+            if (await DownloadStoreArtAsync(gameId, kind, safe, size, ct)) landed++;
+        }
+        return landed;
+    }
+
+    private const long MaxStoreArtBytes = 4 * 1024 * 1024;
+
+    private async Task<bool> DownloadStoreArtAsync(string gameId, ArtworkKind kind, string safeUrl, string size, CancellationToken ct)
+    {
+        try
+        {
+            using var timeout = RequestTimeouts.Link(ct, RequestTimeouts.Media);
+            using var request = new HttpRequestMessage(HttpMethod.Get, $"{safeUrl}?{size}");
+            using var response = await http.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, timeout.Token);
+            if (!response.IsSuccessStatusCode || response.RequestMessage?.RequestUri is { } final && !final.Host.Equals(StoreImageHost, StringComparison.OrdinalIgnoreCase))
+                return false;
+            if (response.Content.Headers.ContentLength > MaxStoreArtBytes) return false;
+            if (!(response.Content.Headers.ContentType?.MediaType ?? "").StartsWith("image/", StringComparison.OrdinalIgnoreCase)) return false;
+            await using var stream = await response.Content.ReadAsStreamAsync(timeout.Token);
+            using var buffer = new MemoryStream();
+            var chunk = new byte[65536];
+            int read;
+            while ((read = await stream.ReadAsync(chunk, timeout.Token)) > 0)
+            {
+                buffer.Write(chunk, 0, read);
+                if (buffer.Length > MaxStoreArtBytes) return false;
+            }
+            var bytes = buffer.ToArray();
+            if (!LooksLikeImage(bytes)) return false;
+            var relative = Path.Combine(gameId, $"{kind.ToString().ToLowerInvariant()}-{Hash(safeUrl + size)}{(bytes[0] == 0x89 ? ".png" : bytes[0] == 0xFF ? ".jpg" : ".webp")}");
+            var dest = Path.Combine(paths.ArtCache, relative);
+            Directory.CreateDirectory(Path.GetDirectoryName(dest)!);
+            WriteAtomic(dest, bytes);
+            repo.SetArtwork(gameId, kind, relative, XboxStoreArtSource, isUser: false);
+            return true;
+        }
+        catch (Exception ex) when (ex is HttpRequestException or IOException or UnauthorizedAccessException or OperationCanceledException && !ct.IsCancellationRequested)
+        {
+            Log.Warn("art", "Store art download failed", new { gameId, kind, error = ex.GetType().Name });
+            return false;
         }
     }
 

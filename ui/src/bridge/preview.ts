@@ -37,6 +37,7 @@ import { MAINTENANCE_DEFAULT_SETTINGS, maintenancePreviewHandlers } from './prev
 import { decorateLibraryCorrectness, libraryCorrectnessPreviewHandlers } from './preview.libraryCorrectness';
 import { GAME_PAGE_DEFAULT_SETTINGS, gamePagePreviewHandlers } from './preview.gamePage';
 import { TRACK_D4_DEFAULT_SETTINGS, identityPreviewHandlers } from './preview.identity'; // Track D4
+import { TRACK_E4_DEFAULT_SETTINGS } from './preview.xboxStore'; // Track E4
 import type { Deals, DiscoverDetails } from './types';
 import { AI_CLOUD_DEFAULT_SETTINGS, aiCloudPreviewHandlers, previewAiSettings } from './preview.ai'; // Track C5
 import { ASSISTANT_DEFAULT_SETTINGS, assistantPreviewHandlers } from './preview.assistant'; // Track D3
@@ -106,6 +107,7 @@ const DEFAULT_SETTINGS: Settings = {
   ...GAME_PAGE_DEFAULT_SETTINGS, // Track C4
   ...AI_CLOUD_DEFAULT_SETTINGS, // Track C5
   ...TRACK_D4_DEFAULT_SETTINGS(), // Track D4
+  ...TRACK_E4_DEFAULT_SETTINGS(), // Track E4
   ...TRACK_D6_DEFAULT_SETTINGS, // Track D6
   ...ASSISTANT_DEFAULT_SETTINGS, // Track D3
   ...RECOMMEND_DEFAULT_SETTINGS, // Track D5

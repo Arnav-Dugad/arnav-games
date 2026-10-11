@@ -71,6 +71,8 @@ public sealed class SubscriptionService
     private volatile bool _refreshing;
 
     public Func<bool> DataSaverActive { get; set; } = () => false;
+    /// <summary>Track E4: Store product → installed package family name, from the Store's own package lookup.</summary>
+    public Func<IReadOnlyDictionary<string, string>>? InstalledProductPfns { get; set; }
     public Func<bool> GameActive { get; set; } = () => false;
     public Func<DateTimeOffset> Clock { get; set; } = () => DateTimeOffset.Now;
     public TimeZoneInfo TimeZone { get; set; } = TimeZoneInfo.Local;
@@ -355,6 +357,9 @@ public sealed class SubscriptionService
         var map = _repo.GetCloudProducts().Where(p => p.Value.Pfn is not null).ToDictionary(p => p.Key, p => p.Value.Pfn!, StringComparer.Ordinal);
         foreach (var (id, p) in c.Products)
             if (p.Pfn is not null) map[id] = p.Pfn;
+        // Track E4: your installed packages' own Store products (and the bundles that contain them), so plans match exactly.
+        if (InstalledProductPfns?.Invoke() is { } installed)
+            foreach (var (id, pfn) in installed) map.TryAdd(id, pfn);
         return map;
     }
 
