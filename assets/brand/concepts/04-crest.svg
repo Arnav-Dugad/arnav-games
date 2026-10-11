@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="ta3" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1B1828"/><stop offset="1" stop-color="#09090F"/></linearGradient>
+    <radialGradient id="ga3" cx="0.5" cy="0.7" r="0.6"><stop offset="0" stop-color="#7C5CFF" stop-opacity="0.42"/><stop offset="0.6" stop-color="#3D63FF" stop-opacity="0.08"/><stop offset="1" stop-color="#000" stop-opacity="0"/></radialGradient>
+    <linearGradient id="pa3" x1="0.15" y1="0" x2="0.85" y2="1"><stop offset="0" stop-color="#F4F0FF"/><stop offset="0.5" stop-color="#C9B8FF"/><stop offset="1" stop-color="#7E9BFF"/></linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="116" fill="url(#ta3)"/>
+  <rect width="512" height="512" rx="116" fill="url(#ga3)"/>
+  <rect x="2" y="2" width="508" height="508" rx="114" fill="none" stroke="#fff" stroke-opacity="0.09" stroke-width="2"/>
+  <mask id="mTa3"><rect width="512" height="512" fill="#fff"/>
+      <path d="M180 360 L256 166 L332 360 M206 300 H306" fill="none" stroke="#000" stroke-width="36" stroke-linejoin="round" stroke-linecap="round"/></mask>
+      <path mask="url(#mTa3)" d="M256 86 C306 108 356 120 410 124 V262 C410 352 344 408 256 436 C168 408 102 352 102 262 V124 C156 120 206 108 256 86 Z" fill="url(#pa3)"/>
+</svg>

@@ -4,7 +4,7 @@ The source of truth is code: `ui/src/styles/tokens.css` (tokens), `ui/src/lib/mo
 
 ## Identity
 
-- **Mark.** Two blades, electric violet and cool blue, converge into a V, with a four-point star in its mouth: two worlds (your stores) meeting at one point of light. It sits on an obsidian squircle tile. Source: `assets/brand/vystral-mark.svg`; render sizes with `npm run brand`.
+- **Mark.** Two blades, electric violet and cool blue, converge into a V, with a four-point star in its mouth: two worlds (your stores) meeting at one point of light. It sits on an obsidian squircle tile. Source: `assets/brand/vystral-mark.svg`; render sizes with `npm run brand`. The successor identity for the Arnav Games rename (the "Ascent" mark, a Geist wordmark, lockups and an icon set) is specified in [`BRAND.md`](BRAND.md) and rendered with `npm run brand:arnav`.
 - **Wordmark.** Unbounded 600, uppercase, tracking 0.32em (0.6em on the splash).
 - **Voice.** Calm, precise, honest. It never blames the user, never overclaims ("Waiting for the game window…", not "Launched!"), and always labels where a number comes from (tracked by VYSTRAL vs reported by the store).
 

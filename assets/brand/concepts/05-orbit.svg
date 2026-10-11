@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="ta4" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1B1828"/><stop offset="1" stop-color="#09090F"/></linearGradient>
+    <radialGradient id="ga4" cx="0.5" cy="0.7" r="0.6"><stop offset="0" stop-color="#7C5CFF" stop-opacity="0.42"/><stop offset="0.6" stop-color="#3D63FF" stop-opacity="0.08"/><stop offset="1" stop-color="#000" stop-opacity="0"/></radialGradient>
+    <linearGradient id="pa4" x1="0.15" y1="0" x2="0.85" y2="1"><stop offset="0" stop-color="#F4F0FF"/><stop offset="0.5" stop-color="#C9B8FF"/><stop offset="1" stop-color="#7E9BFF"/></linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="116" fill="url(#ta4)"/>
+  <rect width="512" height="512" rx="116" fill="url(#ga4)"/>
+  <rect x="2" y="2" width="508" height="508" rx="114" fill="none" stroke="#fff" stroke-opacity="0.09" stroke-width="2"/>
+  <mask id="mTa4"><rect width="512" height="512" fill="#fff"/>
+      <ellipse cx="256" cy="316" rx="172" ry="50" transform="rotate(-12 256 316)" fill="none" stroke="#000" stroke-width="40"/></mask>
+      <path mask="url(#mTa4)" d="M156 404 L256 132 L356 404" fill="none" stroke="url(#pa4)" stroke-width="46" stroke-linejoin="round"/>
+      <path d="M86 340 A172 50 -12 0 1 410 260" transform="rotate(0)" fill="none" stroke="url(#pa4)" stroke-width="18" stroke-linecap="round"/>
+      <circle cx="402" cy="262" r="22" fill="url(#pa4)"/>
+</svg>

@@ -1,0 +1,4 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="96 96 320 308" width="320" height="308" role="img" aria-label="Arnav Games">
+<title>Arnav Games</title>
+<defs><linearGradient id="litl" gradientUnits="userSpaceOnUse" x1="256" y1="96" x2="138" y2="404"><stop offset="0" stop-color="#8B6CFF"/><stop offset="0.48" stop-color="#6D4DF2"/><stop offset="1" stop-color="#4B2FD0"/></linearGradient><linearGradient id="shdl" gradientUnits="userSpaceOnUse" x1="256" y1="96" x2="374" y2="404"><stop offset="0" stop-color="#6F8DFF"/><stop offset="0.48" stop-color="#3E63E8"/><stop offset="1" stop-color="#2445C2"/></linearGradient></defs><path d="M96 404L256 96L416 404L332 404L256 213.96L180 404Z" fill="url(#litl)"/><path d="M256 96L416 404L332 404L256 213.96Z" fill="url(#shdl)"/><path d="M256 292C258.93 321.7 264.38 327.15 288.75 330.08C264.38 333.01 258.93 338.46 256 368.16C253.07 338.46 247.62 333.01 223.25 330.08C247.62 327.15 253.07 321.7 256 292Z" fill="#6D4DF2"/>
+</svg>

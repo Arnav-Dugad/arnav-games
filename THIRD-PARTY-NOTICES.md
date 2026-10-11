@@ -21,6 +21,8 @@ VYSTRAL is built on these open-source components. A full machine-readable list o
 | Vite, TypeScript, Vitest, Playwright, axe-core | MIT / Apache-2.0 / MPL-2.0 | Build and test only (not shipped) |
 | xunit v3 | Apache-2.0 | Tests only |
 
+**Arnav Games wordmark.** The wordmark in `assets/brand/arnav-games-wordmark*.svg` and the lockups is Geist (SIL Open Font License 1.1, © 2024 The Geist Project Authors) converted to outlines. It is artwork made with the font, not a copy of the font software.
+
 NVIDIA NVML (`nvml.dll`) is used read-only when it is already installed with NVIDIA drivers; it is not redistributed.
 
 Intel PresentMon (MIT, © Intel Corporation, https://github.com/GameTechDev/PresentMon) is **not** bundled. Only if the user turns on frame-rate capture does VYSTRAL download the official `PresentMon-2.6.0-x64.exe` release asset into its data folder, verifying SHA-256 `b2a706bc6ad475749e3b7e3409263aa1e6906d45bdcf993f6dbc0f660188f1af` before each use. Ollama and AI models are not bundled. Users install them separately under their own licenses (the recommended `qwen3:4b` is Apache-2.0).

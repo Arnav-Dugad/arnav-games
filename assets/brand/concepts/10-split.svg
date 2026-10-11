@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="ta9" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1B1828"/><stop offset="1" stop-color="#09090F"/></linearGradient>
+    <radialGradient id="ga9" cx="0.5" cy="0.7" r="0.6"><stop offset="0" stop-color="#7C5CFF" stop-opacity="0.42"/><stop offset="0.6" stop-color="#3D63FF" stop-opacity="0.08"/><stop offset="1" stop-color="#000" stop-opacity="0"/></radialGradient>
+    <linearGradient id="pa9" x1="0.15" y1="0" x2="0.85" y2="1"><stop offset="0" stop-color="#F4F0FF"/><stop offset="0.5" stop-color="#C9B8FF"/><stop offset="1" stop-color="#7E9BFF"/></linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="116" fill="url(#ta9)"/>
+  <rect width="512" height="512" rx="116" fill="url(#ga9)"/>
+  <rect x="2" y="2" width="508" height="508" rx="114" fill="none" stroke="#fff" stroke-opacity="0.09" stroke-width="2"/>
+  <mask id="mTa9"><rect width="512" height="512" fill="#fff"/>
+      <path d="M261.31 248.09L291.37 305.21A6 6 0 0 1 286.06 314L225.94 314A6 6 0 0 1 220.63 305.21L250.69 248.09A6 6 0 0 1 261.31 248.09Z" fill="#000"/>
+      <path d="M263.02 368.81L295.51 428.16A8 8 0 0 1 288.5 440L223.5 440A8 8 0 0 1 216.49 428.16L248.98 368.81A8 8 0 0 1 263.02 368.81Z" fill="#000"/></mask>
+      <clipPath id="cTa9"><path d="M294.59 166.45L408.54 374.47A24 24 0 0 1 387.49 410L124.51 410A24 24 0 0 1 103.46 374.47L217.41 166.45A44 44 0 0 1 294.59 166.45Z"/></clipPath>
+      <g mask="url(#mTa9)"><path d="M294.59 166.45L408.54 374.47A24 24 0 0 1 387.49 410L124.51 410A24 24 0 0 1 103.46 374.47L217.41 166.45A44 44 0 0 1 294.59 166.45Z" fill="url(#pa9)"/>
+      <rect x="256" y="0" width="256" height="512" fill="#000" opacity="0.28" clip-path="url(#cTa9)"/></g>
+</svg>

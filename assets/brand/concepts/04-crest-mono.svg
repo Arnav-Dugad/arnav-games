@@ -1,0 +1,3 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512"><mask id="mBa3"><rect width="512" height="512" fill="#fff"/>
+      <path d="M180 360 L256 166 L332 360 M206 300 H306" fill="none" stroke="#000" stroke-width="36" stroke-linejoin="round" stroke-linecap="round"/></mask>
+      <path mask="url(#mBa3)" d="M256 86 C306 108 356 120 410 124 V262 C410 352 344 408 256 436 C168 408 102 352 102 262 V124 C156 120 206 108 256 86 Z" fill="#15131D"/></svg>
