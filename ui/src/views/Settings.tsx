@@ -60,7 +60,7 @@ interface Section {
 }
 
 const SECTIONS: Section[] = [
-  { id: 'appearance', label: 'Appearance', icon: <Palette size={17} />, keywords: 'theme dark light oled contrast accent colour color living canvas background motion animation reduced intro quality grid home live tiles trailer currency money prices exchange rates' },
+  { id: 'appearance', label: 'Appearance', icon: <Palette size={17} />, keywords: 'theme dark light oled contrast accent colour color living canvas background motion animation reduced intro quality grid home live tiles trailer currency money prices exchange rates game colours colors cover palette favourite parallax pointer depth breathe' },
   { id: 'library', label: 'Library & stores', icon: <LibraryBig size={17} />, keywords: 'steam xbox epic gog ea ubisoft battle.net integrations scan metadata artwork download data sources steamgriddb igdb twitch rawg isthereanydeal cheapshark prices deals wikidata deck anti-cheat api key art packs style covers logos backgrounds blurred material health broken shortcuts missing drive duplicates fix subscriptions game pass ultimate premium essential play ubisoft+ humble choice prime gaming luna leaving soon included price cost per hour wishlist sale lowest release friends played news patch notes updates discover store shelves trending new releases coming free to genres suggestions recommendations picked for you not interested this week giveaways gamerpower' },
   { id: 'sources', label: 'Data sources', icon: <Activity size={17} />, keywords: 'data sources health status api rate limit back-off errors requests online steam igdb rawg steamgriddb wikidata itad cheapshark pcgamingwiki geforce now game pass exchange rates' },
   { id: 'cloud', label: 'Cloud play', icon: <Cloud size={17} />, keywords: 'cloud streaming stream geforce now gfn nvidia xbox gaming game pass xcloud hours meter membership performance ultimate edge browser region queue alerts position readiness connection latency ping jitter wifi ethernet forecast sessions insights' },
@@ -292,6 +292,9 @@ function Appearance({ s }: { s: Settings }) {
         <BoolRow s={s} k="appearance.livingCanvas" label="Living Canvas" hint={<BackdropHint />} />
         <Row label="Intensity" control={<div style={{ width: 200 }}><Slider label="Living Canvas intensity" value={s['appearance.canvasIntensity']} min={0} max={1} step={0.05} onChange={(v) => void set('appearance.canvasIntensity', v)} /></div>} />
         <BoolRow s={s} k="canvas.followTrailer" label="Follow trailer colours" badge="settings.appearance.follow-trailer" hint="While a game’s trailer plays, the background slowly takes on its colours, then returns to the artwork. Off with reduced motion or low quality." />
+        {/* Track E2b */}
+        <BoolRow s={s} k="canvas.parallax" label="Depth with the pointer" hint="The background’s layers lean gently as you move the mouse, the far light least and the particles most. Off with reduced motion or Data saver." />
+        <BoolRow s={s} k="canvas.audioReact" label="Breathe with ambient sound" hint="When Ambient sound is on (Controller & sound), the light swells softly with it. Nothing is listened to: VYSTRAL follows the notes it plays itself." />
         <Row
           label="Visual quality"
           hint="Low turns off blur and animated backgrounds — best for older or battery-powered PCs."
