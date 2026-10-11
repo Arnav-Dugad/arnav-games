@@ -153,6 +153,9 @@ public sealed class SessionService : IDisposable
     /// <summary>Track Y: the primary display's mode, read once at session start (read-only). Null skips it.</summary>
     public Func<Core.Insights.SessionDisplay?>? DisplayIdentity { get; set; }
 
+    /// <summary>Track E3: the PC's power source and mode (read-only), read every sample and stored on change. Null skips it.</summary>
+    public Func<Core.Insights.PowerReading?>? PowerState { get; set; }
+
     /// <summary>Raised when a session moves to running or ends; the host uses it to enter/leave Performance Mode.</summary>
     public event Action<LaunchStateDto>? StateChanged;
 
@@ -741,6 +744,7 @@ public sealed class SessionService : IDisposable
         private readonly List<InsightSampleDto> _pendingExtras = [];
         private DateTimeOffset _lastFlush = DateTimeOffset.UtcNow;
         private int _tick;
+        private Core.Insights.PowerChangeTracker? _power;
 
         public Recorder(SessionService svc, string sessionId, DateTimeOffset start, bool adopted)
         {
@@ -751,6 +755,7 @@ public sealed class SessionService : IDisposable
             _fps = collect ? new FpsSession(svc.SafeFpsPlan()) : null;
             if (_sampler is not null) svc.RecordGpu(sessionId, _sampler);
             if (_sampler is not null && !adopted) svc.RecordDisplay(sessionId);
+            if (_sampler is not null) _power = svc.SafePowerTracker(sessionId, adopted);
             if (adopted)
             {
                 // A handed-over session: its summary covers the samples recorded before the hand-over too.
@@ -780,6 +785,7 @@ public sealed class SessionService : IDisposable
             if (_sampler is null) return;
             var t = (int)(now - sessionStart).TotalMilliseconds;
             var sample = _sampler.Sample(t);
+            if (_power is not null) _svc.RecordPower(_sessionId, t, _power);
             _samples.Add(sample);
             _pending.Add(sample);
 
@@ -855,6 +861,25 @@ public sealed class SessionService : IDisposable
                 _repo.SetSessionGpu(sessionId, gpu.Driver, gpu.Name);
         }
         catch (Exception ex) { Log.Warn("session", "Couldn't record the GPU driver", ex: ex); }
+    }
+
+    /// <summary>Track E3: a change tracker for the session's power state; a handed-over session continues from its stored rows.</summary>
+    private Core.Insights.PowerChangeTracker? SafePowerTracker(string sessionId, bool adopted)
+    {
+        if (PowerState is null) return null;
+        try { return new Core.Insights.PowerChangeTracker(adopted ? _repo.GetSessionPower(sessionId) : null); }
+        catch (Exception ex) { Log.Warn("session", "Power state history unavailable", ex: ex); return new Core.Insights.PowerChangeTracker(); }
+    }
+
+    /// <summary>Track E3: reads the power state (cheap, no handles) and stores it only when the source, saver or mode changed.</summary>
+    private void RecordPower(string sessionId, int tOffsetMs, Core.Insights.PowerChangeTracker tracker)
+    {
+        try
+        {
+            if (PowerState?.Invoke() is { } reading && tracker.ShouldStore(reading))
+                _repo.AddSessionPower(sessionId, tOffsetMs, reading);
+        }
+        catch (Exception ex) { Log.Warn("session", "Couldn't record the power state", ex: ex); }
     }
 
     private void RecordDisplay(string sessionId)

@@ -167,6 +167,8 @@ public sealed class SettingsService
         // Track W: wishlist sync (opt-in), its notifications, friends' recent games on game pages (opt-in), news and patch notes.
         new BoolDef("wishlist.sync", false),
         new BoolDef("notifications.wishlist", true),
+        // Track E3: Windows notifications for performance notes (GPU running hotter than it used to, frame rate after a driver change).
+        new BoolDef("notifications.perfInsights", true),
         new BoolDef("friends.gameHistory", false),
         new BoolDef("news.patchNotes", true),
         // Track Z: your own Immersive Home row order (row ids joined by '|'; '' = automatic), the screensaver's big clock and its trailer loops.
