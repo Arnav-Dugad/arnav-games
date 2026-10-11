@@ -107,11 +107,17 @@ describe('similar in your library', () => {
     expect(performance.now() - t0).toBeLessThan(400);
   });
 
+  it('says IGDB first when IGDB’s list is what made the pick', () => {
+    const me = game('Nebula Drift', { genres: ['Racing', 'Sci-fi'] });
+    const picks = similarInLibrary(me, [game('Ashen Crown', { genres: ['RPG', 'Sci-fi'] })], { facts: { similar: ['Ashen Crown'] }, now: NOW });
+    expect(picks[0].why).toBe('IGDB calls it similar · Shares Sci-fi');
+  });
+
   it('leaves generic genres out of the reason and doesn’t pick on them alone', () => {
     const me = game('Me', { genres: ['Action', 'Adventure', 'Indie'] });
     expect(similarInLibrary(me, [game('Also generic', { genres: ['Action', 'Adventure', 'Indie'] })], { now: NOW })).toEqual([]);
     expect(explainShared(['Singleplayer', 'Racing', 'Open World'], ['Action', 'Racing'])).toEqual(['Racing', 'Open World']);
-    expect(explainShared(['Singleplayer', 'Action'], [])).toEqual(['Singleplayer', 'Action']);
+    expect(explainShared(['Singleplayer', 'Action'], ['Adventure'])).toEqual([]);
   });
 
   it('weights a tag by how rare it is in this library', () => {

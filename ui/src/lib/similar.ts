@@ -294,6 +294,8 @@ export function similarInLibrary(
     if (igdb) score += 2;
     // Show nothing rather than a weak pick: enough in common, and something specific (not just Singleplayer + Action).
     if (score < MIN_SCORE || (!specific && !sameSeries && !igdb)) continue;
+    // IGDB's list is what put it here (it wouldn't make it on tags and genres alone): say so first.
+    const igdbCarried = igdb && !sameSeries && (score - 2 < MIN_SCORE || !specific);
 
     // Forgotten games first: never played, or not for months. Games you're playing right now step back a little.
     // (A nudge among comparable picks: it never lifts a loose match over a close one.)
@@ -305,9 +307,10 @@ export function similarInLibrary(
 
     const parts: string[] = [];
     if (sameSeries) parts.push('Same series');
+    else if (igdbCarried) parts.push('IGDB calls it similar');
     const named = explainShared(shared.map((s) => s.name), genreNames);
     if (named.length) parts.push(`Shares ${named.join(' · ')}`);
-    else if (igdb && !sameSeries) parts.push('IGDB calls it similar');
+    else if (igdb && !sameSeries && !igdbCarried) parts.push('IGDB calls it similar');
     if (f.kind === 'never') parts.push('never played');
     else if (f.kind === 'long') parts.push(`not played in ${awaySpan(f.days)}`);
     picks.push({ game: g, score, why: parts.join(' · '), sameSeries, forgotten: f.kind === 'never' || f.kind === 'long' ? f.kind : null });
@@ -317,7 +320,8 @@ export function similarInLibrary(
 
 /**
  * Up to three names for "Shares …": specific tags first (strongest shared first), then broad ones, then genres not
- * already named. Generic tags (Singleplayer, Action) are named only when there is nothing else to say.
+ * already named. Generic tags and genres (Singleplayer, Action) are never named: a pick that shares only those is
+ * there for another reason (same series, IGDB), and says that instead.
  */
 export function explainShared(tagNames: readonly string[], genreNames: readonly string[], max = 3): string[] {
   const out: string[] = [];
@@ -330,7 +334,6 @@ export function explainShared(tagNames: readonly string[], genreNames: readonly 
   };
   for (const n of tagNames) if (tagKind(n) === 'specific') add(n);
   for (const n of tagNames) if (tagKind(n) === 'soft') add(n);
-  for (const n of genreNames) if (!GENERIC_GENRES.has(n.toLowerCase())) add(n);
-  if (!out.length) for (const n of [...tagNames, ...genreNames]) add(n);
+  for (const n of genreNames) if (!GENERIC_GENRES.has(n.toLowerCase()) && tagKind(n) !== 'generic') add(n);
   return out;
 }

@@ -12,6 +12,7 @@ import { Sidebar } from './components/shell/Sidebar';
 import { CommandBar } from './components/shell/CommandBar';
 import { LaunchOverlay } from './components/shell/LaunchOverlay';
 import { ReplayHost } from './components/replay/ReplayHost';
+import { CompletionCeremonyHost } from './components/ceremony/CompletionCeremony'; // Track E2a
 import { ModeTransition } from './components/shell/ModeTransition';
 import { Intro, rememberIntroPreference } from './components/shell/Intro';
 import { UpdateCenterDialog } from './components/shell/UpdateCenter';
@@ -139,6 +140,7 @@ export default function App() {
       <CommandBar />
       <LaunchOverlay />
       <ReplayHost />
+      <CompletionCeremonyHost />{/* Track E2a */}
       <ModeTransition />
       <UpdateCenterDialog />
       <WhatsNewHost />

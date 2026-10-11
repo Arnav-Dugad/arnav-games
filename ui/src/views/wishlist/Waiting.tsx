@@ -27,7 +27,7 @@ export function WaitingStat({ items, onShow }: { items: WishlistItem[]; onShow: 
     <button type="button" className="wish-stat wwait-stat" data-tone="waiting" onClick={onShow}
       aria-label={`Longest wait: ${name}, on your list for ${waiting.words}${s.overAYear > 1 ? `. ${s.overAYear} games have waited a year or more` : ''}. Show the list, longest waiting first`}
       title={`${name} · added ${longDate(waiting.since)}`}>
-      <Hourglass size={13} aria-hidden /> <b className="num">{waiting.short}</b> <span>longest wait</span>
+      <Hourglass size={13} aria-hidden /> <b>{waiting.short}</b> <span>longest wait</span>
     </button>
   );
 }
@@ -43,10 +43,7 @@ export function CalendarPeek({ anchor, item, when, price, id }: { anchor: HTMLEl
   const waiting = useMemo(() => (item ? waitingFor(item) : null), [item]);
 
   useLayoutEffect(() => {
-    if (!anchor || !item) {
-      setPos(null);
-      return;
-    }
+    if (!anchor || !item) return;
     const place = () => {
       const r = anchor.getBoundingClientRect();
       const h = ref.current?.offsetHeight ?? 96;

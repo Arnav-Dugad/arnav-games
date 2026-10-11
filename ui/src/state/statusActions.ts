@@ -2,6 +2,7 @@ import { call, errorMessage } from '../bridge/bridge';
 import type { Game, GameStatus, StatusResult } from '../bridge/types';
 import { STATUS_META } from '../lib/status';
 import { useStore } from './store';
+import { celebrateCompletion, useCeremony } from './ceremony'; // Track E2a
 
 let lastToast: number | null = null;
 /** Per-game request counter: only the newest status change of a game may apply or revert. */
@@ -28,6 +29,8 @@ export async function setGameStatus(game: Game, status: GameStatus | null, opts:
     useStore.getState().toast({ tone: 'danger', title: 'Status not saved', body: errorMessage(err) });
     return false;
   }
+  // Track E2a: the first time a game is marked Completed 100%, a short ceremony (never for an undo).
+  if (status === 'completed' && before.status !== 'completed' && opts.undoable !== false && statusSeq.get(game.id) === seq) celebrateCompletion(game.id);
   if (opts.undoable !== false) {
     const s = useStore.getState();
     if (lastToast !== null) s.dismissToast(lastToast);
@@ -38,6 +41,7 @@ export async function setGameStatus(game: Game, status: GameStatus | null, opts:
       action: {
         label: 'Undo',
         run: () => {
+          useCeremony.getState().close(game.id); // Track E2a
           const current = useStore.getState().gamesById.get(game.id);
           if (current) void setGameStatus(current, before.status, { undoable: false });
         },

@@ -1,51 +1,15 @@
 import { memo, useMemo, useState, type CSSProperties } from 'react';
 import { Check, Folder, ImageIcon, LayoutGrid, Sparkles } from 'lucide-react';
-import type { CollectionInfo, Game } from '../../bridge/types';
+import type { CollectionInfo } from '../../bridge/types';
 import { errorMessage } from '../../bridge/bridge';
-import { buildCollage, collectionCollage, parsePinnedCovers, serializePinnedCovers, type Collage, type CollageTile } from '../../lib/collage';
-import { matchesSmartFilter, parseSmartFilter } from '../../lib/smartFilter';
-import { useTimeToBeatMap } from '../../state/recap';
-import { useSubsMap } from '../../state/subs';
+import { buildCollage, serializePinnedCovers, type Collage, type CollageTile } from '../../lib/collage';
+import { useCollectionCollage, useCollectionMembers, usePinnedCovers } from '../../state/collectionCovers';
 import { useStore } from '../../state/store';
 import { Dialog } from '../ui/Dialog';
 import { Button } from '../ui/primitives';
 import './collection-cover.css';
 
-/**
- * Track E2a: the games in a collection, for its cover. A smart collection's rule is evaluated live (like the Library
- * and the sidebar count); hidden games never appear on a cover.
- */
-export function useCollectionMembers(collection: CollectionInfo | undefined): Game[] {
-  const games = useStore((s) => s.library.games);
-  const rule = collection?.rule ?? null;
-  const ttb = useTimeToBeatMap();
-  const subs = useSubsMap();
-  return useMemo(() => {
-    if (!collection) return [];
-    if (rule) {
-      const f = parseSmartFilter(rule);
-      if (!f) return [];
-      const ctx = { ttb: ttb?.games ?? null, subs: subs as Record<string, unknown[]> | null };
-      return games.filter((g) => !g.hidden && matchesSmartFilter(g, f, ctx));
-    }
-    return games.filter((g) => !g.hidden && g.collections.includes(collection.id));
-  }, [collection, rule, games, ttb, subs]);
-}
-
-/** The pinned covers (collection id → game id). */
-export function usePinnedCovers(): Map<string, string> {
-  const raw = useStore((s) => s.settings?.['library.collectionCovers'] ?? '');
-  return useMemo(() => parsePinnedCovers(raw), [raw]);
-}
-
-export function useCollectionCollage(collection: CollectionInfo | undefined): Collage | null {
-  const members = useCollectionMembers(collection);
-  const pins = usePinnedCovers();
-  const pinned = collection ? pins.get(collection.id) ?? null : null;
-  return useMemo(() => (collection ? collectionCollage(collection.id, collection.name, members, pinned) : null), [collection, members, pinned]);
-}
-
-export type CoverSize = 'sm' | 'row' | 'md' | 'lg';
+type CoverSize = 'sm' | 'row' | 'md' | 'lg';
 
 /**
  * A collection's cover: its games' art as a 2×2, 1+2 or mosaic over a blurred wash in the collection's dominant
@@ -108,7 +72,7 @@ function Tile({ tile, index, big }: { tile: CollageTile; index: number; big: boo
   );
 }
 
-const initials = (title: string) => title.split(/\s+/).filter(Boolean).map((w) => w[0]).join('').slice(0, 3).toUpperCase();
+const initials = (title: string) => title.split(/\s+/).filter(Boolean).map((w) => w[0]).join('').slice(0, 2).toUpperCase();
 
 /**
  * Track E2a: choose a collection's cover: the automatic collage, or one game's art. Saved in the

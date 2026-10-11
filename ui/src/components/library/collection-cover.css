@@ -81,13 +81,15 @@
 .ccover__initials {
   font-family: var(--font-display);
   font-weight: 600;
-  font-size: clamp(9px, 22cqi, 22px);
-  letter-spacing: 0.04em;
-  color: oklch(1 0 0 / 0.88);
+  font-size: clamp(8px, 30cqi, 26px);
+  line-height: 1;
+  letter-spacing: 0.02em;
+  color: oklch(1 0 0 / 0.86);
   text-shadow: 0 1px 6px oklch(0 0 0 / 0.4);
 }
 
-.ccover--md, .ccover--lg { container-type: inline-size; }
+/* Initials are sized to their own tile. */
+.ccover--md .ccover__face, .ccover--lg .ccover__face { container-type: inline-size; }
 
 /* The collection's colour pooled at the bottom, and a soft light from the top left. */
 .ccover__tint {

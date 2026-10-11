@@ -128,6 +128,7 @@ public sealed partial class AppBackend : IDisposable
         RegisterTrackD1Handlers();        // AppBackend.TrackD1.cs: Library bulk actions with undo, observed game versions (Track D1)
         RegisterTrackD6Handlers();        // AppBackend.TrackD6.cs: currency, Data sources health, cache viewer, crash-free streak (Track D6)
         RegisterRecommendHandlers();      // AppBackend.Recommend.cs: "Not interested", cloud readiness, Discover cloud badges (Track D5)
+        RegisterTrackE2aHandlers();       // AppBackend.TrackE2a.cs: the Completed 100% card image (Track E2a)
         Log.Info("app", "Backend started", new { Version, SafeMode, PreviousRunCrashed });
     }
 
