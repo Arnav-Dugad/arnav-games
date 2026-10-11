@@ -96,6 +96,12 @@ Play data and insights (0.7, Track Y; all on your PC, nothing new sent anywhere)
 - **Energy estimate** (Settings → Launching & sessions, off by default) is calculated from the GPU/CPU load already stored with your sessions, your graphics card and processor names (read once from the registry) and, if you enter them, your PC's wattage, electricity price and currency (stored as settings). Nothing else is recorded.
 - **Hour-of-week heatmap, genre drift and completion forecasts** are calculated in the interface from sessions, genres and IGDB time-to-beat estimates already on your PC; nothing is stored.
 
+Performance insights (Track E3; all on your PC, nothing sent anywhere):
+
+- **Power source per session.** With performance metrics on, each session records whether the PC was plugged in or on battery, whether battery saver was on, the battery percentage and Windows' power mode (*Best power efficiency*, *Balanced*, *Best performance*…), read-only from `GetSystemPowerStatus` and Windows' effective power mode notification. A row is stored at the start and only when one of those changes (at most 240 per session), in `vystral.db` (`session_power`), deleted with the session or with tracked history. VYSTRAL never changes a power plan, mode or setting.
+- **Frame-rate goals** you pick per game (a frame rate, or *Display* for the display's refresh rate) are stored in `vystral.db` (`game_perf_goals`); turn one *Off* to remove it.
+- **Notes shown once.** Which thermal-trend and driver notes were already announced (kind, game ID and driver version, and when) are kept in `vystral.db` (`perf_notices`) so each appears once. Thermal trends, goal shares and battery comparisons are worked out in the interface from sessions already on your PC and aren't stored.
+
 Library tools (0.7, Track X), all read-only and on your PC unless noted in the network table:
 
 - **New health issues on Home** re-run the same offline health check when a drive appears or disappears (VYSTRAL compares the list of drive letters every few seconds), after a scan or a Steam install change, and once a day. Which issues it has seen and announced is kept in `ui-state\health-watch.json` (issue ids and dates only). Turn the card off in Settings → Library & stores → Library health.

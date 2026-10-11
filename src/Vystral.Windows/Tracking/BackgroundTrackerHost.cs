@@ -217,6 +217,7 @@ public sealed class BackgroundTrackerHost : IDisposable
         var sessions = new SessionService(repo, adapters, settings, sink) { ExternalSource = SessionSources.Background };
         sessions.GpuIdentity = sampler => GpuDriverProbe.Read(sampler, registry);
         sessions.DisplayIdentity = DisplayProbe.ForPrimary; // Track Y: hardware history
+        sessions.PowerState = PowerProbe.Read; // Track E3: plugged in or on battery, power mode
         sessions.BackgroundApps = () => settings.GetBool("performance.backgroundApps")
             ? new BackgroundAppTracker(new NtProcessSnapshotSource(), BackgroundAppTracker.ReadMemoryLoad, Environment.ProcessId, Environment.ProcessorCount)
             : null;

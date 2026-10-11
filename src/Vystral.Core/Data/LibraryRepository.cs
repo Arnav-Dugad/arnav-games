@@ -365,7 +365,7 @@ public sealed partial class LibraryRepository(Database db)
             """, p, tx);
         conn.Execute("DELETE FROM artwork WHERE game_id=@sourceGameId", p, tx);
         // Per-game data keyed by game id moves too (the target's own rows win), so nothing is orphaned.
-        foreach (var table in (string[])["game_media", "game_enrichment", "game_field_sources"])
+        foreach (var table in (string[])["game_media", "game_enrichment", "game_field_sources", "game_perf_goals"]) // Track E3: frame-rate goals
         {
             conn.Execute($"UPDATE OR IGNORE {table} SET game_id=@targetGameId WHERE game_id=@sourceGameId", p, tx);
             conn.Execute($"DELETE FROM {table} WHERE game_id=@sourceGameId", p, tx);
@@ -464,6 +464,7 @@ public sealed partial class LibraryRepository(Database db)
                      "DELETE FROM artwork WHERE game_id=@gameId", "DELETE FROM installations WHERE game_id=@gameId",
                      "DELETE FROM status_history WHERE game_id=@gameId", "DELETE FROM game_enrichment WHERE game_id=@gameId",
                      "DELETE FROM game_field_sources WHERE game_id=@gameId", "DELETE FROM game_media WHERE game_id=@gameId",
+                     "DELETE FROM game_perf_goals WHERE game_id=@gameId", // Track E3
                      "DELETE FROM games WHERE id=@gameId",
                  })
             conn.Execute(sql, new { gameId }, tx);

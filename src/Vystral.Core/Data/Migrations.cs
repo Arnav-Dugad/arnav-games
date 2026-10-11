@@ -380,5 +380,37 @@ internal static class Migrations
             );
             CREATE INDEX ix_installation_versions ON installation_versions(installation_id, kind, id);
             """),
+        (11, "performance insights: power source per session, frame-rate goals, notes shown once", """
+            -- Track E3: the PC's power state while a session ran (read-only GetSystemPowerStatus and the effective power mode).
+            -- One row at the session start and one per change of source, battery saver or power mode (at most 240 per session);
+            -- each row lasts until the next. on_battery/saver NULL = Windows didn't say; mode is the effective power mode name
+            -- (batterySaver, betterBattery, balanced, highPerformance, maxPerformance, gameMode, mixedReality) or NULL.
+            CREATE TABLE session_power (
+                session_id  TEXT NOT NULL REFERENCES sessions(id) ON DELETE CASCADE,
+                t_offset_ms INTEGER NOT NULL,
+                on_battery  INTEGER,
+                saver       INTEGER,
+                battery_pct INTEGER,
+                mode        TEXT,
+                PRIMARY KEY (session_id, t_offset_ms)
+            ) WITHOUT ROWID;
+
+            -- Track E3: a frame-rate goal per game: a fixed target (20–360 fps) or display = 1 (each session's display refresh rate).
+            CREATE TABLE game_perf_goals (
+                game_id    TEXT PRIMARY KEY,
+                target_fps INTEGER,
+                display    INTEGER NOT NULL DEFAULT 0,
+                updated    TEXT NOT NULL
+            ) WITHOUT ROWID;
+
+            -- Track E3: performance notes already announced (kind 'thermal' keyed by game, 'driver' by game and driver), so each
+            -- is shown once (a thermal trend again only after 30 days). Not user data: losing it only means a note may repeat.
+            CREATE TABLE perf_notices (
+                kind  TEXT NOT NULL,
+                key   TEXT NOT NULL,
+                shown TEXT NOT NULL,
+                PRIMARY KEY (kind, key)
+            ) WITHOUT ROWID;
+            """),
     ];
 }

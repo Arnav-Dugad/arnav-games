@@ -30,6 +30,8 @@ import { AskAssistantButton } from '../components/assistant/AskButton'; // Track
 import { Badge, Button, EmptyState, Field, IconButton, PlatformBadge, Stars, Tabs } from '../components/ui/primitives';
 import { StoreLogo } from '../components/ui/StoreLogo';
 import { DriverChangeCard } from './perf/DataInsightCards';
+// Track E3: loaded with the Sessions tab so the main chunk doesn't carry the Performance insight cards.
+const GamePerfInsights = lazy(() => import('./perf/TrendsPanel').then((m) => ({ default: m.GamePerfInsights })));
 import { GameExtras, IdentityPanel } from '../components/game/GameDataPanels';
 import { IdentityMatchCard } from '../components/game/IdentityMatch';
 import { useIdentityStore } from '../state/identity';
@@ -513,6 +515,8 @@ function Sessions({ game }: { game: Game }) {
       <DriverChangeCard gameId={game.id} hideWhenEmpty />
       {/* Track Y: driver and display at each session start, with changes marked (nothing until recorded). */}
       <HardwareTimeline gameId={game.id} hideWhenEmpty />
+      {/* Track E3: frame-rate goal, thermal trend, battery against plugged in (nothing without data). */}
+      <Suspense fallback={null}><GamePerfInsights game={game} sessions={sessions} /></Suspense>
       {sessions.map((s) => {
         let perf: PerfSummary | null = null;
         try { perf = s.perfSummary ? JSON.parse(s.perfSummary) : null; } catch { perf = null; }

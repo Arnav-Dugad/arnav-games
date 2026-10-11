@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
-import { Cpu, Gamepad2, Gauge, GitCompareArrows, History, Info, LayoutDashboard, RefreshCw } from 'lucide-react';
+import { Cpu, Gamepad2, Gauge, GitCompareArrows, History, Info, LayoutDashboard, RefreshCw, TrendingUp } from 'lucide-react';
 import type { Game } from '../bridge/types';
 import { Badge, Button, EmptyState, Skeleton, Tabs, tabPanelProps } from '../components/ui/primitives';
 import { formatDuration } from '../lib/format';
@@ -20,6 +20,10 @@ import { PerfOverview } from './perf/PerfOverview';
 import { SessionTimeline } from './perf/SessionTimeline';
 import { SessionDetail } from './perf/SessionDetail';
 import { ComparePanel } from './perf/ComparePanel';
+// Track E3: thermal trends, frame-rate goals, battery against plugged in, driver notes.
+import { DriverNotesCard, SessionInsightStrip, ThermalAlertBanner } from './perf/TrendCards';
+import { TrendsPanel } from './perf/TrendsPanel';
+import { usePerfInsights } from './perf/usePerfInsights';
 import './performance.css';
 import './perf/redesign.css';
 
@@ -32,6 +36,7 @@ const TABS: { value: PerfTab; label: ReactNode }[] = [
   { value: 'overview', label: <><LayoutDashboard size={15} aria-hidden /> Overview</> },
   { value: 'sessions', label: <><History size={15} aria-hidden /> Sessions</> },
   { value: 'compare', label: <><GitCompareArrows size={15} aria-hidden /> Compare</> },
+  { value: 'trends', label: <><TrendingUp size={15} aria-hidden /> Trends</> }, // Track E3
   { value: 'system', label: <><Cpu size={15} aria-hidden /> System</> },
 ];
 
@@ -56,6 +61,7 @@ export function PerformanceView({ sessionId, tab: routeTab, compareWith }: { ses
   const gamesById = useStore((s) => s.gamesById);
   const collecting = useStore((s) => s.settings?.['performance.collectMetrics'] ?? true);
   const reduce = useReducedMotion();
+  const insights = usePerfInsights(); // Track E3
   const [gameFilter, setGameFilter] = useState('all');
   const [selectedId, setSelectedId] = useState<string | null>(sessionId ?? null);
   const [compareA, setCompareA] = useState<string | null>(null);
@@ -237,7 +243,13 @@ export function PerformanceView({ sessionId, tab: routeTab, compareWith }: { ses
               exit={{ opacity: 0, transition: { duration: 0.1 } }}
               transition={reduce ? { duration: 0.12 } : spring.panel}
             >
-              {tab === 'overview' && <PerfOverview entries={filtered} gamesById={gamesById} onOpen={openSession} />}
+              {tab === 'overview' && (
+                <div className="pf-stack">
+                  {/* Track E3: a game running clearly hotter than it used to. */}
+                  <ThermalAlertBanner entries={filtered} extras={insights.extras} gamesById={gamesById} onShow={() => setTab('trends')} />
+                  <PerfOverview entries={filtered} gamesById={gamesById} onOpen={openSession} />
+                </div>
+              )}
 
               {tab === 'sessions' && (
                 <div className="pf-stack">
@@ -274,6 +286,8 @@ export function PerformanceView({ sessionId, tab: routeTab, compareWith }: { ses
                             exit={{ opacity: 0, transition: { duration: 0.12 } }}
                             transition={reduce ? { duration: 0.15 } : spring.page}
                           >
+                            {/* Track E3: this session against its game's goal, its driver note, the game's thermal trend. */}
+                            <SessionInsightStrip entry={current} entries={entries} extras={insights.extras} goal={insights.goals.get(current.gameId) ?? null} onShowTrends={() => setTab('trends')} />
                             <SessionDetail entry={current} game={gamesById.get(current.gameId)} />
                           </motion.div>
                         )}
@@ -302,8 +316,25 @@ export function PerformanceView({ sessionId, tab: routeTab, compareWith }: { ses
                 />
               )}
 
+              {tab === 'trends' && (
+                <TrendsPanel
+                  entries={filtered}
+                  gamesById={gamesById}
+                  gameId={filterGameId}
+                  onOpen={openSession}
+                  onPickGame={(id) => {
+                    setGameFilter(id);
+                    setListLimit(LIST_PAGE);
+                    setCompareA(null);
+                    setCompareB(null);
+                  }}
+                />
+              )}
+
               {tab === 'system' && (
                 <div className="pf-stack">
+                  {/* Track E3: a short note after each GPU driver change (first session against the ones before). */}
+                  <DriverNotesCard entries={filtered} extras={insights.extras} gamesById={gamesById} gameId={filterGameId} onOpen={openSession} />
                   {/* Track F: GPU driver before/after and background apps, across all sessions (or the filtered game). */}
                   <div className="pf-insights">
                     <DriverChangeCard gameId={filterGameId} />
