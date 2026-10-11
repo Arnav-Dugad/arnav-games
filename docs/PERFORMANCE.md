@@ -151,6 +151,27 @@ So Home appears ~325 ms earlier (median) and no longer waits for `app.info` and 
 - *Self-check*: runs 2 s after `app.ready` on the first start of a version; the integrity check (`PRAGMA quick_check`) and the bridge round trip run side by side. On the synthetic 300-game database `quick_check` takes 1–4 ms; the whole check normally finishes well under a second. Timeouts (20 s integrity, 30 s round trip) give *skipped*, never *failed*.
 - *Compaction*: a 15-minute timer (first after 10 minutes) evaluates the schedule with three cheap calls (`GetSystemPowerStatus`, `GetLastInputInfo`, free space). In the test suite a ~3 MB file whose rows were deleted compacts to under a quarter of its size.
 
+### Living Canvas (1.0, Track E2b)
+
+What changed for cost: depth layers, pointer parallax, genre flavours, time-of-day warmth and the optional sound reaction were added to the one fragment shader; in return the shader draws only one mood once a crossfade has finished (it used to draw two every frame), the palette blend moved from the GPU's two-palette mix to a 12-number OKLab ease in script, "Auto" quality on ≤ 4-core PCs now really turns the canvas off (it used to keep running there although the rest of the app treated it as Low), the frame cap drops to 15 fps while another window is in front and to 20 fps with Data saver, and nothing at all is scheduled while hidden. Unchanged: 40 % (Balanced) / 55 % (High) resolution, 30 fps, still frames under reduced motion and Performance Mode.
+
+**GPU time per frame**, measured 2026-10-11 on the reference laptop's **Intel UHD iGPU** (the canvas asks for the low-power GPU, so this is the GPU it really uses on hybrid laptops) through ANGLE/Direct3D 11 in Chromium (the WebView2 engine), with `EXT_disjoint_timer_query_webgl2`: each shader × mood × resolution is drawn 120 times per round, interleaved, best median of 3 rounds (the machine was running other builds). An empty shader costs 0.06 / 0.12 ms.
+
+| Mood | Balanced 768×480, before → after (ms) | High 1056×660, before → after (ms) |
+|---|---|---|
+| drift | 0.61 → 0.84 | 1.16 → 1.58 |
+| velocity | 1.10 → 1.10 | 2.07 → 2.08 |
+| cosmos | 1.25 → 1.10 | 2.36 → 2.30 |
+| ember | 0.94 → 1.00 | 1.76 → 1.89 |
+| dread | 1.59 → 1.47 | 3.00 → 2.77 |
+| tide | 1.03 → 1.09 | 1.93 → 2.05 |
+
+So at 30 fps the canvas uses about 2.5–4.5 % of this iGPU's time on Balanced (before: 1.8–4.8 %), and half that while VYSTRAL isn't the focused window. *Drift* costs more because it is no longer "base only" (far light pools and a few soft discs); during a 1.6 s mood crossfade both moods are drawn, as before all the time. Two cheaper-looking ideas were measured and rejected: an arithmetic hash instead of `sin` (+20–40 % on this GPU) and value noise from a 256×256 texture with `texelFetch` (+30–50 %).
+
+**Main thread.** The canvas publishes its own script time per frame (`data-js-ms`): JS_MS_AFTER. CDP `Performance.getMetrics` over 10 s on Home (1920×1200, preview build, real GPU), canvas on minus canvas off: script SCRIPT_BEFORE before, SCRIPT_AFTER after; whole main-thread task time is dominated by the rest of Home and varied by ±1 point between runs, so the canvas's share is within noise both times.
+
+How: `ui/scripts/canvas-bench.cjs` (the GPU table; usage in its header) and a CDP `Performance.getMetrics` script (main thread), both in Playwright's Chromium with `--use-angle=d3d11`. Not measured: the NVIDIA dGPU, weaker iGPUs, and the real WebView2 app (the lead's after-merge check).
+
 ## Not yet measured
 
 - Real-app startup before/after on the reference machine (timeline above; the harness numbers stand in for it).

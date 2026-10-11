@@ -142,6 +142,8 @@ const ACCENT_EVERY_MS = 2600;
 const ACCENT_MIN_SHIFT = 0.03;
 /** Share of the trailer's accent blended into the game's artwork accent at full follow. */
 const ACCENT_FOLLOW = 0.5;
+/** OKLab gap below which a palette glide simply lands (well under one 8-bit step on these dark colours). */
+const SETTLED = 0.0015;
 /** Mood crossfade length (ms). */
 const MOOD_MS = 1600;
 
@@ -340,7 +342,10 @@ export function LivingCanvas() {
       const p = live.current.profile;
       const dt = prev ? Math.min(250, now - prev) : animate ? 0 : 16;
       prev = now;
-      if (paletteGap(s.cur, s.target) > 0.0004) s.cur = approachPalette(s.cur, s.target, dt, PALETTE_TAU);
+      if (s.cur !== s.target) {
+        s.cur = approachPalette(s.cur, s.target, dt, PALETTE_TAU);
+        if (paletteGap(s.cur, s.target) < SETTLED) s.cur = s.target; // below a visible step: land exactly
+      }
       const mixT = Math.min(1, (now - s.mixStart) / MOOD_MS);
       const eased = easeMix(mixT);
       ptr.x = approach(ptr.x, p.parallax ? ptrTarget.x : 0, dt, POINTER_TAU);
@@ -374,7 +379,7 @@ export function LivingCanvas() {
       frames++;
       jsMs += performance.now() - t0;
       publish(now, !animate);
-      return paletteGap(s.cur, s.target) > 0.0004 || mixT < 1;
+      return s.cur !== s.target || mixT < 1;
     };
 
     const loop = (now: number) => {
