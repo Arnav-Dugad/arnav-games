@@ -179,7 +179,7 @@ public sealed class StartupProtection
                 return null;
             }
             var source = Path.Combine(locator.PackagesDir!, asset.FileName);
-            return Packages.Preserve(asset.PackageId ?? mgr.AppId ?? "Vystral", current, source, DateTimeOffset.Now);
+            return Packages.Preserve(asset.PackageId ?? mgr.AppId ?? Brand.Legacy.PackId, current, source, DateTimeOffset.Now);
         }
         catch (Exception ex)
         {

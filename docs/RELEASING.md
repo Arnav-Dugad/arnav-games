@@ -45,6 +45,15 @@ To test a release candidate's rollback by hand: install version N, update to N+1
 | `Vystral-<ver>-delta.nupkg` | Delta from the previous version (small downloads) |
 | `releases.win.json`, `RELEASES` | Update feed |
 
+### Why the files are still called `Vystral-…`
+
+The app was called VYSTRAL before 1.0.0. Velopack names every asset after the pack ID (`--packId Vystral` in `build/pack.ps1`), and the pack ID is also the install folder (`%LOCALAPPDATA%\Vystral`), the update feed every installed copy reads and the AUMID (`velopack.Vystral`) its shortcuts and notifications use. Changing it would make Velopack treat Arnav Games as a different app: existing installs would never see the update and would end up installed twice. So the pack ID, and with it the file names, stay; people only ever see the title (`--packTitle 'Arnav Games'`), which names the installer window, the shortcuts and the entry in *Settings › Apps*. Other names kept for the same reason are listed in [ARCHITECTURE.md › Legacy identifiers](ARCHITECTURE.md#legacy-identifiers).
+
+### The rename and the repository move
+
+- **Shortcuts.** On the first update to 1.0.0, Velopack renames the existing `VYSTRAL` Desktop and Start-menu shortcuts to `Arnav Games` (it finds the old shortcut by the previous version's title and target; shortcuts the user pinned or edited are left alone).
+- **The repository** moved from `Arnav-Dugad/vystral` to `Arnav-Dugad/arnav-games`. GitHub redirects the old URLs (web, API and release downloads), so copies of 0.9.x and older, which still check the old address, find 1.0.0 and update themselves. That only lasts while nothing new is created at the old address: never create a repository or fork named `vystral` under the account.
+
 ## Building a release locally
 
 ```powershell

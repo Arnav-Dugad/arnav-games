@@ -1,8 +1,7 @@
 <p align="center">
-  <img src="assets/brand/png/vystral-128.png" width="96" alt="Arnav Games logo" />
+  <img src="assets/brand/arnav-games-readme-hero.png" width="100%" alt="Arnav Games — the Ascent mark and wordmark" />
 </p>
 
-<h1 align="center">Arnav Games</h1>
 <p align="center"><strong>Your Universe of Play.</strong><br/>One beautiful, private home for every PC game you own — Steam, Xbox &amp; PC Game Pass, Epic, GOG, EA, Ubisoft and Battle.net.</p>
 
 <p align="center">
@@ -11,12 +10,14 @@
   <a href="https://github.com/Arnav-Dugad/arnav-games/releases/latest">All downloads &amp; release notes</a>
 </p>
 
+<p align="center"><sub>Arnav Games was called VYSTRAL before 1.0.0. Existing installs update in place and keep their library, settings and keys.</sub></p>
+
 ---
 
 ## Install
 
 1. Click **[Download Arnav Games for Windows](https://github.com/Arnav-Dugad/arnav-games/releases/latest/download/Vystral-win-Setup.exe)** — that link always points to the newest version.
-2. Run `Vystral-win-Setup.exe`. It installs just for you (no administrator rights) and adds Desktop and Start-menu shortcuts.
+2. Run `Vystral-win-Setup.exe` (the installer keeps the app’s original file name). It installs just for you (no administrator rights) and adds Desktop and Start-menu shortcuts.
 3. **Windows SmartScreen may warn** that the app is from an unknown publisher, because Arnav Games isn’t code-signed yet (signing certificates cost money). Click **More info → Run anyway**. The installer only comes from this repository’s Releases page — never download it anywhere else.
 4. Arnav Games finds your installed games automatically. Nothing to sign in to.
 

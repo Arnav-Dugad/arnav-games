@@ -90,7 +90,7 @@ public class ShellRegistrationTests
         Assert.Equal(6, reg.Writes);
 
         // The install folder moved (portable copy, dev build): the paths are repaired.
-        const string moved = @"D:\Games\VYSTRAL\Vystral.exe";
+        const string moved = @"D:\Games\ArnavGames\Vystral.exe";
         Assert.Equal(2, Make(reg, moved).EnsureRegistered());
         Assert.Equal($"\"{moved}\" --uri \"%1\"", reg.GetString(@"vystral\shell\open\command", null));
     }

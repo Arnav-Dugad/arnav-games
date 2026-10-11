@@ -269,7 +269,7 @@ Arnav Games' UI WebView2 is locked down, and this is the starting point:
 
 **Recommendation: (a) when the vendor app is installed; otherwise (d), with (b) as a user setting. Never (c).**
 
-- For (d), launch `msedge.exe --app="{officialUrl}" --user-data-dir="%LOCALAPPDATA%\VYSTRAL\cloud-edge" --no-first-run`. The user signs in once, inside Edge.
+- For (d), launch `msedge.exe --app="{officialUrl}" --user-data-dir="%LOCALAPPDATA%\VYSTRAL.Data\cloud-edge" --no-first-run`. The user signs in once, inside Edge.
   - Be open about it in the UI, for example: "Cloud games open in a separate Microsoft Edge window. Arnav Games never reads it."
   - Leave this folder out of Arnav Games backups and diagnostic bundles.
   - Offer "Use my normal browser instead" for people who prefer their existing sign-ins.

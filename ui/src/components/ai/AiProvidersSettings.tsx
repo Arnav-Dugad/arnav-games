@@ -128,7 +128,7 @@ export function AiProvidersSettings() {
       </div>
 
       <p className="dsrc__footnote">
-        <Lock size={13} aria-hidden /> Keys are stored only in Windows Credential Manager (as “VYSTRAL/AI-&lt;provider&gt;”), never in Arnav Games’ database,
+        <Lock size={13} aria-hidden /> Keys are stored only in Windows Credential Manager (as “VYSTRAL/AI-&lt;provider&gt;”, under the app’s earlier name), never in Arnav Games’ database,
         settings, logs or this page. Arnav Games sends at most 30 requests every 10 minutes and 400 a day to a provider, gives each request 60 seconds, never
         follows redirects with your key, and never sends file paths, notes, other keys or anything a feature doesn’t list. Your provider may charge for use.
       </p>

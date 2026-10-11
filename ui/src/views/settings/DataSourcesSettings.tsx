@@ -127,7 +127,7 @@ export function DataSourcesSettings() {
             {keyless.map((p) => <ProviderCard key={p.id} p={p} localOnly={status.localOnly} onStatus={setStatus} fetchMetadata={status.fetchMetadata} />)}
           </div>
           <p className="dsrc__footnote">
-            <Lock size={13} aria-hidden /> Keys are stored only in Windows Credential Manager (as “VYSTRAL/&lt;source&gt;”), never in Arnav Games’ database, logs or this page.
+            <Lock size={13} aria-hidden /> Keys are stored only in Windows Credential Manager (as “VYSTRAL/&lt;source&gt;”, under the app’s earlier name), never in Arnav Games’ database, logs or this page.
             IGDB’s access token stays in memory. See the privacy statement for exactly what each source receives.
           </p>
         </>

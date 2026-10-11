@@ -1,6 +1,8 @@
 # Changelog
 
-All notable changes to VYSTRAL. Versions follow [SemVer](https://semver.org). The section for each version is shown in the app's update viewer.
+All notable changes to Arnav Games. Versions follow [SemVer](https://semver.org). The section for each version is shown in the app's update viewer.
+
+> VYSTRAL was renamed Arnav Games in 1.0.0. The entries below for 0.9.0 and earlier keep the name they shipped with.
 
 ## [0.9.0] — 2026-10-11
 

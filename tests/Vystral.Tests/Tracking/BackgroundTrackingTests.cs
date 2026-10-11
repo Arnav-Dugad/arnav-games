@@ -62,7 +62,7 @@ public sealed class BackgroundTrackingTests : IDisposable
     }
 
     [Fact]
-    public async Task A_game_started_outside_VYSTRAL_is_detected_handed_over_continued_and_saved()
+    public async Task A_game_started_outside_the_app_is_detected_handed_over_continued_and_saved()
     {
         var app = Process(SessionSources.Detected);
         var start = DateTimeOffset.UtcNow.AddMinutes(-10);

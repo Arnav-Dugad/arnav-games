@@ -110,14 +110,10 @@ From `ui/`, after `npm ci`:
 2. `npm run brand:arnav`. This writes every SVG, PNG and ICO above, the splash, the hero and the review board.
 3. `node scripts/render-brand-concepts.mjs` and `node scripts/render-wordmark-study.mjs`. These only re-render the exploration sheets.
 
-## For the rename pass (not done yet)
+## In the app (the 1.0.0 rename)
 
-- **References to swap.** `build/pack.ps1` (`--icon`, `--splashImage`); `Vystral.App.csproj` `ApplicationIcon`; `MainWindow.cs` and `ShellIntegration.cs` (plus its test constant in `ShellRegistrationTests.cs`); `ui/index.html`'s favicon; and the `./vystral-mark.svg` uses in `TitleBar.tsx`, `Onboarding.tsx`, `Settings.tsx`, `Immersive.tsx` and `immersive/Guide.tsx`.
-- **README.** Its logo `<img>` can use `png/arnav-games-128.png` or the hero.
-- **Intro (`components/shell/Intro.tsx`).** The animation draws the VYSTRAL mark inline. Port the same choreography to Ascent:
-  - Lit blade: `M96 404L256 96L256 214L180 404Z`. It slides in from the lower left.
-  - Shaded blade: `M256 96L416 404L332 404L256 214Z`. It slides in from the lower right.
-  - The ring burst and the star ignite at (256, 330), not (256, 196).
-  - The wordmark resolves letter by letter in Geist with the weights and tracking above.
-  - The tagline can stay.
-- **Old assets.** Delete the `vystral-*` assets and `render-brand.mjs` / `render-splash.mjs` once nothing references them.
+- **Native.** `build/pack.ps1` uses `arnav-games.ico` and `arnav-games-installer-splash.png`; `Vystral.App.csproj`'s `ApplicationIcon` and `MainWindow.cs` use `src/Vystral.App/Assets/arnav-games.ico`; `ShellIntegration.cs` registers `arnav-games-256.png` for notifications.
+- **Interface.** The favicon is `arnav-games-favicon.svg`. The title bar and the Immersive header draw the bare mark inline (`components/brand/BrandMark`, which follows the theme); onboarding, Settings › About and the Immersive guide show the tile (`arnav-games-icon.svg`). The wordmark is set live by `components/brand/Wordmark` and on share cards by `drawWordmark` (`lib/brand.ts`).
+- **Motion.** The startup intro (`components/shell/Intro.tsx`) draws Ascent from the geometry above: the lit blade rises in from the lower left and the shaded one from the lower right, the full A fills in under them once they meet (so the seam never shows), the ring burst and the star ignite at (256, 330), and the wordmark resolves letter by letter. The mode-switch flare (`ModeTransition.tsx`) uses the Ascent star and lands it on the bar of the new layout's mark at the star's own size (`starInMark`). Check the intro frame by frame with `node scripts/intro-check.mjs` (see the file for `PORT`, `OUT` and `FRAMES`).
+- **Old assets.** The `vystral-*` files, `installer-splash.png`, `favicon.svg`, `render-brand.mjs` and `render-splash.mjs` are gone. The old mark is kept only as `concepts/00-vystral-legacy.svg`, the reference row of the concept sheet.
+- **README.** The header is `arnav-games-readme-hero.png`.

@@ -134,7 +134,7 @@ Status as of **v0.9.0 (2026-10-11)**. ✅ complete · 🟡 partial · ⛔ blocke
 | Playwright e2e + axe + visual regression (now comparing the real screen) | **80 passed, 0 failed**, three consecutive full runs |
 | Real app (dev build, owner's library) | What's new tour; store logos on cards; a Home live tile playing FC 26's micro-trailer through the media proxy; RDR2 page with Steam Deck "Playable" and live CheapShark deals; data-source and background-tracking settings; Network health correctly flagged GitHub's unreachable 185.199.109.133 |
 | Background helper (track build, scratch data) | idle 0.04–0.075% of one core, 19–25 MB private; a 150 s fake game recorded as a background session; hand-over to the app and back kept one session |
-| Not verified | A real game detected outside VYSTRAL on the owner's PC (no game was launched without the owner); silent rollback on a real failed update; keyed providers (SteamGridDB, IGDB, RAWG, ITAD) with real keys |
+| Not verified | A real game detected outside Arnav Games on the owner's PC (no game was launched without the owner); silent rollback on a real failed update; keyed providers (SteamGridDB, IGDB, RAWG, ITAD) with real keys |
 
 ## Verification record (v0.3.0)
 
