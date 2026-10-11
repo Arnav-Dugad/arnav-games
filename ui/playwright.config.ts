@@ -11,7 +11,7 @@ export default defineConfig({
   fullyParallel: true,
   retries: process.env.GITHUB_ACTIONS ? 2 : process.env.CI ? 1 : 0,
   // GitHub's 4-core Windows runners are overloaded with more than two browsers (CI shards the suite instead).
-  workers: process.env.GITHUB_ACTIONS ? 2 : undefined,
+  workers: process.env.GITHUB_ACTIONS ? 1 : undefined, // one browser per 4-core runner (CI shards the suite 8 ways)
   reporter: [['list'], ['html', { open: 'never' }]],
   use: {
     baseURL: 'http://localhost:5199',

@@ -41,15 +41,16 @@ jobs:
           dotnet build Vystral.slnx -c Release -p:Platform=x64
           dotnet test tests/Vystral.Tests -c Release
 
-  # The end-to-end suite (~300 tests against the preview backend) is split across four runners so each
-  # stays well inside its time limit; a 4-core runner is overloaded with more than two browsers at once.
+  # The end-to-end suite (~400 tests against the preview backend) is split across eight runners, one browser
+  # each: a 4-core runner without a GPU renders Immersive's effects in software, and two browsers at once
+  # overloaded it into timeouts.
   e2e:
     runs-on: windows-latest
     timeout-minutes: 45
     strategy:
       fail-fast: false
       matrix:
-        shard: [1, 2, 3, 4]
+        shard: [1, 2, 3, 4, 5, 6, 7, 8]
     steps:
       - uses: actions/checkout@v7
 
@@ -63,11 +64,11 @@ jobs:
         working-directory: ui
         run: npm ci --no-audit --no-fund
 
-      - name: End-to-end, accessibility and visual tests (preview data), shard ${{ matrix.shard }} of 4
+      - name: End-to-end, accessibility and visual tests (preview data), shard ${{ matrix.shard }} of 8
         working-directory: ui
         run: |
           npx playwright install --with-deps chromium
-          npx playwright test --shard=${{ matrix.shard }}/4
+          npx playwright test --shard=${{ matrix.shard }}/8
 
       - name: Upload Playwright report
         if: failure()

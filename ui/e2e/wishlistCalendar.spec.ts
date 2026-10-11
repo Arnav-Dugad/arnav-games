@@ -80,6 +80,8 @@ test.describe('wishlist release calendar', () => {
     await grid(page).getByRole('button', { name: /Lantern Shore/ }).focus();
     await page.keyboard.press('PageDown');
     await expect(page.getByRole('heading', { name: monthName(1), level: 2 })).toBeVisible();
+    // Focus follows into the entering month once it has mounted (a short handoff; slower on a busy runner).
+    await expect.poll(() => page.evaluate(() => document.activeElement?.closest('.wcal__grid') != null)).toBe(true);
     await page.keyboard.press('PageUp');
     await expect(page.getByRole('heading', { name: monthName(), level: 2 })).toBeVisible();
     await expect.poll(() => page.evaluate(() => document.activeElement?.closest('.wcal__grid') != null)).toBe(true);
