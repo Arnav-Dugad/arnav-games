@@ -108,6 +108,7 @@ public static class LagNotes
     /// </summary>
     public static string? AcceptAi(string raw, string facts)
     {
+        if (raw.Trim().Contains('\n')) return null; // one line only
         var t = AiText.Clean(raw, 400).Trim('"', '“', '”').Trim();
         if (t.Length < 12 || t.Length > MaxChars || t.Contains('\n')) return null;
         if (!AiText.OnlyKnownNumbers(t, facts)) return null;

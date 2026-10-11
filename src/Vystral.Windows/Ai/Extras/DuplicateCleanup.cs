@@ -40,7 +40,7 @@ public static class DuplicateCleanup
         return list.OrderBy(x => x.Rank).ThenBy(x => x.P.TargetTitle, StringComparer.OrdinalIgnoreCase).Select(x => x.P).ToList();
     }
 
-    private static string Key(string a, string b) => string.CompareOrdinal(a, b) < 0 ? $"{a[..8]}{b[..8]}" : $"{b[..8]}{a[..8]}";
+    private static string Key(string a, string b) => string.CompareOrdinal(a, b) < 0 ? $"{a}-{b}" : $"{b}-{a}";
 
     /// <summary>
     /// Which entry keeps its page: the one with more of your history (tracked time, then sessions), then the one with more
