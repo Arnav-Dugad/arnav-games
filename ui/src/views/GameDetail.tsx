@@ -30,6 +30,7 @@ import { AskAssistantButton } from '../components/assistant/AskButton'; // Track
 import { Badge, Button, EmptyState, Field, IconButton, PlatformBadge, Stars, Tabs } from '../components/ui/primitives';
 import { StoreLogo } from '../components/ui/StoreLogo';
 import { DriverChangeCard } from './perf/DataInsightCards';
+import { GamePerfInsights } from './perf/TrendsPanel'; // Track E3
 import { GameExtras, IdentityPanel } from '../components/game/GameDataPanels';
 import { IdentityMatchCard } from '../components/game/IdentityMatch';
 import { useIdentityStore } from '../state/identity';
@@ -513,6 +514,8 @@ function Sessions({ game }: { game: Game }) {
       <DriverChangeCard gameId={game.id} hideWhenEmpty />
       {/* Track Y: driver and display at each session start, with changes marked (nothing until recorded). */}
       <HardwareTimeline gameId={game.id} hideWhenEmpty />
+      {/* Track E3: frame-rate goal, thermal trend, battery against plugged in (nothing without data). */}
+      <GamePerfInsights game={game} sessions={sessions} />
       {sessions.map((s) => {
         let perf: PerfSummary | null = null;
         try { perf = s.perfSummary ? JSON.parse(s.perfSummary) : null; } catch { perf = null; }

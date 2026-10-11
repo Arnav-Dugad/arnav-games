@@ -35,7 +35,8 @@ function driverAt(ms: number, now: number): string {
   return age > 120 ? '566.36' : age > 26 ? '572.16' : '576.02';
 }
 
-function hardwareFor(s: Session, now: number): HardwareSession {
+/** Exported for Track E3 (the same driver and display per session). */
+export function hardwareFor(s: Session, now: number): HardwareSession {
   const start = Date.parse(s.start);
   const h = hash(s.id);
   const age = (now - start) / DAY;

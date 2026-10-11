@@ -45,6 +45,7 @@ import type { NewsFeed, ReplayData } from './types';
 import { decorateRigSession, previewCaptionInset, trackC2PreviewHandlers } from './preview.trackC2';
 import { trackD1PreviewHandlers } from './preview.trackD1';
 import { TRACK_D6_DEFAULT_SETTINGS, previewD6Settings, trackD6PreviewHandlers } from './preview.trackD6'; // Track D6
+import { TRACK_E3_DEFAULT_SETTINGS, decorateTrackE3Sessions, trackE3PreviewHandlers } from './preview.trackE3'; // Track E3
 import { RECOMMEND_DEFAULT_SETTINGS, previewRecommendSettings, recommendPreviewHandlers } from './preview.recommend'; // Track D5
 
 type Emit = (name: string, payload: unknown) => void;
@@ -109,6 +110,7 @@ const DEFAULT_SETTINGS: Settings = {
   ...TRACK_D6_DEFAULT_SETTINGS, // Track D6
   ...ASSISTANT_DEFAULT_SETTINGS, // Track D3
   ...RECOMMEND_DEFAULT_SETTINGS, // Track D5
+  ...TRACK_E3_DEFAULT_SETTINGS, // Track E3
 };
 
 const SAMPLE: [string, string[], PlatformKey[], string, string][] = [
@@ -275,6 +277,7 @@ export function createPreviewBackend() {
   decoratePreviewSessions(lib.sessions); // Track B: FPS and throttling on recent sessions
   decorateTrackingSessions(lib.sessions); // Track H: a background and a detected session
   decorateRigSession(lib.sessions); // Track C2: a ~58 fps, power-limited session (real-world shape)
+  if (!empty) decorateTrackE3Sessions(lib, params); // Track E3: ?perfTrends adds a laptop history for Redline Rivals
   const statusHistory: StatusHistoryEntry[] = buildStatusHistory(lib.games, 11);
   let settings: Settings = { ...DEFAULT_SETTINGS, 'onboarding.completed': !params.has('onboarding') };
   if (params.has('reduced')) settings['motion.reduce'] = 'on';
@@ -578,6 +581,8 @@ export function createPreviewBackend() {
     ...trackD6PreviewHandlers({ emit: () => emit, settings: () => settings, timers }),
     // Track D5: "Not interested", cloud readiness (?readiness=great|fair|poor); ?freebies also turns on the Home row.
     ...recommendPreviewHandlers({ lib, emit: () => emit, settings: () => settings }),
+    // Track E3: power per session, frame-rate goals (?perfTrends: Redline Rivals' history and a 60 fps goal; ?battery; ?perfNote).
+    ...trackE3PreviewHandlers({ lib, emit: () => emit, timers }),
   };
   const slowLibrary = Math.min(10_000, Number(params.get('slowLibrary') ?? 0) || 0);
 

@@ -15,8 +15,8 @@ export interface PerfEntry {
   summary: PerfSummary;
 }
 
-export type PerfTab = 'overview' | 'sessions' | 'compare' | 'system';
-export const PERF_TABS: readonly PerfTab[] = ['overview', 'sessions', 'compare', 'system'];
+export type PerfTab = 'overview' | 'sessions' | 'compare' | 'system' | 'trends';
+export const PERF_TABS: readonly PerfTab[] = ['overview', 'sessions', 'compare', 'system', 'trends']; // Track E3: Trends
 export const isPerfTab = (v: unknown): v is PerfTab => typeof v === 'string' && (PERF_TABS as readonly string[]).includes(v);
 
 export type HealthLevel = 'smooth' | 'uneven' | 'rough' | 'unmeasured';

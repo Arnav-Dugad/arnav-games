@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { call, errorMessage, isNative, on } from '../bridge/bridge';
 import { rarity, unlockToastText } from '../lib/achievements';
+import { perfInsightToast } from '../lib/perfInsights'; // Track E3
 import { readFirstPaint, type FirstPaint } from '../lib/firstPaint';
 import { startOwnershipNotices } from './ownership';
 import type {
@@ -437,6 +438,11 @@ function subscribeEvents(set: (p: Partial<State>) => void, get: () => State) {
     if (!route || !known.includes(route.name) || (route.name === 'game' && !route.id)) return;
     if (get().window.mode === 'immersive' && route.name !== 'game') void get().setMode('desktop');
     get().navigate(route as Route);
+  });
+  // Track E3: a thermal trend or driver note the backend announced once, as the session that caused it ended.
+  on('perf.insight', (e) => {
+    const t = perfInsightToast(e);
+    if (t) get().toast({ ...t, action: { label: 'View session', run: () => get().navigate({ name: 'performance', sessionId: e.sessionId }) } });
   });
   // Track F: achievements unlocked during the session that just ended (checked with Steam afterwards).
   on('achievements.unlocked', (e) => {
