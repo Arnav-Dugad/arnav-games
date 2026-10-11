@@ -166,6 +166,7 @@ const CATEGORIES: { key: SettingKey; label: string; hint: string }[] = [
   { key: 'notifications.updates', label: 'VYSTRAL update ready', hint: 'When a new version has downloaded and is ready to install.' },
   { key: 'notifications.diskSpace', label: 'Not enough space for an update', hint: 'When a pending Steam update won’t fit on its drive, or would leave it nearly full. Read from Steam’s files on this PC.' },
   { key: 'notifications.wishlist', label: 'Wishlist news', hint: 'When a game on your Steam wishlist comes out, or drops to its lowest price ever. Needs the wishlist turned on.' },
+  { key: 'notifications.perfInsights', label: 'Performance notes', hint: 'Once, when it happens: a game’s GPU running clearly hotter than it used to, or how a game ran on its first session after a graphics driver update.' }, // Track E3
 ];
 
 function NotificationSettings() {

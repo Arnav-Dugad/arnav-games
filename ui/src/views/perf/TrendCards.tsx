@@ -18,10 +18,9 @@ import { useReducedMotion, useStore } from '../../state/store';
 import { GameThumb } from './kit';
 import { gameTitle, shortDate } from './text';
 import { niceTicks } from './series';
-import { FRAME_TIME_EDGES_MS } from './insight';
 import { TrendChart, type ChartPoint } from './TrendChart';
 import {
-  BATTERY_MIN_SIDE, COOLING_TIPS, GOAL_MAX, GOAL_MIN, GOAL_PRESETS, POWER_MODE_LABEL, THERMAL, batteryComparisons, driverNoteText, driverNotes,
+  BATTERY_MIN_SIDE, COOLING_TIPS, bucketOf, GOAL_MAX, GOAL_MIN, GOAL_PRESETS, POWER_MODE_LABEL, THERMAL, batteryComparisons, driverNoteText, driverNotes,
   driverWithinNoise, formatShare, goalLabel, goalSeries, goalTrend, relChange, sessionGoal, signed, thermalTrend, thermalTrends,
   type BatteryComparison, type DriverNote, type Extras, type GoalPoint, type ThermalTrend, type TrendEntry,
 } from './trends';
@@ -31,17 +30,6 @@ import './trends.css';
 const fmtDateTime = (ms: number) => new Intl.DateTimeFormat(undefined, { dateStyle: 'medium', timeStyle: 'short' }).format(ms);
 const fmtDate = (ms: number) => new Intl.DateTimeFormat(undefined, { dateStyle: 'medium' }).format(ms);
 const round = (v: number | null | undefined) => (v == null ? '—' : String(Math.round(v)));
-
-/** The frame-time bucket a budget falls in, as "14–17 ms" (for the estimate note). */
-export function bucketOf(budgetMs: number): string | null {
-  for (let i = 0; i < FRAME_TIME_EDGES_MS.length; i++) {
-    const lo = i === 0 ? 0 : FRAME_TIME_EDGES_MS[i - 1];
-    const hi = FRAME_TIME_EDGES_MS[i];
-    if (Math.abs(hi - budgetMs) < 1e-9 || Math.abs(lo - budgetMs) < 1e-9) return null;
-    if (budgetMs > lo && budgetMs < hi) return `${lo}–${hi} ms`;
-  }
-  return null;
-}
 
 /* ================================================================== thermal */
 
@@ -307,7 +295,7 @@ export function GoalCard({ gameId, game, entries, extras, goal, onOpen, showGame
     tip: (
       <span className="e3-tip__body">
         <span className="e3-tip__when">{fmtDateTime(p.startMs)}</span>
-        <span><strong className="num">{formatShare(p.share, p.exact)}</strong> of frames at {p.targetFps} fps or better</span>
+        <span><strong>{formatShare(p.share, p.exact)}</strong> of frames at {p.targetFps} fps or better</span>
         <span className="e3-tip__sub">Within {(1000 / p.targetFps).toFixed(1)} ms per frame{p.exact ? '' : ' · estimated'}</span>
       </span>
     ),
@@ -320,7 +308,7 @@ export function GoalCard({ gameId, game, entries, extras, goal, onOpen, showGame
         title={
           <span id={titleId} className="e3-goal-title">
             <Target size={16} aria-hidden className="e3-title-icon" />
-            {showGame ? <>Frame-rate goal · <span className="truncate">{gameTitle(game)}</span></> : 'Frame-rate goal'}
+            {showGame ? <><span>Frame-rate goal ·&nbsp;</span><span className="truncate">{gameTitle(game)}</span></> : <span>Frame-rate goal</span>}
           </span>
         }
         meta="How often each session kept up"
@@ -402,7 +390,7 @@ export function GoalCard({ gameId, game, entries, extras, goal, onOpen, showGame
                     <tr key={p.id}>
                       <th scope="row">{onOpen ? <button type="button" className="e3-link" onClick={() => onOpen(p.id)}>{fmtDateTime(p.startMs)}</button> : fmtDateTime(p.startMs)}</th>
                       <td className="num">{p.targetFps} fps</td>
-                      <td className="num">{formatShare(p.share, p.exact)}</td>
+                      <td>{formatShare(p.share, p.exact)}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -490,7 +478,7 @@ export function GoalsOverview({ entries, extras, goals, gamesById, onPickGame }:
               <GameThumb game={gamesById.get(r.gameId)} size={26} />
               <span className="e3-row__title truncate">{gameTitle(gamesById.get(r.gameId))}</span>
               <Badge>{goalLabel(r.goal)}</Badge>
-              <span className="e3-row__figure num">{r.latest ? `${formatShare(r.latest.share, r.latest.exact)} latest` : 'Not measured yet'}</span>
+              <span className="e3-row__figure">{r.latest ? `${formatShare(r.latest.share, r.latest.exact)} latest` : 'Not measured yet'}</span>
               <Button size="sm" variant="ghost" icon={<ArrowRight size={14} />} onClick={() => onPickGame(r.gameId)} aria-label={`Open the ${gameTitle(gamesById.get(r.gameId))} goal`}>Open</Button>
             </li>
           ))}
@@ -529,7 +517,7 @@ export function BatteryCard({ entries, extras, gamesById, gameId, hideWhenEmpty 
     <section className="surface vx-card e3-card" aria-labelledby={titleId}>
       <SectionHead
         title={<span id={titleId}><BatteryMedium size={16} aria-hidden className="e3-title-icon" />On battery and plugged in</span>}
-        meta="Medians per game · sessions mostly on one or the other"
+        meta="Medians per game"
       />
       {list.length ? (
         <div className="e3-battery-list">
@@ -569,13 +557,13 @@ function BatteryView({ c, game, showGame }: { c: BatteryComparison; game: Game |
         <div className="e3-battery__head">
           <GameThumb game={game} size={30} />
           <span className="e3-row__title truncate">{title}</span>
-          <span className="e3-muted num">{plural(c.ac.sessions, 'session')} plugged in · {c.battery.sessions} on battery</span>
+          <span className="e3-muted">{plural(c.ac.sessions, 'session')} plugged in · {c.battery.sessions} on battery</span>
         </div>
       )}
       {c.enough ? (
         <>
           <p className="e3-headline">
-            On battery, {title} runs at <strong className="num">{round(c.battery.fpsAvg)} fps</strong> against <strong className="num">{round(c.ac.fpsAvg)} fps</strong> plugged in
+            On battery, {title} runs at <strong>{round(c.battery.fpsAvg)} fps</strong> against <strong>{round(c.ac.fpsAvg)} fps</strong> plugged in
             {fpsDrop != null && Math.abs(fpsDrop) >= 3 ? <> ({fpsDrop < 0 ? `${Math.round(-fpsDrop)}% slower` : `${Math.round(fpsDrop)}% faster`})</> : null}.
           </p>
           <ul className="pf-legend e3-legend" aria-label="Power source">
@@ -675,7 +663,7 @@ function DriverNoteItem({ n, game, onOpen }: { n: DriverNote; game: Game | undef
           Driver <span className="num">{n.driver}</span>: {driverNoteText(n, title)}
         </span>
         <span className="e3-muted">
-          {fmtDate(n.atMs)} · first session on {n.driver}, against {n.beforeSessions === 1 ? 'the last session' : `the median of the last ${n.beforeSessions}`} on <span className="num">{n.previousDriver}</span>
+          {fmtDate(n.atMs)} · first session on {n.driver}, against {n.beforeSessions === 1 ? 'the last session' : `the median of the last ${n.beforeSessions}`} on {n.previousDriver}
           {noise ? ' · within normal variation' : n.beforeSessions < 3 ? ' · small sample' : ''}
         </span>
       </div>
@@ -708,7 +696,7 @@ export function SessionInsightStrip({ entry, entries, extras, goal, onShowTrends
       {g && (
         <span className="e3-chip" data-tone={g.share >= 0.9 ? 'ok' : g.share < 0.6 ? 'warn' : undefined}>
           <Target size={13} aria-hidden />
-          Met {g.targetFps} fps for <strong className="num">{formatShare(g.share, g.exact)}</strong> of frames
+          Met {g.targetFps} fps for <strong>{formatShare(g.share, g.exact)}</strong> of frames
         </span>
       )}
       {note && (

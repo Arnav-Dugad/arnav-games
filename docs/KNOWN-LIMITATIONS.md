@@ -222,3 +222,13 @@
 - The cloud readiness check measures TCP connection time to each service's public website, not to the streaming data centre, and the adapter's link speed to the router, not internet bandwidth (it says so). Windows doesn't report the Wi-Fi band through the API used, so the 2.4 GHz tip only appears when the band is known (never, today, in the real app).
 - The GeForce NOW hours forecast extrapolates this cycle's pace from sessions VYSTRAL saw; rollover hours and other devices aren't counted.
 - The cover flight between cards and pages skips itself when the next page takes more than 1.4 s to draw (a very busy PC); the page then simply appears.
+
+## Performance insights (Track E3)
+
+- **Thermal trends can't see the room.** VYSTRAL doesn't know the ambient temperature, so a heatwave raises the "last 30 days" median just like dust in the vents does. The card says so. GPU temperature is only recorded with an NVIDIA driver (NVML), so other GPUs have no thermal trend.
+- "Like with like" means the same game, sessions of ten minutes or more, plugged in (or unknown), and GPU load within 12 points of the game's median. Resolution, in-game settings and game updates aren't recorded, so they can still move the numbers.
+- **Goal shares are shares of frames, not of time**, counted from the stored frame-time histogram (buckets 4/6/8/10/12/14/17/20/25/33/50/100 ms). Common targets (30, 60, 120, 144 fps) fall inside a bucket, so their shares are estimated by assuming frames are spread evenly in that bucket, and labelled "about". Targets on a bucket edge (50 fps = 20 ms, 100 fps = 10 ms, 125 fps = 8 ms) are exact. Sessions recorded before histograms existed can't be measured. *Display* uses the refresh rate recorded at each session's start (Track Y); sessions without one are skipped.
+- **Driver notes compare one session with up to five before it.** One session can be noise; differences under 3% are labelled "within normal variation". Sessions on battery are left out of driver notes and thermal trends.
+- Notes are announced (toast and optional Windows notification) only when a session ends in the app, or while the app is open. Sessions recorded by the background tracker while VYSTRAL was closed show their notes on the Performance page but don't announce them.
+- Battery against plugged in needs three sessions with frame-rate data on each side; sessions that were mixed (less than 90% on one source) are left out. Power data exists only for sessions recorded from this version on. The card appears only on PCs that report a battery (or that recorded battery time before).
+- The effective power mode needs Windows 10 1809 or later; elsewhere only the power source and battery saver are recorded.

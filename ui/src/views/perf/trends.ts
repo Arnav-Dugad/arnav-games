@@ -235,6 +235,17 @@ export function goalLabel(goal: PerfGoal | null | undefined): string {
   return goal.display ? 'Display refresh rate' : `${goal.targetFps} fps`;
 }
 
+/** The frame-time bucket a budget falls in, as "14–17 ms" (for the estimate note). */
+export function bucketOf(budgetMs: number): string | null {
+  for (let i = 0; i < FRAME_TIME_EDGES_MS.length; i++) {
+    const lo = i === 0 ? 0 : FRAME_TIME_EDGES_MS[i - 1];
+    const hi = FRAME_TIME_EDGES_MS[i];
+    if (Math.abs(hi - budgetMs) < 1e-9 || Math.abs(lo - budgetMs) < 1e-9) return null;
+    if (budgetMs > lo && budgetMs < hi) return `${lo}–${hi} ms`;
+  }
+  return null;
+}
+
 export interface BudgetShare {
   /** Share of frames that took no longer than the budget, 0–1. */
   share: number;
