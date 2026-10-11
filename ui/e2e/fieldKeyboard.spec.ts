@@ -212,6 +212,7 @@ test.describe('desktop on-screen keyboard', () => {
     await expect(name).toBeFocused();
     await pad(page, 'A');
     const kb = keyboard(page);
+    await expect(kb).toBeVisible(); // let it open before moving, or Right lands on the dialog's own links
     await pad(page, 'Right'); // w
     await pad(page, 'A');
     const chip = kb.getByRole('group', { name: 'Suggestions' }).getByRole('button', { name: 'weekend' });

@@ -357,6 +357,9 @@ test.describe('cover flight between cards and pages', () => {
     await nav(page, /Library/);
     const card = page.locator('.vgrid [data-game-id] .card__frame').first();
     await expect(card).toBeVisible();
+    // Measure the card as the click will see it: hovering lifts it slightly.
+    await card.hover();
+    await page.waitForTimeout(350);
     const from = (await card.boundingBox())!;
     const id = await page.locator('.vgrid [data-game-id]').first().getAttribute('data-game-id');
     const forward = watchFlight(page, `.dhero__cover[data-game-id="${id}"]`);
