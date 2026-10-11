@@ -222,3 +222,11 @@
 - The cloud readiness check measures TCP connection time to each service's public website, not to the streaming data centre, and the adapter's link speed to the router, not internet bandwidth (it says so). Windows doesn't report the Wi-Fi band through the API used, so the 2.4 GHz tip only appears when the band is known (never, today, in the real app).
 - The GeForce NOW hours forecast extrapolates this cycle's pace from sessions VYSTRAL saw; rollover hours and other devices aren't counted.
 - The cover flight between cards and pages skips itself when the next page takes more than 1.4 s to draw (a very busy PC); the page then simply appears.
+
+## Similar games, collection covers, the 100% ceremony and the start page (Track E2a, 1.0)
+
+- "Similar in your library" weighs Steam community tags by how common they are in *your* library, so with only a handful of Steam games (or none) the weighting leans on a fixed list of generic tags and on store genres instead. Games from other stores have no community tags and are compared by genre. IGDB's "similar games" (cached facts, with your key) can still add a pick that shares little else; it says so.
+- A smart collection's cover is made from the games its rule matches right now, so it changes as they do. Covers use artwork VYSTRAL already has; a game without art gets a coloured tile with its initials.
+- The Completed 100% moment plays once per game. Which games have had it is remembered in the interface's own storage on this PC (not in your library database), so it isn't part of a backup, and clearing the app's web data would let it play once more. Marking several games at once from the Library's bulk bar doesn't play it.
+- The ceremony's time span starts at the first session VYSTRAL recorded. Time played before VYSTRAL (a store's playtime) counts towards the hours, but its start date isn't known, so the span then says how long the game has been in your library instead.
+- "Open on start" is remembered for the first frame in the interface's own storage; if that is cleared, the first start afterwards shows the last page (or Home) for a moment before switching to the chosen page. Immersive Mode is switched on by the host before the interface loads, as before.

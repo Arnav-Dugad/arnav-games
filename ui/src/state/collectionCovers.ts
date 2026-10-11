@@ -16,20 +16,20 @@ import { useStore } from './store';
  */
 export function useCollectionMembers(collection: CollectionInfo | undefined): Game[] {
   const games = useStore((s) => s.library.games);
-  const rule = collection?.rule ?? null;
-  const id = collection?.id ?? null;
   const ttb = useTimeToBeatMap();
   const subs = useSubsMap();
+  // Keyed on the collection object too: every library snapshot brings a new one, so membership changes always show
+  // (even when the games array itself is reused).
   return useMemo(() => {
-    if (!id) return [];
-    if (rule) {
-      const f = parseSmartFilter(rule);
+    if (!collection) return [];
+    if (collection.rule) {
+      const f = parseSmartFilter(collection.rule);
       if (!f) return [];
       const ctx = { ttb: ttb?.games ?? null, subs: subs as Record<string, unknown[]> | null };
       return games.filter((g) => !g.hidden && matchesSmartFilter(g, f, ctx));
     }
-    return games.filter((g) => !g.hidden && g.collections.includes(id));
-  }, [id, rule, games, ttb, subs]);
+    return games.filter((g) => !g.hidden && g.collections.includes(collection.id));
+  }, [collection, games, ttb, subs]);
 }
 
 /** The pinned covers (collection id → game id), from the `library.collectionCovers` setting. */
