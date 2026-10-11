@@ -81,11 +81,11 @@ export function VoiceInput({ inputRef, draft, setDraft, disabled }: {
     }
   }), [inputRef, setDraft]);
 
-  const start = useCallback(async () => {
+  const start = useCallback(async (openHelp = false) => {
     if (phaseRef.current !== 'idle' || disabled) return;
     const st = useExtras.getState().voice;
     if (!st?.available) {
-      setHelpOpen(true);
+      if (openHelp) setHelpOpen(true); // a click toggles the explanation itself
       return;
     }
     const id = newSession();
@@ -140,7 +140,7 @@ export function VoiceInput({ inputRef, draft, setDraft, disabled }: {
     const down = (e: KeyboardEvent) => {
       if (isPushToTalk(e)) {
         e.preventDefault();
-        if (!e.repeat) void start();
+        if (!e.repeat) void start(true);
       } else if (e.key === 'Escape' && session.current) {
         e.preventDefault();
         e.stopPropagation();
@@ -193,9 +193,9 @@ export function VoiceInput({ inputRef, draft, setDraft, disabled }: {
         onPointerUp={() => void stop()}
         onPointerCancel={() => void cancel()}
         onLostPointerCapture={() => { if (session.current) void stop(); }}
-        onKeyDown={(e) => { if ((e.key === ' ' || e.key === 'Enter') && !e.repeat) { e.preventDefault(); void start(); } else if (e.key === 'Escape') void cancel(); }}
+        onKeyDown={(e) => { if ((e.key === ' ' || e.key === 'Enter') && !e.repeat) { e.preventDefault(); void start(true); } else if (e.key === 'Escape') void cancel(); }}
         onKeyUp={(e) => { if (e.key === ' ' || e.key === 'Enter') void stop(); }}
-        onClick={(e) => { if (unavailable) { e.preventDefault(); setHelpOpen((o) => !o); } }}
+        onClick={(e) => { if (unavailable && e.detail > 0) { e.preventDefault(); setHelpOpen((o) => !o); } }} // keyboard opens it on keydown
       >
         {unavailable || running ? <MicOff size={16} aria-hidden /> : <Mic size={16} aria-hidden />}
         {live && !reduce && <span className="asx-mic__halo" aria-hidden />}

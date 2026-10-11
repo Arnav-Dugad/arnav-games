@@ -82,7 +82,7 @@ export function LagNote({ sessionId, summary, durationSeconds, compact }: {
     <Tag className="lag-note" data-compact={compact || undefined} data-cause={note.cause ?? undefined} title={compact ? `${note.text} ${by}. Nothing was changed.` : undefined}>
       <span className="lag-note__icon" aria-hidden><Icon size={compact ? 12 : 14} /></span>
       <span className="lag-note__body">
-        <span className="lag-note__label">Why it lagged{compact ? ':' : ''}</span>{' '}
+        <span className="lag-note__label">Why it lagged:</span>{' '}
         <span className="lag-note__text">{note.text}</span>
         {!compact && <span className="lag-note__by"> {by}. Nothing was changed.</span>}
         {compact && <span className="visually-hidden"> {by}. Nothing was changed.</span>}
