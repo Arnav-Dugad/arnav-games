@@ -1,6 +1,7 @@
 import type { CSSProperties } from 'react';
 import { moneyLabel, type MoneyOptions } from '../../lib/money';
 import { useMoney } from '../../state/money';
+import { NumberShift } from './NumberShift';
 import './price.css';
 
 /**
@@ -30,12 +31,11 @@ export function Price({ amount, currency, minor, digits, className = '', style, 
       title={v.note ?? undefined}
       style={style}
     >
-      {plain ? v.text : (
-        <>
-          <span aria-hidden>{v.approx ? <><span className="price__approx">≈</span>{v.text.replace(/^≈\s*/, '')}</> : v.text}</span>
-          <span className="visually-hidden">{spoken}</span>
-        </>
-      )}
+      {/* Track E2b: the same element tree for exact and converted prices, so a currency switch or a new price
+          animates from the old value (NumberShift) instead of remounting. */}
+      {v.approx && <span className="price__approx" aria-hidden>≈</span>}
+      <span aria-hidden={!plain || undefined}><NumberShift text={v.approx ? v.text.replace(/^≈\s*/, '') : v.text} speak={plain} /></span>
+      {!plain && <span className="visually-hidden">{spoken}</span>}
     </Tag>
   );
 }

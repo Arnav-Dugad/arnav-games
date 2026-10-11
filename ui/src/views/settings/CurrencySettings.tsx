@@ -5,6 +5,7 @@ import { formatRelative } from '../../lib/format';
 import { displayCurrency, useMoney, useMoneyStore } from '../../state/money';
 import { useStore } from '../../state/store';
 import { Button } from '../../components/ui/primitives';
+import { NumberShift } from '../../components/ui/NumberShift'; // Track E2b
 import './currency-settings.css';
 
 /** The sample conversions shown under the picker: a typical game price in a few common currencies. */
@@ -92,7 +93,7 @@ export function CurrencySettings() {
               <div key={c} className="cur-sample">
                 <span className="num">{money(amount, c, { ctx: { ...m.ctx, target: c } }).text}</span>
                 <ArrowRight size={13} aria-hidden />
-                <span className="num cur-sample__to" data-approx={v.approx || undefined}>{v.approx ? v.text : `${v.text} (no rate yet)`}</span>
+                <span className="num cur-sample__to" data-approx={v.approx || undefined}><NumberShift text={v.approx ? v.text : `${v.text} (no rate yet)`} /></span>
               </div>
             );
           })}
