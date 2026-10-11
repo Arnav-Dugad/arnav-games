@@ -7,6 +7,7 @@
  * - `?reviews` shows Steam review snapshots on Steam games (both pages); `?reviews=down` makes recent reviews drop,
  *   `?reviews=few` has too few recent reviews for a trend, `?reviews=offline` shows saved ones in Offline mode.
  * - `?tags` shows community tags on game pages and fills the Library's tag filter; `?tags=loading` is still filling.
+ *   Track E2a: `?tags=clean` gives each game only the tags its genres imply (no random extras), for a predictable "Similar" strip.
  * - `?franchise` shows series timelines (Starfall Tactics, Ashen Crown, Nebula Drift and their Discover pages);
  *   `?franchise=noKey` acts as if IGDB isn't connected, `?franchise=none` as if the game has no series.
  * Store facts (price, Metacritic, release) and achievement progress need no switch: they follow the settings.
@@ -185,7 +186,8 @@ export function gamePagePreviewHandlers(ctx: Ctx) {
 
   const tagsFor = (appId: string, genres: string[]): CommunityTag[] => {
     const r = seeded(hash(`${appId}tags`));
-    const ids = [...new Set([...genres.flatMap((g) => GENRE_TAGS[g] ?? []), 4182, ...TAGS.map(([id]) => id).filter(() => r() > 0.86)])].slice(0, 14);
+    const extras = tagsMode === 'clean' ? [] : TAGS.map(([id]) => id).filter(() => r() > 0.86); // Track E2a: ?tags=clean
+    const ids = [...new Set([...genres.flatMap((g) => GENRE_TAGS[g] ?? []), 4182, ...extras])].slice(0, 14);
     return ids.map((id, i) => ({ id, name: TAG_NAME.get(id)!, weight: Math.round(620 - i * (18 + r() * 25)) })).sort((a, b) => b.weight - a.weight);
   };
 

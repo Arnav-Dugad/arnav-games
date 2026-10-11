@@ -1,0 +1,245 @@
+/* Track E2a: collection covers — the games' art as a collage over a blurred wash in the collection's colour. */
+
+.ccover {
+  --gap: 3px;
+  --r: var(--r-md);
+  position: relative;
+  display: inline-block;
+  flex: none;
+  overflow: hidden;
+  isolation: isolate;
+  border-radius: var(--r);
+  background:
+    radial-gradient(120% 90% at 18% 8%, oklch(from var(--cc-a) l c h / 0.85), transparent 62%),
+    linear-gradient(160deg, var(--cc-a), var(--cc-b));
+  box-shadow: inset 0 0 0 1px oklch(1 0 0 / 0.1);
+  vertical-align: middle;
+}
+
+.ccover--sm { --gap: 1px; --r: 6px; width: 20px; height: 20px; }
+.ccover--row { --gap: 2px; --r: var(--r-sm); width: 1.9em; height: 1.9em; }
+.ccover--md { --gap: 3px; --r: var(--r-md); width: 100%; aspect-ratio: 1; }
+.ccover--lg { --gap: 4px; --r: var(--r-lg); width: 128px; height: 128px; box-shadow: inset 0 0 0 1px oklch(1 0 0 / 0.12), var(--shadow-2); }
+
+/* The blurred wash: the lead game's art, soft and saturated, behind a mosaic or a 1+2. */
+.ccover__wash {
+  position: absolute;
+  inset: -18%;
+  width: 136%;
+  height: 136%;
+  object-fit: cover;
+  filter: blur(16px) saturate(1.35);
+  opacity: 0.6;
+  z-index: 0;
+}
+
+.ccover__grid {
+  position: absolute;
+  inset: calc(var(--gap) / 2);
+  z-index: 1;
+}
+
+.ccover__tile {
+  position: absolute;
+  box-sizing: border-box;
+  padding: calc(var(--gap) / 2);
+}
+
+.ccover__face {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: max(2px, calc(var(--r) - var(--gap) * 1.5));
+  background: oklch(0.3 0.05 var(--tile-hue));
+  box-shadow: 0 2px 8px -2px oklch(0 0 0 / 0.45), inset 0 0 0 1px oklch(1 0 0 / 0.08);
+}
+
+.ccover--md .ccover__face,
+.ccover--lg .ccover__face {
+  animation: ccover-in var(--dur-slow) var(--ease-out) both;
+  animation-delay: calc(var(--i) * 45ms);
+}
+
+.ccover__face img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.ccover__gen {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  background:
+    radial-gradient(circle at 75% 20%, oklch(0.75 0.14 calc(var(--tile-hue) + 40) / 0.45), transparent 55%),
+    linear-gradient(155deg, oklch(0.56 0.14 var(--tile-hue)), oklch(0.24 0.08 calc(var(--tile-hue) + 40)));
+}
+
+.ccover__initials {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(8px, 30cqi, 26px);
+  line-height: 1;
+  letter-spacing: 0.02em;
+  color: oklch(1 0 0 / 0.86);
+  text-shadow: 0 1px 6px oklch(0 0 0 / 0.4);
+}
+
+/* Initials are sized to their own tile. */
+.ccover--md .ccover__face, .ccover--lg .ccover__face { container-type: inline-size; }
+
+/* The collection's colour pooled at the bottom, and a soft light from the top left. */
+.ccover__tint {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background: linear-gradient(to top, oklch(from var(--cc-b) l c h / 0.42), transparent 48%);
+}
+
+.ccover__sheen {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  border-radius: inherit;
+  background: linear-gradient(135deg, oklch(1 0 0 / 0.18), transparent 36%);
+  box-shadow: inset 0 0 0 1px oklch(1 0 0 / 0.1);
+}
+
+.ccover[data-kind='single'] .ccover__tint { background: linear-gradient(to top, oklch(from var(--cc-b) l c h / 0.3), transparent 40%); }
+
+.ccover__empty {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  z-index: 1;
+  color: oklch(1 0 0 / 0.85);
+  filter: drop-shadow(0 1px 3px oklch(0 0 0 / 0.35));
+}
+
+.ccover__more {
+  position: absolute;
+  right: 8px;
+  bottom: 8px;
+  z-index: 4;
+  padding: 2px 8px;
+  border-radius: var(--r-pill);
+  font-size: var(--fs-2xs);
+  font-weight: var(--fw-semibold);
+  color: var(--text-1);
+  background: oklch(0.12 0.01 282 / 0.72);
+  backdrop-filter: blur(8px);
+  box-shadow: inset 0 0 0 1px oklch(1 0 0 / 0.12);
+}
+
+.ccover__smart {
+  position: absolute;
+  right: 1px;
+  bottom: 1px;
+  z-index: 4;
+  padding: 1px;
+  border-radius: 4px;
+  color: var(--text-1);
+  background: oklch(0.14 0.01 282 / 0.8);
+}
+
+@keyframes ccover-in {
+  from { opacity: 0; transform: scale(0.94); }
+  to { opacity: 1; transform: none; }
+}
+
+/* Sidebar: the cover replaces the folder icon at the same size. */
+.nav-item .ccover--sm { margin: -1px 0; }
+
+/* Library: a collection's header leads with its cover. */
+.lib-head__cover {
+  position: relative;
+  display: grid;
+  border: 0;
+  padding: 0;
+  background: none;
+  border-radius: var(--r-lg);
+  cursor: pointer;
+  transition: transform var(--dur-base) var(--ease-out);
+}
+.lib-head__cover:hover { transform: translateY(-2px) rotate(-1deg); }
+.lib-head__cover:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.lib-head__cover-hint {
+  position: absolute;
+  inset: auto 6px 6px;
+  z-index: 5;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 3px 6px;
+  border-radius: var(--r-pill);
+  font-size: var(--fs-2xs);
+  font-weight: var(--fw-medium);
+  color: var(--text-1);
+  background: oklch(0.12 0.01 282 / 0.78);
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity var(--dur-fast) var(--ease-out), transform var(--dur-fast) var(--ease-out);
+}
+.lib-head__cover:hover .lib-head__cover-hint,
+.lib-head__cover:focus-visible .lib-head__cover-hint { opacity: 1; transform: none; }
+.lib-head__lead { display: flex; align-items: center; gap: var(--s-5); min-width: 0; }
+
+/* Immersive: a collection row's title carries a small cover. */
+.imm__row-title .ccover--row { margin-right: 0.45em; vertical-align: -0.45em; }
+
+/* The cover picker. */
+.ccpick__lede { margin: 0 0 var(--s-4); color: var(--text-2); }
+.ccpick {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(112px, 1fr));
+  gap: var(--s-3);
+  max-height: min(56vh, 520px);
+  overflow-y: auto;
+  padding: 4px;
+  margin: -4px;
+}
+.ccpick__option {
+  position: relative;
+  display: grid;
+  gap: 6px;
+  padding: 6px;
+  border: 0;
+  border-radius: var(--r-md);
+  background: var(--bg-2);
+  color: var(--text-1);
+  text-align: left;
+  cursor: pointer;
+  box-shadow: inset 0 0 0 1px var(--line);
+  transition: background var(--dur-fast) var(--ease-out), box-shadow var(--dur-fast) var(--ease-out), transform var(--dur-fast) var(--ease-out);
+}
+.ccpick__option:hover { background: var(--bg-3); transform: translateY(-1px); }
+.ccpick__option:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.ccpick__option[aria-checked='true'] { box-shadow: inset 0 0 0 2px var(--accent); }
+.ccpick__option:disabled { cursor: progress; }
+.ccpick__art { display: block; }
+.ccpick__name { display: flex; align-items: center; gap: 4px; font-size: var(--fs-xs); font-weight: var(--fw-medium); min-width: 0; }
+.ccpick__check {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 6;
+  padding: 2px;
+  border-radius: var(--r-pill);
+  color: var(--text-on-accent);
+  background: var(--accent);
+}
+.ccpick__empty, .ccpick__more { display: flex; align-items: center; gap: 6px; margin: var(--s-3) 0 0; color: var(--text-3); font-size: var(--fs-sm); }
+
+:root[data-quality='low'] .ccover__wash { display: none; }
+:root[data-quality='low'] .ccover__more { backdrop-filter: none; }
+:root[data-theme='contrast'] .ccover { box-shadow: inset 0 0 0 2px var(--text-1); }
+:root[data-theme='contrast'] .ccover__wash,
+:root[data-theme='contrast'] .ccover__tint,
+:root[data-theme='contrast'] .ccover__sheen { display: none; }
+:root[data-theme='contrast'] .ccpick__option[aria-checked='true'] { box-shadow: inset 0 0 0 3px var(--accent); }

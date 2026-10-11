@@ -171,5 +171,10 @@ export const sound = {
   back: () => play([740, 520], 0.06, 0.06),
   /** Track D1: a soft, rising three-note chime for a personal-record badge earned for the first time. */
   chime: () => play([1318.5, 1975.5, 2637], 0.42, 0.045),
+  /** Track E2a: a soft fanfare for Completed 100% — a rising major arpeggio, then a quiet bright chord on top. */
+  fanfare: () => {
+    play([523.25, 659.25, 783.99], 0.5, 0.05);
+    window.setTimeout(() => play([1046.5, 1318.5], 1.1, 0.032, 'triangle'), 640);
+  },
   launch: () => play([392, 523, 784], 0.16, 0.08),
 };

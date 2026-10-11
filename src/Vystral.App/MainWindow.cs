@@ -100,7 +100,8 @@ public sealed partial class MainWindow : Window, IHostShell, IEventSink
         startup.Host.Attach(this);
         _backend.AppearanceHost = _appearance;
         ApplyStartupTheme(_backend.Settings.GetString("appearance.theme"));
-        if (_backend.Settings.GetBool("startup.immersive") && !safeMode) SetMode("immersive");
+        // Track E2a: "Open on start" can ask for Immersive Mode too (the page keeps both settings in step).
+        if (AppBackend.StartsInImmersive(_backend.Settings.GetBool("startup.immersive"), _backend.Settings.GetString(AppBackend.StartPageSetting)) && !safeMode) SetMode("immersive");
 
         _backend.Sessions.StateChanged += s => DispatcherQueue.TryEnqueue(() => OnLaunchState(s));
         _backend.Sessions.Sampled += s => DispatcherQueue.TryEnqueue(() => _pulse?.Update(s));

@@ -131,6 +131,7 @@ public sealed partial class AppBackend : IDisposable
         RegisterTrackE4Handlers();        // AppBackend.TrackE4.cs: Xbox Store IDs for exact matching, Store art for Xbox games (Track E4)
         RegisterTrackE3Handlers();        // AppBackend.TrackE3.cs: power source per session, frame-rate goals, thermal and driver notes (Track E3)
         RegisterTrackE1Handlers();        // AppBackend.TrackE1.cs: Assistant memory, voice, recap notifications, summaries, duplicate cleanup, lag notes (Track E1)
+        RegisterTrackE2aHandlers();       // AppBackend.TrackE2a.cs: the Completed 100% card image (Track E2a)
         Log.Info("app", "Backend started", new { Version, SafeMode, PreviousRunCrashed });
     }
 

@@ -1,0 +1,198 @@
+/* Track E2a: the Completed 100% ceremony. Always cinematic-dark (whatever the theme), gold on obsidian. */
+
+.c100 {
+  --gold: oklch(0.86 0.13 85);
+  --gold-soft: oklch(0.86 0.13 85 / 0.35);
+  --c100-ink: oklch(0.97 0.004 282);
+  --c100-ink-2: oklch(0.84 0.012 282);
+  position: fixed;
+  inset: 0;
+  z-index: 100; /* above pages and dialogs, below the toasts (the status toast's Undo stays reachable) */
+  display: grid;
+  place-items: center;
+  padding: var(--s-8);
+  overflow: auto;
+  color: var(--c100-ink);
+  background:
+    radial-gradient(55% 60% at 32% 50%, oklch(0.42 0.1 80 / 0.42), transparent 70%),
+    radial-gradient(70% 70% at 72% 40%, oklch(from var(--c100-accent) l c h / 0.2), transparent 70%),
+    oklch(0.08 0.012 282 / 0.9);
+  backdrop-filter: blur(16px) saturate(1.1);
+}
+
+.c100__stage {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto minmax(0, 480px);
+  align-items: center;
+  gap: clamp(28px, 5vw, 76px);
+  perspective: 1100px;
+}
+
+.c100__cover {
+  position: relative;
+  width: clamp(180px, 22vw, 290px);
+  aspect-ratio: 2 / 3;
+  transform-style: preserve-3d;
+}
+
+.c100__halo {
+  position: absolute;
+  inset: -34%;
+  border-radius: 50%;
+  background: radial-gradient(circle, oklch(0.88 0.13 85 / 0.5), oklch(0.88 0.13 85 / 0.12) 45%, transparent 66%);
+  filter: blur(12px);
+  animation: c100-halo 2.6s var(--ease-out) both;
+  pointer-events: none;
+}
+
+.c100__frame {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: var(--r-lg);
+  box-shadow:
+    0 0 0 2px var(--gold),
+    0 0 0 7px oklch(0.86 0.13 85 / 0.16),
+    0 44px 80px -30px oklch(0 0 0 / 0.95),
+    0 0 70px -12px oklch(0.86 0.13 85 / 0.55);
+}
+
+/* The golden light sweep: once, as the cover settles. */
+.c100__sweep {
+  position: absolute;
+  inset: -40% -90%;
+  z-index: 2;
+  pointer-events: none;
+  background: linear-gradient(105deg,
+    transparent 40%,
+    oklch(0.97 0.08 88 / 0.08) 45%,
+    oklch(0.98 0.1 88 / 0.78) 50%,
+    oklch(0.97 0.08 88 / 0.08) 55%,
+    transparent 60%);
+  mix-blend-mode: screen;
+  transform: translateX(-55%);
+  opacity: 0;
+  animation: c100-sweep 1.3s cubic-bezier(0.3, 0.6, 0.2, 1) 0.75s both;
+}
+
+.c100__text { display: grid; gap: var(--s-3); min-width: 0; }
+
+.c100__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-bold);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.c100__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 3.4vw, 3rem);
+  font-weight: 600;
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  color: var(--c100-ink);
+  overflow-wrap: anywhere;
+}
+
+.c100__facts {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-4) var(--s-8);
+  min-height: 76px;
+  margin-top: var(--s-2);
+}
+.c100__fact { display: grid; gap: 2px; }
+.c100__fact b {
+  font-family: var(--font-display);
+  font-size: var(--fs-xl);
+  font-weight: 600;
+  color: var(--c100-ink);
+  font-variant-numeric: tabular-nums;
+}
+.c100__fact span { font-size: var(--fs-sm); color: var(--c100-ink-2); }
+.c100__fact--wait { width: 1px; height: 52px; }
+
+.c100__ring-fact { display: flex; align-items: center; gap: var(--s-3); }
+.c100__ring { flex: none; overflow: visible; }
+.c100__ring-track { fill: none; stroke: oklch(1 0 0 / 0.14); stroke-width: 7; }
+.c100__ring-fill {
+  fill: none;
+  stroke: var(--gold);
+  stroke-width: 7;
+  stroke-linecap: round;
+  transform: rotate(-90deg);
+  transform-origin: 36px 36px;
+  filter: drop-shadow(0 0 6px oklch(0.86 0.13 85 / 0.6));
+}
+.c100__ring-pct { font-family: var(--font-display); font-size: 13px; font-weight: 600; fill: var(--c100-ink); }
+.c100__ring-words { display: grid; gap: 2px; }
+
+.c100__actions { display: flex; flex-wrap: wrap; gap: var(--s-2); margin-top: var(--s-4); }
+
+/* Golden motes drifting up around the cover. */
+.c100__motes {
+  position: absolute;
+  top: -12%;
+  bottom: -12%;
+  left: 0;
+  width: clamp(180px, 22vw, 290px);
+  pointer-events: none;
+  z-index: 3;
+}
+.c100__motes span {
+  position: absolute;
+  bottom: 18%;
+  border-radius: 50%;
+  background: oklch(0.92 0.12 88);
+  box-shadow: 0 0 10px oklch(0.92 0.12 88 / 0.9);
+  opacity: 0;
+  animation-name: c100-mote;
+  animation-timing-function: linear;
+  animation-iteration-count: 2;
+  animation-fill-mode: both;
+}
+
+@keyframes c100-sweep {
+  0% { opacity: 0; transform: translateX(-55%); }
+  15% { opacity: 1; }
+  85% { opacity: 1; }
+  100% { opacity: 0; transform: translateX(55%); }
+}
+@keyframes c100-halo {
+  0% { opacity: 0; transform: scale(0.6); }
+  40% { opacity: 1; transform: scale(1.06); }
+  100% { opacity: 0.75; transform: scale(1); }
+}
+@keyframes c100-mote {
+  0% { opacity: 0; transform: translateY(0) scale(0.6); }
+  15% { opacity: 0.95; }
+  100% { opacity: 0; transform: translateY(-300px) scale(1); }
+}
+
+@media (max-width: 760px) {
+  .c100__stage { grid-template-columns: 1fr; justify-items: center; text-align: center; }
+  .c100__text { justify-items: center; }
+  .c100__facts, .c100__actions { justify-content: center; }
+  .c100__motes { left: 50%; transform: translateX(-50%); }
+}
+
+/* Reduced motion: one quiet fade, no rise, sweep, halo pulse or motes. */
+.c100[data-reduced] .c100__halo { animation: none; opacity: 0.7; }
+:root[data-quality='low'] .c100 { backdrop-filter: none; background: oklch(0.08 0.012 282 / 0.96); }
+:root[data-quality='low'] .c100__halo { filter: none; }
+:root[data-theme='contrast'] .c100 { backdrop-filter: none; background: #000; }
+:root[data-theme='contrast'] .c100__halo,
+:root[data-theme='contrast'] .c100__sweep,
+:root[data-theme='contrast'] .c100__motes { display: none; }
+:root[data-theme='contrast'] .c100__frame { box-shadow: 0 0 0 3px var(--gold); }
+:root[data-theme='contrast'] .c100__fact span { color: #fff; }

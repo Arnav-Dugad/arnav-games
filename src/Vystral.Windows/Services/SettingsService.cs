@@ -234,6 +234,10 @@ public sealed class SettingsService
         new StringDef("appearance.accentGame", "", 32, @"^([0-9a-f]{32})?\z"),
         new BoolDef("canvas.parallax", true),
         new BoolDef("canvas.audioReact", false),
+        // Track E2a: which page VYSTRAL opens on ('last' = where you left off; 'immersive' also turns on startup.immersive),
+        // and pinned collection covers ("collectionId:gameId" pairs joined by '|', at most 200).
+        new EnumDef("startup.page", "last", "last", "home", "library", "discover", "wishlist", "journal", "performance", "immersive"),
+        new StringDef("library.collectionCovers", "", 13_200, @"^([0-9a-f]{32}:[0-9a-f]{32}(\|[0-9a-f]{32}:[0-9a-f]{32}){0,199})?\z"),
     ];
 
     private const string CloudModelPattern = @"^([A-Za-z0-9][A-Za-z0-9._:/\-]{0,119})?\z";

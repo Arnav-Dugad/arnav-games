@@ -67,6 +67,7 @@ Version 0.5 features that use only data already on your PC (no new hosts, nothin
 - **Next big sale** uses Steam seasonal sale dates shipped inside VYSTRAL (`src/Vystral.Windows/Recap/steam-sales.json`, as announced by Valve on Steamworks); nothing is downloaded. “Source” opens that Steamworks page in your browser only when you click it.
 - **Estimated savings on your backlog** uses prices already cached when you opened game pages (CheapShark/IsThereAnyDeal); it never looks up prices on its own.
 - **Session replay cards** are drawn in the interface. *Save as image* writes a 1920×1080 PNG only where you choose in the Windows save dialog; *Copy image* puts it on the Windows clipboard. The image never leaves your PC unless you share it.
+- **Completed 100% cards** (Track E2a) work the same way: drawn in the interface from what is already on this PC, saved only where you choose, or copied to the clipboard. Which games have had their Completed 100% moment is remembered in the interface's local storage on this PC; nothing about it is sent anywhere.
 
 **Update-space forecast** (Track P, Home, game pages and Storage Studio) reads the update byte counters in Steam's `appmanifest_*.acf` files and each library drive's free space, all on this PC and read-only. Nothing is stored or sent; the optional Windows notification follows *Settings → Windows integration → Not enough space for an update*.
 Version 0.6 (Track Q), also local only:

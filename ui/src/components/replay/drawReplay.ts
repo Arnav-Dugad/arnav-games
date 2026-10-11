@@ -29,14 +29,14 @@ const TIER_RING: Record<'common' | 'rare' | 'ultra', string> = {
   ultra: 'rgba(196,148,255,0.95)',
 };
 
-function coverFit(ctx: CanvasRenderingContext2D, img: CanvasImageSource & { width: number; height: number }, w: number, h: number, scale: number) {
+export function coverFit(ctx: CanvasRenderingContext2D, img: CanvasImageSource & { width: number; height: number }, w: number, h: number, scale: number) {
   const r = Math.max(w / img.width, h / img.height) * scale;
   const dw = img.width * r;
   const dh = img.height * r;
   ctx.drawImage(img, (w - dw) / 2, (h - dh) / 2, dw, dh);
 }
 
-function truncate(ctx: CanvasRenderingContext2D, text: string, max: number): string {
+export function truncate(ctx: CanvasRenderingContext2D, text: string, max: number): string {
   if (ctx.measureText(text).width <= max) return text;
   let lo = 0;
   let hi = text.length;

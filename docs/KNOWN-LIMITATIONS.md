@@ -246,3 +246,11 @@
 - **Lag notes** need frame-rate data (the Performance page's *Rough* verdict needs it too). The cause is the strongest signal in VYSTRAL's stutter analysis, not a diagnosis; with little sample data it says the pacing was uneven without a single clear cause.
 - **Duplicate cleanup** merges with the existing merge, and *Undo* uses the existing unmerge: it separates the store versions that moved, and sessions recorded on those versions go with them, but notes, status and collections stay on the entry that was kept. A pair that was undone isn't suggested again.
 - **Learned suggestions** appear only after a question was asked at least twice on that kind of page; they fade over a few weeks.
+
+## Similar games, collection covers, the 100% ceremony and the start page (Track E2a, 1.0)
+
+- "Similar in your library" weighs Steam community tags by how common they are in *your* library, so with only a handful of Steam games (or none) the weighting leans on a fixed list of generic tags and on store genres instead. Games from other stores have no community tags and are compared by genre. IGDB's "similar games" (cached facts, with your key) can still add a pick that shares little else; it says so.
+- A smart collection's cover is made from the games its rule matches right now, so it changes as they do. Covers use artwork VYSTRAL already has; a game without art gets a coloured tile with its initials.
+- The Completed 100% moment plays once per game. Which games have had it is remembered in the interface's own storage on this PC (not in your library database), so it isn't part of a backup, and clearing the app's web data would let it play once more. Marking several games at once from the Library's bulk bar doesn't play it.
+- The ceremony's time span starts at the first session VYSTRAL recorded. Time played before VYSTRAL (a store's playtime) counts towards the hours, but its start date isn't known, so the span then says how long the game has been in your library instead.
+- "Open on start" is remembered for the first frame in the interface's own storage; if that is cleared, the first start afterwards shows the last page (or Home) for a moment before switching to the chosen page. Immersive Mode is switched on by the host before the interface loads, as before.

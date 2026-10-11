@@ -4,8 +4,10 @@
  */
 import type { WishlistItem, WishlistPoint } from '../bridge/types';
 import { centsText, isCurrencyCode } from './money';
+import { sortByWaiting } from './waiting';
 
-export type WishlistSort = 'priority' | 'drop' | 'release' | 'added';
+/** Track E2a: 'waiting' = longest on your list first. */
+export type WishlistSort = 'priority' | 'drop' | 'release' | 'added' | 'waiting';
 export type WishlistFilter = 'all' | 'sale' | 'lowest' | 'upcoming';
 
 const DAY = 86_400_000;
@@ -102,6 +104,8 @@ export function sortWishlist(items: WishlistItem[], sort: WishlistSort): Wishlis
         return byPriority(a, b);
       });
     }
+    case 'waiting':
+      return sortByWaiting(list);
     case 'added':
       return list.sort((a, b) => (Number.isNaN(time(b.added)) ? 0 : time(b.added)) - (Number.isNaN(time(a.added)) ? 0 : time(a.added)) || byPriority(a, b));
     default:

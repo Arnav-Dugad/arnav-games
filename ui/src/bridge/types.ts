@@ -1289,3 +1289,14 @@ export interface BridgeEvents {
 }
 
 export type * from './types.trackE1';
+
+// ---------- Track E2a: start page, collection covers, the 100% ceremony (types in ./types.trackE2a) ----------
+
+export interface Settings {
+  /** Which page VYSTRAL opens on. 'last' (the default) restores the last page; 'immersive' starts in Immersive Mode (kept in step with startup.immersive). */
+  'startup.page': 'last' | 'home' | 'library' | 'discover' | 'wishlist' | 'journal' | 'performance' | 'immersive';
+  /** Pinned collection covers: 'collectionId:gameId' pairs joined by '|' (a collection not listed gets the automatic collage). */
+  'library.collectionCovers': string;
+}
+
+export type * from './types.trackE2a';
