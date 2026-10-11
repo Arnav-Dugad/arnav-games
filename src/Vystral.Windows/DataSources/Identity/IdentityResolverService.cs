@@ -80,6 +80,12 @@ public sealed partial class IdentityResolverService
     /// <summary>Raised with a game ID after its identity changed (resolved again, or the user corrected it).</summary>
     public event Action<string>? Changed;
 
+    /// <summary>Track E4: evidence from the Microsoft Store's package lookup for a game's Xbox copy (local, cached answers only).</summary>
+    public Func<string, IReadOnlyList<IdEvidence>>? StoreEvidence { get; set; }
+
+    /// <summary>Track E4: asks the Store about a game's Xbox packages (gated by its own switch) before the page's answer is built.</summary>
+    public Func<string, bool, CancellationToken, Task>? StoreLookup { get; set; }
+
     public IdentityResolverService(LibraryRepository repo, SettingsService settings, DataSourcesService sources, GogCatalogClient gog)
     {
         _repo = repo;
@@ -147,6 +153,15 @@ public sealed partial class IdentityResolverService
     {
         var game = _repo.GetIdentityGame(gameId) ?? throw new DataSourceException(DataSourceOutcome.Malformed, "That game no longer exists.");
         var entry = CachedEntry(game);
+        if (allowNetwork && StoreLookup is { } lookup && game.Platforms.Contains("xbox"))
+        {
+            try { await lookup(gameId, refresh, ct); }
+            catch (DataSourceException ex)
+            {
+                // The Store's answer is extra: matching goes on with what is known.
+                Log.Warn("identity", "The Store lookup couldn't run for this game", new { outcome = ex.Outcome.ToString() });
+            }
+        }
         var block = BlockReason();
         var needsLookup = game.SteamAppId is null && (entry is null || refresh || IsStale(gameId));
         if (needsLookup && allowNetwork && block is null)
@@ -239,6 +254,25 @@ public sealed partial class IdentityResolverService
         return DiscoverParsers.ParseSteamSearch(json).Take(10).Select(h => new SteamSearchHitDto(h.SourceId, h.Title)).ToList();
     }
 
+    /// <summary>
+    /// Track E4: new local evidence arrived for a game (the Store named its Xbox package's product): the Steam app library-wide
+    /// features use is worked out again, and the page is told.
+    /// </summary>
+    public void LocalEvidenceChanged(string gameId)
+    {
+        if (_repo.GetIdentityGame(gameId) is { } game && CachedEntry(game) is { } entry)
+        {
+            var steam = IdentityMerge.Merge(entry.Evidence.Concat(LocalEvidence(game))).Ids.FirstOrDefault(i => i.Kind == IdKinds.Steam);
+            var used = steam is not null && IsUsed(steam) ? steam.Value : null;
+            if (used != entry.SteamUsed)
+            {
+                Save(game, entry); // tells the page too
+                return;
+            }
+        }
+        Invalidate(gameId);
+    }
+
     /// <summary>Forgets every remembered answer (a matching setting changed).</summary>
     public void InvalidateAll() => _memory.Clear();
 
@@ -268,6 +302,8 @@ public sealed partial class IdentityResolverService
             if (key is null || _repo.GetExternalIds(kind, key) is not { WikidataId: { } qid } row) continue;
             list.AddRange(FromWikidataIds(qid, row.Ids, row.Label, null, "storeId", 0.95));
         }
+        // Track E4: an Xbox copy's Store product (the Store's own package lookup) and what Wikidata and IGDB say about it.
+        if (StoreEvidence?.Invoke(game.GameId) is { } store) list.AddRange(store);
         foreach (var e in _repo.GetEnrichment(game.GameId).Where(e => e.Matched && e.Confidence is > 0))
         {
             var method = e.MatchMethod switch { "steam-appid" or "wikidata" => "storeId", _ => "exactTitle" };
@@ -403,7 +439,7 @@ public sealed partial class IdentityResolverService
         var evidence = new List<IdEvidence>(LocalEvidence(game));
         // Matching off: only what the stores themselves say, Wikidata by store ID, and your own choices.
         if (entry is not null && Enabled) evidence.AddRange(entry.Evidence);
-        if (!Enabled) evidence.RemoveAll(e => e.Method is not ("native" or "storeId"));
+        if (!Enabled) evidence.RemoveAll(e => e.Method is not ("native" or "packageLookup" or "storeId"));
         return IdentityMerge.Merge(evidence, Pins(game.GameId));
     }
 
@@ -441,6 +477,7 @@ public sealed partial class IdentityResolverService
         IdKinds.Steam when IdKinds.IsValid(kind, value) => $"https://store.steampowered.com/app/{value}/",
         IdKinds.Rawg when IdKinds.IsValid(kind, value) && !value.All(char.IsAsciiDigit) => $"https://rawg.io/games/{value}",
         IdKinds.Wikidata when IdKinds.IsValid(kind, value) => $"https://www.wikidata.org/wiki/{value}",
+        IdKinds.MicrosoftStore when IdKinds.IsValid(kind, value) => $"https://apps.microsoft.com/detail/{value}",
         _ => null,
     };
 

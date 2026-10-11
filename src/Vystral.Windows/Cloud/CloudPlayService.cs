@@ -81,6 +81,8 @@ public sealed class CloudPlayService : IDisposable
 
     /// <summary>Data saver (manual or metered): no background catalogue downloads.</summary>
     public Func<bool> DataSaverActive { get; set; } = () => false;
+    /// <summary>Track E4: Store product → installed package family name, from the Store's own package lookup.</summary>
+    public Func<IReadOnlyDictionary<string, string>>? InstalledProductPfns { get; set; }
     public Func<bool> GameActive { get; set; } = () => false;
     /// <summary>Called after a launch when "Minimize VYSTRAL when a game starts" is on.</summary>
     public Action? Minimize { get; set; }
@@ -306,6 +308,9 @@ public sealed class CloudPlayService : IDisposable
             if (_matches is { } m && m.Key == key) return m.Map;
         }
         var pfn = _repo.GetCloudProducts().Where(p => p.Value.Pfn is not null).ToDictionary(p => p.Key, p => p.Value.Pfn!, StringComparer.Ordinal);
+        // Track E4: your installed packages' own Store products (and their bundles) match GeForce NOW's Xbox variants exactly.
+        if (InstalledProductPfns?.Invoke() is { } installed)
+            foreach (var (id, p) in installed) pfn.TryAdd(id, p);
         var map = new Dictionary<string, List<CloudMatch>>(StringComparer.Ordinal);
         foreach (var service in CloudServices.All)
         {

@@ -12,8 +12,10 @@ public static partial class IdKinds
     public const string Rawg = "rawg";
     public const string Gog = "gog";
     public const string Wikidata = "wikidata";
+    /// <summary>Track E4: the Microsoft Store product ID ("BigId", 12 upper-case letters and digits) of an Xbox game.</summary>
+    public const string MicrosoftStore = "msstore";
 
-    public static readonly string[] All = [Steam, Igdb, Rawg, Gog, Wikidata];
+    public static readonly string[] All = [Steam, Igdb, Rawg, Gog, Wikidata, MicrosoftStore];
 
     /// <summary>A well-formed value for its kind (every value is checked before it's stored, shown or used in a URL).</summary>
     public static bool IsValid(string kind, string? value) => value is not null && kind switch
@@ -23,6 +25,7 @@ public static partial class IdKinds
         Rawg => RawgId().IsMatch(value),
         Gog => GogId().IsMatch(value),
         Wikidata => Qid().IsMatch(value),
+        MicrosoftStore => StoreProductId().IsMatch(value),
         _ => false,
     };
 
@@ -33,8 +36,15 @@ public static partial class IdKinds
         Rawg => "RAWG",
         Gog => "GOG",
         Wikidata => "Wikidata",
+        MicrosoftStore => "Microsoft Store",
         _ => kind,
     };
+
+    /// <summary>Methods that state a store's own fact rather than a match: the store's ID, or the Store's own package lookup (Track E4).</summary>
+    public static bool IsStoreFact(string method) => method is "native" or "packageLookup";
+
+    [GeneratedRegex(@"\A[0-9A-Z]{12}\z")]
+    private static partial Regex StoreProductId();
 
     [GeneratedRegex(@"\A[1-9][0-9]{0,9}\z")]
     private static partial Regex SteamAppId();
@@ -54,8 +64,9 @@ public static partial class IdKinds
 }
 
 /// <summary>Where a piece of evidence came from. <see cref="Method"/> is a short machine word the page turns into words.</summary>
-/// <param name="Source">store | pin | wikidata | igdb | rawg | steam | gog | metadata</param>
-/// <param name="Method">native | chosen | storeId | exactTitleYear | exactTitle | editionTitle | crossCheck | earlierMatch</param>
+/// <param name="Source">store | pin | wikidata | igdb | rawg | steam | gog | metadata | msstore (Track E4)</param>
+/// <param name="Method">native | chosen | storeId | exactTitleYear | exactTitle | editionTitle | crossCheck | earlierMatch | packageLookup (Track E4: the
+/// Microsoft Store named the product an installed package belongs to; a store fact, certain like native)</param>
 public sealed record IdEvidence(string Kind, string Value, string Source, string Method, double Confidence, string? Name = null, int? Year = null);
 
 /// <summary>One resolved ID with how sure VYSTRAL is.</summary>
@@ -111,7 +122,7 @@ public static class IdentityMerge
             }
             if (groups.Count == 0) continue;
             var best = groups[0];
-            if (best.Evidence.Any(e => e.Method == "native"))
+            if (best.Evidence.Any(e => IdKinds.IsStoreFact(e.Method)))
             {
                 ids.Add(new ResolvedId(kind, best.Value, 1.0, "native", best.Evidence, NameOf(best.Evidence)));
                 continue;

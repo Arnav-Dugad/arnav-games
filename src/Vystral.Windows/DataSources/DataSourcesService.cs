@@ -126,7 +126,12 @@ public sealed class DataSourcesService
         EpicFreeGames = new EpicFreeGamesClient(T("epicfree", "Epic Games Store", 2000, 2 * 1024 * 1024));
         ProtonDb = new ProtonDbClient(T("protondb", "ProtonDB", 1500, 64 * 1024));
         GogCatalog = new GogCatalogClient(T("gogcatalog", "GOG", 1500, 2 * 1024 * 1024));
+        // Track E4: the Store's lookup by package family name (about 90 KB an answer; one game at a time, well spaced).
+        XboxStore = new Identity.XboxStoreLookupClient(T("xboxstore", "Microsoft Store", 2000, 1024 * 1024));
     }
+
+    /// <summary>Track E4: Microsoft Store product IDs for installed Xbox packages (opt-in, grey).</summary>
+    public Identity.XboxStoreLookupClient XboxStore { get; }
 
     /// <summary>Track D4: free giveaways (GamerPower), Epic's free games, ProtonDB summaries and GOG's public catalogue.</summary>
     public GamerPowerClient GamerPower { get; }
@@ -195,7 +200,7 @@ public sealed class DataSourcesService
             "Prices from CheapShark.com.", "www.cheapshark.com",
             "A game’s Steam app ID, only when you open that game’s page.", "Current best price (US dollars) and the lowest price ever on game pages."),
         new("wikidata", "Wikidata", "keyless", null, "dataSources.wikidata", "CC0 (public domain).", "Store IDs from Wikidata.",
-            "query.wikidata.org", "Steam app IDs (and GOG product IDs) of games in your library, in batches.",
+            "query.wikidata.org", "Steam app IDs (and GOG and Microsoft Store product IDs) of games in your library, in batches.",
             "The same game’s IDs on other stores and sites, “Open on…” links and duplicate suggestions."),
         new("steamdeck", "Steam Deck compatibility", "keyless", null, "dataSources.steamDeck", "Valve’s public store data, shown with attribution.",
             "Steam Deck compatibility as reported by Valve on the Steam store.", "store.steampowered.com",
@@ -235,6 +240,12 @@ public sealed class DataSourcesService
             "Store IDs and trailers from GOG.com.", "catalog.gog.com, api.gog.com",
             "Titles of games that aren’t from GOG (to find their GOG page), and GOG product IDs when you open a game’s page.",
             "Matching games to their GOG page, and GOG’s trailer list (YouTube) for the trailer fallback."),
+        // Track E4 (off by default).
+        new("xboxstore", "Xbox Store details", "keyless", null, "dataSources.xboxStore",
+            "Microsoft’s public Store data, shown with attribution. Not a documented API: it may change, and VYSTRAL stops quietly if it does.",
+            "Store IDs and art from the Microsoft Store.", "displaycatalog.mp.microsoft.com, store-images.s-microsoft.com",
+            "The package names of the Xbox games installed on this PC (one request per game, remembered for months) and your Store region.",
+            "Exact Microsoft Store IDs for your Xbox games, so Wikidata, IGDB, GeForce NOW and Game Pass match them by ID instead of by title, and Store covers and backgrounds for Xbox games without good art."),
     ];
 
     public DataSourcesStatusDto Status()
@@ -356,6 +367,9 @@ public sealed class DataSourcesService
                     "epicfree" => await Do(async () => $"Epic answered with {(await EpicFreeGames.GetAsync(Country, ct)).Count.ToString(CultureInfo.InvariantCulture)} free games."),
                     "protondb" => await ProtonDb.TestAsync(ct),
                     "gogcatalog" => await Do(async () => { await GogCatalog.TestAsync(ct); return "GOG answered."; }),
+                    // Track E4: Windows Calculator's package is in every market, so the answer is predictable.
+                    "xboxstore" => await Do(async () => await XboxStore.LookupAsync("Microsoft.WindowsCalculator_8wekyb3d8bbwe", "US", ct) is not null
+                        ? "Microsoft Store answered." : "Microsoft Store answered, but without the expected test product."),
                     _ =>await Do(async () => $"Downloaded {await RefreshAntiCheatAsync(force: true, ct)} entries."),
                 };
             }

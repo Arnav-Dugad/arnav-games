@@ -1,0 +1,169 @@
+{
+ "BigIds": [
+  "9PNQKHFLD2WQ"
+ ],
+ "HasMorePages": false,
+ "Products": [
+  {
+   "LastModifiedDate": "2026-08-18T14:21:05.5487047Z",
+   "LocalizedProperties": [
+    {
+     "DeveloperName": "Playground Games",
+     "PublisherName": "Microsoft Studios",
+     "ProductTitle": "Forza Horizon 4",
+     "ShortTitle": "Forza Horizon 4",
+     "Language": "en-us",
+     "Images": [
+      {
+       "FileId": "3036743804456490159",
+       "BackgroundColor": "#222222",
+       "FileSizeInBytes": 7365,
+       "Height": 50,
+       "ImagePurpose": "Logo",
+       "Uri": "//store-images.s-microsoft.com/image/apps.33780.14339303838396367.f3173191-0539-4acb-9e12-ea19d8a5d680.0135bbe5-0b91-4011-b898-a3af3ceba509",
+       "Width": 50
+      },
+      {
+       "FileId": "2000000000016722459",
+       "BackgroundColor": "#222222",
+       "FileSizeInBytes": 13567055,
+       "Height": 2160,
+       "ImagePurpose": "Screenshot",
+       "Uri": "//store-images.s-microsoft.com/image/apps.56214.14339303838396367.725ab8dd-f8b7-4a29-a351-45ebd5d66edd.34b1545d-e813-43b3-b8a2-880172e9393d",
+       "Width": 3840
+      },
+      {
+       "FileId": "2000000000009833692",
+       "BackgroundColor": "",
+       "FileSizeInBytes": 5543483,
+       "Height": 2160,
+       "ImagePurpose": "Poster",
+       "Uri": "//store-images.s-microsoft.com/image/apps.36093.14339303838396367.725ab8dd-f8b7-4a29-a351-45ebd5d66edd.ba2a2523-7f32-4f92-a83d-26097b7b6ca1",
+       "Width": 1440
+      },
+      {
+       "FileId": "2000000000009833693",
+       "BackgroundColor": "",
+       "FileSizeInBytes": 1877617,
+       "Height": 1080,
+       "ImagePurpose": "BoxArt",
+       "Uri": "//store-images.s-microsoft.com/image/apps.1467.14339303838396367.725ab8dd-f8b7-4a29-a351-45ebd5d66edd.388d1fcb-ee68-4e87-b080-c506a1085f94",
+       "Width": 1080
+      },
+      {
+       "FileId": "2000000000009833699",
+       "BackgroundColor": "#222222",
+       "FileSizeInBytes": 5923068,
+       "Height": 1200,
+       "ImagePurpose": "Hero",
+       "Uri": "//store-images.s-microsoft.com/image/apps.51635.14339303838396367.725ab8dd-f8b7-4a29-a351-45ebd5d66edd.e37987cf-85d9-4262-950a-15614e94100e",
+       "Width": 2400
+      },
+      {
+       "FileId": "2000000000009833697",
+       "BackgroundColor": "",
+       "FileSizeInBytes": 3734105,
+       "Height": 1080,
+       "ImagePurpose": "TitledHeroArt",
+       "Uri": "//store-images.s-microsoft.com/image/apps.65321.14339303838396367.725ab8dd-f8b7-4a29-a351-45ebd5d66edd.d8864dfc-9b57-40ea-aca9-a40a2f286f70",
+       "Width": 1920
+      },
+      {
+       "FileId": "2000000000078848329",
+       "BackgroundColor": "",
+       "FileSizeInBytes": 15566755,
+       "Height": 2160,
+       "ImagePurpose": "SuperHeroArt",
+       "Uri": "//store-images.s-microsoft.com/image/apps.49179.14339303838396367.725ab8dd-f8b7-4a29-a351-45ebd5d66edd.778dc4d6-df44-4ceb-9dc2-a647969112eb",
+       "Width": 3840
+      }
+     ]
+    }
+   ],
+   "MarketProperties": [
+    {
+     "OriginalReleaseDate": "9998-12-30T00:00:00.0000000Z",
+     "RelatedProducts": [
+      {
+       "RelatedProductId": "9N93LRJBW22T",
+       "RelationshipType": "Bundle"
+      },
+      {
+       "RelatedProductId": "9NCGWGSLF3P8",
+       "RelationshipType": "Bundle"
+      },
+      {
+       "RelatedProductId": "9NHSNCDM94QG",
+       "RelationshipType": "Bundle"
+      },
+      {
+       "RelatedProductId": "9N8H4DH4BLLS",
+       "RelationshipType": "Bundle"
+      },
+      {
+       "RelatedProductId": "9PHKXB8RDKBC",
+       "RelationshipType": "Bundle"
+      },
+      {
+       "RelatedProductId": "9PGSK5G6N31X",
+       "RelationshipType": "Bundle"
+      },
+      {
+       "RelatedProductId": "9PNJXVCVWD4K",
+       "RelationshipType": "Bundle"
+      },
+      {
+       "RelatedProductId": "9P546HRQ6STV",
+       "RelationshipType": "Bundle"
+      },
+      {
+       "RelatedProductId": "9P513P4MWC71",
+       "RelationshipType": "Bundle"
+      },
+      {
+       "RelatedProductId": "9P782CPDP16K",
+       "RelationshipType": "Bundle"
+      },
+      {
+       "RelatedProductId": "9PF3F4CC0VLG",
+       "RelationshipType": "Bundle"
+      },
+      {
+       "RelatedProductId": "9N54CX9XJBP6",
+       "RelationshipType": "Bundle"
+      }
+     ]
+    }
+   ],
+   "ProductId": "9PNQKHFLD2WQ",
+   "Properties": {
+    "Category": "Racing & flying",
+    "PackageFamilyName": "Microsoft.SunriseBaseGame_8wekyb3d8bbwe",
+    "PackageIdentityName": "Microsoft.SunriseBaseGame",
+    "PublisherId": "10101150"
+   },
+   "AlternateIds": [
+    {
+     "IdType": "LegacyWindowsStoreProductId",
+     "Value": "99dcc993-bab6-4c9f-8f88-96c3b60b5126"
+    },
+    {
+     "IdType": "LegacyWindowsPhoneProductId",
+     "Value": "c6becfc0-4599-427d-8304-54e1496e75a0"
+    },
+    {
+     "IdType": "XboxTitleId",
+     "Value": "1985701699"
+    },
+    {
+     "IdType": "LegacyXboxProductId",
+     "Value": "36c74b01-171d-4cc0-a40c-e6e9d6cb4907"
+    }
+   ],
+   "ProductType": "Game",
+   "ProductFamily": "Games",
+   "ProductKind": "Game"
+  }
+ ],
+ "TotalResultCount": 10
+}
