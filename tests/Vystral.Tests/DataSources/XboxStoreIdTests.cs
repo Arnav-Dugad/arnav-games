@@ -318,7 +318,7 @@ public sealed class XboxStoreIdServiceTests : IDisposable
         var gameId = Forza();
         await _identity.GetAsync(gameId, true, false, CancellationToken.None); // off by default
         Assert.Equal(0, StoreRequests());
-        Assert.DoesNotContain(_identity.GetAsync(gameId, false, false, CancellationToken.None).Result.Ids, i => i.Kind == IdKinds.MicrosoftStore);
+        Assert.DoesNotContain((await _identity.GetAsync(gameId, false, false, CancellationToken.None)).Ids, i => i.Kind == IdKinds.MicrosoftStore);
 
         _settings.Set(XboxStoreIdService.SettingKey, JsonValue.Create(true));
         _settings.Set("privacy.localOnly", JsonValue.Create(true));
