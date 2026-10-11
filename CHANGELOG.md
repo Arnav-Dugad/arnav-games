@@ -4,6 +4,11 @@ All notable changes to Arnav Games. Versions follow [SemVer](https://semver.org)
 
 > VYSTRAL was renamed Arnav Games in 1.0.0. The entries below for 0.9.0 and earlier keep the name they shipped with.
 
+## [1.0.1] — 2026-10-11
+
+### Fixed
+- In the wishlist calendar, Page Up and Page Down lost keyboard focus after changing month, so the next key did nothing.
+
 ## [1.0.0] — 2026-10-11
 
 **VYSTRAL is now Arnav Games.** Your library, settings, history and keys carry over, and updates keep arriving the same way.
