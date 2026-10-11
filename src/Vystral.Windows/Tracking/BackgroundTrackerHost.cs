@@ -135,7 +135,7 @@ public sealed class BackgroundTrackerHost : IDisposable
         {
             case SchemaState.Missing: return WaitOrStop(NoDatabaseRetry);
             case SchemaState.Newer:
-                Log.Warn("tracker", "The database was created by a newer Arnav Games; this tracker exits until Arnav Games starts it again");
+                Log.Warn("tracker", "The database was created by a newer version of Arnav Games; this tracker exits until Arnav Games starts it again");
                 return true;
         }
         app.Settings.Reload();

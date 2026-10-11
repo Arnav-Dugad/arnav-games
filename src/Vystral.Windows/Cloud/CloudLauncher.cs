@@ -54,7 +54,7 @@ public sealed class CloudProcessStarter : ICloudProcessStarter
 /// Builds launches into the vendors' own apps and sites, exactly as the research recommends: the GeForce NOW desktop
 /// app (its <c>--url-route</c> argument, the same one its own desktop shortcuts carry) or NVIDIA's documented web
 /// deep link; the Xbox app's documented <c>msxbox://game/?productId=</c> or xbox.com/play. Browser fallback is a
-/// chromeless Edge <c>--app</c> window with an Arnav Games-owned profile folder Arnav Games never reads, or the default browser.
+/// chromeless Edge <c>--app</c> window with a profile folder of its own that Arnav Games never reads, or the default browser.
 /// The stream is never embedded in Arnav Games. Every value is built from validated IDs only.
 /// </summary>
 public static class CloudLauncher

@@ -13,7 +13,7 @@ export interface Friend {
   appId: string | null;
   /** Steam's name for the game, when it sent one. */
   gameName: string | null;
-  /** The Arnav Games game when that game is in this library. */
+  /** The library game when that game is in this library. */
   gameId: string | null;
   lastOnline: string | null;
 }

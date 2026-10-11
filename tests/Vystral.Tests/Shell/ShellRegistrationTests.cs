@@ -30,10 +30,10 @@ internal sealed class FakeClassesRegistry : IUserClassesRegistry
 public class ShellRegistrationTests
 {
     private const string Exe = @"C:\Users\me\AppData\Local\Vystral\current\Vystral.exe";
-    private const string Icon = @"C:\Users\me\AppData\Local\Vystral\current\Assets\vystral-256.png";
+    private const string Icon = @"C:\Users\me\AppData\Local\Vystral\current\Assets\arnav-games-256.png";
 
     private static ShellRegistration Make(FakeClassesRegistry reg, string exe = Exe, string aumid = "velopack.Vystral") =>
-        new(reg, exe, aumid, "VYSTRAL", Icon);
+        new(reg, exe, aumid, Brand.Name, Icon);
 
     [Fact]
     public void Registers_the_uri_scheme_and_aumid_per_user()
@@ -45,10 +45,32 @@ public class ShellRegistrationTests
         Assert.Equal("", reg.GetString("vystral", "URL Protocol"));
         Assert.Equal($"\"{Exe}\",0", reg.GetString(@"vystral\DefaultIcon", null));
         Assert.Equal($"\"{Exe}\" --uri \"%1\"", reg.GetString(@"vystral\shell\open\command", null));
-        Assert.Equal("VYSTRAL", reg.GetString(@"AppUserModelId\velopack.Vystral", "DisplayName"));
+        Assert.Equal("Arnav Games", reg.GetString(@"AppUserModelId\velopack.Vystral", "DisplayName"));
         Assert.Equal(Icon, reg.GetString(@"AppUserModelId\velopack.Vystral", "IconUri"));
         // Nothing else: no COM server, no machine-wide keys.
         Assert.Equal(4, reg.Keys.Count);
+    }
+
+    [Fact]
+    public void An_install_registered_before_the_rename_only_has_its_display_names_rewritten()
+    {
+        // What 0.9 (VYSTRAL) wrote: the same scheme and AUMID, with the old name and icon.
+        var reg = new FakeClassesRegistry();
+        reg.SetString("vystral", null, "URL:VYSTRAL");
+        reg.SetString("vystral", "URL Protocol", "");
+        reg.SetString(@"vystral\DefaultIcon", null, $"\"{Exe}\",0");
+        reg.SetString(@"vystral\shell\open\command", null, $"\"{Exe}\" --uri \"%1\"");
+        reg.SetString(@"AppUserModelId\velopack.Vystral", "DisplayName", "VYSTRAL");
+        reg.SetString(@"AppUserModelId\velopack.Vystral", "IconUri", @"C:\Users\me\AppData\Local\Vystral\current\Assets\vystral-256.png");
+
+        Assert.Equal(3, Make(reg).EnsureRegistered());
+
+        Assert.Equal("URL:Arnav Games", reg.GetString("vystral", null));
+        Assert.Equal("Arnav Games", reg.GetString(@"AppUserModelId\velopack.Vystral", "DisplayName"));
+        Assert.Equal(Icon, reg.GetString(@"AppUserModelId\velopack.Vystral", "IconUri"));
+        // The activation identity is untouched: the same AUMID key, scheme and command, and nothing added.
+        Assert.Equal(4, reg.Keys.Count);
+        Assert.Equal($"\"{Exe}\" --uri \"%1\"", reg.GetString(@"vystral\shell\open\command", null));
     }
 
     [Fact]

@@ -137,7 +137,7 @@ No per-product "cloud playable" attribute turned up in our probe. Cloud availabi
 
 ### 2.6 Session detection (read-only)
 
-- **Edge `--app` with an Arnav Games-only `--user-data-dir`:** Arnav Games owns the process tree. The session starts when the window appears and ends when the process exits. This is the most reliable option **[Unverified: Edge's process model should be checked on Windows 11 26H1]**.
+- **Edge `--app` with a `--user-data-dir` used only by Arnav Games:** Arnav Games owns the process tree. The session starts when the window appears and ends when the process exits. This is the most reliable option **[Unverified: Edge's process model should be checked on Windows 11 26H1]**.
 - **Xbox app:** there's no separate stream process. Use `EnumWindows` and `GetWindowText` on `XboxPcApp.exe` windows and use foreground time. **[Unverified]** whether the window title changes while streaming. Otherwise fall back to "Xbox app focused after an Arnav Games cloud launch", with a prompt such as "Still playing?".
 - Never read the Xbox app's storage, use UI Automation on it, or hook it.
 
@@ -228,7 +228,7 @@ Working query (fields verified):
   - Watch for `GeForceNOWStreamer.exe` to start and stop. It probably runs only while a stream is active **[Unverified]**.
   - Fall back to `GeForceNOW.exe`. Playnite polls `GeForceNOW` every 15 s and notes that *"GeForce NOW leaves leftover processes when closed"*. Don't use "GeForceNOW.exe exited" alone as the end-of-session signal.
   - Combine process presence with window foreground and title via `EnumWindows`, plus a grace period.
-- **Edge `--app` with an Arnav Games-only profile:** the same approach as for Xbox.
+- **Edge `--app` with a profile used only by Arnav Games:** the same approach as for Xbox.
 
 ### 3.6 Terms of service notes
 
@@ -259,11 +259,11 @@ Arnav Games' UI WebView2 is locked down, and this is the starting point:
 | | (a) Official desktop app via deep link | (b) User's default browser | (c) Separate WebView2 window inside Arnav Games | (d) Edge `--app=` window |
 |---|---|---|---|---|
 | ToS posture | ✅ Ordinary use | ✅ Ordinary use, and GFN's deep links are designed for it | ⚠️ Arnav Games becomes the host for the vendor's player. That's arguably an "unauthorized third-party application" (MSA). Neither vendor lists WebView2 as a supported client. | ✅ Edge is a supported browser for both services, and Microsoft itself documents Edge launch flags for xCloud on Steam Deck. |
-| Sign-in | ✅ Vendor-managed | ✅ The existing browser session | ❌ Google OAuth blocks embedded webviews (`disallowed_useragent`, 2021 policy), so GFN accounts that sign in with Google would break. Microsoft accounts do work in WebView2. Credentials are typed into an Arnav Games-owned surface, and password managers and extensions are missing. | ✅ A real Edge profile, so Google, Microsoft and passkeys all work |
+| Sign-in | ✅ Vendor-managed | ✅ The existing browser session | ❌ Google OAuth blocks embedded webviews (`disallowed_useragent`, 2021 policy), so GFN accounts that sign in with Google would break. Microsoft accounts do work in WebView2. Credentials are typed into an Arnav Games–owned surface, and password managers and extensions are missing. | ✅ A real Edge profile, so Google, Microsoft and passkeys all work |
 | Controller and mouse capture | ✅ Native | ✅ Gamepad and Pointer Lock work | ❌ The WinUI WebView2 control uses composition hosting, where Gamepad and Pointer Lock break (#4968, Arnav Games' own finding). It would need a separate Win32 HWND-hosted controller, which is significant work. | ✅ A full browser |
 | WebRTC, DRM, codecs | ✅ | ✅ | ⚠️ WebRTC and H.264 work in WebView2. **No DRM is needed:** both services stream over WebRTC, not EME. AV1 or HEVC hardware decoding and HDR would need checking per runtime **[Unverified]**. | ✅ |
 | Security for Arnav Games | ✅ No change | ✅ No change | ❌ The origin lock would need opening up for vendor sites, permissions (pointer lock, fullscreen, keyboard lock, autoplay) would need granting, and the risk grows if Arnav Games ever loads attacker-controlled content in the same environment. It needs a separate environment and profile, and Arnav Games would effectively be shipping a browser. | ✅ No change. The Edge profile folder is never read by Arnav Games. |
-| Session tracking | ⚠️ Process and window heuristics | ❌ Hard: tabs in an existing browser | ✅ Exact (navigation events), but at the costs above | ✅ Good, if an Arnav Games-only `--user-data-dir` gives a separate process tree. ⚠️ Without it, Edge hands the window to the running browser and the launcher process exits at once. |
+| Session tracking | ⚠️ Process and window heuristics | ❌ Hard: tabs in an existing browser | ✅ Exact (navigation events), but at the costs above | ✅ Good, if a `--user-data-dir` used only by Arnav Games gives a separate process tree. ⚠️ Without it, Edge hands the window to the running browser and the launcher process exits at once. |
 | Controller-first (Immersive) feel | ✅ Fullscreen app | ⚠️ Browser chrome and tabs | ✅ | ✅ A chromeless window; the vendor page can go fullscreen |
 | Effort | Low | Lowest | High | Low |
 

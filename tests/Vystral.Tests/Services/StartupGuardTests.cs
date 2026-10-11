@@ -156,7 +156,7 @@ public sealed class StartupGuardTests
     [Fact]
     public void Without_a_known_good_version_there_is_nothing_to_return_to()
     {
-        // Upgraded from an Arnav Games that didn't keep a ledger: the first version seen has no predecessor.
+        // Upgraded from a version that didn't keep a ledger: the first version seen has no predecessor.
         var (l, _) = Start(new StartupLedger(), "0.4.1");
         (l, _) = Start(l, "0.4.1");
         (l, var d) = Start(l, "0.4.1");

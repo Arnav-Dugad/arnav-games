@@ -7,7 +7,7 @@ namespace Vystral.Windows.Services;
 /// <summary>Per-user "what's new" memory: the last version whose tour was seen, and seen "New" badges.</summary>
 public sealed record WhatsNewState
 {
-    /// <summary>The version whose "What's new" was last shown (or skipped). Null: not known (upgraded from an older Arnav Games).</summary>
+    /// <summary>The version whose "What's new" was last shown (or skipped). Null: not known (upgraded from an older version).</summary>
     public string? LastSeenVersion { get; init; }
     /// <summary>The version this PC started with. Null: installed before this was tracked.</summary>
     public string? FirstVersion { get; init; }

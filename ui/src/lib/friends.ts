@@ -7,7 +7,7 @@ export const FRIENDS_POLL_MS = 150_000;
 export interface FriendGroup {
   key: string;
   title: string;
-  /** The Arnav Games game when it's in this library (opens its page). */
+  /** The library game when it's in this library (opens its page). */
   gameId: string | null;
   appId: string | null;
   friends: Friend[];

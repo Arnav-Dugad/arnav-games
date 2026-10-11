@@ -35,7 +35,7 @@ export interface WishlistItem {
   history: WishlistPoint[];
   /** Header image through the art host, or null. */
   header: string | null;
-  /** The Arnav Games game when it's already in the library. */
+  /** The library game when it's already in the library. */
   gameId: string | null;
   pricedAt: string | null;
   /** Track D2: portrait cover (Steam's 600×900 library capsule, hero capsule or SteamGridDB) through the art host, or null. */

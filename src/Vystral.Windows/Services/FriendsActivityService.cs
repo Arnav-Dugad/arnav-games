@@ -7,7 +7,7 @@ namespace Vystral.Windows.Services;
 
 /// <summary>
 /// One online friend. <c>Key</c> is an opaque hash of the SteamID (the page never sees SteamIDs).
-/// State: online | busy | away | snooze | trade | play | offline. <c>GameId</c> is the Arnav Games game
+/// State: online | busy | away | snooze | trade | play | offline. <c>GameId</c> is the library game
 /// when the friend's game is in this library.
 /// </summary>
 public sealed record FriendDto(string Key, string Name, string State, string? Avatar, string? AppId, string? GameName, string? GameId, string? LastOnline);
