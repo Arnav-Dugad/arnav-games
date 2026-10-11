@@ -1,6 +1,6 @@
 import { memo, useEffect, useLayoutEffect, useRef, type KeyboardEvent as ReactKeyboardEvent } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
-import { ArrowUp, Copy, Lock, RefreshCw, Settings2, ShieldCheck, Square, TriangleAlert } from 'lucide-react';
+import { ArrowUp, Brain, CopyCheck, Copy, History, Lock, RefreshCw, Settings2, ShieldCheck, Square, TriangleAlert } from 'lucide-react';
 import type { AssistantToolCall } from '../../bridge/types';
 import { providerMark, suggestions, type ChatMessage } from '../../lib/assistant';
 import { contextFromRoute } from '../../lib/assistant';
@@ -13,6 +13,11 @@ import { Button, IconButton, Kbd } from '../ui/primitives';
 import { ServiceLogo } from '../ui/ServiceLogo';
 import { ActionCard, ApprovalCard, AssistantCards } from './AssistantCards';
 import { AssistantAvatar, Byline, SentNote, Thinking, ToolChips } from './AssistantBits';
+// Track E1: the thinking orb, push-to-talk, learned suggestions, memory chip, duplicate cleanup entry.
+import { AssistantOrb } from './AssistantOrb';
+import { VoiceInput } from './VoiceInput';
+import { blendSuggestions } from '../../lib/assistantExtras';
+import { useExtras } from '../../state/assistantExtras';
 import '../../views/assistant/assistant.css';
 import './assistant-ui.css';
 
@@ -70,10 +75,14 @@ function Welcome({ compact }: { compact?: boolean }) {
   const route = useStore((s) => s.route);
   const gamesById = useStore((s) => s.gamesById);
   const send = useAssistant((s) => s.send);
-  const status = useAssistant((s) => s.status);
   const ctx = contextFromRoute(route as { name: string; id?: string; sessionId?: string });
   const game = ctx.gameId ? gamesById.get(ctx.gameId) : undefined;
-  const prompts = suggestions(ctx, game?.title, !game || game.installations.some((i) => i.platform === 'steam'));
+  const learned = useExtras((s) => s.learned);
+  const learnOn = useStore((s) => !!s.settings?.['assistant.learnPrompts']);
+  const dupes = useStore((s) => s.library.duplicateSuggestions.length);
+  useEffect(() => { if (learnOn && !learned) void useExtras.getState().loadLearned(); }, [learnOn, learned]);
+  const defaults = suggestions(ctx, game?.title, !game || game.installations.some((i) => i.platform === 'steam'));
+  const prompts = blendSuggestions(defaults, learnOn ? learned?.pages[ctx.page] : undefined, game?.title);
   return (
     <motion.div
       className="asx-welcome"
@@ -81,26 +90,35 @@ function Welcome({ compact }: { compact?: boolean }) {
       animate={{ opacity: 1, y: 0 }}
       transition={pick(reduce, spring.page)}
     >
-      <AssistantAvatar provider={status?.engine.engine === 'none' ? null : status?.engine.engine} size="md" />
+      <AssistantOrb size="lg" />
       <h2 className="asx-welcome__title">{game && !compact ? `Ask about ${game.title}, or anything else` : 'How can I help?'}</h2>
       <p className="asx-welcome__body">
         I can look things up across VYSTRAL: your library, play history, performance, storage, wishlist and more. I can also set up changes for you to confirm.
       </p>
       <div className="asx-suggest" role="group" aria-label="Suggestions">
-        {prompts.map((p, i) => (
+        {prompts.map(({ text: p, learned: mine }, i) => (
           <motion.button
             key={p}
             type="button"
             className="asx-suggestion"
+            data-learned={mine || undefined}
             onClick={() => void send(p)}
             initial={reduce ? { opacity: 0 } : { opacity: 0, y: 6 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ ...pick(reduce, spring.panel), delay: reduce ? 0 : 0.06 + i * 0.04 }}
           >
+            {mine && <History size={13} aria-hidden className="asx-suggestion__mine" />}
             {p}
+            {mine && <span className="visually-hidden"> (you often ask this)</span>}
           </motion.button>
         ))}
       </div>
+      {dupes > 0 && !compact && (
+        <button type="button" className="asx-welcome__dupes" onClick={() => useExtras.getState().openCleanup()}>
+          <CopyCheck size={15} aria-hidden />
+          <span><strong>{dupes === 1 ? '1 possible duplicate' : `${dupes} possible duplicates`}</strong> in your library. Review merges one by one, each undoable.</span>
+        </button>
+      )}
     </motion.div>
   );
 }
@@ -225,6 +243,12 @@ const AssistantMessage = memo(function AssistantMessage({ m, last, compact }: { 
         {m.status !== 'streaming' && m.status !== 'error' && (m.content || m.tools?.length) ? (
           <div className="asx-foot">
             <Byline provider={m.provider} engine={m.engine} cloud={m.cloud} />
+            {m.memories ? (
+              <button type="button" className="asx-memchip" onClick={() => useExtras.getState().openMemory()}
+                title={m.cloud ? 'Sent with your message as context' : 'Used as context on this PC'}>
+                <Brain size={12} aria-hidden /> {m.memories === 1 ? '1 memory' : `${m.memories} memories`}{m.cloud ? ' sent' : ' used'}
+              </button>
+            ) : null}
             <SentNote sent={m.cloud ? m.sent : null} />
             <span className="asx-foot__tools">
               {m.content && <IconButton size="sm" label="Copy answer" onClick={() => void copy()}><Copy size={14} /></IconButton>}
@@ -292,6 +316,7 @@ function Composer({ compact, disabledReason }: { compact?: boolean; disabledReas
           onKeyDown={onKeyDown}
           maxLength={4000}
         />
+        <VoiceInput inputRef={inputRef} draft={draft} setDraft={setDraft} disabled={disabled || busy} />
         {busy ? (
           <IconButton label="Stop" className="asx-send asx-send--stop" onClick={() => void stop()} type="button">
             <Square size={13} fill="currentColor" />

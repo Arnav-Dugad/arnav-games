@@ -1230,3 +1230,35 @@ export interface BridgeEvents {
 }
 
 export type * from './types.recommend';
+
+// ---------- Track E1: Assistant memory, voice, recap notifications, summaries, duplicate cleanup, lag notes (types in ./types.trackE1) ----------
+
+export interface Settings {
+  /** Use what you asked the Assistant to remember (only things you confirmed). */
+  'assistant.memory': boolean;
+  /** Push-to-talk voice input with Windows' on-device speech recognizer. Off by default. */
+  'assistant.voice': boolean;
+  /** The weekly recap as a Windows notification (opt-in). */
+  'notifications.weeklyRecap': boolean;
+  /** Sunday covers the week ending that day; Monday the week before. */
+  'assistant.recapDay': 'sunday' | 'monday';
+  /** Local hour (0–23). */
+  'assistant.recapHour': number;
+  /** Two-line AI summaries for games without a description (opt-in). */
+  'ai.features.gameSummaries': boolean;
+  /** Let the AI word the lag note on rough sessions (opt-in; VYSTRAL writes it otherwise). */
+  'ai.features.lagNotes': boolean;
+  /** Learn suggested prompts from what you ask, per page (on this PC). */
+  'assistant.learnPrompts': boolean;
+}
+
+export interface BridgeEvents {
+  'voice.event': import('./types.trackE1').VoiceEvent;
+  'assistant.memory.changed': import('./types.trackE1').AssistantMemoryList;
+  /** The weekly recap is due (also shown as a Windows notification when that's on). */
+  'assistant.recap': { week: string; title: string; summary: string };
+  /** A rough session that just ended got its lag note. */
+  'perf.lagNote': import('./types.trackE1').LagNote;
+}
+
+export type * from './types.trackE1';

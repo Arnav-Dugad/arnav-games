@@ -6,6 +6,9 @@ import { exit, pick, spring } from '../../lib/motion';
 import { openAssistant, useAssistant } from '../../state/assistant';
 import { useReducedMotion, useStore } from '../../state/store';
 import './assistant-ui.css';
+import { MemoryDialog } from './MemoryManager'; // Track E1
+import { DuplicateCleanupDialog } from './DuplicateCleanup'; // Track E1
+import { subscribeExtras } from '../../state/assistantExtras'; // Track E1
 
 /**
  * Track D3: the Assistant on every page. A floating launcher (bottom right) and Ctrl+J open a side panel with the same
@@ -23,6 +26,8 @@ export function AssistantHost() {
   // The panel's code loads the first time it opens and then stays (its exit animation needs it mounted).
   const [loaded, setLoaded] = useState(false);
   if (open && !loaded) setLoaded(true);
+
+  useEffect(() => subscribeExtras(), []); // Track E1: memory changes and the weekly recap toast
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -56,6 +61,8 @@ export function AssistantHost() {
     <>
       {launcherOn && route !== 'assistant' && <Launcher hidden={open} />}
       {loaded && <Suspense fallback={null}><Panel open={open && route !== 'assistant'} /></Suspense>}
+      <MemoryDialog />
+      <DuplicateCleanupDialog />
     </>
   );
 }

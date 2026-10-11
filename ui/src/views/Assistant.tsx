@@ -1,14 +1,16 @@
 import { useCallback, useEffect, useReducer, useState, type ReactNode } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
-import { Bot, Download, ExternalLink, MessageSquarePlus, Pause, Power, RefreshCw, Trash2, TriangleAlert, WifiOff } from 'lucide-react';
+import { Bot, Brain, Download, ExternalLink, MessageSquarePlus, Pause, Power, RefreshCw, Trash2, TriangleAlert, WifiOff } from 'lucide-react';
 import type { AiStatus } from '../bridge/types';
 import { call, errorMessage, on } from '../bridge/bridge';
 import { Badge, Button, IconButton, ProgressBar, Skeleton } from '../components/ui/primitives';
 import { Dialog } from '../components/ui/Dialog';
 import { ServiceLogo } from '../components/ui/ServiceLogo';
 import { AssistantChat } from '../components/assistant/AssistantChat';
-import { AssistantAvatar } from '../components/assistant/AssistantBits';
 import { ProviderSwitcher } from '../components/assistant/ProviderSwitcher';
+import { AssistantOrb } from '../components/assistant/AssistantOrb'; // Track E1
+import { WeeklyRecapCard } from '../components/assistant/WeeklyRecapCard'; // Track E1
+import { useExtras } from '../state/assistantExtras'; // Track E1
 import { useAssistant } from '../state/assistant';
 import { useGameRunning, useStore } from '../state/store';
 import { formatRelative } from '../lib/format';
@@ -33,6 +35,8 @@ export function AssistantView() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const localPath = provider === 'local' || engine?.engine === 'local';
+  const recap = useStore((s) => (s.route.name === 'assistant' && /^\d{4}-\d{2}-\d{2}$/.test(s.route.recap ?? '') ? s.route.recap! : null));
+  const navigate = useStore((s) => s.navigate);
 
   useEffect(() => {
     void useAssistant.getState().refreshStatus();
@@ -70,12 +74,21 @@ export function AssistantView() {
       <section className="asx-page__main" aria-labelledby="asx-page-title">
         <header className="asx-page__head">
           <div className="asx-page__id">
-            <AssistantAvatar size="sm" provider={engine && engine.engine !== 'none' ? engine.engine : null} />
+            <AssistantOrb size="sm" />
             <h1 id="asx-page-title" className="asx-page__title">Assistant</h1>
             <ProviderSwitcher />
           </div>
-          <NewChatButton />
+          <div className="asx-page__tools">
+            <IconButton size="sm" label="What the Assistant remembers" onClick={() => useExtras.getState().openMemory()}><Brain size={16} /></IconButton>
+            <NewChatButton />
+          </div>
         </header>
+        {recap && (
+          <div className="asx-page__recap">
+            <WeeklyRecapCard week={recap} onClose={() => navigate({ name: 'assistant' })}
+              onAsk={(prompt) => { navigate({ name: 'assistant' }); void useAssistant.getState().send(prompt); }} />
+          </div>
+        )}
         {localOn && localPath && running && (
           <div className="as-paused" role="status" style={{ margin: 'var(--s-4) var(--s-6) 0' }}>
             <Pause size={16} aria-hidden />

@@ -2,7 +2,8 @@
 
 export type CloudAiProviderId = 'anthropic' | 'openai' | 'gemini' | 'compatible';
 export type AiProviderChoice = 'local' | CloudAiProviderId;
-export type AiFeatureId = 'assistant' | 'journal' | 'patchNotes' | 'tonight' | 'smartCollections' | 'duplicates' | 'recapCaptions';
+export type AiFeatureId = 'assistant' | 'journal' | 'patchNotes' | 'tonight' | 'smartCollections' | 'duplicates' | 'recapCaptions'
+  | 'gameSummaries' | 'lagNotes'; // Track E1
 
 export interface AiEngine {
   /** Who would answer right now. */

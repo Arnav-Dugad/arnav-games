@@ -67,7 +67,8 @@ export type AssistantCard =
     };
 
 export type AssistantActionTool =
-  | 'open_page' | 'open_game' | 'create_collection' | 'create_smart_collection' | 'set_status' | 'set_favorite' | 'start_discover_search' | 'watch_game';
+  | 'open_page' | 'open_game' | 'create_collection' | 'create_smart_collection' | 'set_status' | 'set_favorite' | 'start_discover_search' | 'watch_game'
+  | 'remember' | 'review_duplicates'; // Track E1
 
 /** A change the assistant prepared. Nothing happens until the user confirms it. */
 export interface AssistantProposal {
@@ -87,7 +88,7 @@ export interface AssistantApproval {
 }
 
 export type AssistantEvent =
-  | { requestId: string; type: 'start'; engine: string; cloud: boolean; provider: string; note?: string | null }
+  | { requestId: string; type: 'start'; engine: string; cloud: boolean; provider: string; note?: string | null; /** Track E1: memories sent as context. */ memories?: number }
   | { requestId: string; type: 'delta'; text: string }
   | { requestId: string; type: 'tool'; call: AssistantToolCall; card?: AssistantCard | null }
   | { requestId: string; type: 'approval'; approval: AssistantApproval }

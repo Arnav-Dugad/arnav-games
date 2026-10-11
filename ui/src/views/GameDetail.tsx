@@ -58,6 +58,8 @@ import { CommunityTags, FranchiseTimeline, GameInsights } from '../components/ga
 // Track D1: similar games you own (forgotten ones first) and the update / mod / session timeline.
 import { SimilarStrip } from '../components/game/SimilarStrip';
 import { ModTimeline } from '../components/game/ModTimeline';
+import { LagNote } from './perf/LagNote'; // Track E1
+import { AiGameSummary } from '../components/ai/AiGameSummary'; // Track E1
 
 // Track AA: tab panels that aren't on the first screen load when their tab opens (not at startup).
 const AchievementsPanel = lazy(() => import('../components/game/AchievementsPanel').then((m) => ({ default: m.AchievementsPanel })));
@@ -456,7 +458,10 @@ function Overview({ game, onOpenAchievements }: { game: Game; onOpenAchievements
     <GameInsights game={game} onOpenAchievements={onOpenAchievements} />
     <div className="overview">
       <div className="overview__main">
-        {game.description ? <p className="overview__desc selectable">{game.description}</p> : <p className="overview__desc" style={{ color: 'var(--text-3)' }}>No description available. VYSTRAL only shows information it can source reliably.</p>}
+        {game.description ? <p className="overview__desc selectable">{game.description}</p> : (
+          // Track E1: an opt-in, labelled AI summary from known facts in place of the missing description.
+          <AiGameSummary game={game}><p className="overview__desc" style={{ color: 'var(--text-3)' }}>No description available. VYSTRAL only shows information it can source reliably.</p></AiGameSummary>
+        )}
         <CommunityTags params={{ gameId: game.id }} cacheKey={game.id} />
         {/* Track I: compatibility badges, IGDB/RAWG facts and deals, each with its source. */}
         {/* Track M: playtime vs IGDB time to beat, and an informative kernel anti-cheat note (each renders nothing without data). */}
@@ -529,6 +534,8 @@ function Sessions({ game }: { game: Game }) {
               {perf?.gpuTempMaxC != null && <Badge>{Math.round(perf.gpuTempMaxC)}°C peak</Badge>}
               {perf && <BarChart3 size={16} aria-label="Open performance details" />}
             </div>
+            {/* Track E1: the likely cause on a rough session. */}
+            <LagNote sessionId={s.id} summary={perf} durationSeconds={s.durationSeconds} compact />
           </button>
         );
       })}

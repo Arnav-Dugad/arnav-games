@@ -20,6 +20,7 @@ import { LineChart } from './LineChart';
 import { FrameRatePanel, ThermalPanel } from './InsightPanels';
 import { useInsightSamples, useThrottleBands } from './insightData';
 import { SessionEnergyTile } from './EnergyCard';
+import { LagNote } from './LagNote'; // Track E1
 import { HealthPip } from './PerfSummaryBand';
 import { HEALTH_LABEL, healthOf, stutterMarks, type PerfEntry } from './overview';
 import { METRICS, domainFor, downsampleSegments, extractSeries, formatMetric, seriesStats, splitSegments, summaryValue, type MetricKey, type Pt } from './series';
@@ -113,6 +114,8 @@ export function SessionDetail({ entry, game }: { entry: PerfEntry; game: Game | 
             <strong>{HEALTH_LABEL[health.level]}</strong>
             {health.reasons.length > 0 && <span> · {health.reasons.slice(0, 2).join(' · ')}</span>}
           </p>
+          {/* Track E1: "Why did this session lag?" — the likely cause, labelled; it never changes settings. */}
+          <LagNote sessionId={entry.id} summary={summary} durationSeconds={session.durationSeconds} />
         </div>
         <div className="pf-hero__action">
           {/* Track M: ~10 s animated summary of this session, saveable as an image. */}

@@ -1,13 +1,15 @@
 import { useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { AnimatePresence, motion } from 'motion/react';
-import { Maximize2, Plus, X } from 'lucide-react';
+import { Brain, Maximize2, Plus, X } from 'lucide-react';
 import { exit, pick, spring } from '../../lib/motion';
 import { useAssistant } from '../../state/assistant';
 import { useReducedMotion, useStore } from '../../state/store';
 import { IconButton } from '../ui/primitives';
 import { AssistantChat } from './AssistantChat';
 import { ProviderSwitcher } from './ProviderSwitcher';
+import { AssistantOrb } from './AssistantOrb'; // Track E1
+import { useExtras } from '../../state/assistantExtras'; // Track E1
 import './assistant-ui.css';
 
 /** Track D3: the side panel itself (loaded the first time it opens, so the launcher costs almost nothing at startup). */
@@ -63,6 +65,7 @@ export default function Panel({ open }: { open: boolean }) {
         >
           <header className="asx-panel__head">
             <div className="asx-panel__id">
+              <AssistantOrb size="sm" />
               <h2 id="asx-panel-title" className="asx-panel__title">Assistant</h2>
               <ProviderSwitcher compact />
             </div>
@@ -70,6 +73,7 @@ export default function Panel({ open }: { open: boolean }) {
               {hasMessages && (
                 <IconButton size="sm" label="New chat" onClick={newChat} disabled={busy}><Plus size={16} /></IconButton>
               )}
+              <IconButton size="sm" label="What the Assistant remembers" onClick={() => useExtras.getState().openMemory()}><Brain size={15} /></IconButton>
               <IconButton size="sm" label="Open full Assistant" onClick={() => navigate({ name: 'assistant' })}><Maximize2 size={15} /></IconButton>
               <IconButton size="sm" label="Close the Assistant" onClick={close}><X size={16} /></IconButton>
             </div>

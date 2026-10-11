@@ -20,6 +20,7 @@ import { PerfOverview } from './perf/PerfOverview';
 import { SessionTimeline } from './perf/SessionTimeline';
 import { SessionDetail } from './perf/SessionDetail';
 import { ComparePanel } from './perf/ComparePanel';
+import { LagNote } from './perf/LagNote'; // Track E1
 import './performance.css';
 import './perf/redesign.css';
 
@@ -347,6 +348,8 @@ function SessionItem({ e, game, selected, onSelect }: { e: PerfEntry; game: Game
           {fps != null ? <span>{Math.round(fps)} fps</span> : <span>GPU {gpu == null ? '—' : `${Math.round(gpu)}%`}</span>}
           <span>CPU {e.summary.cpuAvg == null ? '—' : `${Math.round(e.summary.cpuAvg)}%`}</span>
         </span>
+        {/* Track E1: the likely cause on a rough session. */}
+        {health.level === 'rough' && <LagNote sessionId={e.id} summary={e.summary} durationSeconds={e.session.durationSeconds} compact />}
       </span>
     </button>
   );
