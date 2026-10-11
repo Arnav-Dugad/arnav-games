@@ -1,10 +1,11 @@
 import { motion } from 'motion/react';
-import { HardDrive, BarChart3, BookOpen, Bot, Compass, Home, Images, LibraryBig, Settings2, Sparkles, Folder, Plus, Gift } from 'lucide-react';
+import { HardDrive, BarChart3, BookOpen, Bot, Compass, Home, Images, LibraryBig, Settings2, Sparkles, Plus, Gift } from 'lucide-react';
 import type { ReactNode } from 'react';
 import { spring } from '../../lib/motion';
 import { useReducedMotion, useStore, type Route } from '../../state/store';
 import { NewBadge } from '../../whatsnew/NewBadge';
 import { SmartCount } from '../ai/SmartCount'; // Track C5
+import { SidebarCollectionIcon } from '../library/CollectionCover'; // Track E2a
 
 const NAV: { route: Route; label: string; icon: ReactNode }[] = [
   { route: { name: 'home' }, label: 'Home', icon: <Home size={18} /> },
@@ -54,7 +55,7 @@ export function Sidebar() {
       {NAV.filter((n) => n.route.name !== 'wishlist' || wishlistOn).map((n) => item(n.route, n.label, n.icon, n.route.name === 'library' ? <span className="nav-item__count">{count}</span> : <NewBadge k={`nav.${n.route.name}`} />))}
       <div className="sidebar__group">
         <div className="caps">Collections</div>
-        {collections.map((c) => item({ name: 'library', collectionId: c.id }, c.name, c.rule ? <Sparkles size={17} /> : <Folder size={17} />, c.rule ? <SmartCount rule={c.rule} /> : <span className="nav-item__count">{c.count}</span>, c.id))}
+        {collections.map((c) => item({ name: 'library', collectionId: c.id }, c.name, <SidebarCollectionIcon collection={c} />, c.rule ? <SmartCount rule={c.rule} /> : <span className="nav-item__count">{c.count}</span>, c.id))}
         <button className="nav-item" aria-label="New collection" title="New collection" onClick={() => window.dispatchEvent(new CustomEvent('vystral:new-collection'))}>
           <Plus size={17} />
           <span>New collection</span>

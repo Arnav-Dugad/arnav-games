@@ -2,6 +2,7 @@ import { create } from 'zustand';
 import { call, errorMessage, isNative, on } from '../bridge/bridge';
 import { rarity, unlockToastText } from '../lib/achievements';
 import { readFirstPaint, type FirstPaint } from '../lib/firstPaint';
+import { effectiveStartPage, readStartPage, rememberStartPage, startRouteName, type StartPage } from '../lib/startPage';
 import { startOwnershipNotices } from './ownership';
 import type {
   AdapterInfo, AppInfo, DriveInfo, Game, LaunchState, LibrarySnapshot, SettingKey, Settings, UpdateState, WindowState,
@@ -146,6 +147,8 @@ const sameRoute = (a: Route, b: Route) => JSON.stringify(a) === JSON.stringify(b
 const ROUTE_KEY = 'vystral.lastRoute';
 /** Track AA: read once, before the first render (the host put it there before any script ran). */
 const initialFirstPaint = readFirstPaint();
+/** Track E2a: the first page, from the start-page choice remembered last time (see lib/startPage.ts). */
+const initialRoute: Route = startRoute(readStartPage());
 
 export const useStore = create<State>((set, get) => ({
   ready: false,
@@ -163,7 +166,8 @@ export const useStore = create<State>((set, get) => ({
   launch: null,
   update: null,
   // Track AA: restored before the first render (not after app.info), so the first frame is already the right page.
-  route: readLastRoute() ?? { name: 'home' },
+  // Track E2a: "Open on start" picks it (a fixed page, or the last one).
+  route: initialRoute,
   back: [],
   forward: [],
   navKind: 'push',
@@ -183,6 +187,10 @@ export const useStore = create<State>((set, get) => ({
       const modeChanged = get().window.mode !== 'desktop';
       set({ info, settings: info.settings, window: modeChanged ? { ...info.window, mode: get().window.mode } : info.window, launch: info.launch, update: info.update });
       if (info.window.mode === 'immersive') document.documentElement.dataset.mode = 'immersive';
+      // Track E2a: the remembered start page was missing or out of date — open the one settings ask for, unless
+      // the user already moved on.
+      const wanted = startRoute(effectiveStartPage(info.settings));
+      if (get().back.length === 0 && sameRoute(get().route, initialRoute) && !sameRoute(wanted, initialRoute)) set({ route: wanted });
       // Track U: the browser preview's `?discover` (or `?discover=<text>`) opens the Discover page.
       if (!isNative && new URLSearchParams(location.search).has('discover'))
         set({ route: { name: 'discover', query: new URLSearchParams(location.search).get('discover') || undefined } });
@@ -474,12 +482,23 @@ function readLastRoute(): Route | null {
     const raw = localStorage.getItem(ROUTE_KEY);
     const route = raw ? (JSON.parse(raw) as Route) : null;
     // Only pages that need no id; anything else (an older or damaged entry) starts on Home.
-    const known = ['home', 'library', 'journal', 'performance', 'moments', 'constellation', 'assistant', 'settings', 'storage', 'health'];
+    const known = ['home', 'library', 'journal', 'performance', 'moments', 'constellation', 'assistant', 'settings', 'storage', 'health', 'discover', 'wishlist'];
     return route && typeof route === 'object' && known.includes(route.name) ? route : null;
   } catch {
     return null;
   }
 }
+
+/** Track E2a: the first page for a start-page choice (a fixed page, else the last page you were on, else Home). */
+function startRoute(page: StartPage | null): Route {
+  const name = startRouteName(page);
+  return name ? { name } : readLastRoute() ?? { name: 'home' };
+}
+
+// Track E2a: keep the start-page choice mirrored for the next start's first frame.
+useStore.subscribe((s, prev) => {
+  if (s.settings && s.settings !== prev.settings) rememberStartPage(effectiveStartPage(s.settings));
+});
 
 /** Selector helpers. */
 export const useSettings = () => useStore((s) => s.settings);

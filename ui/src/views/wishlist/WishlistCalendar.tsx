@@ -13,6 +13,8 @@ import {
 import { useReducedMotion } from '../../state/store';
 import { Button, IconButton, Kbd, PadHint } from '../../components/ui/primitives';
 import { openSteamApp } from '../../components/discover/DiscoverBits';
+import { waitingFor } from '../../lib/waiting';
+import { CalendarPeek, WaitingLine } from './Waiting'; // Track E2a
 import './calendar.css';
 
 type Ym = { year: number; month: number };
@@ -38,6 +40,7 @@ function spoken(p: Placed, when: string): string {
     p.item.name, when, priceWords(p.item),
     m.lowest ? (m.belowLowest ? 'new lowest price ever' : 'lowest price ever') : null,
     p.item.gameId ? 'in your library' : null,
+    waitingFor(p.item)?.sentence.toLowerCase() ?? null, // Track E2a
   ].filter(Boolean).join(', ');
 }
 
@@ -57,6 +60,7 @@ export function WishlistCalendar({ items, filtered }: { items: WishlistItem[]; f
   const [view, setViewState] = useState<Ym>(() => remembered ?? { year: today.getFullYear(), month: today.getMonth() });
   const [dir, setDir] = useState(0);
   const [selectedDay, setSelectedDay] = useState<string | null>(null);
+  const [peek, setPeek] = useState<{ el: HTMLElement; p: Placed } | null>(null); // Track E2a
   const firstDay = useMemo(() => firstDayOfWeek(), []);
   const index = useMemo(() => indexWishlist(items), [items]);
   const lanes = useMemo(() => releaseLanes(index.vague, today), [index, today]);
@@ -242,7 +246,7 @@ export function WishlistCalendar({ items, filtered }: { items: WishlistItem[]; f
                             const key = `${cell.key}#${i}`;
                             const pos = positions.findIndex((x) => x.key === key);
                             return <CalendarGame key={p.item.appId} p={p} calKey={key} label={spoken(p, whenOf(p, today))} solo={games.length === 1}
-                              tabbable={pos === activeIndex} onFocus={() => setActive(pos)} />;
+                              tabbable={pos === activeIndex} onFocus={() => setActive(pos)} onPeek={setPeek} />;
                           })}
                           {games.length > 2 && (() => {
                             const key = `${cell.key}#more`;
@@ -308,6 +312,9 @@ export function WishlistCalendar({ items, filtered }: { items: WishlistItem[]; f
       </div>
 
       <Lanes lanes={lanes} today={today} />
+      {/* Track E2a: the hover/focus card for the release under the pointer or focus. */}
+      <CalendarPeek id="wcal-peek" anchor={peek?.el ?? null} item={peek?.p.item ?? null}
+        when={peek ? whenOf(peek.p, today) : ''} price={peek ? priceWords(peek.p.item) : ''} />
     </section>
   );
 }
@@ -381,12 +388,25 @@ function Marks({ item, compact = false }: { item: WishlistItem; compact?: boolea
   );
 }
 
-function CalendarGame({ p, calKey, label, solo, tabbable, onFocus }: { p: Placed; calKey: string; label: string; solo: boolean; tabbable: boolean; onFocus: () => void }) {
+function CalendarGame({ p, calKey, label, solo, tabbable, onFocus, onPeek }: {
+  p: Placed; calKey: string; label: string; solo: boolean; tabbable: boolean; onFocus: () => void;
+  /** Track E2a: hovering or focusing shows the peek card (null hides it). */
+  onPeek: (v: { el: HTMLElement; p: Placed } | null | ((cur: { el: HTMLElement; p: Placed } | null) => { el: HTMLElement; p: Placed } | null)) => void;
+}) {
   const ref = useRef<HTMLButtonElement>(null);
+  const show = () => ref.current && onPeek({ el: ref.current, p });
+  // Only hide the card if it's still this game's (moving between covers shows the next one first).
+  const hide = () => onPeek((cur) => (cur?.el === ref.current ? null : cur));
+  useEffect(() => {
+    // Unmounting (a month change) hides it too.
+    const el = ref.current;
+    return () => onPeek((cur) => (cur?.el === el ? null : cur));
+  }, [onPeek]);
   return (
     <button type="button" ref={ref} className="wcal-game" data-cal-key={calKey} data-solo={solo || undefined} tabIndex={tabbable ? 0 : -1}
-      data-out={!p.item.comingSoon || undefined} onFocus={onFocus} aria-label={`Open the page for ${label}`}
-      onClick={() => openSteamApp(p.item.appId, p.item.name, p.item.gameId, ref.current)}>
+      data-out={!p.item.comingSoon || undefined} onFocus={() => { onFocus(); show(); }} onBlur={hide} onMouseEnter={show} onMouseLeave={hide}
+      aria-label={`Open the page for ${label}`}
+      onClick={() => { onPeek(null); openSteamApp(p.item.appId, p.item.name, p.item.gameId, ref.current); }}>
       <Poster item={p.item} />
       <Marks item={p.item} compact />
       <span className="wcal-game__name" aria-hidden>{p.item.name}</span>
@@ -404,6 +424,7 @@ function AgendaRow({ p, when, label }: { p: Placed; when: string; label: string 
       <span className="wcal-row__text">
         <span className="wcal-row__name truncate">{p.item.name}</span>
         <span className="wcal-row__when">{when}</span>
+        <WaitingLine item={p.item} compact />{/* Track E2a */}
         <span className="wcal-row__price">
           <PriceShort item={p.item} />
           {m.lowest && <span className="wmark wmark--low"><TrendingDown size={11} aria-hidden /> {m.belowLowest ? 'New lowest' : 'Lowest ever'}</span>}

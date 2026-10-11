@@ -31,6 +31,8 @@ export const SETTINGS_INDEX: SettingsEntry[] = [
   { section: 'appearance', group: 'Motion', label: 'Reduce motion', hint: 'Swap movement for quick fades.', keywords: 'animation motion accessibility reduced fades' },
   { section: 'appearance', group: 'Motion', label: 'Play the startup animation', hint: 'The short intro when VYSTRAL starts.', keywords: 'intro splash startup animation' },
   { section: 'appearance', group: 'Home', label: 'Live tiles', hint: 'Silent trailer loops on Home.', keywords: 'home tiles video loops trailers' },
+  // Track E2a
+  { section: 'appearance', group: 'When VYSTRAL opens', label: 'Open on start', row: 'start-page', hint: 'Home, Library, another page, Immersive Mode or the last page you were on.', keywords: 'startup start page open launch first page default home library discover wishlist journal performance immersive last remember' },
 
   // ---- Library & stores ----
   { section: 'library', group: 'Store integrations', label: 'Store integrations', row: 'stores', hint: 'Steam, Xbox, Epic, GOG, EA, Ubisoft and Battle.net on this PC.', keywords: 'steam xbox epic gog ea ubisoft battle.net stores scan rescan platforms launchers' },

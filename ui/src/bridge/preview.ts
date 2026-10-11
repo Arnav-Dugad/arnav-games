@@ -46,6 +46,7 @@ import { decorateRigSession, previewCaptionInset, trackC2PreviewHandlers } from 
 import { trackD1PreviewHandlers } from './preview.trackD1';
 import { TRACK_D6_DEFAULT_SETTINGS, previewD6Settings, trackD6PreviewHandlers } from './preview.trackD6'; // Track D6
 import { RECOMMEND_DEFAULT_SETTINGS, previewRecommendSettings, recommendPreviewHandlers } from './preview.recommend'; // Track D5
+import { TRACK_E2A_DEFAULT_SETTINGS, previewE2aSettings, seedPreviewCovers, trackE2aPreviewHandlers } from './preview.trackE2a'; // Track E2a
 
 type Emit = (name: string, payload: unknown) => void;
 
@@ -109,6 +110,7 @@ const DEFAULT_SETTINGS: Settings = {
   ...TRACK_D6_DEFAULT_SETTINGS, // Track D6
   ...ASSISTANT_DEFAULT_SETTINGS, // Track D3
   ...RECOMMEND_DEFAULT_SETTINGS, // Track D5
+  ...TRACK_E2A_DEFAULT_SETTINGS, // Track E2a
 };
 
 const SAMPLE: [string, string[], PlatformKey[], string, string][] = [
@@ -286,7 +288,9 @@ export function createPreviewBackend() {
   settings = { ...settings, ...previewAiSettings(params) }; // Track C5: ?aiCloud
   settings = { ...settings, ...previewD6Settings(params) }; // Track D6: ?currency=INR
   settings = { ...settings, ...previewRecommendSettings(params) }; // Track D5: ?freebies
+  settings = { ...settings, ...previewE2aSettings(params) }; // Track E2a: ?startPage=library
   const collections: LibrarySnapshot['collections'] = [];
+  seedPreviewCovers(params, lib.games, collections, () => settings, (s) => { settings = s; }); // Track E2a: ?covers
   let emit: Emit = () => {};
   // Track T: `?nowPlaying` starts the preview with a game already running (Immersive's Now playing row).
   let launch: LaunchState | null = previewNowPlaying(lib.games);
@@ -340,7 +344,8 @@ export function createPreviewBackend() {
   const handlers: Record<string, (p: any) => unknown> = {
     'app.info': (): AppInfo => ({
       version: '0.1.0-preview', safeMode: false, previousRunCrashed: false, startupProblem: null, dataPath: '(preview)',
-      window: { mode: 'desktop', maximized: false, fullscreen: false, captionInsetRight: previewCaptionInset(), scale: 1 },
+      // Track E2a: like the host, start in Immersive Mode when settings ask for it (the preview's settings start fresh each load).
+      window: { mode: settings['startup.immersive'] || settings['startup.page'] === 'immersive' ? 'immersive' : 'desktop', maximized: false, fullscreen: false, captionInsetRight: previewCaptionInset(), scale: 1 },
       settings, launch, update, os: navigator.userAgent, cpuCount: navigator.hardwareConcurrency ?? 8,
     }),
     // 'app.ready' is in preview.maintenance.ts (Track AA: it starts the after-update self-check).
@@ -578,6 +583,8 @@ export function createPreviewBackend() {
     ...trackD6PreviewHandlers({ emit: () => emit, settings: () => settings, timers }),
     // Track D5: "Not interested", cloud readiness (?readiness=great|fair|poor); ?freebies also turns on the Home row.
     ...recommendPreviewHandlers({ lib, emit: () => emit, settings: () => settings }),
+    // Track E2a: the Completed 100% card image (?startPage=…, ?covers, ?coverPinned, ?covers100 are read at start).
+    ...trackE2aPreviewHandlers({ lib, emit: () => emit }),
   };
   const slowLibrary = Math.min(10_000, Number(params.get('slowLibrary') ?? 0) || 0);
 

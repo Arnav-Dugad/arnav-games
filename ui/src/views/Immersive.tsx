@@ -52,6 +52,7 @@ import { DiscoverFace, DiscoverInfo, NoteFace, SearchFace, useDiscoverStage } fr
 import { DiscoverPage } from './immersive/DiscoverPage';
 import type { DiscoverItem } from './immersive/discoverRows';
 import { useRecommendSignals } from '../state/recommend'; // Track D5
+import { RowCollectionCover } from '../components/library/CollectionCover'; // Track E2a
 import './immersive.css';
 import './immersive/immersive-t.css';
 import './immersive/immersive-z.css';
@@ -1562,6 +1563,7 @@ function RowsTrack({
               aria-hidden={!mounted || undefined}
             >
               <h2 className="imm__row-title" style={active ? ringVars : undefined} data-header-focus={isHeader || undefined} data-holding={(isHeader && holdingY) || undefined}>
+                {r.kind === 'collection' && <RowCollectionCover collectionId={r.id.slice('collection:'.length)} />}
                 <span className="imm__row-name">{r.title}</span>
                 {/* Track D5: on a recommended row, the focused game's reason replaces the row's line. */}
                 {(active && r.reasons?.[r.tiles[activeCol]?.key ?? ''] && !isHeader && !lifted)

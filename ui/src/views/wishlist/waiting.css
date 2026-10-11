@@ -1,0 +1,88 @@
+/* Track E2a: "years waiting" on the wishlist, the calendar's peek card and the cover "peel". */
+
+.wwait {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: var(--fs-sm);
+  color: var(--text-3);
+}
+.wwait[data-compact] { font-size: var(--fs-xs); gap: 4px; }
+.wwait svg { flex: none; opacity: 0.85; }
+/* Two years or more: the hourglass warms up a little. */
+.wwait[data-long] svg { color: var(--warn); opacity: 1; }
+
+.wwait-stat { align-items: center; }
+.wwait-stat svg { align-self: center; color: var(--warn); }
+.wish-stat[data-tone='waiting'] b { color: var(--text-1); }
+
+/* ---- The peek card: above the hovered or focused cover ---- */
+.wpeek {
+  position: fixed;
+  z-index: 60;
+  display: grid;
+  gap: 3px;
+  max-width: 260px;
+  padding: 10px 12px;
+  border-radius: var(--r-md);
+  pointer-events: none;
+  color: var(--text-1);
+  background: var(--glass-strong);
+  backdrop-filter: blur(18px) saturate(1.3);
+  box-shadow: var(--shadow-3), inset 0 0 0 1px var(--line-strong);
+  transform: translate(-50%, -100%);
+  opacity: 0;
+  transition: opacity var(--dur-fast) var(--ease-out);
+}
+.wpeek[data-below] { transform: translate(-50%, 0); }
+.wpeek[data-shown] { opacity: 1; animation: wpeek-in var(--dur-base) var(--ease-emph); }
+.wpeek[data-below][data-shown] { animation-name: wpeek-in-below; }
+.wpeek__name { font-size: var(--fs-sm); font-weight: var(--fw-semibold); line-height: 1.25; }
+.wpeek__when { font-size: var(--fs-xs); color: var(--text-2); }
+.wpeek__wait { display: inline-flex; align-items: center; gap: 5px; margin-top: 2px; font-size: var(--fs-xs); color: var(--text-2); }
+.wpeek__wait svg { color: var(--warn); flex: none; }
+
+@keyframes wpeek-in { from { opacity: 0; transform: translate(-50%, calc(-100% + 6px)); } }
+@keyframes wpeek-in-below { from { opacity: 0; transform: translate(-50%, -6px); } }
+
+/* ---- The peel: hovering or focusing a release lifts its cover, tilts it toward you and runs a sheen across ---- */
+.wcal-game { transform-origin: 50% 100%; }
+.wcal-game::after {
+  content: '';
+  position: absolute;
+  inset: -20% -60%;
+  z-index: 3;
+  pointer-events: none;
+  background: linear-gradient(105deg, transparent 38%, oklch(1 0 0 / 0.34) 48%, oklch(1 0 0 / 0.08) 54%, transparent 62%);
+  transform: translateX(-70%);
+  opacity: 0;
+}
+.wcal-game:hover,
+.wcal-game:focus-visible,
+:root[data-input='pad'] .wcal-game:focus {
+  transform: perspective(520px) translateY(-7px) rotateX(10deg) rotateY(-8deg) scale(1.08);
+  box-shadow:
+    0 24px 30px -16px oklch(0 0 0 / 0.95),
+    0 8px 14px -8px oklch(0 0 0 / 0.6),
+    inset 0 0 0 1px oklch(1 0 0 / 0.22);
+  z-index: 4;
+}
+.wcal-game:hover::after,
+.wcal-game:focus-visible::after { animation: wpeel-sheen 760ms var(--ease-out) forwards; }
+@keyframes wpeel-sheen {
+  0% { opacity: 0; transform: translateX(-70%); }
+  25% { opacity: 1; }
+  100% { opacity: 0; transform: translateX(70%); }
+}
+/* The day lets a lifted cover rise out of it (its corner glow keeps the day's rounded shape). */
+.wcal-day:has(.wcal-game:hover, .wcal-game:focus-visible) { overflow: visible; z-index: 5; }
+.wcal-day[data-n]:not([data-n='0'])::before { border-radius: inherit; }
+
+/* Reduced motion: no lift, tilt or sheen; the focus ring and the peek card still show. */
+:root[data-reduced-motion='true'] .wcal-game:hover,
+:root[data-reduced-motion='true'] .wcal-game:focus-visible { transform: none; }
+:root[data-reduced-motion='true'] .wcal-game::after { display: none; }
+:root[data-reduced-motion='true'] .wpeek[data-shown] { animation: none; }
+:root[data-quality='low'] .wpeek { backdrop-filter: none; background: var(--bg-2); }
+:root[data-theme='contrast'] .wpeek { background: #000; box-shadow: inset 0 0 0 2px var(--text-1); backdrop-filter: none; }
+:root[data-theme='contrast'] .wcal-game::after { display: none; }

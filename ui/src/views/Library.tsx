@@ -1,7 +1,7 @@
 import { useDeferredValue, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { NewBadge } from '../whatsnew/NewBadge';
 import { useVirtualizer } from '@tanstack/react-virtual';
-import { ArrowDownWideNarrow, Cloud, FilePlus2, Grid3x3, List, ListChecks, Pencil, Search, Trash2, X, Copy, Wand2, HeartPulse, Sparkles } from 'lucide-react';
+import { ArrowDownWideNarrow, Cloud, FilePlus2, Grid3x3, List, ListChecks, Pencil, Search, Trash2, X, Copy, Wand2, HeartPulse, Sparkles, Image as ImageIcon } from 'lucide-react';
 import { call, errorMessage } from '../bridge/bridge';
 import type { Game, GameStatus, PlatformKey } from '../bridge/types';
 import { ArtPacksDialog } from '../components/artpacks/ArtPacksDialog';
@@ -32,6 +32,7 @@ import { SubsBadge } from '../components/subs/SubsBits';
 import { ServiceLogo } from '../components/ui/ServiceLogo';
 import { NotOwnedNote } from '../components/game/NotOwned';
 import { PackageX } from 'lucide-react';
+import { CollectionCover, CollectionCoverDialog } from '../components/library/CollectionCover'; // Track E2a
 import './library.css';
 // Track C4: Steam community tags as filters (chips, a tag picker, and "tagged …" / "#…" in the filter text).
 import { TagFilter } from '../components/library/TagFilter';
@@ -93,6 +94,7 @@ export function LibraryView({ collectionId, quick: initialQuick }: { collectionI
   const [view, setView] = useState<'grid' | 'list'>(() => (localStorage.getItem(VIEW_KEY) as 'grid' | 'list') ?? 'grid');
   const [dupOpen, setDupOpen] = useState(false);
   const [renameOpen, setRenameOpen] = useState(false);
+  const [coverOpen, setCoverOpen] = useState(false); // Track E2a
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [packsOpen, setPacksOpen] = useState(false);
   // Track N: filter by store (the chips' marks draw themselves on hover/focus).
@@ -183,7 +185,15 @@ export function LibraryView({ collectionId, quick: initialQuick }: { collectionI
 
   return (
     <div className="page library" data-selecting={selection.selecting || undefined}>
-      <header className="lib-head">
+      <header className={`lib-head${collection ? ' lib-head--collection' : ''}`}>
+        <div className={collection ? 'lib-head__lead' : undefined}>
+        {/* Track E2a: the collection's cover; clicking it chooses the cover (skipped by Tab: the Cover button is the same action). */}
+        {collection && (
+          <button type="button" className="lib-head__cover" onClick={() => setCoverOpen(true)} tabIndex={-1} aria-hidden title="Change the cover">
+            <CollectionCover collection={collection} size="lg" />
+            <span className="lib-head__cover-hint" aria-hidden><ImageIcon size={11} /> Cover</span>
+          </button>
+        )}
         <div>
           <h1 className="lib-head__title">{title}</h1>
           <p className="lib-head__meta">
@@ -196,9 +206,11 @@ export function LibraryView({ collectionId, quick: initialQuick }: { collectionI
             </p>
           )}
         </div>
+        </div>
         <div className="lib-head__actions">
           {collection && (
             <>
+              <Button size="sm" variant="ghost" icon={<ImageIcon size={14} />} onClick={() => setCoverOpen(true)}>Cover</Button>
               <Button size="sm" variant="ghost" icon={<Pencil size={14} />} onClick={() => setRenameOpen(true)}>Rename</Button>
               <Button size="sm" variant="ghost" icon={<Trash2 size={14} />} onClick={() => setDeleteOpen(true)}>Delete collection</Button>
             </>
@@ -393,6 +405,7 @@ export function LibraryView({ collectionId, quick: initialQuick }: { collectionI
       {collection && (
         <>
           <RenameDialog open={renameOpen} onClose={() => setRenameOpen(false)} id={collection.id} name={collection.name} />
+          <CollectionCoverDialog open={coverOpen} onClose={() => setCoverOpen(false)} collection={collection} />
           <Dialog
             open={deleteOpen}
             onClose={() => setDeleteOpen(false)}

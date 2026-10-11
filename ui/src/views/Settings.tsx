@@ -47,6 +47,7 @@ import { CacheViewer } from './settings/CacheViewer';
 import { CrashFreeStreak } from './settings/CrashFreeStreak';
 import { SETTINGS_INDEX } from './settings/settingsIndex';
 import { RESULTS_ID, SettingsSearchResults, optionId, searchKeys } from './settings/SettingsSearch';
+import { StartImmersiveRow, StartPageSettings } from './settings/StartPageSettings'; // Track E2a
 import { findSettingsRow, revealSettingsRow, rowSlug, searchSettings, sectionsMatching, type SettingsHit } from '../lib/settingsSearch';
 import './settings.css';
 
@@ -301,6 +302,7 @@ function Appearance({ s }: { s: Settings }) {
         />
         <BoolRow s={s} k="startup.intro" label="Play the startup animation" hint="About three seconds, once per launch. Press any key, click or controller button to skip it." />
       </Group>
+      <StartPageSettings s={s} />
     </>
   );
 }
@@ -395,7 +397,7 @@ function Controller({ s }: { s: Settings }) {
         <BoolRow s={s} k="controller.enabled" label="Navigate with a controller" />
         <BoolRow s={s} k="controller.vibration" label="Gentle vibration feedback" />
         <OnScreenKeyboardRows />
-        <BoolRow s={s} k="startup.immersive" label="Start in Immersive Mode" hint="The full-screen, controller-first layout. Press F11 to switch any time; in Immersive Mode the Menu button opens the guide." />
+        <StartImmersiveRow s={s} />
         <BoolRow s={s} k="immersive.attract" label="Screensaver in Immersive Mode" hint="After a few idle minutes, slowly cycles your games' artwork and your own screenshots. Any button returns you exactly where you were." />
         <Row
           label="Start the screensaver after"

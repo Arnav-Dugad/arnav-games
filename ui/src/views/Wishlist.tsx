@@ -14,6 +14,7 @@ import {
 import { useReducedMotion, useStore } from '../state/store';
 import { Badge, Button, EmptyState, IconButton, Segmented, Skeleton } from '../components/ui/primitives';
 import { PriceSparkline } from './wishlist/PriceSparkline';
+import { WaitingLine, WaitingStat } from './wishlist/Waiting'; // Track E2a
 import { Poster, WishlistCalendar } from './wishlist/WishlistCalendar';
 import { openSteamApp } from '../components/discover/DiscoverBits';
 import './wishlist/wishlist.css';
@@ -27,6 +28,7 @@ const SORTS: { value: WishlistSort; label: string }[] = [
   { value: 'drop', label: 'Price drop' },
   { value: 'release', label: 'Release date' },
   { value: 'added', label: 'Date added' },
+  { value: 'waiting', label: 'Longest waiting' }, // Track E2a
 ];
 
 const SORT_KEY = 'vystral.wishlist.sort';
@@ -217,6 +219,8 @@ function WishlistList({ data }: { data: Wishlist }) {
         <Stat label="at their lowest price ever" value={summary.atLowest} tone="ok" onClick={summary.atLowest ? () => setFilter('lowest') : undefined} />
         <Stat label="out today" value={summary.outToday} tone="warm" hideWhenZero />
         <Stat label="coming soon" value={summary.upcoming} onClick={summary.upcoming ? () => setFilter('upcoming') : undefined} />
+        {/* Track E2a: the longest wait on the list; opens the list sorted longest waiting first. */}
+        <WaitingStat items={data.items} onShow={() => { setFilter('all'); setQuery(''); setView('list'); setSort('waiting'); }} />
       </div>
 
       {data.message && <p className="wish__note" role="status"><AlertTriangle size={14} aria-hidden /> {data.message}</p>}
@@ -307,6 +311,7 @@ function WishCard({ item, index }: { item: WishlistItem; index: number }) {
           <span className="wish-card__release" data-soon={badge === 'soon' || undefined}>
             <CalendarClock size={13} aria-hidden /> {releaseLabel(item)}
           </span>
+          <WaitingLine item={item} />{/* Track E2a */}
         </div>
 
         <div className="wish-card__price">
