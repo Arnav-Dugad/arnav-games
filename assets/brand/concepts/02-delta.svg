@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="ta1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1B1828"/><stop offset="1" stop-color="#09090F"/></linearGradient>
+    <radialGradient id="ga1" cx="0.5" cy="0.7" r="0.6"><stop offset="0" stop-color="#7C5CFF" stop-opacity="0.42"/><stop offset="0.6" stop-color="#3D63FF" stop-opacity="0.08"/><stop offset="1" stop-color="#000" stop-opacity="0"/></radialGradient>
+    <linearGradient id="pa1" x1="0.15" y1="0" x2="0.85" y2="1"><stop offset="0" stop-color="#F4F0FF"/><stop offset="0.5" stop-color="#C9B8FF"/><stop offset="1" stop-color="#7E9BFF"/></linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="116" fill="url(#ta1)"/>
+  <rect width="512" height="512" rx="116" fill="url(#ga1)"/>
+  <rect x="2" y="2" width="508" height="508" rx="114" fill="none" stroke="#fff" stroke-opacity="0.09" stroke-width="2"/>
+  <mask id="mTa1"><rect width="512" height="512" fill="#fff"/>
+      <path d="M263.04 249.08L291.65 302.21A8 8 0 0 1 284.61 314L227.39 314A8 8 0 0 1 220.35 302.21L248.96 249.08A8 8 0 0 1 263.04 249.08Z" fill="#000"/>
+      <path d="M264.69 367.3L297.51 425.06A10 10 0 0 1 288.82 440L223.18 440A10 10 0 0 1 214.49 425.06L247.31 367.3A10 10 0 0 1 264.69 367.3Z" fill="#000"/></mask>
+      <path mask="url(#mTa1)" d="M294.59 166.45L408.54 374.47A24 24 0 0 1 387.49 410L124.51 410A24 24 0 0 1 103.46 374.47L217.41 166.45A44 44 0 0 1 294.59 166.45Z" fill="url(#pa1)"/>
+</svg>

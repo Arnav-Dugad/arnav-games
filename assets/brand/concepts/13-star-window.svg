@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="tb2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1B1828"/><stop offset="1" stop-color="#09090F"/></linearGradient>
+    <radialGradient id="gb2" cx="0.5" cy="0.7" r="0.6"><stop offset="0" stop-color="#7C5CFF" stop-opacity="0.42"/><stop offset="0.6" stop-color="#3D63FF" stop-opacity="0.08"/><stop offset="1" stop-color="#000" stop-opacity="0"/></radialGradient>
+    <linearGradient id="pb2" x1="0.15" y1="0" x2="0.85" y2="1"><stop offset="0" stop-color="#F4F0FF"/><stop offset="0.5" stop-color="#C9B8FF"/><stop offset="1" stop-color="#7E9BFF"/></linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="116" fill="url(#tb2)"/>
+  <rect width="512" height="512" rx="116" fill="url(#gb2)"/>
+  <rect x="2" y="2" width="508" height="508" rx="114" fill="none" stroke="#fff" stroke-opacity="0.09" stroke-width="2"/>
+  <mask id="mTb2"><rect width="512" height="512" fill="#fff"/>
+      <path d="M256 250C259.5 290 266 296.5 306 300C266 303.5 259.5 310 256 350C252.5 310 246 303.5 206 300C246 296.5 252.5 290 256 250Z" fill="#000"/>
+      <path d="M263.01 384.74L293.48 440.14A8 8 0 0 1 286.47 452L225.53 452A8 8 0 0 1 218.52 440.14L248.99 384.74A8 8 0 0 1 263.01 384.74Z" fill="#000"/></mask>
+      <clipPath id="cTb2"><path d="M287.51 146.99L417.6 382.32A20 20 0 0 1 400.09 412L111.91 412A20 20 0 0 1 94.4 382.32L224.49 146.99A36 36 0 0 1 287.51 146.99Z"/></clipPath>
+      <g mask="url(#mTb2)"><path d="M287.51 146.99L417.6 382.32A20 20 0 0 1 400.09 412L111.91 412A20 20 0 0 1 94.4 382.32L224.49 146.99A36 36 0 0 1 287.51 146.99Z" fill="url(#pb2)"/>
+      <rect x="256" y="0" width="256" height="512" fill="#0B0A12" opacity="0.26" clip-path="url(#cTb2)"/></g>
+</svg>

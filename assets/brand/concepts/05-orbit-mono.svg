@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512"><mask id="mBa4"><rect width="512" height="512" fill="#fff"/>
+      <ellipse cx="256" cy="316" rx="172" ry="50" transform="rotate(-12 256 316)" fill="none" stroke="#000" stroke-width="40"/></mask>
+      <path mask="url(#mBa4)" d="M156 404 L256 132 L356 404" fill="none" stroke="#15131D" stroke-width="46" stroke-linejoin="round"/>
+      <path d="M86 340 A172 50 -12 0 1 410 260" transform="rotate(0)" fill="none" stroke="#15131D" stroke-width="18" stroke-linecap="round"/>
+      <circle cx="402" cy="262" r="22" fill="#15131D"/></svg>

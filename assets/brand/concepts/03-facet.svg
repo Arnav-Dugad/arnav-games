@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="ta2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1B1828"/><stop offset="1" stop-color="#09090F"/></linearGradient>
+    <radialGradient id="ga2" cx="0.5" cy="0.7" r="0.6"><stop offset="0" stop-color="#7C5CFF" stop-opacity="0.42"/><stop offset="0.6" stop-color="#3D63FF" stop-opacity="0.08"/><stop offset="1" stop-color="#000" stop-opacity="0"/></radialGradient>
+    <linearGradient id="pa2" x1="0.15" y1="0" x2="0.85" y2="1"><stop offset="0" stop-color="#F4F0FF"/><stop offset="0.5" stop-color="#C9B8FF"/><stop offset="1" stop-color="#7E9BFF"/></linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="116" fill="url(#ta2)"/>
+  <rect width="512" height="512" rx="116" fill="url(#ga2)"/>
+  <rect x="2" y="2" width="508" height="508" rx="114" fill="none" stroke="#fff" stroke-opacity="0.09" stroke-width="2"/>
+  <polygon points="100,404 176,404 256,206 256,108" fill="url(#pa2)"/>
+      <polygon points="412,404 336,404 256,206 256,108" fill="url(#pa2)" opacity="0.78"/>
+      <path d="M256 298C259.08 329.2 264.8 334.92 296 338C264.8 341.08 259.08 346.8 256 378C252.92 346.8 247.2 341.08 216 338C247.2 334.92 252.92 329.2 256 298Z" fill="url(#pa2)"/>
+</svg>
