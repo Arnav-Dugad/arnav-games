@@ -1,0 +1,44 @@
+/* ===== The living sidebar (Track E2b) =====
+   Calm, premium state changes: the active icon fills in and pops once, hover nudges the icon, counts and badges
+   spring in. Transform and opacity only, plus the icon's fill opacity (an 18 px SVG). */
+.nav-item {
+  /* A gentle spring as a CSS curve: ~8 % overshoot, settles in about 0.5 s. */
+  --nav-spring: linear(0, 0.21 7%, 0.58 16%, 0.92 27%, 1.06 38%, 1.08 46%, 1.04 58%, 1.005 72%, 0.997 86%, 1);
+}
+.nav-item__icon { display: inline-flex; flex: none; transition: transform 220ms var(--ease-out), color var(--dur-fast); }
+.nav-item__icon svg {
+  fill: var(--accent);
+  fill-opacity: 0;
+  transition: fill-opacity 280ms var(--ease-out);
+}
+/* Active: the outline icon fills in with a soft accent wash and takes the accent colour, with one small pop. */
+.nav-item[aria-current='page'] .nav-item__icon { color: var(--accent-text); animation: nav-icon-pop 520ms var(--nav-spring); }
+.nav-item[aria-current='page'] .nav-item__icon svg { fill-opacity: 0.26; }
+@keyframes nav-icon-pop {
+  0% { transform: scale(1) rotate(0); }
+  35% { transform: scale(1.16) rotate(-6deg); }
+  100% { transform: scale(1) rotate(0); }
+}
+/* Hover: the icon leans 2 px toward its label; pressing squeezes it. */
+.nav-item:hover .nav-item__icon { transform: translateX(2px); }
+.nav-item:active .nav-item__icon { transform: translateX(1px) scale(0.9); transition-duration: 90ms; }
+.shell[data-collapsed='true'] .nav-item:hover .nav-item__icon { transform: scale(1.08); }
+
+/* Counts and badges spring in (once, when they appear); a changing count rolls (NumberShift). */
+.nav-item__count, .nav-item > .new-badge { animation: nav-badge-in 560ms var(--nav-spring) backwards; }
+@keyframes nav-badge-in {
+  from { transform: scale(0.4); opacity: 0; }
+  40% { opacity: 1; }
+}
+
+/* Reduced motion and Performance Mode: plain state changes, no pops, nudges or springs. */
+:root:is([data-reduced-motion='true'], [data-performance='true']) :is(.nav-item__icon, .nav-item__count, .nav-item > .new-badge) {
+  animation: none !important;
+  transition: none;
+  transform: none !important;
+}
+/* High contrast: no washes or glows; the active icon is the plain contrast accent, the item gets a solid edge. */
+:root[data-theme='contrast'] .nav-item__icon svg { fill: none; }
+:root[data-theme='contrast'] .nav-item[aria-current='page'] .nav-item__icon { color: var(--accent); animation: none; }
+:root[data-theme='contrast'] .nav-item__bar { box-shadow: none; }
+:root[data-theme='contrast'] .nav-item__pill { background: none; box-shadow: inset 0 0 0 2px var(--accent); }

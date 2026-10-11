@@ -1,0 +1,21 @@
+/* ===== Number shift (Track E2b) =====
+   A changed number hands over to its new value. The new text stays in flow from the first frame (so the layout
+   never jumps); the old text sits on top of it, absolutely positioned, and leaves. Transform and opacity only. */
+.nshift { display: inline; }
+.nshift__anim { display: inline; white-space: pre; }
+.nshift__cell, .nshift__x { position: relative; display: inline-block; }
+/* Rolling digits are clipped to their own line so they read as an odometer, not as text sliding around. */
+.nshift__cell { clip-path: inset(0 -0.08em); font-variant-numeric: tabular-nums; }
+.nshift__in, .nshift__out { display: inline-block; white-space: pre; }
+.nshift__out { position: absolute; left: 0; top: 0; pointer-events: none; }
+.nshift__cell .nshift__in { animation: nshift-roll-in 420ms cubic-bezier(0.2, 0.9, 0.25, 1) var(--shift-delay, 0ms) backwards; }
+.nshift__cell .nshift__out { animation: nshift-roll-out 420ms cubic-bezier(0.2, 0.9, 0.25, 1) var(--shift-delay, 0ms) forwards; }
+.nshift__x .nshift__in { animation: nshift-fade-in 380ms cubic-bezier(0.16, 1, 0.3, 1) 40ms backwards; }
+.nshift__x .nshift__out { animation: nshift-fade-out 240ms cubic-bezier(0.4, 0, 1, 1) forwards; }
+@keyframes nshift-roll-in { from { transform: translateY(calc(var(--shift-dir, 1) * 1lh)); opacity: 0.25; } }
+@keyframes nshift-roll-out { to { transform: translateY(calc(var(--shift-dir, 1) * -1lh)); opacity: 0.25; } }
+@keyframes nshift-fade-in { from { transform: translateY(calc(var(--shift-dir, 1) * 0.45em)); opacity: 0; filter: blur(2px); } }
+@keyframes nshift-fade-out { to { transform: translateY(calc(var(--shift-dir, 1) * -0.45em)); opacity: 0; filter: blur(2px); } }
+/* Belt and braces: the component already skips these cases. */
+:root:is([data-reduced-motion='true'], [data-performance='true']) :is(.nshift__in, .nshift__out) { animation: none; }
+:root:is([data-reduced-motion='true'], [data-performance='true']) .nshift__out { visibility: hidden; }

@@ -233,7 +233,7 @@ export interface WindowState {
 
 export interface Settings {
   'appearance.theme': 'obsidian' | 'oled' | 'light' | 'contrast';
-  'appearance.accent': 'auto' | 'violet' | 'blue' | 'cyan' | 'rose' | 'amber' | 'emerald' | 'system';
+  'appearance.accent': 'auto' | 'violet' | 'blue' | 'cyan' | 'rose' | 'amber' | 'emerald' | 'system' | 'cover';
   'appearance.livingCanvas': boolean;
   'appearance.canvasIntensity': number;
   'appearance.quality': 'auto' | 'high' | 'balanced' | 'low';
@@ -589,6 +589,12 @@ export interface Settings {
 export interface Settings {
   /** Living Canvas eases toward the colours of a playing hero trailer. */
   'canvas.followTrailer': boolean;
+  /** Track E2b: the game whose cover colours make the accent ('' = none; used when the accent is 'cover'). */
+  'appearance.accentGame': string;
+  /** Track E2b: the Living Canvas leans gently with the pointer (depth layers at different speeds). */
+  'canvas.parallax': boolean;
+  /** Track E2b: the Living Canvas brightens softly with VYSTRAL's own ambient sound (off by default). */
+  'canvas.audioReact': boolean;
 }
 
 export interface BridgeEvents {

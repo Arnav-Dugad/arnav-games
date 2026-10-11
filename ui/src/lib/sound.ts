@@ -126,6 +126,9 @@ export function watchAmbient() {
 
 const ambientOn = () => !!engine?.running;
 
+/** Track E2b: the ambient bed's loudness right now (0…1), for the Living Canvas's optional reaction; 0 when silent. */
+export const ambientLoudness = (): number => engine?.loudness() ?? 0;
+
 /** Track T: duck (or restore) interface and ambient sounds while voice-over speaks. */
 export function setSoundDuck(on: boolean) {
   duck = on ? DUCK_LEVEL : 1;

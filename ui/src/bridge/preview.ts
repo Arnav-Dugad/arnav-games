@@ -47,6 +47,7 @@ import { decorateRigSession, previewCaptionInset, trackC2PreviewHandlers } from 
 import { trackD1PreviewHandlers } from './preview.trackD1';
 import { TRACK_D6_DEFAULT_SETTINGS, previewD6Settings, trackD6PreviewHandlers } from './preview.trackD6'; // Track D6
 import { TRACK_E3_DEFAULT_SETTINGS, decorateTrackE3Sessions, trackE3PreviewHandlers } from './preview.trackE3'; // Track E3
+import { previewE2bSettings } from './preview.trackE2b'; // Track E2b
 import { RECOMMEND_DEFAULT_SETTINGS, previewRecommendSettings, recommendPreviewHandlers } from './preview.recommend'; // Track D5
 import { TRACK_E1_DEFAULT_SETTINGS, decorateTrackE1, previewE1Duplicates, previewE1Settings, trackE1PreviewHandlers } from './preview.trackE1'; // Track E1
 
@@ -87,6 +88,10 @@ const DEFAULT_SETTINGS: Settings = {
   'dataSaver.onMetered': true,
   'trailers.autoplay': true,
   'canvas.followTrailer': true,
+  // Track E2b
+  'appearance.accentGame': '',
+  'canvas.parallax': true,
+  'canvas.audioReact': false,
   'steam.webApi.backgroundAchievements': true,
   ...INSIGHT_DEFAULT_SETTINGS,
   ...DATA_INSIGHT_DEFAULT_SETTINGS,
@@ -293,6 +298,7 @@ export function createPreviewBackend() {
   settings = { ...settings, ...previewDiscoverSettings(params) }; // Track C3: ?discoverStore
   settings = { ...settings, ...previewAiSettings(params) }; // Track C5: ?aiCloud
   settings = { ...settings, ...previewD6Settings(params) }; // Track D6: ?currency=INR
+  settings = { ...settings, ...previewE2bSettings(params) }; // Track E2b: ?theme=light, ?canvasQuality=high, ?canvasOff, ?audioReact
   settings = { ...settings, ...previewRecommendSettings(params) }; // Track D5: ?freebies
   settings = { ...settings, ...previewE1Settings(params) }; // Track E1: ?voice, ?recapNotify
   const collections: LibrarySnapshot['collections'] = [];

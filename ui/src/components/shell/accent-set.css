@@ -1,0 +1,55 @@
+/* ===== Accent sets (Track E2b) =====
+   "Use a game's colours" and the Windows accent apply a full, contrast-checked set of accent tokens computed in
+   lib/accentSet.ts: --as-* for the dark themes (Obsidian, OLED) and --asl-* for Light. They are registered colours,
+   so switching games (or previewing in the picker) glides like the artwork accent does. High contrast always wins:
+   none of this applies under data-theme="contrast". */
+@property --as-accent { syntax: '<color>'; inherits: true; initial-value: oklch(0.7 0.17 292); }
+@property --as-accent-2 { syntax: '<color>'; inherits: true; initial-value: oklch(0.68 0.15 255); }
+@property --as-strong { syntax: '<color>'; inherits: true; initial-value: oklch(0.78 0.17 292); }
+@property --as-weak { syntax: '<color>'; inherits: true; initial-value: oklch(0.7 0.17 292 / 0.14); }
+@property --as-text { syntax: '<color>'; inherits: true; initial-value: oklch(0.8 0.14 292); }
+@property --as-ring { syntax: '<color>'; inherits: true; initial-value: oklch(0.78 0.17 292); }
+@property --as-on { syntax: '<color>'; inherits: true; initial-value: oklch(0.16 0.02 282); }
+@property --asl-accent { syntax: '<color>'; inherits: true; initial-value: oklch(0.74 0.15 292); }
+@property --asl-accent-2 { syntax: '<color>'; inherits: true; initial-value: oklch(0.7 0.13 255); }
+@property --asl-strong { syntax: '<color>'; inherits: true; initial-value: oklch(0.66 0.15 292); }
+@property --asl-weak { syntax: '<color>'; inherits: true; initial-value: oklch(0.74 0.15 292 / 0.14); }
+@property --asl-text { syntax: '<color>'; inherits: true; initial-value: oklch(0.46 0.16 292); }
+@property --asl-ring { syntax: '<color>'; inherits: true; initial-value: oklch(0.52 0.17 292); }
+@property --asl-on { syntax: '<color>'; inherits: true; initial-value: oklch(0.16 0.02 282); }
+
+:root[data-accent-set]:not([data-theme='contrast']) {
+  --accent: var(--as-accent);
+  --accent-2: var(--as-accent-2);
+  --accent-hi: var(--as-strong);
+  --accent-ghost: var(--as-weak);
+  --accent-line: oklch(from var(--as-accent) l c h / 0.45);
+  --accent-text: var(--as-text);
+  --text-on-accent: var(--as-on);
+  --focus-outline: var(--as-ring);
+  --focus-ring: 0 0 0 2px var(--bg-0), 0 0 0 4px var(--as-ring);
+  transition:
+    --game var(--dur-ambient) var(--ease-out), --game-2 var(--dur-ambient) var(--ease-out),
+    --as-accent var(--dur-ambient) var(--ease-out), --as-accent-2 var(--dur-ambient) var(--ease-out),
+    --as-strong var(--dur-ambient) var(--ease-out), --as-weak var(--dur-ambient) var(--ease-out),
+    --as-text var(--dur-ambient) var(--ease-out), --as-ring var(--dur-ambient) var(--ease-out),
+    --as-on var(--dur-ambient) var(--ease-out);
+}
+:root[data-accent-set][data-theme='light'] {
+  --accent: var(--asl-accent);
+  --accent-2: var(--asl-accent-2);
+  --accent-hi: var(--asl-strong);
+  --accent-ghost: var(--asl-weak);
+  --accent-line: oklch(from var(--asl-accent) l c h / 0.45);
+  --accent-text: var(--asl-text);
+  --text-on-accent: var(--asl-on);
+  --focus-outline: var(--asl-ring);
+  --focus-ring: 0 0 0 2px var(--bg-0), 0 0 0 4px var(--asl-ring);
+  transition:
+    --game var(--dur-ambient) var(--ease-out), --game-2 var(--dur-ambient) var(--ease-out),
+    --asl-accent var(--dur-ambient) var(--ease-out), --asl-accent-2 var(--dur-ambient) var(--ease-out),
+    --asl-strong var(--dur-ambient) var(--ease-out), --asl-weak var(--dur-ambient) var(--ease-out),
+    --asl-text var(--dur-ambient) var(--ease-out), --asl-ring var(--dur-ambient) var(--ease-out),
+    --asl-on var(--dur-ambient) var(--ease-out);
+}
+:root[data-accent-set][data-reduced-motion='true'] { transition: none; }

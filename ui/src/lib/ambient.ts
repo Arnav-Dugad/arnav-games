@@ -115,6 +115,32 @@ export function focusPitch(mood: Mood, y: number, height: number): number {
   return freqOf(voice, Math.round(rel * (steps - 1)), 1);
 }
 
+/** Track E2b: a note as the engine played it (absolute AudioContext time), for the loudness estimate. */
+export interface PlayedNote {
+  at: number;
+  dur: number;
+  gain: number;
+  attack: number;
+}
+
+/**
+ * Track E2b: the bed's loudness at time `t`, from the envelopes the engine scheduled (linear attack, exponential
+ * release to −80 dB), summed and normalised to 0…1 against two overlapping notes at full gain. This is an exact
+ * model of what the oscillators play (before the reverb tail), so the Living Canvas can breathe with the sound
+ * without an AnalyserNode or any audio processing.
+ */
+export function bedLoudness(notes: readonly PlayedNote[], t: number): number {
+  let sum = 0;
+  for (const n of notes) {
+    const dt = t - n.at;
+    if (dt <= 0 || dt >= n.dur) continue;
+    const attack = Math.max(0.001, Math.min(n.attack, n.dur / 2));
+    if (dt < attack) sum += (n.gain * dt) / attack;
+    else sum += n.gain * (0.0001 / n.gain) ** ((dt - attack) / Math.max(0.001, n.dur - attack));
+  }
+  return Math.max(0, Math.min(1, sum / (NOTE_GAIN_CAP * 2)));
+}
+
 /** When the ambient layer may be audible. */
 export interface AmbientConditions {
   ambient: boolean;
@@ -182,6 +208,8 @@ export class AmbientEngine {
   /** Track T: 1 = normal; lower while voice-over speaks. */
   private duckLevel = 1;
   private readonly seed = Math.floor(Math.random() * 1e9);
+  /** Track E2b: the last notes played (bounded), for `loudness()`. */
+  private played: PlayedNote[] = [];
 
   static supported(): boolean {
     return typeof AudioContext !== 'undefined';
@@ -282,6 +310,12 @@ export class AmbientEngine {
     return this.active;
   }
 
+  /** Track E2b: how loud the bed is right now (0…1, after ducking); 0 when stopped. Cheap: ≤ 24 notes. */
+  loudness(): number {
+    if (!this.ctx || !this.active) return 0;
+    return bedLoudness(this.played, this.ctx.currentTime) * this.duckLevel;
+  }
+
   private tick() {
     if (!this.ctx || !this.active) return;
     const now = this.ctx.currentTime - this.origin;
@@ -306,6 +340,8 @@ export class AmbientEngine {
     osc.connect(env).connect(panner).connect(this.filter);
     osc.start(at);
     osc.stop(at + dur + 0.05);
+    this.played.push({ at, dur, gain, attack });
+    if (this.played.length > 24) this.played.splice(0, this.played.length - 24);
   }
 
   /** A focus move: a short tone in the mood's scale, placed where the focus landed. */

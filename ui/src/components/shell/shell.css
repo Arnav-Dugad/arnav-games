@@ -54,7 +54,7 @@
 .nav-item svg { flex: none; }
 .nav-item__count { margin-left: auto; font-size: var(--fs-xs); color: var(--text-3); font-family: var(--font-mono); }
 .shell[data-collapsed='true'] .nav-item { justify-content: center; padding: 0; }
-.shell[data-collapsed='true'] .nav-item > span, .shell[data-collapsed='true'] .sidebar .caps, .shell[data-collapsed='true'] .nav-item__count { display: none; }
+.shell[data-collapsed='true'] .nav-item > span:not(.nav-item__icon, .new-badge),.shell[data-collapsed='true'] .sidebar .caps, .shell[data-collapsed='true'] .nav-item__count { display: none; }
 .sidebar__group { margin-top: var(--s-4); display: grid; gap: 2px; }
 .sidebar__group .caps { padding: 0 12px 6px; }
 .sidebar__spacer { flex: 1; min-height: var(--s-4); }

@@ -46,7 +46,7 @@ public sealed class SettingsService
     private static readonly Def[] Definitions =
     [
         new EnumDef("appearance.theme", "obsidian", "obsidian", "oled", "light", "contrast"),
-        new EnumDef("appearance.accent", "auto", "auto", "violet", "blue", "cyan", "rose", "amber", "emerald", "system"),
+        new EnumDef("appearance.accent", "auto", "auto", "violet", "blue", "cyan", "rose", "amber", "emerald", "system", "cover"), // Track E2b: "cover"
         new BoolDef("appearance.livingCanvas", true),
         new NumberDef("appearance.canvasIntensity", 0.7, 0, 1),
         new EnumDef("appearance.quality", "auto", "auto", "high", "balanced", "low"),
@@ -229,6 +229,11 @@ public sealed class SettingsService
         new BoolDef("ai.features.gameSummaries", false),
         new BoolDef("ai.features.lagNotes", false),
         new BoolDef("assistant.learnPrompts", true),
+        // Track E2b: "Use a game's colours" (the game whose cover the accent comes from; '' = none), and the Living
+        // Canvas's pointer parallax (on) and gentle reaction to VYSTRAL's ambient sound (off).
+        new StringDef("appearance.accentGame", "", 32, @"^([0-9a-f]{32})?\z"),
+        new BoolDef("canvas.parallax", true),
+        new BoolDef("canvas.audioReact", false),
     ];
 
     private const string CloudModelPattern = @"^([A-Za-z0-9][A-Za-z0-9._:/\-]{0,119})?\z";

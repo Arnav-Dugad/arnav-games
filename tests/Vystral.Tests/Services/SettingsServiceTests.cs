@@ -44,7 +44,7 @@ public sealed class SettingsServiceTests : IDisposable
         Assert.Equal(1, all["immersive.scale"]!.GetValue<double>());
         Assert.Equal(0, all["immersive.safeArea"]!.GetValue<double>());
         Assert.False(all["immersive.tourDone"]!.GetValue<bool>());
-        Assert.Equal(147, all.Count); // 28 original + Track A/C (5) + Track B (10) + Track F (2) + Track E (1) + Track K (3) + Track I (7) + Track H (1) + Track M (2) + Track L (4) + Track S (1) + Track P (2) + Track O (7) + Track T (7) + Track Y (5) + Track X (3) + Track V (9) + Track U (1) + Track W (4) + Track Z (3) + Track AA (1) + Track C3 (1) + Track C4 (2) + Track C5 (16) + Track D4 (6) + Track D6 (1) + Track D3 (4) + Track D5 (1) + Track E4 (1) + Track E3 (1) + Track E1 (8)
+        Assert.Equal(150, all.Count); // 28 original + Track A/C (5) + Track B (10) + Track F (2) + Track E (1) + Track K (3) + Track I (7) + Track H (1) + Track M (2) + Track L (4) + Track S (1) + Track P (2) + Track O (7) + Track T (7) + Track Y (5) + Track X (3) + Track V (9) + Track U (1) + Track W (4) + Track Z (3) + Track AA (1) + Track C3 (1) + Track C4 (2) + Track C5 (16) + Track D4 (6) + Track D6 (1) + Track D3 (4) + Track D5 (1) + Track E4 (1) + Track E3 (1) + Track E1 (8) + Track E2b (3)
     }
 
     [Fact]
@@ -157,6 +157,26 @@ public sealed class SettingsServiceTests : IDisposable
         Assert.NotNull(_s.Set("voiceover.voice", JsonValue.Create("line\nbreak")));
         Assert.NotNull(_s.Set("voiceover.voice", JsonValue.Create(new string('a', 201))));
         Assert.Equal("Microsoft Zira - English (United States)", _s.GetString("voiceover.voice"));
+    }
+
+    [Fact]
+    public void Track_e2b_cover_accent_and_canvas_settings_are_validated()
+    {
+        Assert.Equal("auto", _s.GetString("appearance.accent"));
+        Assert.Null(_s.Set("appearance.accent", JsonValue.Create("cover")));
+        Assert.NotNull(_s.Set("appearance.accent", JsonValue.Create("covers")));
+        Assert.Equal("", _s.GetString("appearance.accentGame"));
+        const string id = "0192f2a1b3c44d5e8f90a1b2c3d4e5f6";
+        Assert.Null(_s.Set("appearance.accentGame", JsonValue.Create(id)));
+        Assert.Equal(id, _s.GetString("appearance.accentGame"));
+        Assert.NotNull(_s.Set("appearance.accentGame", JsonValue.Create("../../etc")));
+        Assert.NotNull(_s.Set("appearance.accentGame", JsonValue.Create(id.ToUpperInvariant())));
+        Assert.NotNull(_s.Set("appearance.accentGame", JsonValue.Create(id + "0")));
+        Assert.NotNull(_s.Set("appearance.accentGame", JsonValue.Create(id + "\n")));
+        Assert.Equal(id, _s.GetString("appearance.accentGame"));
+        Assert.Null(_s.Set("appearance.accentGame", JsonValue.Create("")));
+        Assert.True(_s.GetAll()["canvas.parallax"]!.GetValue<bool>());
+        Assert.False(_s.GetAll()["canvas.audioReact"]!.GetValue<bool>());
     }
 
     [Fact]

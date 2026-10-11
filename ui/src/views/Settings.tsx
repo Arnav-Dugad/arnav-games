@@ -13,6 +13,8 @@ import { Dialog } from '../components/ui/Dialog';
 import { UpdatePanel } from '../components/shell/UpdateCenter';
 import { BackdropHint } from '../components/shell/SystemBackdrop';
 import { useSystemAppearance } from '../state/systemAppearance';
+import { GameAccentRow } from './settings/GameAccent'; // Track E2b
+import { useAccentTheme } from '../state/accentTheme'; // Track E2b
 import { SteamWebApiSettings } from './settings/SteamWebApiSettings';
 import { SteamExtrasSettings } from './settings/SteamExtrasSettings'; // Track W
 import { GamePageSettings } from './settings/GamePageSettings'; // Track C4
@@ -59,7 +61,7 @@ interface Section {
 }
 
 const SECTIONS: Section[] = [
-  { id: 'appearance', label: 'Appearance', icon: <Palette size={17} />, keywords: 'theme dark light oled contrast accent colour color living canvas background motion animation reduced intro quality grid home live tiles trailer currency money prices exchange rates' },
+  { id: 'appearance', label: 'Appearance', icon: <Palette size={17} />, keywords: 'theme dark light oled contrast accent colour color living canvas background motion animation reduced intro quality grid home live tiles trailer currency money prices exchange rates game colours colors cover palette favourite parallax pointer depth breathe' },
   { id: 'library', label: 'Library & stores', icon: <LibraryBig size={17} />, keywords: 'steam xbox epic gog ea ubisoft battle.net integrations scan metadata artwork download data sources steamgriddb igdb twitch rawg isthereanydeal cheapshark prices deals wikidata deck anti-cheat api key art packs style covers logos backgrounds blurred material health broken shortcuts missing drive duplicates fix subscriptions game pass ultimate premium essential play ubisoft+ humble choice prime gaming luna leaving soon included price cost per hour wishlist sale lowest release friends played news patch notes updates discover store shelves trending new releases coming free to genres suggestions recommendations picked for you not interested this week giveaways gamerpower' },
   { id: 'sources', label: 'Data sources', icon: <Activity size={17} />, keywords: 'data sources health status api rate limit back-off errors requests online steam igdb rawg steamgriddb wikidata itad cheapshark pcgamingwiki geforce now game pass exchange rates' },
   { id: 'cloud', label: 'Cloud play', icon: <Cloud size={17} />, keywords: 'cloud streaming stream geforce now gfn nvidia xbox gaming game pass xcloud hours meter membership performance ultimate edge browser region queue alerts position readiness connection latency ping jitter wifi ethernet forecast sessions insights' },
@@ -248,8 +250,10 @@ function Appearance({ s }: { s: Settings }) {
     { value: 'light', label: 'Light', swatch: 'linear-gradient(135deg, #fff, oklch(0.93 0.01 282))' },
     { value: 'contrast', label: 'High contrast', swatch: 'linear-gradient(135deg, #000 50%, oklch(0.9 0.18 100) 50%)' },
   ];
-  const accents: Settings['appearance.accent'][] = ['auto', 'system', 'violet', 'blue', 'cyan', 'rose', 'amber', 'emerald'];
-  const accentLabel = (a: string) => (a === 'auto' ? 'Automatic' : a === 'system' ? 'Windows accent' : a);
+  // Track E2b: once a game's colours have been chosen, they stay one click away as their own swatch.
+  const coverSet = useAccentTheme((x) => x.sets[s['appearance.accentGame']] ?? null);
+  const accents: Settings['appearance.accent'][] = ['auto', 'system', ...(s['appearance.accentGame'] ? ['cover' as const] : []), 'violet', 'blue', 'cyan', 'rose', 'amber', 'emerald'];
+  const accentLabel = (a: string) => (a === 'auto' ? 'Automatic' : a === 'system' ? 'Windows accent' : a === 'cover' ? 'Game colours' : a);
   const sys = useSystemAppearance((x) => x.appearance);
   const systemSwatch = sys ? `linear-gradient(135deg, ${sys.accentLight[1] ?? sys.accent}, ${sys.accent} 55%, ${sys.accentDark[0] ?? sys.accent})` : '#0078d4';
   const accentColor: Record<string, string> = { violet: 'oklch(0.7 0.17 292)', blue: 'oklch(0.7 0.15 255)', cyan: 'oklch(0.78 0.12 210)', rose: 'oklch(0.74 0.16 5)', amber: 'oklch(0.82 0.15 75)', emerald: 'oklch(0.78 0.15 160)' };
@@ -278,16 +282,20 @@ function Appearance({ s }: { s: Settings }) {
           control={
             <div className="accent-picker" role="radiogroup" aria-label="Accent colour">
               {accents.map((a) => (
-                <button key={a} role="radio" aria-checked={s['appearance.accent'] === a} tabIndex={s['appearance.accent'] === a ? 0 : -1} onKeyDown={(e) => rovingKey(e, accents.map((value) => ({ value })), s['appearance.accent'], (v) => void set('appearance.accent', v), true)} aria-label={accentLabel(a)} title={accentLabel(a)} className={a === 'system' ? 'accent-dot accent-dot--system' : 'accent-dot'} style={{ background: a === 'auto' ? 'conic-gradient(oklch(0.7 0.17 292), oklch(0.78 0.12 210), oklch(0.82 0.15 75), oklch(0.74 0.16 5), oklch(0.7 0.17 292))' : a === 'system' ? systemSwatch : accentColor[a] }} onClick={() => void set('appearance.accent', a)} />
+                <button key={a} role="radio" aria-checked={s['appearance.accent'] === a} tabIndex={s['appearance.accent'] === a ? 0 : -1} onKeyDown={(e) => rovingKey(e, accents.map((value) => ({ value })), s['appearance.accent'], (v) => void set('appearance.accent', v), true)} aria-label={accentLabel(a)} title={accentLabel(a)} className={a === 'system' ? 'accent-dot accent-dot--system' : 'accent-dot'} style={{ background: a === 'auto' ? 'conic-gradient(oklch(0.7 0.17 292), oklch(0.78 0.12 210), oklch(0.82 0.15 75), oklch(0.74 0.16 5), oklch(0.7 0.17 292))' : a === 'system' ? systemSwatch : a === 'cover' ? (coverSet ? `linear-gradient(135deg, ${coverSet.dark.accent}, ${coverSet.dark.accent2})` : 'var(--bg-3)') : accentColor[a] }} onClick={() => void set('appearance.accent', a)} />
               ))}
             </div>
           }
         />
+        <GameAccentRow />
       </Group>
       <Group title="Living Canvas" description={<>A subtle animated background that takes on each game’s colours and mood ({Object.values(MOOD_LABEL).map((m) => m.split(' —')[0]).join(', ')}). It pauses whenever VYSTRAL is hidden or a game is running.</>}>
         <BoolRow s={s} k="appearance.livingCanvas" label="Living Canvas" hint={<BackdropHint />} />
         <Row label="Intensity" control={<div style={{ width: 200 }}><Slider label="Living Canvas intensity" value={s['appearance.canvasIntensity']} min={0} max={1} step={0.05} onChange={(v) => void set('appearance.canvasIntensity', v)} /></div>} />
         <BoolRow s={s} k="canvas.followTrailer" label="Follow trailer colours" badge="settings.appearance.follow-trailer" hint="While a game’s trailer plays, the background slowly takes on its colours, then returns to the artwork. Off with reduced motion or low quality." />
+        {/* Track E2b */}
+        <BoolRow s={s} k="canvas.parallax" label="Depth with the pointer" hint="The background’s layers lean gently as you move the mouse, the far light least and the particles most. Off with reduced motion or Data saver." />
+        <BoolRow s={s} k="canvas.audioReact" label="Breathe with ambient sound" hint="When Ambient sound is on (Controller & sound), the light swells softly with it. Nothing is listened to: VYSTRAL follows the notes it plays itself." />
         <Row
           label="Visual quality"
           hint="Low turns off blur and animated backgrounds — best for older or battery-powered PCs."

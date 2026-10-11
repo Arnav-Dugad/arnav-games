@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState, type CSSProperties } from 'react';
 import { hasRolled, markRolled, planRoll, rollDuration, shouldRoll } from '../../lib/rollup';
 import { useReducedMotion, useStore } from '../../state/store';
+import { NumberShift } from './NumberShift';
 import './rollup.css';
 
 type Phase = 'static' | 'armed' | 'rolling';
@@ -57,7 +58,8 @@ export function RollUp({ id, children, className }: { id: string; children: stri
     return () => window.clearTimeout(t);
   }, [phase, tokens]);
 
-  if (phase === 'static') return <span ref={ref} className={className}>{text}</span>;
+  // Track E2b: after the first roll (or without one), later changes hand over smoothly from the old value.
+  if (phase === 'static') return <span ref={ref} className={className}><NumberShift text={text} /></span>;
 
   return (
     <span ref={ref} className={`rollup${className ? ` ${className}` : ''}`} data-rolling={phase === 'rolling' || undefined}>
