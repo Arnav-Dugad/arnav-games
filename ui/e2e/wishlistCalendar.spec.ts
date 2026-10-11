@@ -80,11 +80,12 @@ test.describe('wishlist release calendar', () => {
     await grid(page).getByRole('button', { name: /Lantern Shore/ }).focus();
     await page.keyboard.press('PageDown');
     await expect(page.getByRole('heading', { name: monthName(1), level: 2 })).toBeVisible();
-    // Focus follows into the entering month once it has mounted (a short handoff; slower on a busy runner).
-    await expect.poll(() => page.evaluate(() => document.activeElement?.closest('.wcal__grid') != null)).toBe(true);
+    // Focus follows into the entering month once it has mounted — never left on the leaving one.
+    const focusedMonth = () => page.evaluate(() => document.activeElement?.closest('.wcal__grid')?.getAttribute('aria-label')?.split('.')[0] ?? null);
+    await expect.poll(focusedMonth).toBe(monthName(1));
     await page.keyboard.press('PageUp');
     await expect(page.getByRole('heading', { name: monthName(), level: 2 })).toBeVisible();
-    await expect.poll(() => page.evaluate(() => document.activeElement?.closest('.wcal__grid') != null)).toBe(true);
+    await expect.poll(focusedMonth).toBe(monthName());
     // Only one game in the grid is a Tab stop (roving focus).
     const tabbable = await page.locator('.wcal__grid [tabindex="0"]').count();
     expect(tabbable).toBeLessThanOrEqual(1);

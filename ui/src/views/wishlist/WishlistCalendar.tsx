@@ -117,13 +117,22 @@ export function WishlistCalendar({ items, filtered }: { items: WishlistItem[]; f
     focusAfterMove.current = null;
     const i = want === 'first' ? 0 : positions.length - 1;
     setActive(Math.max(0, i));
-    // Wait for the entering grid to mount (the exit runs first).
-    const t = window.setTimeout(() => {
-      const el = gridRef.current?.querySelector<HTMLElement>(`[data-cal-key="${positions[i]?.key}"]`) ?? gridRef.current;
-      el?.focus({ preventScroll: true });
-    }, reduce ? 20 : 220);
-    return () => window.clearTimeout(t);
-  }, [positions, reduce]);
+    // Wait for the entering grid to mount (the exit runs first, and until it ends the ref still points at the
+    // leaving month: focusing that would drop focus to the page when it unmounts). Give up after 2 s.
+    const ym = `${view.year}-${view.month}`;
+    const t0 = performance.now();
+    let raf = 0;
+    const land = () => {
+      const g = gridRef.current;
+      if (g?.dataset.ym === ym) {
+        (g.querySelector<HTMLElement>(`[data-cal-key="${positions[i]?.key}"]`) ?? g).focus({ preventScroll: true });
+        return;
+      }
+      if (performance.now() - t0 < 2000) raf = requestAnimationFrame(land);
+    };
+    raf = requestAnimationFrame(land);
+    return () => cancelAnimationFrame(raf);
+  }, [positions, view.year, view.month]);
 
   const onGridKey = (e: ReactKeyboardEvent<HTMLDivElement>) => {
     const keys: Record<string, GridKey> = { ArrowLeft: 'left', ArrowRight: 'right', ArrowUp: 'up', ArrowDown: 'down', Home: 'home', End: 'end' };
@@ -217,6 +226,7 @@ export function WishlistCalendar({ items, filtered }: { items: WishlistItem[]; f
               <motion.div
                 key={`${view.year}-${view.month}`}
                 ref={gridRef}
+                data-ym={`${view.year}-${view.month}`}
                 className="wcal__grid"
                 role="group"
                 aria-label={`${title}. Arrow keys move between games, Page Up and Page Down change month.`}
